@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETN Eaton Corporation - 价值投资深度分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e1a; color: #e0e6f0; font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  a { color: #4a9eff; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+  .section { padding: 32px 0; border-bottom: 1px solid #1e2740; }
+  .section-title { font-size: 20px; font-weight: 700; color: #a0b4d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; padding-left: 12px; border-left: 3px solid #4a9eff; }
+
+  .hero { background: linear-gradient(135deg, #0d1428 0%, #111a35 50%, #0d1428 100%); padding: 48px 0 32px; border-bottom: 2px solid #1e2740; }
+  .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
+  .hero-symbol { font-size: 56px; font-weight: 900; color: #4a9eff; letter-spacing: -2px; }
+  .hero-name { font-size: 20px; color: #8095b0; margin-top: 4px; }
+  .hero-price { font-size: 48px; font-weight: 800; color: #e0e6f0; margin-top: 12px; }
+  .hero-meta { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 13px; color: #6080a0; }
+  .hero-meta-item span { color: #b0c4de; font-weight: 600; }
+  .rating-badge { padding: 8px 20px; border-radius: 6px; font-weight: 800; font-size: 18px; text-align: center; }
+  .rating-yellow { background: #2a2000; border: 2px solid #c0860a; color: #f0a830; }
+  .target-price { font-size: 28px; font-weight: 800; color: #30c888; margin-top: 12px; }
+  .upside { font-size: 16px; color: #30c888; margin-top: 4px; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; padding: 16px 20px; }
+  .kpi-label { font-size: 11px; color: #6080a0; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 26px; font-weight: 800; color: #e0e6f0; margin-top: 4px; }
+  .kpi-sub { font-size: 12px; color: #8095b0; margin-top: 4px; }
+  .kpi-pos { color: #30c888; }
+  .kpi-neg { color: #e05050; }
+  .kpi-neu { color: #f0a830; }
+
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  @media (max-width: 900px) { .chart-row { grid-template-columns: 1fr; } }
+  .chart-box { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; padding: 20px; }
+  .chart-title { font-size: 12px; font-weight: 700; color: #a0b4d0; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .chart-canvas-container { position: relative; height: 220px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #111a35; color: #6080a0; text-align: right; padding: 10px 12px; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; border-bottom: 1px solid #1e2740; }
+  th:first-child { text-align: left; }
+  td { padding: 9px 12px; border-bottom: 1px solid #131c30; text-align: right; color: #c0d0e0; }
+  td:first-child { text-align: left; color: #a0b4d0; font-weight: 600; }
+  tr:hover td { background: #0f1830; }
+  .table-box { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; overflow: hidden; }
+
+  .moat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .moat-item { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; padding: 16px 20px; }
+  .moat-name { font-size: 13px; font-weight: 700; color: #a0b4d0; margin-bottom: 8px; }
+  .moat-stars { color: #f0a830; font-size: 18px; letter-spacing: 2px; }
+  .moat-bar-bg { height: 6px; background: #1e2740; border-radius: 3px; margin-top: 8px; }
+  .moat-bar { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #4a9eff, #30c888); }
+  .moat-desc { font-size: 12px; color: #6080a0; margin-top: 6px; }
+
+  .framework-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  @media (max-width: 900px) { .framework-grid { grid-template-columns: 1fr; } }
+  .framework-box { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; padding: 20px; }
+  .framework-title { font-size: 16px; font-weight: 800; color: #4a9eff; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #1e2740; }
+  .checklist-item { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #0f1830; font-size: 12px; }
+  .check-pass { color: #30c888; font-weight: 700; }
+  .check-fail { color: #e05050; font-weight: 700; }
+  .check-label { color: #8095b0; }
+
+  .conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .conclusion-card { border-radius: 8px; padding: 20px; }
+  .conclusion-card.green { background: #001a0d; border: 2px solid #30c888; }
+  .conclusion-card.yellow { background: #1a1400; border: 2px solid #c0860a; }
+  .conclusion-card.red { background: #1a0000; border: 2px solid #e05050; }
+  .conclusion-card.blue { background: #00111f; border: 2px solid #4a9eff; }
+  .conclusion-label { font-size: 12px; color: #6080a0; text-transform: uppercase; letter-spacing: 0.5px; }
+  .conclusion-verdict { font-size: 22px; font-weight: 800; margin-top: 6px; }
+  .conclusion-detail { font-size: 12px; color: #8095b0; margin-top: 8px; line-height: 1.5; }
+
+  .buy-range-box { background: linear-gradient(135deg, #001a0d, #002a15); border: 2px solid #30c888; border-radius: 12px; padding: 28px; text-align: center; margin-top: 24px; }
+  .buy-range-label { font-size: 13px; color: #6080a0; text-transform: uppercase; letter-spacing: 1px; }
+  .buy-range-value { font-size: 42px; font-weight: 900; color: #30c888; margin: 8px 0; }
+  .buy-range-note { font-size: 13px; color: #6080a0; }
+
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-right: 4px; }
+  .tag-blue { background: #0a1e3a; color: #4a9eff; border: 1px solid #1e3a6a; }
+  .tag-green { background: #001a0d; color: #30c888; border: 1px solid #0a5030; }
+  .tag-yellow { background: #1a1400; color: #f0a830; border: 1px solid #5a3a00; }
+  .tag-red { background: #1a0000; color: #e05050; border: 1px solid #5a0000; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card { background: #0d1428; border: 1px solid #1e2740; border-radius: 8px; padding: 16px; }
+  .info-card-title { font-size: 12px; color: #4a9eff; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
+  .info-card-body { font-size: 13px; color: #8095b0; line-height: 1.7; }
+  .info-card-body strong { color: #c0d0e0; }
+
+  .progress-bar-bg { height: 8px; background: #1e2740; border-radius: 4px; margin: 6px 0; }
+  .progress-bar { height: 8px; border-radius: 4px; }
+  .bar-green { background: linear-gradient(90deg, #1a8050, #30c888); }
+  .bar-yellow { background: linear-gradient(90deg, #8a6000, #f0a830); }
+  .bar-red { background: linear-gradient(90deg, #8a0000, #e05050); }
+  .bar-blue { background: linear-gradient(90deg, #1a4080, #4a9eff); }
+
+  .gauge-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+  .gauge-label { width: 160px; font-size: 12px; color: #6080a0; flex-shrink: 0; }
+  .gauge-track { flex: 1; height: 8px; background: #1e2740; border-radius: 4px; }
+  .gauge-fill { height: 8px; border-radius: 4px; }
+  .gauge-val { width: 80px; font-size: 12px; color: #b0c4de; font-weight: 700; text-align: right; }
+
+  .kpi-watch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .kpi-watch-item { background: #0a1020; border: 1px solid #1e2740; border-radius: 6px; padding: 12px; }
+  .kpi-watch-name { font-size: 12px; color: #6080a0; margin-bottom: 4px; }
+  .kpi-watch-current { font-size: 16px; font-weight: 700; color: #e0e6f0; }
+  .kpi-watch-target { font-size: 11px; color: #30c888; margin-top: 2px; }
+
+  .flywheel { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; padding: 20px; }
+  .flywheel-node { background: #111a35; border: 1px solid #2a3a60; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #b0c4de; text-align: center; width: 150px; }
+  .flywheel-arrow { color: #4a9eff; font-size: 20px; font-weight: 700; }
+
+  .source-list { font-size: 12px; color: #6080a0; }
+  .source-list li { padding: 4px 0; }
+  .source-list a { color: #4a9eff; }
+
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } .hero-grid { grid-template-columns: 1fr; } .conclusion-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-symbol">ETN</div>
+        <div class="hero-name">Eaton Corporation PLC &nbsp;|&nbsp; NYSE &nbsp;|&nbsp; 智能电力管理 &amp; 工业自动化</div>
+        <div class="hero-price">$359.74</div>
+        <div class="hero-meta">
+          <div class="hero-meta-item">市值 <span>$139.5B</span></div>
+          <div class="hero-meta-item">52周 <span>$231.85 – $408.45</span></div>
+          <div class="hero-meta-item">股息率 <span>1.16%</span></div>
+          <div class="hero-meta-item">分析日期 <span>2026-03-24</span></div>
+          <div class="hero-meta-item">下次财报 <span>2026-05-05</span></div>
+        </div>
+        <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="tag tag-green">AI数据中心基础设施</span>
+          <span class="tag tag-blue">电气化超级周期</span>
+          <span class="tag tag-yellow">Boyd Thermal已并购$9.5B</span>
+          <span class="tag tag-blue">Mobility分拆2027H1</span>
+          <span class="tag tag-green">积压$19.6B 创历史高位</span>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div class="rating-badge rating-yellow">持有 / 谨慎买入</div>
+        <div class="target-price">目标价 $390</div>
+        <div class="upside">+8.4% 12个月上涨空间</div>
+        <div style="margin-top:12px; font-size:12px; color:#6080a0;">PE法 $371 | DCF中性 $414 | 共识均值 $396</div>
+        <div style="margin-top:6px; font-size:12px; color:#6080a0;">理想买入区间 <span style="color:#30c888; font-weight:700;">$290 – $320</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KPI GRID -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">核心指标速览</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 营收</div>
+        <div class="kpi-value">$27.4B</div>
+        <div class="kpi-sub kpi-pos">+10.3% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 净利润</div>
+        <div class="kpi-value">$4.09B</div>
+        <div class="kpi-sub kpi-pos">净利率 14.9%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 自由现金流</div>
+        <div class="kpi-value">$3.55B</div>
+        <div class="kpi-sub kpi-pos">FCF率 12.9%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">毛利率 / 营业利润率</div>
+        <div class="kpi-value">37.6%</div>
+        <div class="kpi-sub kpi-pos">营业利润率 19.0%（4年+470bps）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">GAAP TTM EPS</div>
+        <div class="kpi-value">$10.46</div>
+        <div class="kpi-sub kpi-pos">FY2026 调整EPS指引中值 $13.25</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">TTM PE / 前向PE（调整）</div>
+        <div class="kpi-value">34.4x</div>
+        <div class="kpi-sub kpi-neu">前向调整PE 27.2x | 5yr均值 31x</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROE / ROIC</div>
+        <div class="kpi-value">21.5%</div>
+        <div class="kpi-sub kpi-pos">ROIC 14.9% | 持续扩张</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">净负债（Pre-Boyd）</div>
+        <div class="kpi-value">$9.73B</div>
+        <div class="kpi-sub kpi-neg">Post-Boyd（3月12日完成）~$19.2B</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">记录积压订单</div>
+        <div class="kpi-value">$19.6B</div>
+        <div class="kpi-sub kpi-pos">Electrical Americas $15.3B（+31% YoY）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">数据中心订单增速</div>
+        <div class="kpi-value">+200%</div>
+        <div class="kpi-sub kpi-pos">Q4 2025 YoY；销售额 +40% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">分析师评级</div>
+        <div class="kpi-value">买入</div>
+        <div class="kpi-sub kpi-pos">共识目标$396（21家机构）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">机构持仓 / 内部人动态</div>
+        <div class="kpi-value">83%</div>
+        <div class="kpi-sub kpi-neu">内部人：个人持仓管理性净卖出</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUSINESS MODEL -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">商业模式分析</div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">FY2025 营收结构（按业务分部，TTM至2025年9月）</div>
+        <div class="chart-canvas-container">
+          <canvas id="segmentPie"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">各分部 YoY 增速（TTM至2025年9月）</div>
+        <div class="chart-canvas-container">
+          <canvas id="segmentGrowth"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="info-grid mt-24">
+      <div class="info-card">
+        <div class="info-card-title">收入质量评分</div>
+        <div class="info-card-body">
+          <strong>重复性收入约35%：</strong>维护合同、备件、服务；大型积压项目保障可见性<br><br>
+          <strong>积压覆盖：</strong>$19.6B积压约为8.6个月营收，行业领先可见性<br><br>
+          <strong>Boyd Thermal加成：</strong>液冷业务带来数据中心持续运维需求，提升收入质量<br><br>
+          <strong>软件/数字服务：</strong>约3-5%占比（增长中，估值重构期权）
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">客户集中度分析</div>
+        <div class="info-card-body">
+          <strong>超大规模云厂商：</strong>AWS/Azure/GCP/Meta合计约20-25%营收（高且增速最快）<br><br>
+          <strong>工业/商业客户：</strong>极度分散，无单一客户超5%，低集中度风险<br><br>
+          <strong>航空航天：</strong>波音/空客等OEM，军用+商用，~15% 营收<br><br>
+          <strong>汽车（待分拆）：</strong>2027H1 Vehicle+eMobility分拆，消除周期性拖累
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">定价权与成本优势</div>
+        <div class="info-card-body">
+          <strong>利润率扩张：</strong>营业利润率FY2022 14.4% → FY2025 19.0%（+470bps，行业领先）<br><br>
+          <strong>供需失衡：</strong>数据中心电力设备交货期12-18个月，隐含强定价权<br><br>
+          <strong>关税护城河：</strong>美国本土制造战略（Local-for-Local），对手25%关税冲击更大<br><br>
+          <strong>综合评分：</strong><span style="color:#30c888;">强定价权，护城河加速验证</span>
+        </div>
+      </div>
+    </div>
+    <div class="chart-box mt-24">
+      <div class="chart-title">Eaton 电力管理生态飞轮</div>
+      <div class="flywheel">
+        <div class="flywheel-node">AI数据中心<br>建设需求爆发<br>（CapEx $480B+ 2026）</div>
+        <div class="flywheel-arrow">→</div>
+        <div class="flywheel-node">Eaton端到端方案<br>配电→UPS→PDU→<br>（Boyd液冷）</div>
+        <div class="flywheel-arrow">→</div>
+        <div class="flywheel-node">规格锁定<br>设计进图纸<br>替换成本极高</div>
+        <div class="flywheel-arrow">→</div>
+        <div class="flywheel-node">积压订单<br>$19.6B创历史<br>~8.6月可见性</div>
+        <div class="flywheel-arrow">→</div>
+        <div class="flywheel-node">Boyd Thermal并购<br>$9.5B，全球首家<br>Grid-to-Chip供应商</div>
+        <div class="flywheel-arrow">→</div>
+        <div class="flywheel-node">更大市场份额<br>更高定价权<br>利润率持续扩张</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINANCIAL ANALYSIS -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">财务深度分析</div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">季度营收趋势（含YoY增速）</div>
+        <div class="chart-canvas-container"><canvas id="quarterlyRevenue"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">利润率趋势（年度）</div>
+        <div class="chart-canvas-container"><canvas id="marginTrend"></canvas></div>
+      </div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">年度营收与净利润（十亿美元）</div>
+        <div class="chart-canvas-container"><canvas id="annualFinancials"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">自由现金流趋势（十亿美元）</div>
+        <div class="chart-canvas-container"><canvas id="fcfTrend"></canvas></div>
+      </div>
+    </div>
+    <div class="table-box mt-24">
+      <table>
+        <thead>
+          <tr><th>季度</th><th>营收（M）</th><th>YoY</th><th>净利润（M）</th><th>GAAP EPS</th><th>毛利率</th><th>营业利润率</th><th>FCF（M）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Q4 2025</td><td>$7,055</td><td class="kpi-pos">+13.1%</td><td>$1,132</td><td>$2.91</td><td>36.82%</td><td>19.65%</td><td class="kpi-pos">$1,573</td></tr>
+          <tr><td>Q3 2025</td><td>$6,988</td><td class="kpi-pos">+10.1%</td><td>$1,010</td><td>$2.59</td><td>38.28%</td><td>19.56%</td><td class="kpi-pos">$1,173</td></tr>
+          <tr><td>Q2 2025</td><td>$7,028</td><td class="kpi-pos">+13.5%</td><td>$982</td><td>$2.51</td><td>36.95%</td><td>17.87%</td><td class="kpi-pos">$716</td></tr>
+          <tr><td>Q1 2025</td><td>$6,377</td><td class="kpi-pos">+7.4%</td><td>$964</td><td>$2.45</td><td>38.37%</td><td>18.83%</td><td class="kpi-neu">$91</td></tr>
+          <tr><td>Q4 2024</td><td>$6,240</td><td class="kpi-pos">+7.0%</td><td>$971</td><td>$2.45</td><td>38.93%</td><td>19.63%</td><td class="kpi-pos">$1,342</td></tr>
+          <tr><td>Q3 2024</td><td>$6,345</td><td class="kpi-pos">+7.5%</td><td>$1,009</td><td>$2.53</td><td>38.55%</td><td>19.09%</td><td class="kpi-pos">$1,126</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-box mt-24">
+      <table>
+        <thead>
+          <tr><th>年度</th><th>营收（B）</th><th>净利润（B）</th><th>GAAP EPS</th><th>毛利率</th><th>营业利润率</th><th>FCF（B）</th><th>总资产（B）</th><th>净负债（B）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>FY2025</td><td>$27.45</td><td>$4.09</td><td>$10.46</td><td>37.59%</td><td>18.98%</td><td>$3.55</td><td>$41.25</td><td>$9.73</td></tr>
+          <tr><td>FY2024</td><td>$24.88</td><td>$3.79</td><td>$9.50</td><td>38.20%</td><td>18.62%</td><td>$3.52</td><td>$38.38</td><td>$7.74</td></tr>
+          <tr><td>FY2023</td><td>$23.20</td><td>$3.22</td><td>$8.02</td><td>36.36%</td><td>16.75%</td><td>$2.87</td><td>$38.43</td><td>$7.19</td></tr>
+          <tr><td>FY2022</td><td>$20.75</td><td>$2.46</td><td>$6.14</td><td>33.19%</td><td>14.43%</td><td>$1.94</td><td>$35.01</td><td>$8.56</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- GROWTH DRIVERS -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">增长驱动与关键追踪指标</div>
+    <div class="chart-box">
+      <div class="chart-title">超大规模云厂商年度资本支出（十亿美元，堆叠图）</div>
+      <div style="position:relative; height:240px;"><canvas id="hyperCapex"></canvas></div>
+    </div>
+    <div class="info-grid mt-24">
+      <div class="info-card">
+        <div class="info-card-title">数据中心超级周期（核心驱动）</div>
+        <div class="info-card-body">
+          <strong>2026E 4大云厂商总CapEx：</strong>~$480-520B（+36% YoY）<br>
+          <strong>数据中心积压：</strong>相当于11年2025年建设量<br>
+          <strong>Q4 2025 数据中心订单：</strong>+200% YoY<br>
+          <strong>Q4 2025 数据中心销售：</strong>+40% YoY<br>
+          <strong>2026 Eaton数据中心增速指引：</strong>+17%+<br>
+          <strong>AI电气化2030年需求：</strong>$1.4万亿投资机会<br>
+          <strong>Eaton数据中心市场地位：</strong>全球Top 3供应商
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Boyd Thermal并购（$9.5B，2026-03-12完成）</div>
+        <div class="info-card-body">
+          <strong>FY2026 Boyd营收：</strong>$1.7B（液冷$1.5B，其他$0.2B）<br>
+          <strong>Boyd EBITDA：</strong>~$422M（22.5x EV/EBITDA收购估值）<br>
+          <strong>战略定位：</strong>全球首家Grid-to-Chip全链方案提供商<br>
+          <strong>市场背景：</strong>Blackwell/GB300功耗100kW+，液冷需求爆发<br>
+          <strong>EPS情况：</strong>FY2026略稀释；EPS增厚预期FY2028（并购后第2年）<br>
+          <strong>风险：</strong>净负债从$9.7B升至~$19.2B，D/E从0.54x至~1.0x
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Mobility分拆战略（2027H1）</div>
+        <div class="info-card-body">
+          <strong>分拆范围：</strong>Vehicle ($2.57B) + eMobility ($0.63B)<br>
+          <strong>分拆后ETN：</strong>纯电力管理公司，营收~$24B+（Boyd后）<br>
+          <strong>利润率提升：</strong>消除低利润汽车业务，营业利润率有望提升至22%+<br>
+          <strong>估值重构：</strong>纯电力化公司估值倍数有望扩张，吸引新投资者<br>
+          <strong>催化剂：</strong>分拆文件提交（2026年中预期），2027H1正式完成
+        </div>
+      </div>
+    </div>
+    <div class="mt-24">
+      <div class="section-title" style="font-size:15px;">需持续追踪的关键KPI</div>
+      <div class="kpi-watch-grid">
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">Electrical Americas 积压订单 QoQ</div>
+          <div class="kpi-watch-current">$15.3B（Q4 2025）</div>
+          <div class="kpi-watch-target">目标：持续正增长；任何负增长为预警信号</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">数据中心业务订单增速</div>
+          <div class="kpi-watch-current">+200% YoY（Q4 2025）</div>
+          <div class="kpi-watch-target">目标：Q1 2026维持>50% YoY；Q1 2026（2026-05-05）为关键验证</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">Boyd Thermal整合进展</div>
+          <div class="kpi-watch-current">2026-03-12完成交割</div>
+          <div class="kpi-watch-target">追踪：$1.7B营收兑现率+液冷协同效应</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">Electrical Americas 营业利润率</div>
+          <div class="kpi-watch-current">30.3%（Q3 2025）</div>
+          <div class="kpi-watch-target">目标：2026年30%，2030年32%（管理层长期指引）</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">超大规模CapEx季度公告</div>
+          <div class="kpi-watch-current">2026E 合计$480-520B</div>
+          <div class="kpi-watch-target">任何预算削减信号将直接压制ETN估值</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">FY2026 调整EPS执行情况</div>
+          <div class="kpi-watch-current">指引 $13.00-$13.50（中值$13.25）</div>
+          <div class="kpi-watch-target">超预期：维持买入；低于指引：重估评级</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">Mobility分拆进展</div>
+          <div class="kpi-watch-current">目标2027H1完成</div>
+          <div class="kpi-watch-target">追踪：SEC分拆文件提交（预计2026年中）</div>
+        </div>
+        <div class="kpi-watch-item">
+          <div class="kpi-watch-name">关税影响量化</div>
+          <div class="kpi-watch-current">美国本土制造优势，影响相对较小</div>
+          <div class="kpi-watch-target">竞争对手Schneider/ABB受欧洲出口关税打击更大</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPETITIVE LANDSCAPE -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">竞争格局分析</div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">同业TTM P/E估值对比</div>
+        <div class="chart-canvas-container"><canvas id="compPE"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">同业营业利润率对比</div>
+        <div class="chart-canvas-container"><canvas id="compMargin"></canvas></div>
+      </div>
+    </div>
+    <div class="table-box mt-24">
+      <table>
+        <thead>
+          <tr><th>公司</th><th>市值</th><th>TTM P/E</th><th>P/S</th><th>P/B</th><th>ROE</th><th>营业利润率</th><th>毛利率</th><th>FY营收</th></tr>
+        </thead>
+        <tbody>
+          <tr style="background:#0f1830;"><td><strong>ETN (Eaton)</strong></td><td>$139.5B</td><td class="kpi-neg">34.4x</td><td>5.1x</td><td>7.2x</td><td class="kpi-pos">21.5%</td><td class="kpi-pos">19.0%</td><td>37.6%</td><td>$27.4B</td></tr>
+          <tr><td>VRT (Vertiv)</td><td>~$46B</td><td class="kpi-neg">38x</td><td>5.5x</td><td>N/A</td><td>N/A</td><td>13.5%</td><td>36%</td><td>~$8.5B</td></tr>
+          <tr><td>ABB (ABB Ltd)</td><td>~$100B</td><td class="kpi-pos">22x</td><td>2.8x</td><td>5.5x</td><td class="kpi-pos">30%</td><td>16.5%</td><td>30%</td><td>~$34B</td></tr>
+          <tr><td>EMR (Emerson)</td><td>~$65B</td><td class="kpi-pos">25x</td><td>3.8x</td><td>3.5x</td><td>15%</td><td>22%</td><td>48%</td><td>~$17B</td></tr>
+          <tr><td>HUBB (Hubbell)</td><td>~$22B</td><td class="kpi-pos">20x</td><td>2.5x</td><td>5.0x</td><td class="kpi-pos">25%</td><td>20%</td><td>37%</td><td>~$6.1B</td></tr>
+          <tr><td>Schneider Electric</td><td>~EUR 130B</td><td>28x</td><td>3.5x</td><td>6.0x</td><td>18%</td><td>18%</td><td>40%</td><td>~EUR 38B</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-grid mt-24">
+      <div class="info-card">
+        <div class="info-card-title">ETN vs ABB / Schneider Electric</div>
+        <div class="info-card-body">
+          <strong>本土制造优势：</strong>ETN约70%美国本土生产；ABB/Schneider大量进口受25%关税冲击，ETN成本结构相对有利<br><br>
+          <strong>数据中心深度：</strong>ETN积压中数据中心占比最高；本土化使超大规模客户采购决策更简单<br><br>
+          <strong>估值溢价合理性：</strong>ETN PE 34.4x vs ABB 22x，对应更高增速（10%+ vs 5-7%）和更强数据中心敞口
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">ETN vs VRT (Vertiv)</div>
+        <div class="info-card-body">
+          <strong>业务重叠：</strong>VRT专注PDU/冷却/UPS；ETN覆盖更广（变压器+开关+配电），Boyd并购后进入VRT核心市场<br><br>
+          <strong>规模优势：</strong>ETN $27.4B vs VRT $8.5B，多元化风险更低，客户谈判筹码更强<br><br>
+          <strong>Boyd意义：</strong>ETN收购Boyd Thermal直接进入液冷市场，与VRT正面竞争，将重塑数据中心冷却格局
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">竞争优势量化指标</div>
+        <div class="info-card-body">
+          <div style="margin-bottom:8px;"><strong>Grid-to-Chip端到端方案（Boyd后独家）：</strong>
+            <div class="progress-bar-bg"><div class="progress-bar bar-green" style="width:90%"></div></div>
+          </div>
+          <div style="margin-bottom:8px;"><strong>美国本土产能关税护城河：</strong>
+            <div class="progress-bar-bg"><div class="progress-bar bar-green" style="width:80%"></div></div>
+          </div>
+          <div style="margin-bottom:8px;"><strong>UL认证/规格嵌入（500+认证）：</strong>
+            <div class="progress-bar-bg"><div class="progress-bar bar-green" style="width:85%"></div></div>
+          </div>
+          <div style="margin-bottom:8px;"><strong>品牌/工程师心智（130年历史）：</strong>
+            <div class="progress-bar-bg"><div class="progress-bar bar-green" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOAT SCORECARD -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">巴菲特护城河评分卡</div>
+    <div style="text-align:center; margin-bottom:24px;">
+      <span style="font-size:28px; font-weight:800; color:#30c888;">宽护城河（Wide Moat）</span>
+      <span style="font-size:16px; color:#6080a0; margin-left:16px;">综合评分 3.6 / 5.0</span>
+    </div>
+    <div class="moat-grid">
+      <div class="moat-item">
+        <div class="moat-name">品牌与声誉护城河</div>
+        <div class="moat-stars">★★★★☆</div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:80%"></div></div>
+        <div class="moat-desc">130年历史，电力行业工程师首选品牌。数据中心运营商、电力公用事业均有明确Eaton品牌偏好，支撑5-10%价格溢价。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-name">客户转换成本</div>
+        <div class="moat-stars">★★★★☆</div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:80%"></div></div>
+        <div class="moat-desc">一旦Eaton设备被嵌入数据中心设计规格，更换供应商需重新认证、重新设计、重新测试。迁移成本单个项目约$200-500万，壁垒极高。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-name">网络效应</div>
+        <div class="moat-stars">★★☆☆☆</div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:40%; background:linear-gradient(90deg,#8a6000,#f0a830)"></div></div>
+        <div class="moat-desc">传统工业设备公司缺乏直接网络效应。间接效应体现在大量装机产生服务需求，技术人员生态熟悉Eaton产品，但不是核心护城河。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-name">成本优势</div>
+        <div class="moat-stars">★★★☆☆</div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:60%"></div></div>
+        <div class="moat-desc">Local-for-Local美国本土制造战略，在关税环境下相对竞争对手形成结构性成本优势。规模效应（$27.4B营收）降低单位费用。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-name">无形资产</div>
+        <div class="moat-stars">★★★★★</div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:100%"></div></div>
+        <div class="moat-desc">500+ UL认证清单；超大规模数据中心项目规格嵌入；航空航天DO-160/MIL-SPEC认证极难复制；Boyd并购新增热管理专利组合。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-name">综合护城河仪表盘</div>
+        <div style="margin-top:8px;">
+          <div class="gauge-row"><div class="gauge-label">品牌护城河</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:80%"></div></div><div class="gauge-val">4 / 5</div></div>
+          <div class="gauge-row"><div class="gauge-label">转换成本</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:80%"></div></div><div class="gauge-val">4 / 5</div></div>
+          <div class="gauge-row"><div class="gauge-label">网络效应</div><div class="gauge-track"><div class="gauge-fill bar-yellow" style="width:40%"></div></div><div class="gauge-val">2 / 5</div></div>
+          <div class="gauge-row"><div class="gauge-label">成本优势</div><div class="gauge-track"><div class="gauge-fill bar-yellow" style="width:60%"></div></div><div class="gauge-val">3 / 5</div></div>
+          <div class="gauge-row"><div class="gauge-label">无形资产</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:100%"></div></div><div class="gauge-val">5 / 5</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CYCLE & MACRO -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">周期与宏观分析（霍华德·马克斯框架）</div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">历史PE走势（含5年/10年均值线）</div>
+        <div class="chart-canvas-container"><canvas id="historicalPE"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">市场情绪仪表盘</div>
+        <div style="padding:10px 0;">
+          <div class="gauge-row"><div class="gauge-label">分析师看涨比例</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:76%"></div></div><div class="gauge-val">76% 买入</div></div>
+          <div class="gauge-row"><div class="gauge-label">机构持仓水平</div><div class="gauge-track"><div class="gauge-fill bar-yellow" style="width:83%"></div></div><div class="gauge-val">83%</div></div>
+          <div class="gauge-row"><div class="gauge-label">内部人净持仓变化</div><div class="gauge-track"><div class="gauge-fill bar-red" style="width:20%"></div></div><div class="gauge-val">净卖出</div></div>
+          <div class="gauge-row"><div class="gauge-label">股价 vs 52周高点</div><div class="gauge-track"><div class="gauge-fill bar-yellow" style="width:62%"></div></div><div class="gauge-val">-12%</div></div>
+          <div class="gauge-row"><div class="gauge-label">PE历史分位（10年）</div><div class="gauge-track"><div class="gauge-fill bar-red" style="width:75%"></div></div><div class="gauge-val">~75th 分位</div></div>
+          <div class="gauge-row"><div class="gauge-label">积压订单增速</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:95%"></div></div><div class="gauge-val">$19.6B 记录</div></div>
+          <div class="gauge-row"><div class="gauge-label">数据中心CapEx势头</div><div class="gauge-track"><div class="gauge-fill bar-green" style="width:90%"></div></div><div class="gauge-val">加速中</div></div>
+          <div class="gauge-row"><div class="gauge-label">周期阶段判断</div><div class="gauge-track"><div class="gauge-fill bar-yellow" style="width:55%"></div></div><div class="gauge-val">成长加速期</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="info-card mt-24" style="border:1px solid #2a3a60;">
+      <div class="info-card-title" style="font-size:14px; color:#f0a830;">周期定位：AI基础设施 - 成长加速期（非峰值）</div>
+      <div class="info-card-body" style="margin-top:10px;">
+        <strong>量化依据1：</strong>数据中心积压订单相当于11年2025年建设量，供应严重滞后于需求，行业不在过热顶部<br>
+        <strong>量化依据2：</strong>Q4 2025订单+200% YoY，销售仅+40% YoY（健康时滞），收入峰值在2026-2028年到来<br>
+        <strong>量化依据3：</strong>全球超大规模CapEx从2025年$440B增至2026E $600B（+36%），投资加速而非放缓<br>
+        <strong>马克斯结论：</strong>行业在成长加速而非过热顶部。ETN当前估值有溢价但非泡沫，Boyd并购提供长期差异化。谨慎买入，理想价位等待。
+      </div>
+    </div>
+    <div class="table-box mt-24">
+      <table>
+        <thead>
+          <tr><th>尾部风险</th><th>风险描述</th><th>概率</th><th>股价影响</th><th>缓解因素</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Boyd整合风险</td><td>$9.5B高溢价并购（22.5x EBITDA）；整合执行失败或协同未实现</td><td class="risk-med">25%</td><td class="risk-med">-15% ~ -20%</td><td>管理层有收购整合经验；Boyd已有稳定$1.5B液冷营收</td></tr>
+          <tr><td>AI CapEx放缓</td><td>效率突破（DeepSeek式）或宏观衰退导致云厂商削减CapEx</td><td class="risk-med">20%</td><td class="risk-high">-25% ~ -35%</td><td>积压$19.6B约8-9个月保护；超大规模厂商重申2026计划</td></tr>
+          <tr><td>关税/供应链冲击</td><td>额外关税推高原材料（铜/钢）成本</td><td class="risk-high">35%</td><td class="risk-low">-5% ~ -10%</td><td>美国本土制造优势；成本可向客户转嫁（强定价权）</td></tr>
+          <tr><td>Mobility分拆执行风险</td><td>Vehicle/eMobility分拆延期或估值低于预期</td><td class="risk-low">20%</td><td class="risk-low">-5% ~ -8%</td><td>分拆不影响核心电力业务；溢价是期权</td></tr>
+          <tr><td>估值压缩风险</td><td>增速放缓时PE从34x压缩至历史均值24-26x</td><td class="risk-high">30%</td><td class="risk-med">-15% ~ -25%</td><td>结构性增长支撑溢价；积压$19.6B保障2-3年可见性</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- THREE FRAMEWORKS VALUATION -->
+<div class="section">
+  <div class="container">
+    <div class="section-title">三大估值框架</div>
+    <div class="framework-grid">
+
+      <!-- Graham -->
+      <div class="framework-box">
+        <div class="framework-title">格雷厄姆安全边际框架</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">Graham Number 计算</div>
+          <div style="background:#0a1020; padding:12px; border-radius:6px; font-size:13px; color:#8095b0;">
+            EPS（GAAP摊薄）= <strong style="color:#c0d0e0;">$10.46</strong><br>
+            每股账面价值 = <strong style="color:#c0d0e0;">$49.65</strong><br>
+            Graham Number = √(22.5 × 10.46 × 49.65)<br>
+            = √(11,685) = <strong style="color:#e05050; font-size:18px;">$108.10</strong><br><br>
+            当前价溢价：+$251.64（<span style="color:#e05050; font-weight:700;">+233%</span>）
+          </div>
+        </div>
+        <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">安全检验清单</div>
+        <div class="checklist-item"><span class="check-label">P/E &le; 15x</span><span class="check-fail">FAIL 34.4x</span></div>
+        <div class="checklist-item"><span class="check-label">P/B &le; 1.5x</span><span class="check-fail">FAIL 7.2x</span></div>
+        <div class="checklist-item"><span class="check-label">P/E × P/B &le; 22.5</span><span class="check-fail">FAIL 247.8</span></div>
+        <div class="checklist-item"><span class="check-label">流动比率 &ge; 2x</span><span class="check-fail">FAIL 1.32x</span></div>
+        <div class="checklist-item"><span class="check-label">负债/权益 &le; 1x</span><span class="check-pass">PASS 0.54x</span></div>
+        <div class="checklist-item" style="border:none;"><span class="check-label">资产/负债 &ge; 2x</span><span class="check-fail">FAIL 1.89x</span></div>
+        <div style="margin-top:16px; font-size:12px; color:#6080a0; text-transform:uppercase;">DCF三情景（折现率10%，基准FCF $3.55B）</div>
+        <div style="margin-top:10px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-size:12px; color:#8095b0;">保守（15%×5yr + 8%×5yr + TV 3%）</span><span style="font-size:14px; color:#e05050; font-weight:700;">$235</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar" style="width:31%; background:#8a0000;"></div></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; margin-top:10px;"><span style="font-size:12px; color:#8095b0;">中性（25%×5yr + 12%×5yr + TV 3%）</span><span style="font-size:14px; color:#f0a830; font-weight:700;">$414</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar" style="width:54%; background:#8a6000;"></div></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; margin-top:10px;"><span style="font-size:12px; color:#8095b0;">乐观（35%×5yr + 15%×5yr + TV 4%）</span><span style="font-size:14px; color:#30c888; font-weight:700;">$761</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar" style="width:100%; background:#1a5030;"></div></div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; margin-top:10px;"><span style="font-size:12px; color:#4a9eff; font-weight:700;">加权均值（30% / 45% / 25%）</span><span style="font-size:16px; color:#4a9eff; font-weight:800;">$447</span></div>
+        </div>
+        <div style="margin-top:16px; padding:12px; background:#1a0000; border:1px solid #5a0000; border-radius:6px;">
+          <div style="font-size:12px; color:#6080a0;">格雷厄姆结论</div>
+          <div style="font-size:18px; font-weight:800; color:#e05050; margin-top:4px;">减持（Reduce）</div>
+          <div style="font-size:11px; color:#8095b0; margin-top:6px;">6项仅通过1项；Graham数$108.10 vs 当前价$359.74，溢价+233%；DCF保守值$235显示传统安全边际不足。注：Graham框架不适合高成长质量公司，需结合护城河框架综合判断。</div>
+        </div>
+      </div>
+
+      <!-- Buffett -->
+      <div class="framework-box">
+        <div class="framework-title">巴菲特护城河估值框架</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">ROE持续性分析</div>
+          <div class="checklist-item"><span class="check-label">FY2022 ROE</span><span style="color:#c0d0e0; font-weight:700;">14.4%</span></div>
+          <div class="checklist-item"><span class="check-label">FY2023 ROE</span><span style="color:#c0d0e0; font-weight:700;">16.9%</span></div>
+          <div class="checklist-item"><span class="check-label">FY2024 ROE</span><span style="color:#c0d0e0; font-weight:700;">20.5%</span></div>
+          <div class="checklist-item" style="border:none;"><span class="check-label">FY2025 ROE</span><span class="check-pass">21.5%（连续4年扩张）</span></div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">护城河评级</div>
+          <div style="background:#0a1020; padding:12px; border-radius:6px; font-size:13px; color:#8095b0;">
+            综合评分：18/25（72%）→ <strong style="color:#30c888;">宽护城河（Wide Moat）</strong><br>
+            主要加分：Grid-to-Chip独家、130年历史、$19.6B积压<br>
+            主要减分：Boyd并购后D/E从0.54x升至~1.0x
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">估值方法（PE法）</div>
+          <div style="background:#0a1020; padding:12px; border-radius:6px; font-size:13px; color:#8095b0;">
+            合理买入PE（ROE 21.5%，宽护城河）：25-30x<br>
+            FY2026E 调整EPS（指引中值）：$13.25<br>
+            合理价值（28x × $13.25）：<strong style="color:#f0a830; font-size:16px;">$371</strong><br>
+            护城河溢价调整后（+10%）：<strong style="color:#f0a830; font-size:16px;">$408</strong><br>
+            理想买入（20%安全边际）：<strong style="color:#30c888; font-size:16px;">$291 – $326</strong>
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">FY2026 EPS指引解读</div>
+          <div style="font-size:13px; color:#8095b0;">
+            调整EPS指引：$13.00-$13.50（+10% YoY）<br>
+            有机增长7-9%；Boyd Thermal轻微稀释（FY2026），EPS增厚预期FY2028<br>
+            Mobility分拆完成后（2027H1），利润率有望提升至22%+
+          </div>
+        </div>
+        <div style="padding:12px; background:#1a1400; border:1px solid #5a3a00; border-radius:6px;">
+          <div style="font-size:12px; color:#6080a0;">巴菲特结论</div>
+          <div style="font-size:18px; font-weight:800; color:#f0a830; margin-top:4px;">持有（Hold）</div>
+          <div style="font-size:11px; color:#8095b0; margin-top:6px;">宽护城河，ROE稳定扩张，长期逻辑清晰。当前价$359.74略高于合理价值$371（考虑Boyd并购债务）。理想买入区间$291-326。关注Boyd整合进展和Mobility分拆时间表。</div>
+        </div>
+      </div>
+
+      <!-- Marks -->
+      <div class="framework-box">
+        <div class="framework-title">霍华德·马克斯周期框架</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">估值历史分位</div>
+          <div class="checklist-item"><span class="check-label">TTM PE 34.4x</span><span style="color:#f0a830; font-weight:700;">约75th百分位（10年）</span></div>
+          <div class="checklist-item"><span class="check-label">5年平均PE 31x</span><span style="color:#c0d0e0;">当前高于均值 +11%</span></div>
+          <div class="checklist-item"><span class="check-label">10年平均PE 24x</span><span style="color:#e05050;">当前高于均值 +43%</span></div>
+          <div class="checklist-item" style="border:none;"><span class="check-label">P/S 5.1x</span><span style="color:#f0a830;">高于历史均值</span></div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">周期信号</div>
+          <div class="checklist-item"><span class="check-label">AI CapEx增速</span><span class="check-pass">+36% YoY（加速）</span></div>
+          <div class="checklist-item"><span class="check-label">积压订单增速</span><span class="check-pass">+31% YoY（健康）</span></div>
+          <div class="checklist-item"><span class="check-label">订单 vs 销售时滞</span><span style="color:#f0a830; font-weight:700;">订单+200% vs 销售+40%（峰值在后）</span></div>
+          <div class="checklist-item" style="border:none;"><span class="check-label">内部人态度</span><span style="color:#f0a830;">净卖出（个人持仓管理性）</span></div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; color:#6080a0; margin-bottom:8px; text-transform:uppercase;">情景分析（期望价值）</div>
+          <div class="checklist-item"><span class="check-label">牛市（CapEx超预期）：20%权重</span><span class="check-pass">目标价 $480+</span></div>
+          <div class="checklist-item"><span class="check-label">基准（指引兑现）：55%权重</span><span style="color:#f0a830; font-weight:700;">目标价 $390-410</span></div>
+          <div class="checklist-item" style="border:none;"><span class="check-label">熊市（CapEx骤降）：25%权重</span><span class="check-fail">目标价 $240-270</span></div>
+        </div>
+        <div style="background:#0a1020; padding:12px; border-radius:6px; font-size:13px; color:#8095b0; margin-bottom:16px;">
+          期望价值 = 20%×$490 + 55%×$400 + 25%×$255 = <strong style="color:#4a9eff; font-size:16px;">$382</strong>
+        </div>
+        <div style="padding:12px; background:#001a0d; border:1px solid #0a5030; border-radius:6px;">
+          <div style="font-size:12px; color:#6080a0;">马克斯结论</div>
+          <div style="font-size:18px; font-weight:800; color:#30c888; margin-top:4px;">谨慎买入（Cautious Buy）</div>
+          <div style="font-size:11px; color:#8095b0; margin-top:6px;">AI基础设施超级周期仍处成长加速阶段（非峰值）；订单vs销售时滞显示收入高峰在2026-2028年；积压$19.6B保障可见性高。当前估值属于成长溢价，但需警惕均值回归。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DCF Chart -->
+    <div class="chart-box mt-24">
+      <div class="chart-title">三情景DCF估值 vs 目标价 vs 当前价格（横向对比）</div>
+      <div style="position:relative; height:200px;"><canvas id="dcfChart"></canvas></div>
+    </div>
+
+    <!-- Conclusions -->
+    <div class="conclusion-grid mt-24">
+      <div class="conclusion-card red">
+        <div class="conclusion-label">格雷厄姆框架</div>
+        <div class="conclusion-verdict" style="color:#e05050;">减持（Reduce）</div>
+        <div class="conclusion-detail">Graham数$108.10，溢价+233%；6项仅1项通过（负债/权益）；DCF保守$235。传统安全边际不足，但框架本身不适合高成长公司。</div>
+      </div>
+      <div class="conclusion-card yellow">
+        <div class="conclusion-label">巴菲特框架</div>
+        <div class="conclusion-verdict" style="color:#f0a830;">持有（Hold）</div>
+        <div class="conclusion-detail">宽护城河(72%)，ROE 21.5%连续扩张；当前价$359.74略高于合理价值$371-408；Boyd并购增加杠杆但提升长期战略地位；理想买入$291-326。</div>
+      </div>
+      <div class="conclusion-card green">
+        <div class="conclusion-label">马克斯周期框架</div>
+        <div class="conclusion-verdict" style="color:#30c888;">谨慎买入（Cautious Buy）</div>
+        <div class="conclusion-detail">AI基础设施成长加速期，非峰值；订单+200%但收入仅+40%（时滞健康）；超大规模CapEx加速+36%；积压$19.6B保障可见性。</div>
+      </div>
+      <div class="conclusion-card blue">
+        <div class="conclusion-label">三框架综合结论</div>
+        <div class="conclusion-verdict" style="color:#4a9eff;">持有 / 谨慎买入</div>
+        <div class="conclusion-detail">目标价$390（PE法$371×40% + DCF加权$447×30% + 共识$396×30% = $401，取整$390）；+8.4%上涨空间；Boyd并购战略意义重大但短期杠杆需消化；Mobility分拆为估值催化剂。</div>
+      </div>
+    </div>
+
+    <div class="buy-range-box">
+      <div class="buy-range-label">理想买入区间（含20%安全边际，基于DCF中性$414）</div>
+      <div class="buy-range-value">$290 – $320</div>
+      <div class="buy-range-note">当前价 $359.74 &nbsp;|&nbsp; 目标价 $390 &nbsp;|&nbsp; 12个月上涨空间 +8.4%</div>
+      <div style="margin-top:12px; font-size:13px; color:#6080a0;">综合估值：PE法 $371（40%）+ DCF加权均值 $447（30%）+ 分析师共识 $396（30%）= <strong style="color:#30c888;">$401</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- DATA SOURCES -->
+<div class="section" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-title">数据来源</div>
+    <ul class="source-list">
+      <li><a href="https://www.eaton.com/us/en-us/company/investor-relations.html" target="_blank">Eaton Investor Relations - Official</a></li>
+      <li><a href="https://stockanalysis.com/stocks/etn/financials/" target="_blank">StockAnalysis.com - ETN Financials (Income Statement)</a></li>
+      <li><a href="https://stockanalysis.com/stocks/etn/financials/balance-sheet/" target="_blank">StockAnalysis.com - ETN Balance Sheet</a></li>
+      <li><a href="https://stockanalysis.com/stocks/etn/statistics/" target="_blank">StockAnalysis.com - ETN Valuation Statistics</a></li>
+      <li><a href="https://stockanalysis.com/stocks/etn/metrics/revenue-by-segment/" target="_blank">StockAnalysis.com - ETN Revenue by Segment</a></li>
+      <li><a href="https://finance.yahoo.com/news/eaton-corp-plc-etn-q4-230114185.html" target="_blank">Yahoo Finance - Eaton Q4 2025 Earnings Highlights</a></li>
+      <li><a href="https://www.eaton.com/us/en-us/company/news-insights/news-releases/2025/eaton-reports-record-third-quarter-2025-results-with-accelerating-orders.html" target="_blank">Eaton Q3 2025 Earnings Release</a></li>
+      <li><a href="https://www.eaton.com/us/en-us/company/news-insights/news-releases/2026/eaton-completes-acquisition-of-leading-liquid-cooling-solutions-provider-boyd-thermal.html" target="_blank">Eaton - Boyd Thermal Acquisition Completion (2026-03-12)</a></li>
+      <li><a href="https://www.datacenterdynamics.com/en/news/eaton-acquires-boyd-thermal-for-95bn-to-further-liquid-cooling-portfolio/" target="_blank">Data Center Dynamics - Boyd Thermal $9.5B</a></li>
+      <li><a href="https://www.financecharts.com/stocks/ETN/value/pe-ratio" target="_blank">FinanceCharts - ETN Historical PE Ratio</a></li>
+      <li><a href="https://www.macrotrends.net/stocks/charts/ETN/eaton/pe-ratio" target="_blank">MacroTrends - ETN PE Ratio Historical</a></li>
+      <li><a href="https://techblog.comsoc.org/2025/12/22/hyperscaler-capex-600-bn-in-2026-a-36-increase-over-2025-while-global-spending-on-cloud-infrastructure-services-skyrockets/" target="_blank">IEEE ComSoc - Hyperscaler CapEx $600B 2026</a></li>
+      <li><a href="https://www.ainvest.com/news/eaton-2026-growth-trajectory-capitalizing-ai-grid-super-cycle-2602/" target="_blank">AInvest - Eaton 2026 Growth Trajectory</a></li>
+      <li><a href="https://equityanalysiseng.substack.com/p/data-centers-power-crisis-meets-execution" target="_blank">Equity Analysis - Eaton Data Center Strategy</a></li>
+      <li style="color:#6080a0; margin-top:8px;">分析生成时间：2026-03-24 | 数据截至：2026-03-24 | 研报类型：价值投资深度分析</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const C_DARK='#0a0e1a',C_GRID='#1e2740',C_TEXT='#6080a0';
+const C_BLUE='#4a9eff',C_GREEN='#30c888',C_YELLOW='#f0a830',C_RED='#e05050';
+Chart.defaults.color=C_TEXT;Chart.defaults.font.family="'Segoe UI',-apple-system,sans-serif";Chart.defaults.font.size=11;
+
+// Segment Pie
+new Chart(document.getElementById('segmentPie'),{
+  type:'doughnut',
+  data:{labels:['Electrical Americas','Electrical Global','Aerospace','Vehicle','eMobility'],
+    datasets:[{data:[12680,6950,4110,2570,627],backgroundColor:[C_BLUE,C_GREEN,C_YELLOW,C_RED,'#a040ff'],borderColor:C_DARK,borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{padding:10,font:{size:10}}},
+      tooltip:{callbacks:{label:ctx=>' '+ctx.label+': $'+(ctx.raw/1000).toFixed(1)+'B ('+(ctx.raw/26937*100).toFixed(1)+'%)'}}}}
+});
+
+// Segment Growth
+new Chart(document.getElementById('segmentGrowth'),{
+  type:'bar',
+  data:{labels:['Elec Americas','Elec Global','Aerospace','Vehicle','eMobility'],
+    datasets:[{label:'YoY增速(%)',data:[13.2,9.3,12.0,-10.5,-7.7],
+      backgroundColor:[C_GREEN,C_GREEN,C_GREEN,C_RED,C_RED],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>v+'%'}},x:{grid:{color:C_GRID}}}}
+});
+
+// Quarterly Revenue
+new Chart(document.getElementById('quarterlyRevenue'),{
+  type:'bar',
+  data:{labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
+    datasets:[
+      {label:'营收（M）',data:[6345,6240,6377,7028,6988,7055],backgroundColor:C_BLUE+'cc',yAxisID:'y',borderRadius:4},
+      {label:'YoY(%)',data:[7.5,7.0,7.4,13.5,10.1,13.1],type:'line',borderColor:C_GREEN,pointBackgroundColor:C_GREEN,yAxisID:'y1',tension:0.3,borderWidth:2}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{padding:10}}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>'$'+(v/1000).toFixed(1)+'B'},min:5500},
+      y1:{position:'right',grid:{display:false},ticks:{callback:v=>v+'%'}},
+      x:{grid:{color:C_GRID}}}}
+});
+
+// Margin Trend
+new Chart(document.getElementById('marginTrend'),{
+  type:'line',
+  data:{labels:['FY2022','FY2023','FY2024','FY2025'],
+    datasets:[
+      {label:'毛利率',data:[33.19,36.36,38.20,37.59],borderColor:C_BLUE,pointBackgroundColor:C_BLUE,tension:0.3,borderWidth:2},
+      {label:'营业利润率',data:[14.43,16.75,18.62,18.98],borderColor:C_GREEN,pointBackgroundColor:C_GREEN,tension:0.3,borderWidth:2},
+      {label:'净利率',data:[11.88,13.89,15.27,14.90],borderColor:C_YELLOW,pointBackgroundColor:C_YELLOW,tension:0.3,borderWidth:2}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{padding:10}}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>v+'%'},min:0},x:{grid:{color:C_GRID}}}}
+});
+
+// Annual Financials
+new Chart(document.getElementById('annualFinancials'),{
+  type:'bar',
+  data:{labels:['FY2022','FY2023','FY2024','FY2025'],
+    datasets:[
+      {label:'营收（B）',data:[20.75,23.20,24.88,27.45],backgroundColor:C_BLUE+'cc',borderRadius:4},
+      {label:'净利润（B）',data:[2.46,3.22,3.79,4.09],backgroundColor:C_GREEN+'cc',borderRadius:4}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{padding:10}}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>'$'+v+'B'}},x:{grid:{color:C_GRID}}}}
+});
+
+// FCF Trend
+new Chart(document.getElementById('fcfTrend'),{
+  type:'bar',
+  data:{labels:['FY2022','FY2023','FY2024','FY2025'],
+    datasets:[{label:'FCF（B）',data:[1.935,2.867,3.519,3.553],
+      backgroundColor:[C_GREEN+'88',C_GREEN+'aa',C_GREEN+'cc',C_GREEN],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>'$'+v+'B'},min:0},x:{grid:{color:C_GRID}}}}
+});
+
+// Hyperscaler CapEx
+new Chart(document.getElementById('hyperCapex'),{
+  type:'bar',
+  data:{labels:['2024A','2025E','2026E'],
+    datasets:[
+      {label:'Amazon AWS',data:[65,88,110],backgroundColor:C_YELLOW+'cc',borderRadius:3},
+      {label:'Microsoft Azure',data:[56,80,100],backgroundColor:C_BLUE+'cc',borderRadius:3},
+      {label:'Google/GCP',data:[52,75,90],backgroundColor:C_GREEN+'cc',borderRadius:3},
+      {label:'Meta',data:[37,65,80],backgroundColor:C_RED+'cc',borderRadius:3}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{padding:10}}},
+    scales:{x:{stacked:true,grid:{color:C_GRID}},y:{stacked:true,grid:{color:C_GRID},ticks:{callback:v=>'$'+v+'B'}}}}
+});
+
+// Comp PE
+new Chart(document.getElementById('compPE'),{
+  type:'bar',
+  data:{labels:['ETN','VRT','ABB','EMR','HUBB'],
+    datasets:[{label:'TTM P/E',data:[34.4,38,22,25,20],
+      backgroundColor:[C_BLUE,C_YELLOW,C_GREEN,C_GREEN,C_GREEN],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>v+'x'}},x:{grid:{color:C_GRID}}}}
+});
+
+// Comp Margin
+new Chart(document.getElementById('compMargin'),{
+  type:'bar',
+  data:{labels:['ETN','VRT','ABB','EMR','HUBB'],
+    datasets:[{label:'营业利润率(%)',data:[19.0,13.5,16.5,22.0,20.0],
+      backgroundColor:[C_GREEN,C_YELLOW,C_YELLOW,C_GREEN,C_GREEN],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>v+'%'}},x:{grid:{color:C_GRID}}}}
+});
+
+// Historical PE
+new Chart(document.getElementById('historicalPE'),{
+  type:'line',
+  data:{labels:['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'],
+    datasets:[
+      {label:'TTM P/E',data:[18,21,14,19,22,32,21,25,28,30,34.4],borderColor:C_BLUE,pointBackgroundColor:C_BLUE,tension:0.3,borderWidth:2},
+      {label:'5年均值(31x)',data:[null,null,null,null,null,31,31,31,31,31,31],borderColor:C_GREEN,borderDash:[5,5],tension:0,borderWidth:1.5,pointRadius:0},
+      {label:'10年均值(24x)',data:[24,24,24,24,24,24,24,24,24,24,24],borderColor:C_YELLOW,borderDash:[3,3],tension:0,borderWidth:1.5,pointRadius:0}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{padding:10}}},
+    scales:{y:{grid:{color:C_GRID},ticks:{callback:v=>v+'x'}},x:{grid:{color:C_GRID}}}}
+});
+
+// DCF Horizontal Bar
+new Chart(document.getElementById('dcfChart'),{
+  type:'bar',
+  data:{labels:['DCF保守','DCF中性','DCF乐观','DCF加权均值','当前股价','综合目标价','分析师共识'],
+    datasets:[{label:'价格（美元）',data:[235,414,761,447,359.74,390,396],
+      backgroundColor:[C_RED,C_YELLOW,C_GREEN,C_BLUE,'#888888',C_GREEN+'cc','#a040ff'],borderRadius:4}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toFixed(2)}}},
+    scales:{x:{grid:{color:C_GRID},ticks:{callback:v=>'$'+v},min:0,max:850},y:{grid:{color:C_GRID}}}}
+});
+</script>
+</body>
+</html>

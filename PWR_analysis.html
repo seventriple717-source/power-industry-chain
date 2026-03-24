@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PWR Quanta Services | 价值投资深度分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--card2:#1a2235;--blue:#3b82f6;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--purple:#8b5cf6;--t1:#f1f5f9;--t2:#94a3b8;--t3:#64748b;--bdr:#1e293b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#0a0e1a 0%,#0f1928 40%,#0d1a2e 70%,#0a1520 100%);border-bottom:1px solid var(--bdr);padding:60px 40px 50px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(59,130,246,.08),transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(16,185,129,.05),transparent 50%)}
+.hi{max-width:1200px;margin:0 auto;position:relative}
+.tag{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+h1{font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+h1 .tk{color:var(--blue)}
+.sub{font-size:16px;color:var(--t2);margin-bottom:30px}
+.meta{display:flex;gap:30px;flex-wrap:wrap}
+.mi .lb{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.mi .vl{font-size:20px;font-weight:700}
+.mi .ch{font-size:13px}
+.ch.up{color:var(--green)}.ch.nt{color:var(--yellow)}
+.rb{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:10px 20px;margin-top:20px}
+.rl{font-size:22px;font-weight:800;color:var(--yellow)}
+.rt{font-size:13px;color:var(--t2)}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+.sec{margin-bottom:48px}
+.st{font-size:20px;font-weight:700;border-left:3px solid var(--blue);padding-left:12px;margin-bottom:20px}
+.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.kc{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:20px 16px}
+.kc .kl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kc .kv{font-size:22px;font-weight:700}
+.kc .ks{font-size:12px;color:var(--t2);margin-top:4px}
+.kc.bl .kv{color:var(--blue)}.kc.gr .kv{color:var(--green)}.kc.yl .kv{color:var(--yellow)}.kc.pu .kv{color:var(--purple)}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:24px}
+.card2{background:var(--card2);border:1px solid var(--bdr);border-radius:10px;padding:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.cc{position:relative;height:280px}
+.ccs{position:relative;height:220px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(59,130,246,.08);color:var(--t2);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--bdr);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 12px;border-bottom:1px solid rgba(30,41,59,.5);color:var(--t1)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(59,130,246,.03)}
+td.g{color:var(--green);font-weight:600}td.r{color:var(--red);font-weight:600}td.y{color:var(--yellow);font-weight:600}td.b{color:var(--blue);font-weight:600}td.bld{font-weight:700}
+.mi2{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr)}
+.mi2:last-child{border-bottom:none}
+.mn{flex:1;font-size:14px}
+.mbw{flex:2;background:rgba(255,255,255,.05);border-radius:4px;height:8px}
+.mb{height:8px;border-radius:4px}
+.ms{width:40px;text-align:right;font-weight:700;font-size:14px}
+.fc{border-radius:12px;padding:24px;border:1px solid}
+.fc.gr{background:rgba(16,185,129,.05);border-color:rgba(16,185,129,.2)}
+.fc.yl{background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2)}
+.fc.rd{background:rgba(239,68,68,.05);border-color:rgba(239,68,68,.2)}
+.ft{font-size:15px;font-weight:700;margin-bottom:8px}
+.fv{font-size:24px;font-weight:800;margin-bottom:12px}
+.fc.gr .fv{color:var(--green)}.fc.yl .fv{color:var(--yellow)}.fc.rd .fv{color:var(--red)}
+.fd{font-size:13px;color:var(--t2);line-height:1.6}
+.fi{display:flex;gap:8px;margin-bottom:6px;font-size:13px}
+.fck{color:var(--green)}.fcr{color:var(--red)}
+.rc{border-radius:10px;padding:18px;margin-bottom:12px}
+.rh{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2)}
+.rm{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2)}
+.rtl{font-weight:700;margin-bottom:6px;font-size:14px}
+.rh .rtl{color:var(--red)}.rm .rtl{color:var(--yellow)}
+.rb2{font-size:13px;color:var(--t2)}
+.ci{padding:14px 0;border-bottom:1px solid var(--bdr)}
+.ci:last-child{border-bottom:none}
+.cl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin-bottom:4px}
+.ct{font-size:14px}
+.vr{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--bdr)}
+.vr:last-child{border-bottom:none}
+.vm{font-size:13px;color:var(--t2);flex:2}
+.vp{font-size:20px;font-weight:700;flex:1}
+.vb{font-size:11px;padding:3px 8px;border-radius:4px}
+.vbp{background:rgba(59,130,246,.2);color:var(--blue)}
+.vbs{background:rgba(100,116,139,.2);color:var(--t2)}
+.pl{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.pg{background:rgba(16,185,129,.15);color:var(--green)}
+.py{background:rgba(245,158,11,.15);color:var(--yellow)}
+.pr{background:rgba(239,68,68,.15);color:var(--red)}
+.sb{height:32px;display:flex;border-radius:8px;overflow:hidden;margin:12px 0}
+.si{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.info{padding:14px;border-radius:8px;font-size:13px;color:var(--t2);margin-top:16px}
+.info-b{background:rgba(59,130,246,.06)}
+.info-y{background:rgba(245,158,11,.06)}
+.info-g{background:rgba(16,185,129,.06)}
+footer{background:var(--card);border-top:1px solid var(--bdr);padding:30px 40px;margin-top:40px}
+.fi2{max-width:1200px;margin:0 auto}
+footer p{font-size:12px;color:var(--t3);margin-bottom:4px}
+@media(max-width:768px){.two,.three{grid-template-columns:1fr}.hero{padding:40px 20px}.kg{grid-template-columns:repeat(2,1fr)}.meta{gap:16px}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="hi">
+<div class="tag">&#9889; 价值投资深度研究 &middot; 2026-03-24</div>
+<h1><span class="tk">PWR</span> Quanta Services Inc</h1>
+<div class="sub">北美电力基础设施超级承包商 | AI数据中心+电网升级最大受益者 | NYSE &middot; 工程与建设行业</div>
+<div class="meta">
+<div class="mi"><div class="lb">当前股价</div><div class="vl">$563.16</div><div class="ch up">52W: $226.91&#8211;$583.73</div></div>
+<div class="mi"><div class="lb">市值</div><div class="vl">$83.1B</div><div class="ch nt">FY2025营收 $28.5B</div></div>
+<div class="mi"><div class="lb">FWD PE</div><div class="vl">42.0x</div><div class="ch nt">TTM PE 81.9x</div></div>
+<div class="mi"><div class="lb">EV/EBITDA</div><div class="vl">34.8x TTM</div><div class="ch nt">FWD ~26.6x</div></div>
+<div class="mi"><div class="lb">积压订单</div><div class="vl">$44.0B</div><div class="ch up">历史最高 &middot; 1.5年营收覆盖</div></div>
+</div>
+<div class="rb">
+<span style="font-size:28px">&#128993;</span>
+<div>
+<div class="rl">HOLD 持有</div>
+<div class="rt">12个月目标价 $530&#8211;$600 | 中心 $566 | EV/EBITDA主方法 | 卓越公司，估值已合理定价</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="container">
+
+<div class="sec">
+<div class="st">核心财务指标 &middot; FY2025实际</div>
+<div class="kg">
+<div class="kc bl"><div class="kl">FY2025 营收</div><div class="kv">$28.5B</div><div class="ks">YoY +20.3%</div></div>
+<div class="kc gr"><div class="kl">Adj. EBITDA</div><div class="kv">~$2.8B</div><div class="ks">margin ~9.8%</div></div>
+<div class="kc yl"><div class="kl">Adj. EPS</div><div class="kv">$10.75</div><div class="ks">GAAP EPS $6.82</div></div>
+<div class="kc"><div class="kl">毛利率</div><div class="kv">15.0%</div><div class="ks">FY2024: 14.8%</div></div>
+<div class="kc"><div class="kl">营业利润率</div><div class="kv">5.7%</div><div class="ks">Q4FY25: 6.2%</div></div>
+<div class="kc"><div class="kl">净利率</div><div class="kv">3.6%</div><div class="ks">Adj. ~5.7%</div></div>
+<div class="kc gr"><div class="kl">自由现金流</div><div class="kv">$1.62B</div><div class="ks">FCF margin 5.7%</div></div>
+<div class="kc bl"><div class="kl">FY2026E 营收指引</div><div class="kv">$33.5B</div><div class="ks">+17.7% | 超预期+7.5%</div></div>
+<div class="kc yl"><div class="kl">FY2026E Adj.EPS</div><div class="kv">$13.00</div><div class="ks">+21% YoY</div></div>
+<div class="kc pu"><div class="kl">积压订单</div><div class="kv">$44.0B</div><div class="ks">覆盖FY2026指引131%</div></div>
+<div class="kc"><div class="kl">ROE</div><div class="kv">11.5%</div><div class="ks">股东权益 $8.94B</div></div>
+<div class="kc"><div class="kl">Beta / 机构持股</div><div class="kv">1.11</div><div class="ks">机构持股 95.9%</div></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">商业模式与分部结构</div>
+<div class="two">
+<div class="card">
+<h3 style="font-size:15px;margin-bottom:16px;color:var(--t2)">分部收入结构 &middot; FY2025</h3>
+<div class="sb">
+<div class="si" style="flex:80.8;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white">Electric 81%</div>
+<div class="si" style="flex:19.2;background:linear-gradient(135deg,#10b981,#059669);color:white">U&amp;I 19%</div>
+</div>
+<table style="margin-top:12px">
+<thead><tr><th>分部</th><th>FY2025营收</th><th>占比</th><th>YoY</th></tr></thead>
+<tbody>
+<tr><td class="bld">Electric（电力+可再生能源）</td><td class="b">$23.0B</td><td>81%</td><td class="g">+21%</td></tr>
+<tr><td class="bld">Underground &amp; Infrastructure</td><td class="b">$5.5B</td><td>19%</td><td class="g">+17.5%</td></tr>
+<tr style="background:rgba(59,130,246,.05)"><td class="bld">合计</td><td class="b">$28.5B</td><td>100%</td><td class="g">+20.3%</td></tr>
+</tbody>
+</table>
+<div class="info info-b">
+<strong style="color:var(--blue)">子分部细分：</strong>Electric分部内含传统Electric Power（~$11B）和Renewable Energy（~$9B），2021年以来Renewable CAGR +63%，是最快增长引擎。
+</div>
+</div>
+<div class="card">
+<h3 style="font-size:15px;margin-bottom:16px;color:var(--t2)">商业模式特征</h3>
+<table>
+<thead><tr><th>维度</th><th>特征</th><th>评分</th></tr></thead>
+<tbody>
+<tr><td>主服务协议(MSA)</td><td>~80%收入有框架合同覆盖</td><td class="g">高可预测</td></tr>
+<tr><td>成本加成合同</td><td>35-40%，通胀可传导</td><td class="g">强定价权</td></tr>
+<tr><td>单价合同</td><td>~30%，年度/周期提价</td><td class="y">中等定价权</td></tr>
+<tr><td>固定价格合同</td><td>~30%，成本超支风险自担</td><td class="r">暴露风险</td></tr>
+<tr><td>积压订单覆盖</td><td>$44B = 1.5倍FY2026指引</td><td class="g">极高能见度</td></tr>
+<tr><td>MSA续约率</td><td>&gt;85%（行业估算）</td><td class="g">高粘性</td></tr>
+</tbody>
+</table>
+<div class="info info-y">
+<strong style="color:var(--yellow)">叙事与数字的分歧：</strong>管理层强调"80%可重复性收入"，但FY2025 GAAP营业利润率仅5.66%，而Adj.EBITDA margin 9.8%——差距4.1pp来自并购摊销+SBC。账面可重复性并不等于高质量可重复利润。
+</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">财务趋势分析</div>
+<div class="two">
+<div class="card"><h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">年度营收增长 (FY2021&#8211;FY2026E)</h3><div class="cc"><canvas id="revenueChart"></canvas></div></div>
+<div class="card"><h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">利润率趋势 (FY2021&#8211;FY2025)</h3><div class="cc"><canvas id="marginChart"></canvas></div></div>
+</div>
+<div class="two" style="margin-top:20px">
+<div class="card"><h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">季度营收趋势 (近8季度)</h3><div class="cc"><canvas id="quarterlyChart"></canvas></div></div>
+<div class="card"><h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">Adj.EPS增长趋势 (FY2021&#8211;FY2026E)</h3><div class="cc"><canvas id="epsChart"></canvas></div></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">增长驱动力 &middot; 电力基础设施超级周期</div>
+<div class="three">
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#9889;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--blue)">AI数据中心电力需求</div><div style="font-size:13px;color:var(--t2);line-height:1.7">美国数据中心电力需求2025年75.8 GW&#8594;2030年134.4 GW（+77%）。2 TW容量滞留并网申请队列，输电瓶颈成为数据中心扩张核心制约。PWR已切入100MW+超大型园区高压接入，占业务约10%并快速增长。</div></div>
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#128267;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--green)">电网老化更新超级周期</div><div style="font-size:13px;color:var(--t2);line-height:1.7">31%输电基础设施、46%配电基础设施已接近使用寿命。支撑可再生能源并网，输电容量需扩张60%。IOUs资本支出2025年$2,079亿（较2020年+49%），未来5年累计超$1.1万亿。</div></div>
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#127807;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--purple)">IRA可再生能源并网</div><div style="font-size:13px;color:var(--t2);line-height:1.7">IRA $3690亿清洁能源税收抵免驱动风电/光伏装机激增。PWR Renewable Energy分部FY2021&#8594;FY2024 CAGR +63%（$1.8B&#8594;$7.8B），是最强增速引擎。</div></div>
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#127959;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--yellow)">IIJA联邦基建法案</div><div style="font-size:13px;color:var(--t2);line-height:1.7">IIJA $1.2万亿持续释放，FERC Order 1920强制输电规划改革。全行业能源基础设施投资需求2025-2030年约$1.4万亿，是前10年的2倍。</div></div>
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#127981;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--blue)">自建变压器工厂（未被定价）</div><div style="font-size:13px;color:var(--t2);line-height:1.7">$600M自建变压器工厂：绕开18-24个月供应瓶颈，在超高压项目中获得竞争对手无法匹配的交付确定性。市场视为资本支出负担，实为战略护城河。</div></div>
+<div class="card2"><div style="font-size:28px;margin-bottom:12px">&#128279;</div><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--green)">数据中心端到端总包</div><div style="font-size:13px;color:var(--t2);line-height:1.7">Q4FY2025三项并购（$1.73B，含Cupertino Electric）构建高压输电&#8594;变电站&#8594;园区配电全链路能力。端到端总包模式应享有集成商溢价（P/S 4-5x vs 当前3x）。</div></div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">竞争格局 &middot; 与同行对比</div>
+<div class="card">
+<table>
+<thead><tr><th>指标</th><th>PWR (Quanta)</th><th>EME (EMCOR)</th><th>MTZ (MasTec)</th><th>PRIM (Primoris)</th><th>趋势</th></tr></thead>
+<tbody>
+<tr><td class="bld">FY2025营收</td><td class="b bld">$28.5B</td><td>$17.0B</td><td>$14.3B</td><td>$7.6B</td><td class="g">&#8593; PWR持续扩大领先</td></tr>
+<tr><td class="bld">营收增速</td><td class="b bld">+20.3%</td><td>+16.6%</td><td>+16.2%</td><td>+19.0%</td><td class="g">&#8593; PWR领先</td></tr>
+<tr><td class="bld">毛利率</td><td>15.0%</td><td class="g bld">19.3%</td><td>N/A</td><td>10.7%</td><td class="y">EME利润结构优于PWR</td></tr>
+<tr><td class="bld">营业利润率</td><td>5.7%</td><td class="g bld">10.1%</td><td>N/A</td><td>5.4%</td><td class="y">EME优势稳定</td></tr>
+<tr><td class="bld">净利率</td><td>3.6%</td><td class="g bld">7.5%</td><td>2.8%</td><td>3.6%</td><td class="y">承包商行业整体偏薄</td></tr>
+<tr><td class="bld">ROE</td><td>11.5%</td><td class="g bld">34.6%</td><td>12.2%</td><td>16.4%</td><td class="y">EME资本效率最高</td></tr>
+<tr><td class="bld">Backlog/营收</td><td class="b bld">1.3x</td><td>~0.4x</td><td>~0.8x</td><td>~0.6x</td><td class="g">&#8593; PWR能见度遥遥领先</td></tr>
+<tr><td class="bld">FWD EV/EBITDA</td><td class="r bld">~37x TTM</td><td>~18x</td><td>~20x</td><td>~12x</td><td class="r">&#8595; PWR估值溢价最高</td></tr>
+</tbody>
+</table>
+<div class="info info-b">
+<strong style="color:var(--blue)">竞争格局判断：</strong>PWR在北美电力基础设施承包的竞争地位正在<strong>巩固并加速扩大</strong>。AI数据中心100MW+单体项目和超高压输电走廊改造的体量要求，将订单集中至PWR这类超大型承包商。核心风险不是竞争对手追赶，而是自身高估值带来的预期风险。
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">巴菲特护城河评分卡</div>
+<div class="two">
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">五维度护城河评分 &middot; 综合 8/10</h3>
+<div class="mi2"><div class="mn">规模优势 &middot; 不可复制的项目门槛</div><div class="mbw"><div class="mb" style="width:90%;background:var(--blue)"></div></div><div class="ms" style="color:var(--blue)">9/10</div></div>
+<div class="mi2"><div class="mn">稀缺劳动力储备 &middot; 15万专业技工</div><div class="mbw"><div class="mb" style="width:90%;background:var(--green)"></div></div><div class="ms" style="color:var(--green)">9/10</div></div>
+<div class="mi2"><div class="mn">长期合同与客户粘性 &middot; MSA框架</div><div class="mbw"><div class="mb" style="width:80%;background:var(--blue)"></div></div><div class="ms" style="color:var(--blue)">8/10</div></div>
+<div class="mi2"><div class="mn">准入壁垒 &middot; 联邦资质+安全认证</div><div class="mbw"><div class="mb" style="width:80%;background:var(--purple)"></div></div><div class="ms" style="color:var(--purple)">8/10</div></div>
+<div class="mi2"><div class="mn">地理覆盖网络 &middot; 全美+加+澳</div><div class="mbw"><div class="mb" style="width:70%;background:var(--yellow)"></div></div><div class="ms" style="color:var(--yellow)">7/10</div></div>
+<div class="mi2"><div class="mn">品牌声誉 &middot; 50年以上行业声誉</div><div class="mbw"><div class="mb" style="width:70%;background:var(--yellow)"></div></div><div class="ms" style="color:var(--yellow)">7/10</div></div>
+</div>
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">护城河真实性检验</h3>
+<div style="font-size:13px;color:var(--t2);line-height:1.8">
+<p style="margin-bottom:12px"><strong style="color:var(--blue)">规模优势（反驳）：</strong>EME毛利率19.3%比PWR高4.3pp，规模却更小。PWR规模优势的真正价值在于"项目规模门槛"——$5亿+超大型输电项目只有PWR具备承接能力，竞争对手无法参与投标。</p>
+<p style="margin-bottom:12px"><strong style="color:var(--green)">切换成本（检验）：</strong>MSA合同平均续约率>90%，换承包商需6-12个月安全资质审查。但这是"惰性切换成本"而非技术锁定——若执行质量下滑，大客户最终会转移。</p>
+<p style="margin-bottom:12px"><strong style="color:var(--yellow)">劳动力护城河：</strong>美国每年电力技工缺口约7万人，PWR内部培训体系形成"自我强化"循环。FY2022毛利率曾降至14.1%印证通胀风险，但PWR已通过合同条款对冲。</p>
+<p><strong style="color:var(--purple)">AI颠覆威胁：</strong>低——高压线路架设、变压器安装等高度依赖人工技能，机器人替代10年内不会实质威胁。</p>
+<div class="info info-g" style="margin-top:16px"><strong style="color:var(--green)">综合判断：护城河评级 8/10。</strong>最大风险是"护城河被高价买入"——当前EV/EBITDA 37x已充分定价所有护城河溢价。</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">霍华德·马克斯周期分析</div>
+<div class="two">
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">行业周期定位 &middot; 扩张中期</h3>
+<table>
+<thead><tr><th>指标</th><th>当前值</th><th>历史区间</th><th>分位</th></tr></thead>
+<tbody>
+<tr><td>FWD PE（Adj.EPS基础）</td><td>42.0x</td><td>12x&#8211;55x</td><td class="r">~80分位</td></tr>
+<tr><td>EV/EBITDA (TTM)</td><td>34.8x</td><td>8x&#8211;40x</td><td class="r">~85分位</td></tr>
+<tr><td>P/S (TTM)</td><td>2.9x</td><td>0.5x&#8211;4x</td><td class="y">~70分位</td></tr>
+<tr><td>P/B</td><td>9.3x</td><td>1.5x&#8211;12x</td><td class="y">~70分位</td></tr>
+<tr><td>营收YoY增速</td><td>+20.3%</td><td>-10%~+35%</td><td class="g">超级周期加速段</td></tr>
+<tr><td>Backlog/Revenue</td><td>1.55x</td><td>0.6x&#8211;1.6x</td><td class="g">历史最高</td></tr>
+</tbody>
+</table>
+<div class="info info-y"><strong style="color:var(--yellow)">周期判断：</strong>电力基础设施行业处于扩张中期，估值已充分定价超级周期预期。繁荣期情绪乐观，市场给予历史高位倍数。马克斯理论：繁荣期"钟摆已摆向右侧"，需要估值安全边际保护。</div>
+</div>
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">主要尾部风险</h3>
+<div class="rc rh"><div class="rtl">&#9888;&#65039; 固定价格合同+关税黑洞（市场低估）</div><div class="rb2">约40-50%固定价格合同，铜价+25%、钢铝关税15-20%，若10%收入敞口材料成本超支15%，GAAP净利润可下滑40%，EPS降至$6.5以下。净利率3.6%几乎无缓冲。<br><strong>概率：中高 | 影响：高</strong></div></div>
+<div class="rc rm" style="margin-top:10px"><div class="rtl">&#128308; 并购消化失败引发商誉减值</div><div class="rb2">FY2025 Q4三项并购耗资$1.73B，建筑工程并购文化整合失败率>30%，一次大型减值可将GAAP净利润推入负值，触发信贷条款。<br><strong>概率：中 | 影响：高</strong></div></div>
+<div class="rc rm" style="margin-top:10px"><div class="rtl">&#128993; IRA政策逆转风险</div><div class="rb2">可再生能源分部~$9B（占比32%），若大幅削减IRA税收抵免，新签订单将骤降。<br><strong>概率：15-20% | 股价冲击：-15%至-25%</strong></div></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">三大框架估值 &middot; 综合结论</div>
+<div class="three" style="margin-bottom:20px">
+<div class="fc rd">
+<div class="ft">&#128308; 格雷厄姆估值</div>
+<div class="fv">低于安全边际</div>
+<div class="fd">
+<p style="margin-bottom:8px"><strong>Graham Number = &#8730;(22.5&times;$6.82&times;$59.76) = $95.7</strong>，当前价$563远超安全价格，溢价488%。</p>
+<div class="fi"><span class="fcr">&#10007;</span> 市盈率&gt;15x（TTM GAAP PE 81.9x）</div>
+<div class="fi"><span class="fcr">&#10007;</span> 市净率&gt;1.5x（P/B 9.3x）</div>
+<div class="fi"><span class="fcr">&#10007;</span> PE&times;PB&gt;22.5（实际760x）</div>
+<div class="fi"><span class="fck">&#10003;</span> 净债务极低（LT Debt ~$0）</div>
+<div class="fi"><span class="fck">&#10003;</span> 持续盈利（5年无亏损）</div>
+<div class="fi"><span class="fcr">&#10007;</span> 股息率极低（0.07%）</div>
+<p style="margin-top:10px;color:var(--t3);font-size:12px">注：格雷厄姆体系不适用于高增速/专业服务类公司。</p>
+</div>
+</div>
+<div class="fc yl">
+<div class="ft">&#128993; 巴菲特护城河</div>
+<div class="fv">护城河强，但价贵</div>
+<div class="fd">
+<p style="margin-bottom:8px">护城河真实且稳固（8/10），但好公司被高价买入。</p>
+<div class="fi"><span class="fck">&#10003;</span> 规模壁垒不可复制（$5B+项目门槛）</div>
+<div class="fi"><span class="fck">&#10003;</span> 15万稀缺技术工人储备</div>
+<div class="fi"><span class="fck">&#10003;</span> MSA长期合同粘性（续约率>90%）</div>
+<div class="fi"><span class="fck">&#10003;</span> CEO内部成长，持股$3.9亿，利益一致</div>
+<div class="fi"><span class="fcr">&#10007;</span> Owner Earnings Yield仅2.0%（需要&#8805;7%）</div>
+<div class="fi"><span class="fcr">&#10007;</span> 毛利率结构性偏薄（15% vs EME 19%）</div>
+<p style="margin-top:10px;color:var(--t3);font-size:12px">OE Test：$1.68B OE / $83.1B市值 = 2.0%，低于无风险利率4.5%。</p>
+</div>
+</div>
+<div class="fc yl">
+<div class="ft">&#128993; 马克斯周期</div>
+<div class="fv">繁荣中期，谨慎</div>
+<div class="fd">
+<p style="margin-bottom:8px">电力基础设施超级周期扩张中期，估值处于历史高位。</p>
+<div class="fi"><span class="fck">&#10003;</span> 行业结构性顺风持续10年+</div>
+<div class="fi"><span class="fck">&#10003;</span> Backlog历史最高，收入能见度极强</div>
+<div class="fi"><span class="fcr">&#10007;</span> EV/EBITDA 85分位，情绪偏乐观</div>
+<div class="fi"><span class="fcr">&#10007;</span> 市场对DeepSeek式需求侧冲击定价不足</div>
+<div class="fi"><span class="fcr">&#10007;</span> 关税政策不确定性为尾部风险</div>
+<p style="margin-top:10px;color:var(--t3);font-size:12px">Rule of 40得分23.4（20.3%+5.7%），低于40分门槛。</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 style="font-size:15px;margin-bottom:16px;color:var(--t2)">估值方法汇总 &middot; Excel模型实际输出</h3>
+<div class="vr">
+<div class="vm"><strong>EV/EBITDA主方法</strong><br><span style="font-size:12px;color:var(--t3)">26.6x &times; FY2026E Adj.EBITDA $2.90B（WACC 9.1%，终端倍数15x）</span></div>
+<div class="vp" style="color:var(--blue)">$566</div>
+<div><span class="vb vbp">&#9733; 主方法</span></div>
+</div>
+<div class="vr">
+<div class="vm"><strong>Forward PE法</strong><br><span style="font-size:12px;color:var(--t3)">44x &times; FY2026E Adj.EPS $13.00</span></div>
+<div class="vp" style="color:var(--t2)">$572</div>
+<div><span class="vb vbs">参考</span></div>
+</div>
+<div class="vr">
+<div class="vm"><strong>DCF自由现金流折现</strong><br><span style="font-size:12px;color:var(--t3)">WACC 9.1%，终端增速3%，10年期</span></div>
+<div class="vp" style="color:var(--t2)">$434</div>
+<div><span class="vb vbs">参考（偏保守）</span></div>
+</div>
+<div class="vr">
+<div class="vm"><strong>P/S市销率</strong><br><span style="font-size:12px;color:var(--t3)">3.19x &times; FY2026E营收 $33.5B</span></div>
+<div class="vp" style="color:var(--t2)">$715</div>
+<div><span class="vb vbs">参考（偏乐观）</span></div>
+</div>
+<div class="vr">
+<div class="vm"><strong>分析师一致目标价</strong><br><span style="font-size:12px;color:var(--t3)">28家机构均值（Truist $643, Citi $640, Jefferies $634, JPMorgan $627）</span></div>
+<div class="vp" style="color:var(--yellow)">$580</div>
+<div><span class="vb vbs">卖方共识</span></div>
+</div>
+<div style="margin-top:16px;padding:16px;background:rgba(245,158,11,.06);border-radius:8px">
+<div style="font-size:14px;font-weight:700;color:var(--yellow);margin-bottom:8px">综合目标价：$530&#8211;$600（中心$566）</div>
+<div style="font-size:13px;color:var(--t2)"><strong>评级：Hold（持有）</strong>——卓越公司，但估值已合理定价超级周期。当前价$563.16，上行空间仅+0.5%。建议在$480&#8211;$500以下考虑建仓（EV/EBITDA降至~23x，提供15%安全边际）。</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">行业规模与增速预测</div>
+<div class="card">
+<table>
+<thead><tr><th>年份</th><th>美国IOUs资本支出</th><th>YoY增速</th><th>全球电力基础设施</th><th>数据来源</th></tr></thead>
+<tbody>
+<tr><td>2020（实际）</td><td>$1,398亿</td><td>基准年</td><td>~$2,200亿</td><td>Morningstar DBRS</td></tr>
+<tr><td>2023（实际）</td><td>~$1,700亿</td><td>~8%</td><td>~$2,700亿</td><td>EIA</td></tr>
+<tr><td>2024（实际）</td><td>~$1,900亿</td><td>~6%</td><td>~$2,843亿</td><td>公用事业资本支出披露</td></tr>
+<tr><td class="b">2025E</td><td class="b">$2,079亿</td><td class="g">+9-10%</td><td class="b">$2,843亿</td><td>Allied Market Research</td></tr>
+<tr><td class="b">2026E</td><td class="b">$2,270亿E</td><td class="g">+9%</td><td class="b">$3,037亿</td><td>Research and Markets</td></tr>
+<tr><td class="b">2030E</td><td class="b">$2,600亿E</td><td class="g">CAGR ~5%</td><td>~$3,800亿</td><td>Power Magazine</td></tr>
+</tbody>
+</table>
+<div style="margin-top:12px;font-size:12px;color:var(--t3)">补充：未来5年（2025-2029）IOUs累计电网投入超$1.1万亿 | 美国智能电网市场2025年$209亿&#8594;2034年$773亿（CAGR 14.86%）</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">管理层与内部人信号</div>
+<div class="two">
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">核心管理层</h3>
+<table>
+<thead><tr><th>高管</th><th>职位</th><th>持股</th><th>占股本</th></tr></thead>
+<tbody>
+<tr><td class="bld">Duke Austin</td><td>CEO（任职9年+）</td><td>~727,102股</td><td class="g">~0.49%（$3.9亿）</td></tr>
+<tr><td class="bld">Jayshree Desai</td><td>CFO</td><td>~61,037股</td><td>~0.04%</td></tr>
+</tbody>
+</table>
+<div class="info info-g">
+<strong style="color:var(--green)">内部人信号：积极</strong>——CEO Austin通过PSU归属净增持+57,952股（2026年2月），CFO净增持+10,207股。无主动减持记录。利益高度一致。
+</div>
+</div>
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">人均效率对比</h3>
+<table>
+<thead><tr><th>指标</th><th>PWR</th><th>MYR Global</th><th>MasTec</th></tr></thead>
+<tbody>
+<tr><td>Glassdoor评分</td><td class="g">3.5-3.8/5</td><td>~3.5/5</td><td>~3.4/5</td></tr>
+<tr><td>推荐率</td><td class="g">72%</td><td>~65%</td><td>~60%</td></tr>
+<tr><td>薪酬满意度</td><td class="g">4.2/5</td><td>3.8/5</td><td>3.7/5</td></tr>
+<tr><td>人均营收</td><td class="b bld">$419K</td><td>$280K</td><td>$310K</td></tr>
+</tbody>
+</table>
+<div style="margin-top:12px;font-size:12px;color:var(--t3)">人均营收$419K远超同行（$280-310K），体现高端电力工程定价权和劳动生产率领先优势。</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">核心催化剂</div>
+<div class="two">
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:12px">正向催化剂</h3>
+<div class="ci"><div class="cl">近期（0-3个月）</div><div class="ct"><strong>2026年3月31日投资者日（纽约）</strong>——管理层更新长期财务目标，历史单日影响5-10%；若公布$40B+营收远景将进一步拉开竞争差距。</div></div>
+<div class="ci"><div class="cl">中期（3-12个月）</div><div class="ct"><strong>Q1 FY2026财报（2026年5月初）</strong>——$33.5B全年指引首季度验证，若季度营收达$7.8-8.0B（YoY +25%），确认加速趋势。</div></div>
+<div class="ci"><div class="cl">隐藏催化剂（市场未定价）</div><div class="ct"><strong>$600M自建变压器工厂：</strong>市场视为资本支出负担，实为战略护城河，潜在溢价定价能力未纳入利润率假设。<br><br><strong>端到端总包模式重估：</strong>若市场将PWR从传统承包商重估为技术集成商，P/S从3x升至4-5x，股价可达$750+。</div></div>
+</div>
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:12px">反向催化剂</h3>
+<div class="rc rh"><div class="rtl">IRA补贴政策逆转</div><div class="rb2">概率15-20%，可再生能源分部~$9B营收敞口，股价冲击-15%至-25%。</div></div>
+<div class="rc rm" style="margin-top:10px"><div class="rtl">固定价格合同超支</div><div class="rb2">概率20-25%，铜/钢铝成本上涨超预期，单季度毛利率下压100-150bps，股价冲击-10%至-15%。</div></div>
+<div class="rc rm" style="margin-top:10px"><div class="rtl">AI资本支出预期下修</div><div class="rb2">概率15%，若重演DeepSeek式冲击，在高估值下放大幅度更大，股价冲击-20%至-30%。</div></div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">分析师评级 &middot; 卖方共识</div>
+<div class="two">
+<div class="card">
+<table>
+<thead><tr><th>机构</th><th>评级</th><th>目标价</th><th>核心论点</th></tr></thead>
+<tbody>
+<tr><td>Truist Financial</td><td class="g">买入</td><td class="b">$643</td><td>电网超级周期+AI数据中心拉动</td></tr>
+<tr><td>Citigroup</td><td class="g">买入</td><td class="b">$640</td><td>能源基础设施支出长期加速</td></tr>
+<tr><td>Jefferies</td><td class="g">买入</td><td class="b">$634</td><td>电气化+数据中心主题，FY2026超预期</td></tr>
+<tr><td>JPMorgan</td><td class="g">买入</td><td class="b">$627</td><td>电力基础设施需求持续</td></tr>
+<tr><td>Robert W. Baird</td><td class="g">买入</td><td class="b">$606</td><td>长期合同可见性强，利润率扩张</td></tr>
+<tr><td><strong>华尔街均值（28家）</strong></td><td class="g bld">买入</td><td class="b bld">$580</td><td>买入19家/持有10家/卖出1家</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<h3 style="font-size:14px;color:var(--t2);margin-bottom:16px">评级分布</h3>
+<div class="ccs"><canvas id="ratingChart"></canvas></div>
+<div style="margin-top:12px;font-size:13px;color:var(--t2)">
+<strong>买入19家（含强烈买入1家）/ 持有10家 / 卖出1家</strong><br>
+目标价区间：$428&#8211;$685，中位数$580，均值$579.74<br>
+<span style="color:var(--yellow)">买方本报告目标价$566略低于卖方共识$580，因采用更保守的EV/EBITDA倍数26.6x。</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">投资结论</div>
+<div class="card">
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+<div style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:16px 24px;text-align:center">
+<div style="font-size:28px;font-weight:800;color:var(--yellow)">HOLD</div>
+<div style="font-size:12px;color:var(--t3)">持有</div>
+</div>
+<div style="flex:1;min-width:200px">
+<div style="font-size:20px;font-weight:700;margin-bottom:4px">目标价 $566 <span style="font-size:14px;color:var(--t3)">（区间 $530&#8211;$600）</span></div>
+<div style="font-size:13px;color:var(--t2)">当前价 $563.16 | 上行空间 +0.5% | EV/EBITDA 主方法（26.6x &times; FY2026E EBITDA $2.90B）</div>
+<div style="margin-top:8px;font-size:13px;color:var(--yellow)">建议买入区间：$480&#8211;$500（EV/EBITDA ~23x，约15%安全边际）</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div>
+<div style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--green)">核心多方逻辑（5大支柱）</div>
+<div style="font-size:13px;color:var(--t2);line-height:1.9">
+<p><strong style="color:var(--t1)">1. $44B历史最高Backlog</strong>：覆盖FY2026指引131%，收入能见度为近年最高，AI数据中心业务约10%且快速增长。</p>
+<p><strong style="color:var(--t1)">2. FY2026指引大幅超预期</strong>：$33.5B超市场预期$31.2B约+7.5%，是大型工业企业中罕见的正向偏差。</p>
+<p><strong style="color:var(--t1)">3. 结构性超级周期（10年+）</strong>：电网老化+AI数据中心+IRA+IIJA四重驱动，PWR是最直接受益者。</p>
+<p><strong style="color:var(--t1)">4. 规模壁垒不可复制</strong>：$28.5B营收是第二名EME的1.7倍，15万技术工人，$5亿+超大型项目的唯一承接者。</p>
+<p><strong style="color:var(--t1)">5. 管理层执行顶尖</strong>：Adj.EBITDA 4年CAGR +25%，CEO持股$3.9亿，无主动减持记录。</p>
+</div>
+</div>
+<div>
+<div style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--red)">主要风险（3大制约）</div>
+<div style="font-size:13px;color:var(--t2);line-height:1.9">
+<p><strong style="color:var(--t1)">1. 估值安全边际薄</strong>：EV/EBITDA ~37x TTM处历史高位，若AI资本支出预期下修，倍数压缩至20x&#8594;股价约$460（-18%）。<span class="pl pr">概率：高</span></p>
+<p><strong style="color:var(--t1)">2. 关税+固定价格合同利润黑洞</strong>：铜/钢铝成本上涨+40-50%固定价格合同，净利率3.6%几乎无缓冲，材料成本超支15%可使EPS从$10.75降至$6.5以下。<span class="pl py">概率：中高</span></p>
+<p><strong style="color:var(--t1)">3. IRA政策执行风险</strong>：可再生能源分部~$9B（占比32%），若大幅削减IRA税收抵免，新签订单骤降。<span class="pl py">概率：15-20%</span></p>
+<div style="margin-top:12px;padding:12px;background:rgba(245,158,11,.06);border-radius:8px">
+<strong style="color:var(--yellow)">投资策略：</strong>当前$563价位上行下行基本对等，持有现有仓位。新建仓需等待$480&#8211;$500区间（EV/EBITDA 23x，15%安全边际），或等待情绪冲击后的买入窗口。
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="st">数据来源</div>
+<div class="card2">
+<div style="font-size:13px;color:var(--t3);line-height:2.2">
+<strong style="color:var(--t2)">财务数据：</strong>Alpha Vantage API（FY2025经审计年报，FY2025 Q1-Q4季报）| SEC EDGAR XBRL（分部收入数据）<br>
+<strong style="color:var(--t2)">市场数据：</strong>Alpha Vantage 日线股价数据（截至2026-03-24，收盘价$563.16）<br>
+<strong style="color:var(--t2)">分析师预期：</strong>Truist Financial / Citigroup / Jefferies / JPMorgan / Robert W. Baird（2026年2月最新）<br>
+<strong style="color:var(--t2)">行业数据：</strong>Allied Market Research | S&amp;P Global | Grid Strategies | EIA | Morningstar DBRS | Power Magazine<br>
+<strong style="color:var(--t2)">估值模型：</strong>deepresearch2.0skill pipeline Excel估值模型（EV/EBITDA主方法，WACC 9.14%，终端倍数15x，目标价$565.96）<br>
+<strong style="color:var(--t2)">报告日期：</strong>2026-03-24 | 分析师：Claude Sonnet 4.6（买方视角）<br>
+<strong style="color:var(--t2)">免责声明：</strong>本报告仅供研究参考，不构成投资建议。所有估值均基于公开可得信息，存在不确定性，投资者需自行承担投资风险。
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div class="fi2">
+<p><strong style="color:var(--t2)">PWR Quanta Services Inc &middot; 价值投资深度分析报告</strong></p>
+<p>评级：Hold（持有）| 目标价：$566 | 当前价：$563.16 | 报告日期：2026-03-24</p>
+<p>数据来源：Alpha Vantage API、SEC EDGAR、公司公告、华尔街机构研究。本报告不构成投资建议。</p>
+</div>
+</footer>
+
+<script>
+const C={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{ticks:{color:'#64748b',font:{size:11}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#64748b',font:{size:11}},grid:{color:'rgba(255,255,255,0.04)'}}}};
+
+new Chart(document.getElementById('revenueChart'),{type:'bar',data:{labels:['FY2021','FY2022','FY2023','FY2024','FY2025','FY2026E'],datasets:[{label:'营收($B)',data:[12.98,17.07,20.88,23.67,28.48,33.5],backgroundColor:['rgba(59,130,246,0.5)','rgba(59,130,246,0.5)','rgba(59,130,246,0.5)','rgba(59,130,246,0.5)','rgba(59,130,246,0.7)','rgba(59,130,246,0.3)'],borderColor:'rgba(59,130,246,0.9)',borderWidth:1.5,borderRadius:4,yAxisID:'y'},{label:'YoY增速(%)',type:'line',data:[15.9,31.5,22.3,13.4,20.3,17.7],borderColor:'rgba(16,185,129,0.8)',backgroundColor:'rgba(16,185,129,0.1)',pointBackgroundColor:'rgba(16,185,129,1)',tension:0.4,borderWidth:2,fill:false,yAxisID:'y2'}]},options:{...C,scales:{x:C.scales.x,y:{...C.scales.y,title:{display:true,text:'$B',color:'#64748b',font:{size:10}}},y2:{position:'right',ticks:{color:'#64748b',font:{size:11},callback:v=>v+'%'},grid:{drawOnChartArea:false}}}}});
+
+new Chart(document.getElementById('marginChart'),{type:'line',data:{labels:['FY2021','FY2022','FY2023','FY2024','FY2025'],datasets:[{label:'毛利率',data:[15.0,14.8,14.1,14.8,15.0],borderColor:'rgba(59,130,246,0.8)',backgroundColor:'rgba(59,130,246,0.1)',tension:0.4,fill:true,pointRadius:4},{label:'营业利润率',data:[5.1,5.1,5.4,5.7,5.7],borderColor:'rgba(16,185,129,0.8)',tension:0.4,fill:false,pointRadius:4},{label:'净利率',data:[3.7,2.9,3.6,3.8,3.6],borderColor:'rgba(245,158,11,0.8)',tension:0.4,fill:false,pointRadius:4}]},options:{...C,scales:{x:C.scales.x,y:{...C.scales.y,ticks:{callback:v=>v+'%',color:'#64748b',font:{size:11}},min:0,max:20}}}});
+
+new Chart(document.getElementById('quarterlyChart'),{type:'bar',data:{labels:['Q1FY24','Q2FY24','Q3FY24','Q4FY24','Q1FY25','Q2FY25','Q3FY25','Q4FY25'],datasets:[{label:'季度营收($B)',data:[5.03,5.59,6.49,6.55,6.23,6.77,7.63,7.84],backgroundColor:['rgba(59,130,246,0.4)','rgba(59,130,246,0.4)','rgba(59,130,246,0.4)','rgba(59,130,246,0.4)','rgba(16,185,129,0.5)','rgba(16,185,129,0.5)','rgba(16,185,129,0.5)','rgba(16,185,129,0.7)'],borderColor:'rgba(59,130,246,0.5)',borderWidth:1.5,borderRadius:4,yAxisID:'y'},{label:'YoY增速(%)',type:'line',data:[13.6,10.8,15.5,13.3,23.9,21.1,17.5,19.7],borderColor:'rgba(245,158,11,0.8)',pointBackgroundColor:'rgba(245,158,11,1)',tension:0.4,borderWidth:2,fill:false,yAxisID:'y2'}]},options:{...C,scales:{x:C.scales.x,y:{...C.scales.y,title:{display:true,text:'$B',color:'#64748b',font:{size:10}},min:0},y2:{position:'right',ticks:{color:'#64748b',font:{size:11},callback:v=>v+'%'},grid:{drawOnChartArea:false}}}}});
+
+new Chart(document.getElementById('epsChart'),{type:'line',data:{labels:['FY2021','FY2022','FY2023','FY2024','FY2025','FY2026E'],datasets:[{label:'Adj.EPS($)',data:[4.5,5.7,7.5,9.0,10.75,13.0],borderColor:'rgba(59,130,246,0.9)',backgroundColor:'rgba(59,130,246,0.1)',tension:0.4,fill:true,pointRadius:5},{label:'GAAP EPS($)',data:[3.25,3.28,4.98,6.05,6.82,null],borderColor:'rgba(245,158,11,0.7)',tension:0.4,fill:false,pointRadius:4}]},options:{...C,scales:{x:C.scales.x,y:{...C.scales.y,ticks:{callback:v=>'$'+v,color:'#64748b',font:{size:11}}}}}});
+
+new Chart(document.getElementById('ratingChart'),{type:'doughnut',data:{labels:['买入/强烈买入(19)','持有(10)','卖出(1)'],datasets:[{data:[19,10,1],backgroundColor:['rgba(16,185,129,0.7)','rgba(245,158,11,0.7)','rgba(239,68,68,0.7)'],borderColor:['rgba(16,185,129,1)','rgba(245,158,11,1)','rgba(239,68,68,1)'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}});
+</script>
+</body>
+</html>

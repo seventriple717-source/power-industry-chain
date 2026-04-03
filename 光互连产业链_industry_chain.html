@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光互连产业链全景图</title>
+<style>
+:root {
+  --bg: #070c19;
+  --bg2: #0d1526;
+  --bg3: #131f35;
+  --text: #e8eef7;
+  --text2: #a8bdd4;
+  --text3: #6e8eac;
+  --border: rgba(255,255,255,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  background-image:radial-gradient(ellipse at 15% 15%,rgba(99,102,241,.07) 0%,transparent 55%),
+                   radial-gradient(ellipse at 85% 85%,rgba(20,184,166,.05) 0%,transparent 55%);}
+.page{max-width:1700px;margin:0 auto;padding:28px 22px 52px;}
+.hdr{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.hdr h1{font-size:23px;font-weight:700;letter-spacing:4px;
+  background:linear-gradient(130deg,#60a5fa 0%,#a78bfa 45%,#34d399 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:7px;}
+.hdr .meta{font-size:11.5px;color:var(--text3);letter-spacing:1.5px;}
+.hdr .meta em{color:#4ade80;font-style:normal;}
+.notice{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:8px;
+  padding:9px 16px;margin-bottom:18px;font-size:11.5px;color:#fbbf24;
+  display:flex;align-items:center;gap:8px;}
+.notice b{color:#fde68a;}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-bottom:20px;}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.callout{background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.2);border-radius:8px;
+  padding:10px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.callout-lbl{font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:.5px;white-space:nowrap;}
+.callout-flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.ctag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;
+  border:1px solid rgba(37,99,235,.3);color:#93c5fd;background:rgba(37,99,235,.1);}
+.carrow{color:#6a85a0;font-size:11px;}
+.chain-scroll{overflow-x:auto;overflow-y:hidden;padding-bottom:8px;margin-bottom:20px;}
+.chain-wrap{display:flex;align-items:flex-start;min-width:1300px;gap:0;}
+.arr-col{flex-shrink:0;width:32px;display:flex;flex-direction:column;align-items:center;}
+.arr-sp{height:48px;flex-shrink:0;}
+.arr-body{flex:1;display:flex;align-items:flex-start;justify-content:center;padding-top:24px;}
+.arr-body svg{opacity:.35;}
+.tb{flex:1;min-width:0;}
+.tb.wide{flex:1.4;}
+.tb.narrow{flex:.8;}
+.th{border-radius:10px 10px 0 0;padding:9px 13px;height:48px;
+  display:flex;flex-direction:column;justify-content:center;}
+.th-num{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.6;line-height:1;}
+.th-title{font-size:12px;font-weight:700;letter-spacing:.8px;margin-top:2px;}
+.t-desc{font-size:10px;line-height:1.5;padding:8px 10px;border-radius:5px;
+  margin-bottom:10px;border-left:2px solid;}
+.tb-body{border-radius:0 0 10px 10px;padding:11px 9px;border:1px solid;border-top:none;}
+.sub-lbl{font-size:10px;font-weight:600;padding:4px 8px;border-radius:4px;
+  margin:10px 0 5px;letter-spacing:.3px;}
+.sub-lbl:first-child{margin-top:0;}
+.sub-val{font-size:9.5px;line-height:1.4;padding:4px 8px 6px;margin-bottom:6px;
+  border-radius:0 0 4px 4px;margin-top:-4px;opacity:.85;}
+.cc{background:rgba(255,255,255,.033);border:1px solid rgba(255,255,255,.07);
+  border-left:3px solid;border-radius:0 6px 6px 0;
+  padding:7px 9px 7px 9px;margin-bottom:6px;transition:all .17s ease;cursor:default;position:relative;}
+.cc:last-child{margin-bottom:0;}
+.cc:hover{background:rgba(255,255,255,.07);transform:translateX(3px);
+  box-shadow:-3px 0 14px rgba(0,0,0,.3);}
+.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;}
+.cc-info{flex:1;min-width:0;}
+.cc-ticker{font-weight:800;font-size:13px;letter-spacing:.4px;line-height:1;}
+.cc-name{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.2;}
+.cc-desc{font-size:9.5px;color:var(--text3);margin-top:3px;line-height:1.3;}
+.cc-links{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.cc-btn{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:600;
+  padding:2px 5px;border-radius:3px;text-decoration:none;transition:all .15s;white-space:nowrap;}
+.cc-btn.doc{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:#60a5fa;}
+.cc-btn.doc:hover{background:rgba(96,165,250,.25);color:#93c5fd;}
+.cc-btn.xls{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:#34d399;}
+.cc-btn.xls:hover{background:rgba(52,211,153,.25);color:#6ee7b7;}
+.cc-btn.pending{background:rgba(100,100,100,.08);border:1px solid rgba(100,100,100,.15);
+  color:var(--text3);cursor:default;}
+.researched-badge{position:absolute;top:4px;right:4px;font-size:8px;padding:1px 4px;
+  border-radius:3px;background:rgba(74,222,128,.12);color:#4ade80;
+  border:1px solid rgba(74,222,128,.2);font-weight:600;}
+.rating-chip{display:inline-flex;align-items:center;font-size:8.5px;font-weight:700;
+  padding:1px 5px;border-radius:3px;white-space:nowrap;margin-bottom:2px;letter-spacing:.2px;}
+.rating-chip.buy{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3);}
+.rating-chip.hold{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25);}
+.rating-chip.sell{background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3);}
+.mcap-badge{font-size:7px;font-weight:700;padding:1px 4px;border-radius:3px;
+  white-space:nowrap;vertical-align:middle;margin-left:4px;display:inline-block;letter-spacing:.3px;}
+.special-row{border-radius:12px;padding:15px 18px;margin-bottom:22px;position:relative;overflow:hidden;}
+.special-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
+.special-hdr{display:flex;align-items:baseline;gap:12px;margin-bottom:11px;flex-wrap:wrap;}
+.special-title{font-size:13px;font-weight:700;letter-spacing:1px;}
+.special-sub{font-size:11px;color:var(--text3);}
+.special-cards{display:flex;gap:12px;flex-wrap:wrap;}
+.special-card{flex:1;min-width:200px;border-radius:0 8px 8px 0;padding:10px 13px;transition:all .17s;}
+.special-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.special-card .cc-links{flex-direction:row;margin-top:7px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:22px 0;}
+.matrix-section{margin-top:4px;}
+.matrix-title{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:3px;text-align:center;
+  text-transform:uppercase;margin-bottom:16px;}
+.matrix-wrap{overflow-x:auto;overflow-y:hidden;}
+.matrix-table{width:100%;border-collapse:separate;border-spacing:4px;min-width:1200px;}
+.matrix-table th{font-size:10px;font-weight:700;padding:7px 5px;text-align:center;
+  letter-spacing:.5px;white-space:nowrap;border-radius:5px;
+  background:rgba(255,255,255,.04);}
+.matrix-table th.seg{border-bottom:2px solid;}
+.matrix-table td.theme-info{width:270px;padding:10px 13px;border-radius:6px;vertical-align:top;
+  background:var(--bg3);border:1px solid var(--border);}
+.theme-info-name{font-size:12px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.theme-info-desc{font-size:10px;color:var(--text3);line-height:1.45;}
+.matrix-table td.cell{border-radius:5px;padding:6px 5px;text-align:center;vertical-align:top;
+  transition:all .15s;cursor:default;}
+.cell.none{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);}
+.seg-header{font-size:9.5px;font-weight:700;letter-spacing:.5px;line-height:1.4;}
+.seg-header span{display:block;font-size:8.5px;opacity:.8;margin-top:1px;}
+.footnote{text-align:center;font-size:11px;color:var(--text3);margin-top:30px;letter-spacing:1px;}
+
+/* Value investing note section */
+.vi-section{background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);
+  border-radius:12px;padding:18px 22px;margin-top:28px;}
+.vi-title{font-size:13px;font-weight:700;color:#34d399;letter-spacing:2px;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;}
+.vi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;}
+.vi-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:12px 14px;}
+.vi-card-title{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.vi-card-body{font-size:10px;color:var(--text3);line-height:1.6;}
+.vi-tag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;
+  background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:#34d399;}
+
+/* ── CPO 解析 ── */
+.cpo-section{background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.18);border-radius:12px;padding:18px 22px;margin-top:26px;}
+.cpo-title{font-size:13px;font-weight:700;color:#fb923c;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.cpo-grid{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:14px;}
+.cpo-arch{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px 16px;}
+.cpo-arch-title{font-size:11px;font-weight:700;margin-bottom:11px;letter-spacing:.5px;}
+.cpo-flow{display:flex;flex-direction:column;gap:3px;}
+.cpo-box{font-size:10px;padding:5px 10px;border-radius:5px;text-align:center;font-weight:600;}
+.cpo-arr{text-align:center;color:#475569;font-size:10px;line-height:1.4;}
+.cpo-note{font-size:9px;color:var(--text3);margin-top:8px;line-height:1.5;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);}
+.cpo-val{width:100%;border-collapse:collapse;font-size:9.5px;}
+.cpo-val th{padding:5px 8px;text-align:left;color:var(--text3);font-weight:600;border-bottom:1px solid var(--border);font-size:9px;letter-spacing:.3px;}
+.cpo-val td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;}
+.cpo-val tr:last-child td{border-bottom:none;}
+.cpo-impact{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;}
+
+/* ── 技术迭代路径 ── */
+.tech-section{margin-top:26px;}
+.tech-heading{font-size:13px;font-weight:700;color:var(--text3);letter-spacing:3px;text-align:center;text-transform:uppercase;margin-bottom:16px;}
+.tech-scroll{overflow-x:auto;overflow-y:hidden;padding-bottom:10px;}
+.tech-timeline{display:flex;align-items:flex-start;min-width:900px;padding:0 8px 4px;}
+.tech-seg{flex:1;position:relative;padding:0 3px;}
+.tech-seg::after{content:'';position:absolute;top:16px;left:50%;width:100%;height:2px;background:linear-gradient(90deg,rgba(99,102,241,.5),rgba(99,102,241,.1));z-index:0;}
+.tech-seg:last-child::after{display:none;}
+.tech-dot-row{display:flex;justify-content:center;margin-bottom:9px;position:relative;z-index:1;}
+.tech-dot{width:14px;height:14px;border-radius:50%;border:2px solid;flex-shrink:0;}
+.tech-card{border-radius:8px;padding:9px 10px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);font-size:9.5px;}
+.tech-speed{font-weight:800;font-size:14px;line-height:1;margin-bottom:2px;}
+.tech-year{font-size:9px;color:var(--text3);margin-bottom:6px;}
+.tech-items{color:var(--text2);line-height:1.55;font-size:9.5px;}
+.tech-cos{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px;}
+.tech-co{font-size:8.5px;padding:1px 4px;border-radius:3px;background:rgba(255,255,255,.06);color:var(--text3);border:1px solid rgba(255,255,255,.08);}
+.tech-seg.current .tech-card{border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.06);}
+.tech-seg.current .tech-dot{box-shadow:0 0 10px currentColor;}
+.tech-seg.future .tech-card{opacity:.7;}
+
+/* ── 发展周期 & 卡点 ── */
+.cycle-wrap{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px;margin-top:26px;}
+.cycle-card{border-radius:10px;padding:14px 16px;border:1px solid;}
+.cycle-card-title{font-size:12px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.cycle-item{font-size:10px;line-height:1.6;margin-bottom:7px;padding-left:12px;position:relative;color:var(--text2);}
+.cycle-item::before{content:'▸';position:absolute;left:0;opacity:.5;font-size:9px;top:1px;}
+.cycle-item b{color:var(--text);}
+.cycle-badge{display:inline-block;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:3px;margin-right:4px;vertical-align:middle;}
+.cycle-gauge-wrap{margin:6px 0 3px;}
+.cycle-gauge-label{font-size:9px;color:var(--text3);margin-bottom:3px;display:flex;justify-content:space-between;}
+.cycle-gauge-bg{height:5px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;}
+.cycle-gauge-fill{height:100%;border-radius:3px;}
+
+/* ── 定价权地图 ── */
+.pricing-section{margin-top:26px;background:rgba(99,102,241,.04);border:1px solid rgba(99,102,241,.18);border-radius:12px;padding:18px 22px;}
+.pricing-title{font-size:13px;font-weight:700;color:#818cf8;letter-spacing:2px;margin-bottom:5px;display:flex;align-items:center;gap:8px;}
+.pricing-subtitle{font-size:10.5px;color:var(--text3);margin-bottom:16px;line-height:1.5;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.p-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;transition:all .15s;}
+.p-card:hover{background:rgba(255,255,255,.06);transform:translateY(-1px);}
+.p-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.p-tier{font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;}
+.p-trend{font-size:11px;}
+.p-name{font-size:11px;font-weight:700;margin-bottom:2px;}
+.p-cos{font-size:9px;color:var(--text3);margin-bottom:6px;}
+.p-bar-row{display:flex;align-items:center;gap:6px;}
+.p-bar-bg{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;}
+.p-bar-fill{height:100%;border-radius:3px;}
+.p-pct{font-size:9.5px;font-weight:700;flex-shrink:0;width:28px;text-align:right;}
+.p-reason{font-size:9px;color:var(--text3);line-height:1.45;margin-top:5px;}
+.p-margin-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.p-margin-label{font-size:8px;font-weight:700;flex-shrink:0;color:var(--text3);width:42px;letter-spacing:.3px;}
+.p-margin-val{font-size:9.5px;font-weight:800;flex-shrink:0;width:46px;text-align:right;}
+.p-margin-note{font-size:8.5px;color:var(--text3);line-height:1.4;margin-top:4px;padding-top:4px;border-top:1px solid rgba(255,255,255,.05);}
+.p-divider{height:1px;background:rgba(255,255,255,.05);margin:6px 0;}
+.pricing-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:10px;color:var(--text3);}
+.pl-item{display:flex;align-items:center;gap:5px;}
+.pl-dot{width:10px;height:4px;border-radius:2px;flex-shrink:0;}
+
+/* ── 中国供应链 ── */
+.cn-section{margin-top:26px;background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.18);border-radius:12px;padding:18px 22px;}
+.cn-title{font-size:13px;font-weight:700;color:#f87171;letter-spacing:2px;margin-bottom:5px;display:flex;align-items:center;gap:8px;}
+.cn-subtitle{font-size:10.5px;color:var(--text3);margin-bottom:16px;line-height:1.5;}
+.cn-threat-bar{display:flex;gap:0;border-radius:8px;overflow:hidden;margin-bottom:18px;height:36px;}
+.cn-threat-seg{flex:1;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;position:relative;}
+.cn-threat-label{text-align:center;line-height:1.3;}
+.cn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;}
+.cn-card{border-radius:8px;padding:11px 13px;border:1px solid;transition:all .15s;}
+.cn-card:hover{transform:translateY(-1px);}
+.cn-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.cn-ticker{font-size:12px;font-weight:800;}
+.cn-threat-badge{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:3px;}
+.cn-name{font-size:10px;color:var(--text2);margin-bottom:3px;}
+.cn-tier{font-size:8.5px;color:var(--text3);margin-bottom:5px;}
+.cn-desc{font-size:9.5px;color:var(--text3);line-height:1.45;margin-bottom:6px;}
+.cn-vs{font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);}
+
+/* ── 产业链概念速览 ── */
+.concept-wrap{background:rgba(99,102,241,.03);border:1px solid rgba(99,102,241,.14);border-radius:12px;padding:18px 20px;margin-bottom:20px;}
+.concept-head{font-size:12px;font-weight:700;color:#a78bfa;letter-spacing:2px;margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.concept-lead{font-size:10px;color:var(--text3);line-height:1.7;margin-bottom:14px;}
+.concept-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.concept-box{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:11px 13px;}
+.concept-box-title{font-size:10.5px;font-weight:700;color:var(--text2);margin-bottom:9px;letter-spacing:.3px;}
+.arow{display:flex;align-items:flex-start;gap:9px;padding:5px 9px;border-radius:0 5px 5px 0;border-left:3px solid;margin-bottom:4px;}
+.arow-badge{font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.arow-main{font-size:9.5px;font-weight:600;color:var(--text2);line-height:1.3;}
+.arow-sub{font-size:8.5px;color:var(--text3);margin-top:2px;line-height:1.35;}
+.vrow{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:5px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);margin-bottom:5px;}
+.vrow-left{flex-shrink:0;text-align:center;min-width:50px;}
+.vrow-moat{font-size:7.5px;font-weight:800;padding:2px 5px;border-radius:3px;margin-top:3px;display:inline-block;letter-spacing:.2px;}
+.vrow-main{font-size:9.5px;font-weight:600;color:var(--text);line-height:1.3;}
+.vrow-sub{font-size:8.5px;color:var(--text3);margin-top:2px;line-height:1.35;}
+.insight-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ibox{border-radius:8px;padding:11px 13px;border:1px solid;}
+.ibox-title{font-size:10px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.ibox-body{font-size:9.5px;color:var(--text3);line-height:1.6;}
+
+/* ── 信号链路流程图 ── */
+.sfdiag-wrap{background:rgba(13,21,38,.7);border:1px solid rgba(99,102,241,.15);border-radius:12px;padding:18px 20px;margin-bottom:20px;}
+.sfdiag-head{font-size:13px;font-weight:700;color:#7dd3fc;letter-spacing:2px;margin-bottom:4px;display:flex;align-items:center;gap:7px;}
+.sfdiag-sub{font-size:10px;color:var(--text3);margin-bottom:14px;line-height:1.5;}
+.sfdiag-scen{margin-bottom:12px;}
+.sfdiag-scen-title{font-size:10px;font-weight:700;color:var(--text2);margin-bottom:7px;padding:4px 10px;border-left:3px solid;border-radius:0 4px 4px 0;background:rgba(255,255,255,.03);display:inline-block;}
+.sfdiag-flow{display:flex;align-items:center;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:0;padding:8px 6px;background:rgba(0,0,0,.25);border-radius:8px;border:1px solid rgba(255,255,255,.06);scrollbar-width:thin;}
+.sfb{flex-shrink:0;text-align:center;padding:6px 9px;border-radius:6px;min-width:72px;border:1px solid;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.sfb-tier{font-size:7.5px;font-weight:800;padding:1px 5px;border-radius:3px;display:inline-block;margin-bottom:3px;}
+.sfb-name{font-size:8.5px;font-weight:600;line-height:1.3;color:var(--text);}
+.sfb-sub{font-size:7.5px;color:var(--text3);line-height:1.25;margin-top:2px;}
+.sfarr{flex-shrink:0;color:#4b5563;font-size:15px;padding:0 3px;align-self:center;}
+.sfdiag-tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:14px;}
+.sfdiag-tc{border-radius:8px;padding:11px 13px;border:1px solid rgba(255,255,255,.07);border-top-width:3px;background:rgba(255,255,255,.02);}
+.sfdiag-tc-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.sfdiag-tc-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:4px;}
+.sfdiag-tc-name{font-size:11px;font-weight:700;}
+.sfdiag-io-row{display:flex;align-items:flex-start;gap:4px;margin-bottom:8px;}
+.sfio-box{flex:1;font-size:8.5px;padding:5px 7px;border-radius:5px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+.sfio-lbl{font-weight:700;color:var(--text3);letter-spacing:.3px;font-size:7.5px;text-transform:uppercase;margin-bottom:2px;}
+.sfio-val{color:var(--text2);line-height:1.4;}
+.sfio-arr{flex-shrink:0;align-self:center;color:#374151;font-size:13px;padding-bottom:2px;}
+.sfdiag-tc-why{font-size:8.5px;color:var(--text3);line-height:1.55;padding-top:7px;border-top:1px solid rgba(255,255,255,.06);}
+.sfdiag-tc-why b{color:var(--text2);}
+#tt{position:fixed;z-index:9999;pointer-events:none;background:#0b1525;
+  border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:11px 14px;max-width:270px;
+  box-shadow:0 8px 32px rgba(0,0,0,.65);opacity:0;transition:opacity .12s;font-size:11px;line-height:1.4;}
+#tt.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>光 互 连 产 业 链 全 景 图</h1>
+  <div class="meta">覆盖 <em>33</em> 家上市公司 + 3 家前沿私有公司 &nbsp;·&nbsp; 基础材料 → 光子器件 → 硅光/DSP → 光模块/连接器 → 光网系统 → 横切层（T&M/EDA） → 前沿未上市 &nbsp;·&nbsp; 2026-04 v8 &nbsp;·&nbsp; 已深度研究 <em id="researched-count">0</em> 家</div>
+</div>
+
+<div class="notice">
+  <span>📊</span>
+  <span>研究进度：<b id="research-progress">—</b> &nbsp;·&nbsp; 新增研究后在 FEISHU 对象中填入链接，刷新浏览器即可生效。</span>
+</div>
+
+<div class="callout">
+  <span class="callout-lbl">🔗 核心主线</span>
+  <div class="callout-flow">
+    <span class="ctag">AI算力扩张</span>
+    <span class="carrow">→</span>
+    <span class="ctag">800G/1.6T需求爆发</span>
+    <span class="carrow">→</span>
+    <span class="ctag">光模块量价双升</span>
+    <span class="carrow">→</span>
+    <span class="ctag">激光器/硅光芯片供需趋紧</span>
+    <span class="carrow">→</span>
+    <span class="ctag">CPO重塑产业链价值</span>
+    <span class="carrow">→</span>
+    <span class="ctag">全光网络长期演进</span>
+  </div>
+</div>
+
+<!-- ── 产业链概念速览 ── -->
+<div class="concept-wrap">
+  <div class="concept-head">🧭 产业链概念速览 — 两种理解方式</div>
+  <div class="concept-lead">
+    光互连只做一件事：<b style="color:var(--text);">电信号 → 光 → 光纤传输 → 光 → 电信号</b>。
+    <b style="color:#93c5fd;">T2</b> 是唯一完成"电↔光"物理转换的核心器件，其余各层围绕"更快 / 更准 / 更便宜 / 更易用"展开。
+    价值链遵循一条规律：<b style="color:#c4b5fd;">上游靠稀缺</b> · <b style="color:#7dd3fc;">中游靠算法/IP</b> · <b style="color:#fcd34d;">下游靠规模（但定价权最弱）</b>。
+  </div>
+  <div class="concept-cols">
+
+    <!-- 左：打电话类比 -->
+    <div class="concept-box">
+      <div class="concept-box-title">📞 打电话类比 — 直觉理解各层在干什么</div>
+      <div class="arow" style="border-left-color:#7c3aed;background:rgba(124,58,237,.06);">
+        <span class="arow-badge" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div><div class="arow-main">振膜材料 / 永磁体原料</div>
+        <div class="arow-sub">制造器件的物理基础 — 没有 InP 晶圆就造不出 800G 激光器</div></div>
+      </div>
+      <div class="arow" style="border-left-color:#2563eb;background:rgba(37,99,235,.07);">
+        <span class="arow-badge" style="background:rgba(37,99,235,.2);color:#93c5fd;">T2 ★</span>
+        <div><div class="arow-main">麦克风（电→声） + 扬声器（声→电）</div>
+        <div class="arow-sub">⭐ 唯一完成信号形态转换的器件；激光器发光、探测器收光，两者不可替代</div></div>
+      </div>
+      <div class="arow" style="border-left-color:#0369a1;background:rgba(3,105,161,.06);">
+        <span class="arow-badge" style="background:rgba(3,105,161,.2);color:#7dd3fc;">T3</span>
+        <div><div class="arow-main">语音编解码芯片 + 智能降噪算法</div>
+        <div class="arow-sub">DSP 负责编码/纠错；硅光 PIC 把多个光学功能集成在一块硅芯片上</div></div>
+      </div>
+      <div class="arow" style="border-left-color:#b45309;background:rgba(180,83,9,.06);">
+        <span class="arow-badge" style="background:rgba(180,83,9,.2);color:#fcd34d;">T4</span>
+        <div><div class="arow-main">出厂封装好的完整听筒（含麦+芯片+外壳）</div>
+        <div class="arow-sub">标准化"插头"，买来直接插进交换机；内部核心件来自 T2/T3</div></div>
+      </div>
+      <div class="arow" style="border-left-color:#78350f;background:rgba(120,53,15,.06);">
+        <span class="arow-badge" style="background:rgba(120,53,15,.2);color:#fef08a;">T4C</span>
+        <div><div class="arow-main">听筒插座 / 卡扣底座（APH/TEL）</div>
+        <div class="arow-sub">光模块的物理 Cage 和 AOC 线缆 — 纯精密机械，与光电转换无关</div></div>
+      </div>
+      <div class="arow" style="border-left-color:#166534;background:rgba(22,101,52,.06);">
+        <span class="arow-badge" style="background:rgba(22,101,52,.2);color:#86efac;">T5</span>
+        <div><div class="arow-main">电话交换机 + 基站网络</div>
+        <div class="arow-sub">把所有节点连成网络；WDM 多波长复用 + ROADM 光路由</div></div>
+      </div>
+    </div>
+
+    <!-- 右：护城河来源 -->
+    <div class="concept-box">
+      <div class="concept-box-title">⚖️ 各层护城河来源 — 投资定价逻辑</div>
+      <div class="vrow">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(124,58,237,.2);color:#c4b5fd;display:inline-block;">T1</span>
+          <div class="vrow-moat" style="background:rgba(124,58,237,.15);color:#c4b5fd;">稀缺性</div>
+        </div>
+        <div><div class="vrow-main">InP 晶圆全球仅 4-5 家可量产</div>
+        <div class="vrow-sub">新产能需 3 年，800G 放量 → 供给刚性收紧，定价权全链最强</div></div>
+      </div>
+      <div class="vrow">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(37,99,235,.2);color:#93c5fd;display:inline-block;">T2</span>
+          <div class="vrow-moat" style="background:rgba(37,99,235,.15);color:#93c5fd;">物理壁垒</div>
+        </div>
+        <div><div class="vrow-main">激光器无替代品，MOCVD 工艺积累不可复制</div>
+        <div class="vrow-sub">800G EML 技术壁垒极高；全球仅 LITE/COHR 可量产，中国仍在追赶</div></div>
+      </div>
+      <div class="vrow">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(3,105,161,.2);color:#7dd3fc;display:inline-block;">T3</span>
+          <div class="vrow-moat" style="background:rgba(3,105,161,.15);color:#7dd3fc;">算法/IP</div>
+        </div>
+        <div><div class="vrow-main">DSP 寡头垄断（MRVL 外部市占 >60%）</div>
+        <div class="vrow-sub">硅光 PIC 专利 + 先进制程双重壁垒；受出口管制，中国暂时追不上</div></div>
+      </div>
+      <div class="vrow" style="border-color:rgba(251,191,36,.25);background:rgba(251,191,36,.04);">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(180,83,9,.2);color:#fcd34d;display:inline-block;">T4</span>
+          <div class="vrow-moat" style="background:rgba(251,191,36,.12);color:#fbbf24;">集成能力</div>
+        </div>
+        <div><div class="vrow-main" style="color:#fcd34d;">⚠ 本质是精密组装，核心器件均来自上游</div>
+        <div class="vrow-sub">护城河 = 良率 + 产能，而非核心技术 → 中国可以追赶，ASP 持续承压</div></div>
+      </div>
+      <div class="vrow">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(120,53,15,.2);color:#fef08a;display:inline-block;">T4C</span>
+          <div class="vrow-moat" style="background:rgba(120,53,15,.12);color:#fde68a;">精密制造</div>
+        </div>
+        <div><div class="vrow-main">与光模块价格战完全无关</div>
+        <div class="vrow-sub">AI 扩容 → 端口数增长 → Cage 需求刚性增长；APH/TEL 供给集中，确定性高</div></div>
+      </div>
+      <div class="vrow">
+        <div class="vrow-left">
+          <span style="font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;background:rgba(22,101,52,.2);color:#86efac;display:inline-block;">T5</span>
+          <div class="vrow-moat" style="background:rgba(22,101,52,.12);color:#4ade80;">生态绑定</div>
+        </div>
+        <div><div class="vrow-main">靠软件 + 认证 + 运维绑定运营商</div>
+        <div class="vrow-sub">切换成本高但面临华为/中兴竞争；CIEN 技术领先 ~2 年为护城河核心</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 两条关键洞察 -->
+  <div class="insight-cols">
+    <div class="ibox" style="background:rgba(251,191,36,.05);border-color:rgba(251,191,36,.2);">
+      <div class="ibox-title" style="color:#fbbf24;">⚠️ 关键洞察一：T4 是规模最大、定价权最弱的层</div>
+      <div class="ibox-body">T4 光模块看似产业链核心，实则是<b style="color:var(--text);">精密组装商</b>——激光器向 T2 采购（LITE/COHR 定价），DSP 向 T3 采购（MRVL 定价），剩余价值来自良率和产能管理。这正是<b style="color:var(--text);">中国厂商（中际旭创/新易盛）能快速追上的原因</b>：组装工艺可以复制，但 InP 晶圆（T1）和 DSP 算法（T3）暂时无法国产替代。<b style="color:#fbbf24;">长期持仓应优先选 T1/T2/T3，而非纯组装的 T4。</b></div>
+    </div>
+    <div class="ibox" style="background:rgba(251,146,60,.05);border-color:rgba(251,146,60,.2);">
+      <div class="ibox-title" style="color:#fb923c;">⚛️ 关键洞察二：CPO 的本质是 T3 正在"吃掉"T4 的价值</div>
+      <div class="ibox-body">传统架构：ASIC → PCB 走线(10cm 损耗) → <b style="color:#fcd34d;">T4 插拔模块外壳</b> → 光纤。CPO 架构：ASIC 与<b style="color:#7dd3fc;">T3 硅光 PIC 光引擎</b>直接共封装(1-3mm)，省去 T4 的机械外壳和 PCB 损耗，功耗降 75%。价值迁移结果：T4 中光引擎部分的价值从 $15 → $80+ 直接归属 T3；传统纯组装 T4 厂商价值收缩。<b style="color:#fb923c;">FN（Fabrinet）专注代工制造，不承担技术路线风险，因此反而在 CPO 时代持续受益。</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 信号架构三路对比 ── -->
+<div class="sfdiag-wrap" style="margin-bottom:20px;">
+  <div class="sfdiag-head">⚡ 信号架构四路对比：DSP 可插拔 vs LPO vs CPO vs OIO</div>
+  <div class="sfdiag-sub">速率（100G/400G/800G/1.6T/3.2T）是"跑多快"，架构是"怎么跑"。四种方案代表光学集成程度递增的完整演进路线图，直接决定 T3/T4 的价值归属与未来格局。</div>
+
+  <!-- 对比表格 -->
+  <div style="overflow-x:auto;margin-bottom:16px;">
+    <table style="width:100%;border-collapse:collapse;font-size:9.5px;table-layout:fixed;">
+      <colgroup>
+        <col style="width:12%">
+        <col style="width:22%">
+        <col style="width:22%">
+        <col style="width:22%">
+        <col style="width:22%">
+      </colgroup>
+      <thead>
+        <tr style="background:rgba(255,255,255,.05);">
+          <th style="padding:7px 8px;text-align:left;color:var(--text3);font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);">维度</th>
+          <th style="padding:7px 8px;text-align:center;color:#fbbf24;font-weight:700;border-bottom:1px solid rgba(255,255,255,.08);">🔌 传统 DSP 可插拔</th>
+          <th style="padding:7px 8px;text-align:center;color:#34d399;font-weight:700;border-bottom:1px solid rgba(255,255,255,.08);">⚡ LPO（线性驱动）</th>
+          <th style="padding:7px 8px;text-align:center;color:#7dd3fc;font-weight:700;border-bottom:1px solid rgba(255,255,255,.08);">🔬 CPO（共封装）</th>
+          <th style="padding:7px 8px;text-align:center;color:#e879f9;font-weight:700;border-bottom:1px solid rgba(255,255,255,.08);">🧬 OIO（封装内光学）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">光学位置</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">模块内置独立 DSP 芯片</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">DSP 移至交换机 ASIC 端</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">无独立 DSP，ASIC 直连光引擎</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;font-weight:600;">光 I/O Chiplet 集成于处理器封装内部</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">物理形态</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">QSFP-DD / OSFP 热插拔模块</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">同外形热插拔（OSFP-XD）</td>
+          <td style="padding:7px 8px;text-align:center;color:#7dd3fc;font-weight:600;">焊死于交换机板，<em>不可插拔</em></td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;font-weight:600;">UCIe/CoW 键合，在 GPU/ASIC Package 内部</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">功耗（等效）</td>
+          <td style="padding:7px 8px;text-align:center;color:#fbbf24;">~15 W / 模块（基准）</td>
+          <td style="padding:7px 8px;text-align:center;color:#34d399;">~10 W（<b>−33%</b>）</td>
+          <td style="padding:7px 8px;text-align:center;color:#7dd3fc;">~6 W（<b>−60%</b>）</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;">~3 W（<b>−80%</b>，消除所有板级损耗）</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">传输距离</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">≤2 km（中长距支持）</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">≤500 m（机柜间 / 园区内）</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">≤数百米（同机架 / 同集群）</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;">&lt;10 cm（封装内）～3 m（同机柜光缆）</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">相对成本</td>
+          <td style="padding:7px 8px;text-align:center;color:#fbbf24;">最高（含独立 DSP 芯片）</td>
+          <td style="padding:7px 8px;text-align:center;color:#34d399;">中（省 DSP，Retimer 转移至 ASIC）</td>
+          <td style="padding:7px 8px;text-align:center;color:#7dd3fc;">低（规模化后，无外壳/插槽）</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;">规模化后极低，但初期 CoW 封装工艺成本高</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">商业化阶段</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">✅ 成熟量产（100G–800G）</td>
+          <td style="padding:7px 8px;text-align:center;color:#34d399;">🚀 <b>2024–2025 规模化</b>（800G 主战场）</td>
+          <td style="padding:7px 8px;text-align:center;color:#7dd3fc;">🔬 <b>2026–2027 商业化起步</b>（1.6T 节点）</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;">🔭 <b>2028+ 技术路线</b>（仍在研发/流片验证阶段）</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">T3 受益方</td>
+          <td style="padding:7px 8px;text-align:center;color:#fbbf24;">MRVL（模块内 DSP）</td>
+          <td style="padding:7px 8px;text-align:center;color:#34d399;font-weight:600;">CRDO / MRVL（ASIC 端 Retimer/SerDes）</td>
+          <td style="padding:7px 8px;text-align:center;color:#7dd3fc;font-weight:600;">INTC / GFS / AVGO（硅光 PIC 光引擎）</td>
+          <td style="padding:7px 8px;text-align:center;color:#e879f9;font-weight:600;">Ayar Labs（私有）/ TSMC 3D CoW / INTC</td>
+        </tr>
+        <tr style="background:rgba(255,255,255,.015);">
+          <td style="padding:7px 8px;color:var(--text3);font-weight:600;">T4 冲击</td>
+          <td style="padding:7px 8px;text-align:center;color:var(--text2);">无</td>
+          <td style="padding:7px 8px;text-align:center;color:#fbbf24;">模块利润压缩（DSP 价值外移）</td>
+          <td style="padding:7px 8px;text-align:center;color:#f87171;font-weight:600;">可插拔模块需求长期收缩</td>
+          <td style="padding:7px 8px;text-align:center;color:#f43f5e;font-weight:600;">彻底替代所有可插拔模块形态（终极颠覆）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 速率 × 架构 对应矩阵 -->
+  <div style="margin-bottom:6px;font-size:9.5px;color:var(--text3);font-weight:600;letter-spacing:1px;">速率 × 架构适配矩阵</div>
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:9px;table-layout:fixed;">
+      <colgroup>
+        <col style="width:16%">
+        <col style="width:14%">
+        <col style="width:14%">
+        <col style="width:18%">
+        <col style="width:18%">
+        <col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr style="background:rgba(255,255,255,.04);">
+          <th style="padding:6px 8px;text-align:left;color:var(--text3);font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);">架构 \ 速率</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.08);">100G</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.08);">400G</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.08);">800G</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.08);">1.6T</th>
+          <th style="padding:6px 8px;text-align:center;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.08);">3.2T+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:6px 8px;color:#fbbf24;font-weight:600;">DSP 可插拔</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(251,191,36,.15);color:#fbbf24;font-weight:700;">主流</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(251,191,36,.15);color:#fbbf24;font-weight:700;">主流</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(251,191,36,.08);color:#a78bfa;">共存</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(248,113,113,.08);color:#f87171;">功耗过高</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);">
+          <td style="padding:6px 8px;color:#34d399;font-weight:600;">LPO 线性驱动</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(52,211,153,.08);color:#34d399;">出现</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(52,211,153,.2);color:#34d399;font-weight:700;">🚀 主战场</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(52,211,153,.08);color:#34d399;">延续</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+          <td style="padding:6px 8px;color:#7dd3fc;font-weight:600;">CPO 共封装</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(125,209,252,.06);color:#7dd3fc;">研发中</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(125,209,252,.2);color:#7dd3fc;font-weight:700;">🔬 首发节点</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(125,209,252,.08);color:#7dd3fc;">主流</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 8px;color:#e879f9;font-weight:600;">OIO 封装内光学</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;color:var(--text3);">—</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(232,121,249,.05);color:#e879f9;">实验室</td>
+          <td style="padding:6px 8px;text-align:center;background:rgba(232,121,249,.2);color:#e879f9;font-weight:700;">🔭 目标节点</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sfdiag-tc-why" style="margin-top:10px;">
+    💡 <b>投资视角：</b>LPO 方案中 DSP 从模块转移至 ASIC 端，<b style="color:#34d399;">CRDO 的 SerDes/Retimer 直接受益</b>；CPO 方案使光引擎价值从 T4 迁移至 T3 硅光，<b style="color:#7dd3fc;">AVGO+INTC 的 PIC 单价从 $15 → $80+</b>；OIO 方案若量产，将彻底颠覆所有可插拔模块形态，<b style="color:#e879f9;">Ayar Labs（私有）是最纯正的 OIO 受益标的，TSMC 3D CoW 工艺是其护城河</b>。四种架构是集成程度依次递增的演进路线：速率越高 → 架构越集成 → T3/上游价值越高 → T4 可插拔空间越小。
+  </div>
+</div>
+
+<!-- 技术迭代路径 -->
+  <div class="tech-section">
+    <div class="tech-heading">技 术 迭 代 路 径 — 光 模 块 速 率 演 进</div>
+    <div class="tech-scroll">
+      <div class="tech-timeline" id="tech-timeline"></div>
+    </div>
+    <div id="tech-phase-bar" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:12px;"></div>
+  </div>
+
+<!-- ── 信号链路流程图 ── -->
+<div class="sfdiag-wrap">
+  <div class="sfdiag-head">📡 信号链路流程图 — 每个环节在干什么</div>
+  <div class="sfdiag-sub">光互连的本质是"两次变身"：电信号 → 光信号（发端 T2/T3）→ 光纤传输 → 光信号 → 电信号（收端 T2/T3）。以下两个场景展示完整链路，每个方块对应产业链中一个真实的投资标的。</div>
+
+  <!-- 场景一 -->
+  <div class="sfdiag-scen">
+    <div class="sfdiag-scen-title" style="border-left-color:#7dd3fc;">📦 场景一：AI 训练集群内部互连 — GPU A → 交换机 → GPU B（距离 &lt;100m）</div>
+    <div class="sfdiag-flow">
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">DC</span>
+        <div class="sfb-name">GPU A</div>
+        <div class="sfb-sub">ASIC 产生<br>高速电信号</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(3,105,161,.4);background:rgba(3,105,161,.1);">
+        <span class="sfb-tier" style="background:rgba(3,105,161,.25);color:#7dd3fc;">T3B</span>
+        <div class="sfb-name">DSP 编码</div>
+        <div class="sfb-sub">PAM4 调制<br>FEC 纠错码</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.1);">
+        <span class="sfb-tier" style="background:rgba(37,99,235,.25);color:#93c5fd;">T2</span>
+        <div class="sfb-name">激光器</div>
+        <div class="sfb-sub">电流 → 光子<br>1310nm DFB</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(3,105,161,.3);background:rgba(3,105,161,.08);">
+        <span class="sfb-tier" style="background:rgba(3,105,161,.2);color:#7dd3fc;">T3A</span>
+        <div class="sfb-name">硅光 PIC</div>
+        <div class="sfb-sub">MZM 调制<br>WDM 合波</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(180,83,9,.4);background:rgba(180,83,9,.1);">
+        <span class="sfb-tier" style="background:rgba(180,83,9,.25);color:#fcd34d;">T4A</span>
+        <div class="sfb-name">光模块封装</div>
+        <div class="sfb-sub">OSFP 外壳<br>T2+T3 集成</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(120,53,15,.35);background:rgba(120,53,15,.08);">
+        <span class="sfb-tier" style="background:rgba(120,53,15,.2);color:#fef08a;">T4C</span>
+        <div class="sfb-name">OSFP Cage</div>
+        <div class="sfb-sub">物理插槽<br>APH / TEL</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.07);">
+        <span class="sfb-tier" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div class="sfb-name">光纤</div>
+        <div class="sfb-sub">GLW SMF-28<br>&lt;50m 跳线</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(6,95,70,.5);background:rgba(6,95,70,.12);">
+        <span class="sfb-tier" style="background:rgba(6,95,70,.3);color:#34d399;">T5C</span>
+        <div class="sfb-name">以太网交换机</div>
+        <div class="sfb-sub">ANET 512×800G<br>转发 + 路由</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.07);">
+        <span class="sfb-tier" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div class="sfb-name">光纤</div>
+        <div class="sfb-sub">返回路径</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.1);">
+        <span class="sfb-tier" style="background:rgba(37,99,235,.25);color:#93c5fd;">T2</span>
+        <div class="sfb-name">探测器</div>
+        <div class="sfb-sub">光子 → 电流<br>TIA 跨阻放大</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(3,105,161,.4);background:rgba(3,105,161,.1);">
+        <span class="sfb-tier" style="background:rgba(3,105,161,.25);color:#7dd3fc;">T3B</span>
+        <div class="sfb-name">DSP 解码</div>
+        <div class="sfb-sub">PAM4 解调<br>FEC 纠错恢复</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">DC</span>
+        <div class="sfb-name">GPU B</div>
+        <div class="sfb-sub">接收完整<br>数据包</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 场景二 -->
+  <div class="sfdiag-scen">
+    <div class="sfdiag-scen-title" style="border-left-color:#fde68a;">🌐 场景二：跨数据中心 DCI 长途相干传输 — DC-A → DC-B（80km–2000km）</div>
+    <div class="sfdiag-flow">
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">DC-A</span>
+        <div class="sfb-name">数据中心 A</div>
+        <div class="sfb-sub">路由器出口</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(146,64,14,.4);background:rgba(146,64,14,.1);">
+        <span class="sfb-tier" style="background:rgba(146,64,14,.25);color:#fde68a;">T4B</span>
+        <div class="sfb-name">相干光模块</div>
+        <div class="sfb-sub">QAM16 编码<br>窄线宽激光</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(22,101,52,.4);background:rgba(22,101,52,.1);">
+        <span class="sfb-tier" style="background:rgba(22,101,52,.25);color:#86efac;">T5A</span>
+        <div class="sfb-name">WDM 复用器</div>
+        <div class="sfb-sub">96波 C-Band<br>合入单根光纤</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.07);">
+        <span class="sfb-tier" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div class="sfb-name">长途光纤</div>
+        <div class="sfb-sub">GLW LEAF<br>每段 80km</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(22,101,52,.35);background:rgba(22,101,52,.09);">
+        <span class="sfb-tier" style="background:rgba(22,101,52,.2);color:#86efac;">T5A</span>
+        <div class="sfb-name">EDFA 放大</div>
+        <div class="sfb-sub">全光放大<br>无 O-E-O</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(21,128,61,.4);background:rgba(21,128,61,.1);">
+        <span class="sfb-tier" style="background:rgba(21,128,61,.25);color:#bbf7d0;">T5B</span>
+        <div class="sfb-name">ROADM</div>
+        <div class="sfb-sub">波长级路由<br>全光不变电</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.07);">
+        <span class="sfb-tier" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div class="sfb-name">长途光纤</div>
+        <div class="sfb-sub">继续传输</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(22,101,52,.4);background:rgba(22,101,52,.1);">
+        <span class="sfb-tier" style="background:rgba(22,101,52,.25);color:#86efac;">T5A</span>
+        <div class="sfb-name">WDM 解复用</div>
+        <div class="sfb-sub">96波拆分<br>分配各端口</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(146,64,14,.4);background:rgba(146,64,14,.1);">
+        <span class="sfb-tier" style="background:rgba(146,64,14,.25);color:#fde68a;">T4B</span>
+        <div class="sfb-name">相干光模块</div>
+        <div class="sfb-sub">ICR 相干接收<br>DSP 均衡补偿</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">DC-B</span>
+        <div class="sfb-name">数据中心 B</div>
+        <div class="sfb-sub">完整信号<br>恢复</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 场景三 -->
+  <div class="sfdiag-scen">
+    <div class="sfdiag-scen-title" style="border-left-color:#34d399;">🔗 场景三：NVLink 光学 / 超短距机架内 GPU 互连 — GPU A → GPU B（距离 &lt;10m，多模光纤）</div>
+    <div class="sfdiag-flow">
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">GPU A</span>
+        <div class="sfb-name">NVIDIA H200</div>
+        <div class="sfb-sub">NVLink Gen5<br>高速电信号</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.1);">
+        <span class="sfb-tier" style="background:rgba(37,99,235,.25);color:#93c5fd;">T2</span>
+        <div class="sfb-name">VCSEL 阵列</div>
+        <div class="sfb-sub">850nm 多模<br>电流→光子<br>LITE / COHR</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(180,83,9,.4);background:rgba(180,83,9,.1);">
+        <span class="sfb-tier" style="background:rgba(180,83,9,.25);color:#fcd34d;">T4</span>
+        <div class="sfb-name">AOC 有源光缆</div>
+        <div class="sfb-sub">无独立 DSP<br>直驱 VCSEL<br>OSFP-XD</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.07);">
+        <span class="sfb-tier" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <div class="sfb-name">多模光纤 OM4/OM5</div>
+        <div class="sfb-sub">50μm 纤芯<br>&lt;100m 机架内<br>GLW / OFS</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.1);">
+        <span class="sfb-tier" style="background:rgba(37,99,235,.25);color:#93c5fd;">T2</span>
+        <div class="sfb-name">PIN 探测器阵列</div>
+        <div class="sfb-sub">光子→电流<br>TIA 跨阻放大</div>
+      </div>
+      <div class="sfarr">→</div>
+      <div class="sfb" style="border-color:rgba(56,189,248,.3);background:rgba(8,145,178,.12);">
+        <span class="sfb-tier" style="background:rgba(8,145,178,.25);color:#38bdf8;">GPU B</span>
+        <div class="sfb-name">NVIDIA H200</div>
+        <div class="sfb-sub">NVLink 接收<br>完整数据包</div>
+      </div>
+    </div>
+    <div class="sfdiag-tc-why" style="margin-top:10px;background:rgba(52,211,153,.04);border-left:3px solid rgba(52,211,153,.4);padding-left:10px;">
+      💡 <b>VCSEL vs DFB/EML：</b>VCSEL（垂直腔面发射激光器）工作于 850nm，成本 ~$2–5/颗，阵列集成容易，专为 <b>&lt;100m 多模光纤（OM4/OM5）</b>设计，是机架内 GPU 互连（NVLink Optical / InfiniBand HDR/NDR）的主力器件。DFB/EML 工作于 1310/1550nm，成本 $30–80+/颗，用于 &gt;500m 单模光纤。<b>关键区别：</b>单模 800G（T4A 主流）≠ 多模 VCSEL（T4 AOC）——两者并行存在于 AI 数据中心，分别对应不同互连距离和场景。每台 H100 NVLink 交换机含 <b>576 个 VCSEL 通道</b>，AI 集群扩张直接驱动 LITE / COHR 短距 VCSEL 业务增量。
+    </div>
+  </div>
+
+</div>
+
+  <!-- 光互连&光模块基础 -->
+  <div class="cpo-section" id="optical-basics">
+    <div class="cpo-title">📡 光互连 & 光模块 — 核心概念与架构解析</div>
+    <div id="basics-grid"></div>
+  </div>
+
+
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-bottom:10px;font-size:10.5px;color:var(--text3);">
+  <span style="font-weight:700;color:var(--text2);">市值层级：</span>
+  <span><span style="display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.4);margin-right:4px;">超大盘</span>$200B+</span>
+  <span><span style="display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.4);margin-right:4px;">大盘</span>$10B–200B</span>
+  <span><span style="display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.4);margin-right:4px;">中盘</span>$2B–10B</span>
+  <span><span style="display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(148,163,184,.15);color:#94a3b8;border:1px solid rgba(148,163,184,.4);margin-right:4px;">小盘</span>&lt;$2B</span>
+</div>
+<div class="legend" id="legend"></div>
+
+<div class="chain-scroll">
+<div class="chain-wrap" id="chain-wrap"></div>
+</div>
+<div id="crosscut-wrap" style="margin-top:0;"></div>
+
+
+
+<!-- ── T1-T5 各层详解 ──>
+  <div class="sfdiag-head" style="margin-bottom:14px;font-size:12px;letter-spacing:.8px;color:#a5b4fc;border-left-color:#4f46e5;">🔬 各层技术深度解析 — 输入 · 过程 · 输出</div>
+  <div class="sfdiag-tier-grid">
+
+    <div class="sfdiag-tc" style="border-top-color:#7c3aed;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(124,58,237,.2);color:#c4b5fd;">T1</span>
+        <span class="sfdiag-tc-name">基础材料</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">In、P、Ga、As 化学元素；SiO₂（沙子）；Si 晶体</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">MOCVD 外延生长；光纤拉制（2000°C）；SOI 键合</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">InP/GaAs 晶圆；光纤预制棒（GLW）；SOI 晶圆</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>为什么不可替代：</b>III-V 族半导体（InP/GaAs）是目前唯一能高效发光的材料——硅不发光，无法制造激光器。单模光纤损耗仅 0.2dB/km，是铜缆的千分之一，是长距传输的物理基础。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#2563eb;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(37,99,235,.2);color:#93c5fd;">T2 ★</span>
+        <span class="sfdiag-tc-name">激光器 / 探测器（光子器件）</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">电驱动电流（发端）/ 入射光子（收端）；InP 晶圆基底</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">激光器：受激辐射产生相干光；探测器：光电效应将光子→电流</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">相干光束（1310/1550nm）/ 微弱模拟电流</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>产业链唯一的"变身"器件：</b>光纤只传光不传电，所有通信必须经过 T2 完成电↔光转换。硅无法发光，必须用 InP III-V 材料，全球只有少数厂商掌握批量制造工艺（COHR/LITE/MTSI）。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#0369a1;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(3,105,161,.2);color:#7dd3fc;">T3A</span>
+        <span class="sfdiag-tc-name">硅光平台（SiPh PIC）</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">T2 激光器的连续光（CW light）+ 高速电信号</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">MZM 调制器将数据"写入"光波；多路 WDM 合波；集成分束/合束无源器件</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">承载数据的调制光信号（PAM4 / QPSK / QAM16）</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>为什么重要：</b>InP 光芯片昂贵（$50+/片），SiPh 用 CMOS 晶圆厂（TSMC/GFS）制造，成本降 1/3。CPO 时代 PIC 价值从 $15→$80+ 每模块，T3A 是"吃掉 T4 价值"的核心路径。</div>
+      <div class="sfdiag-tc-why" style="margin-top:6px;background:rgba(168,85,247,.06);border-left:2px solid rgba(168,85,247,.5);padding-left:8px;">🔬 <b>新兴替代平台 — 薄膜铌酸锂（TFLN）：</b>LiNbO₃ 电光系数是硅的 30×，调制带宽 &gt;100 GHz，插损 &lt;1 dB，是 1.6T/3.2T 高速调制器的颠覆性候选。TFLN 不取代整块 SiPh，而是在<b>调制器子系统</b>中与 SiPh 无源波导混合集成（Hybrid Integration）——SiPh 负责低损耗光路路由，TFLN 负责高速电光调制。公开市场标的：<b>COHR</b>（自研 TFLN 调制器，已集成于 ZR+ 相干模块）、<b>LITE</b>（泵浦激光 + TFLN 器件研发）、<b>MTSI</b>（高速驱动 IC，TFLN 标配配套）；代工端 <b>GFS / IMEC</b> 已开放 TFLN PDK，推动工艺商品化。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#0284c7;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(2,132,199,.2);color:#7dd3fc;">T3B</span>
+        <span class="sfdiag-tc-name">DSP / TIA / SerDes 芯片</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">高速原始比特流（来自 ASIC）/ 微弱模拟光电流（来自探测器）</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">FEC 前向纠错；PAM4/QAM 编解码；SerDes 并串转换；TIA 跨阻放大</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">可靠低误码数字信号（BER &lt;10⁻¹⁵）；SerDes 标准电口</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>AI 互连的"大脑"：</b>800G 原始信号经 100m 光纤后误码率高到无法使用；DSP 用算法从噪声中恢复信号。MRVL 外部市占率 >60% 来自数代 IP 积累和 3–5 年客户 co-design 周期，壁垒极深。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#b45309;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(180,83,9,.2);color:#fcd34d;">T4A</span>
+        <span class="sfdiag-tc-name">数据中心光模块（400G / 800G / 1.6T）</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">T2 激光器裸片 + T3A SiPh PIC + T3B DSP 芯片（散件）</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">精密组装封装；sub-μm 光路对准；热管理；DMI 接口；MSA 标准认证</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">QSFP-DD / OSFP 标准插拔模块（买来直接插进交换机）</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>本质是精密组装：</b>核心器件来自 T2/T3，T4 仅提供标准化接口和封装良率。定价权最弱——中国厂商（中际旭创/新易盛）已能复制，ASP 持续承压。CPO 2026 年商用后将部分替代此形态。</div>
+      <div class="sfdiag-tc-why" style="margin-top:6px;background:rgba(251,191,36,.05);border-left:2px solid rgba(251,191,36,.35);padding-left:8px;">🔩 <b>先进封装路径分叉：</b>传统 T4 是<b>标准光学封装</b>（QSFP/OSFP 外壳 + 自动化 sub-μm 光路对准），由 <b>FN（Fabrinet）</b> 精密代工主导；CPO 则是<b>光子先进封装</b>——将硅光 PIC 与交换机 ASIC 在同一有机基板上 2.5D/3D 共封装（Flip-Chip + 微凸点互连），工艺复杂度接近 HBM3 封装。CPO 先进封装由 <b>AVGO / INTC</b>（自研 IDM 路径）及 <b>AMKR（Amkor Technology）</b>（第三方 OSAT，已与 INTC 合作光子引擎封装，入局光子 Flip-Chip）承接。<b>FN 在两种路径均受益</b>——传统路径承接 COHR/LITE 精密制造代工，CPO 路径承接光引擎精密集成，是 T4→CPO 过渡期确定性最高的代工标的。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#92400e;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(146,64,14,.2);color:#fde68a;">T4B</span>
+        <span class="sfdiag-tc-name">相干光模块（ZR / ZR+ / 长途相干）</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">窄线宽 CW 激光源 + 先进相干 DSP（MRVL/COHR）+ ICR 相干接收机</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">QAM16/64 相位+幅度双编码；ICR 干涉感知光的相位；DSP 色散补偿均衡</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">400ZR / ZR+ CFP2 / QSFP-DD（$800–$2000+ ASP，无中继 80km+）</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>vs T4A 区别：</b>T4A 用简单 PAM4（强度编码），只能传 2km；T4B 相干调制感知光的相位，同样带宽下传 80km+，频谱效率 10× 提升。ICR + 先进 DSP 组合是中国暂时无法追赶的壁垒。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#78350f;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(120,53,15,.2);color:#fef08a;">T4C</span>
+        <span class="sfdiag-tc-name">连接器 / Cage / AOC 线缆</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">T4A/T4B 光模块 + 精密金属/塑料机械件 + 高频电气触点</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">OSFP Cage 标准化机械接口；高频信号完整性；散热管理；AOC 内嵌收发器</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">OSFP / QSFP-DD Cage 总成；AOC 主动光缆；高密背板连接器</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>最被忽视但最确定的环节：</b>AI DC 每台 512 端口交换机需 512 个 OSFP Cage；端口密度每代翻倍，Cage 需求刚性正比增长。APH/TEL 供给高度集中，与光模块价格战完全无关，确定性极高。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#166534;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(22,101,52,.2);color:#86efac;">T5A</span>
+        <span class="sfdiag-tc-name">WDM / 相干传输系统</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">多路 T4B 相干模块输出（每路不同波长，96 路 C-Band）</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">WDM 复用器合 96 波入单根光纤；EDFA 掺铒光纤放大（全光，无 O-E-O）；NMS 网管</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">单对光纤承载 96×400G = 38.4Tbps；完整运营商 / DCI 骨干传输网</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>价值在"系统集成"：</b>WDM 让一根光纤同时传 96 个波长，省去 95 对光纤；EDFA 全光放大无需 O-E-O 转换，功耗降 70%。CIEN 的 WaveLogic DSP 领先同业约 2 年，是其毛利率 50%+ 护城河的核心。</div>
+      <div class="sfdiag-tc-why" style="margin-top:6px;background:rgba(134,239,172,.05);border-left:2px solid rgba(134,239,172,.3);padding-left:8px;">📡 <b>EDFA 放大器供应链：</b>掺铒光纤放大器（EDFA）每隔 80km 对光信号进行全光放大（Er³⁺ 掺杂光纤 + 980nm 泵浦激光，无需 O-E-O），是长途 DCI 和运营商骨干网的隐形基础设施。主要上市公司供应商：<b>COHR（Coherent）</b>——全球最大 980nm 泵浦激光器供应商（来自 JDSU/Finisar 遗产），主导 EDFA 泵浦源市场；<b>LITE（Lumentum）</b>——高功率泵浦激光器 + EDFA 完整模块，WSS/EDFA 系统双线布局；<b>CIEN（Ciena）</b>——将 EDFA 集成于 WDM 传输系统出售，以系统级毛利率 50%+ 变现放大器价值。随 AI 数据中心间 DCI 带宽需求翻倍，EDFA 泵浦激光器复购率极高且供应高度集中，是 AI 建设周期中的确定性受益环节。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#15803d;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(21,128,61,.2);color:#bbf7d0;">T5B</span>
+        <span class="sfdiag-tc-name">ROADM / OXC 光交换</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">多方向 WDM 信号（东西南北各方向光纤汇聚）</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">WSS 波长选择开关（LCOS 芯片）按波长路由；全光域不经 O-E-O；可远程重配置</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">各波长按需路由到不同出口方向（整条 100Gbps 光管道级调度）</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>vs 电路由器：</b>电路由器对每个包做 O-E-O（功耗巨大）；ROADM 把整条波长"一刀切"路由，光子全程不变为电子，功耗降约 70%。AI 工厂能耗压力是 ROADM 替代电交换的长期驱动力。LITE 的 WSS 市占率 >50%。</div>
+    </div>
+
+    <div class="sfdiag-tc" style="border-top-color:#065f46;">
+      <div class="sfdiag-tc-head">
+        <span class="sfdiag-tc-badge" style="background:rgba(6,95,70,.25);color:#34d399;">T5C</span>
+        <span class="sfdiag-tc-name">以太网交换机 / AI 集群网络集成</span>
+      </div>
+      <div class="sfdiag-io-row">
+        <div class="sfio-box"><div class="sfio-lbl">输入</div><div class="sfio-val">数百–数千台 GPU 服务器的 800G 光端口；BGP / ECMP 路由配置</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">过程</div><div class="sfio-val">L2/L3 Ethernet 包交换；Clos 网络拓扑；超低延迟（&lt;1μs）；512×800G 端口密度</div></div>
+        <div class="sfio-arr">→</div>
+        <div class="sfio-box"><div class="sfio-lbl">输出</div><div class="sfio-val">数万 GPU 全互连 AI 集群；"超级计算机"级分布式训练网络</div></div>
+      </div>
+      <div class="sfdiag-tc-why">💡 <b>光模块最大的单体需求方：</b>ANET 每卖出一台 512 端口交换机，直接带动 512 个 800G 光模块出货（约 $20 万模块价值/台）。2026 年 ANET+AVGO 联合推 CPO 交换机，将从"买模块"转变为"卖含光引擎的整机"。</div>
+    </div>
+
+  </div>
+  </div>
+
+
+
+
+<div class="divider"></div>
+
+<div class="matrix-section">
+  <div class="matrix-title">投 资 主 题 × 产 业 链 对 应 关 系</div>
+  <div class="matrix-wrap">
+    <table class="matrix-table" id="matrix"></table>
+  </div>
+</div>
+
+<div id="tech-deep-wrap">
+
+
+
+
+
+  <!-- 定价权地图 -->
+  <div class="pricing-section">
+    <div class="pricing-title">⚖️ 定 价 权 地 图 — 价 值 链 话 语 权 分 布</div>
+    <div class="pricing-subtitle">沿产业链从上游到下游，定价权整体呈<b style="color:#e8eef7;">上游强、下游弱</b>的格局；每张卡片同时显示<b style="color:#fbbf24;">定价权强度</b>与<b style="color:#34d399;">毛利率区间</b>——两者共同决定一个环节的长期投资价值。CPO技术变革正在<b style="color:#fb923c;">将T4(光模块)的定价权与利润向T3(硅光芯片)迁移</b>。</div>
+    <div class="pricing-grid" id="pricing-grid"></div>
+    <div class="pricing-legend" id="pricing-legend"></div>
+  </div>
+
+  <!-- 中国供应链 -->
+  <div class="cn-section" id="cn-section">
+    <div class="cn-title">🇨🇳 中国供应链 — 各环节威胁等级与竞争详情</div>
+    <div class="cn-subtitle">↑ 上方产业链图中每个 Tier 已标注中国参与方位置。下方为详细竞争分析：T4光模块威胁最高（中际旭创已全球TOP2）；T3硅光/DSP受出口管制制约，是美股标的护城河最稳固环节。</div>
+    <div class="cn-threat-bar" id="cn-threat-bar"></div>
+    <div class="cn-grid" id="cn-grid"></div>
+  </div>
+
+
+</div>
+
+
+
+
+
+<div class="footnote" id="footnote"></div>
+
+<script>
+/* ═══════════════════════════════════════════
+   飞书链接配置区（研究完成后填入）
+═══════════════════════════════════════════ */
+const FEISHU = {
+  /* ── 独立研报（含飞书链接）─────────────────────── */
+  GLW:  { doc: "https://feishu.cn/docx/AlFGdC4gwoGN3KxkmOKc1QnbnGb", val: "https://feishu.cn/sheet/JrLvsEal6hBLY4tKy9xccscDnBf", researched: true, rating: 'Hold', target: '$133' },
+  AXTI: { doc: "https://feishu.cn/docx/HxmvdohLvoUxhFxSLx6cAiu9nJg", val: "https://feishu.cn/sheet/Puy1swVlChzNBVtx7OYcSAeDnqe", researched: true, rating: 'Sell', target: '$35'  },
+  /* ── 批量研报·光通信组（2026-03-31，已上传飞书）─── */
+  COHR: { doc: "https://feishu.cn/docx/R87vdTB3BoM0Uyx5XsgcNXFHnMd", val: "https://feishu.cn/sheet/T3j8sUycmhWegHtbG5Iced6Anee", researched: true, rating: 'Buy',  target: '$284' },
+  LITE: { doc: "https://feishu.cn/docx/DZ4WdzGrRoDc2bxTQFfcuUJRnVe", val: "https://feishu.cn/sheet/TBkHsqthYhEkWwtQl0wcVAJknUg", researched: true, rating: 'Hold', target: '$673' },
+  IPGP: { doc: "https://feishu.cn/docx/J1a6d2ey2o42joxJ26TcQbRBnyd", val: "https://feishu.cn/sheet/XVf6s3ykXhaoYgt0indcWCjpnkd", researched: true, rating: 'Hold', target: '$107' },
+  MTSI: { doc: "https://feishu.cn/docx/HYgbdsrrsoXlkOxx4rScsJvknrf", val: "https://feishu.cn/sheet/DgcRsaxWphOJWbtvIKlc1LLSne8", researched: true, rating: 'Hold', target: '$190' },
+  GFS:  { doc: "https://feishu.cn/docx/GBJndUFUpoAQKOxqqI5cG4vsnsE", val: "https://feishu.cn/sheet/FXBDsCYOjhPqDMtkkFkcpwpdnbh", researched: true, rating: 'Hold', target: '$50'  },
+  MRVL: { doc: "https://feishu.cn/docx/DEbcdNOfoo5kaVxaONXcqfiAn3r", val: "https://feishu.cn/sheet/HUUfsJTCah1COCt1qQwcsT5cn2d", researched: true, rating: 'Buy',  target: '$115' },
+  INTC: { doc: "https://feishu.cn/docx/UAlgdL73JoRbZrxVJjRcBqROnnd", val: "https://feishu.cn/sheet/OuKUsNAtMhibPNth0bjcW6zknFd", researched: true, rating: 'Hold', target: '$46'  },
+  FN:   { doc: "https://feishu.cn/docx/JAg8dXXMjooSXhxWoKxcyXEHnyd", val: "https://feishu.cn/sheet/Jb6DseP5XhAseBtbgFac7m7hnMh", researched: true, rating: 'Buy',  target: '$538' },
+  AAOI: { doc: "https://feishu.cn/docx/JOnEdpMIdoPVb1xwal4ciolrnSg", val: "https://feishu.cn/sheet/JGeAsylNUhc7YGtl8aNc747DnYf", researched: true, rating: 'Hold', target: '$90'  },
+  CIEN: { doc: "https://feishu.cn/docx/KFbhdbSAQoZ7fGxIb9dc90xmnib", val: "https://feishu.cn/sheet/G7iQsvIB0hK7lftfWfIcwvvUnbf", researched: true, rating: 'Hold', target: '$390' },
+  NOK:  { doc: "https://feishu.cn/docx/OPimdEMfwo1QpZxVrwTcX9yon1d", val: "https://feishu.cn/sheet/U0qbsJfukhYEtFtiHfxcLAQqnJg", researched: true, rating: 'Hold', target: '$8.00'},
+  ADTN: { doc: "https://feishu.cn/docx/HjBXdFv68ocwOex67lycGs1VnDb", val: "https://feishu.cn/sheet/NLuEsNAsUhNoPztZ9G8cAVE4ndc", researched: true, rating: 'Hold', target: '$14'  },
+  /* ── 批量研报·光互连产业链组（2026-04-01，已上传飞书）─── */
+  CLS:  { doc: "https://feishu.cn/docx/M8w1dMyUNopUMjxdsWsc9wbcnj7", val: "https://feishu.cn/sheet/SNGUshI6fhzqnCtIGsccVHoVnrd", researched: true, rating: 'Buy',  target: '$380' },
+  ALAB: { doc: "https://feishu.cn/docx/Bxznduw2eoX64oxOiAocAcqNnPx", val: "https://feishu.cn/sheet/Mr7Wsqn4shDPNGtBEPAcCLygnYg", researched: true, rating: 'Buy',  target: '$200' },
+  APH:  { doc: "https://feishu.cn/docx/MtZzdljnzoYjr7xaiByc6pK1nWb", val: "https://feishu.cn/sheet/Dr8YspyLMhAv0GtxrwvcYaHNnud", researched: true, rating: 'Buy',  target: '$160' },
+  CRDO: { doc: "https://feishu.cn/docx/FAW6dBVq2oAunxxXroNcOhjnnbd", val: "",                                                              researched: true, rating: 'Buy',  target: '$200' },
+  CSCO: { doc: "https://feishu.cn/docx/MXDTdLkQpoESEyxSJZvcTuqOnTh", val: "https://feishu.cn/sheet/Q5wdsY2dmhv4zft8aTbcFa4Qnch", researched: true, rating: 'Hold', target: '$88'  },
+  TEL:  { doc: "https://feishu.cn/docx/DFXcdRT8HoOJumxmRygcZgWqn3b", val: "https://feishu.cn/sheet/PZsKsStlUhh3Umt5opJcEuPInXc", researched: true, rating: 'Buy',  target: '$250' },
+  ANET: { doc: "https://feishu.cn/docx/KT7xdCgJroaEarxi42xcT1SRnfe", val: "https://feishu.cn/sheet/TnS8sPyQHhtwmctWtgWcrtQ4n5d", researched: true, rating: 'Buy',  target: '$165' },
+  HPE:  { doc: "https://feishu.cn/docx/PgXRdJIykoHTkgxG89QcS0cCnvG", val: "https://feishu.cn/sheet/Zw1islLiBhRLHKtXwasc3D1Wn3w", researched: true, rating: 'Hold', target: '$28'  },
+  CALX: { doc: "https://feishu.cn/docx/H5TZdfpEXoPztFxOB51cF1gfnMc", val: "https://feishu.cn/sheet/D1XIsRIK5hqICJtNvl2cdeYxnfg", researched: true, rating: 'Buy',  target: '$65'  },
+};
+
+/* ═══════════════════════════════════════════
+   产业链数据
+═══════════════════════════════════════════ */
+const TIERS = [
+  {
+    id: 'T1',
+    num: 'Tier 1',
+    title: '基础原材料',
+    width: 'narrow',
+    color: '#7c3aed',
+    bgGrad: ['#3b0764','#6d28d9'],
+    bodyBg: 'rgba(109,40,217,.08)',
+    borderColor: 'rgba(109,40,217,.22)',
+    ccBorderColor: '#7c3aed',
+    tickerColor: '#c4b5fd',
+    descBg: 'rgba(109,40,217,.1)',
+    descBorder: '#7c3aed',
+    descColor: '#c4b5fd',
+    desc: '光纤预制棒、InP/GaAs化合物半导体晶圆及硅基SOI是光互连最上游基础。供应高度集中（光纤CR3~70%），具备较强定价权，AI建设潮带来强需求可见度，是周期中最稳健的环节之一。',
+    subs: [
+      {
+        id: 'T1A',
+        label: '🔮 光纤与预制棒',
+        color: '#7c3aed',
+        bgColor: 'rgba(124,58,237,.15)',
+        labelColor: '#c4b5fd',
+        valBg: 'rgba(124,58,237,.07)',
+        valColor: '#a78bfa',
+        ccBorder: '#7c3aed',
+        tickerColor: '#c4b5fd',
+        desc: '全球CR3约70%（Corning/住友/古河），AI数据中心内部光纤用量是传统DC的10倍，BEAD补贴$425亿拉动宽带建设，供给刚性（新产能2-3年）保护价格。',
+        companies: [
+          { ticker: 'GLW', mcap:'large', name: 'Corning Inc', desc: '光纤预制棒全球龙头，市占率~27%，特种玻璃+光纤双引擎，AI周期最强受益' }
+        ]
+      },
+      {
+        id: 'T1B',
+        label: '💎 化合物半导体晶圆',
+        color: '#9333ea',
+        bgColor: 'rgba(147,51,234,.15)',
+        labelColor: '#d8b4fe',
+        valBg: 'rgba(147,51,234,.07)',
+        valColor: '#c4b5fd',
+        ccBorder: '#9333ea',
+        tickerColor: '#d8b4fe',
+        desc: 'InP晶圆是800G EML激光器和相干探测器的必备基底，全球仅少数厂商可供应，随800G放量供应趋紧，价格具弹性。AXTI是美股稀缺纯正上游标的。',
+        companies: [
+          { ticker: 'AXTI', mcap:'small', name: 'AXT Inc', desc: 'InP/GaAs/Ge单晶基板，光互连稀缺纯正上游，收入规模小但弹性极大' },
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '自产InP外延片/晶圆，垂直整合最深厂商，保障供应链安全' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'T2',
+    num: 'Tier 2',
+    title: '激光器与光子有源器件',
+    width: '',
+    color: '#1d4ed8',
+    bgGrad: ['#1e3a5f','#1d4ed8'],
+    bodyBg: 'rgba(29,78,216,.08)',
+    borderColor: 'rgba(29,78,216,.22)',
+    ccBorderColor: '#3b82f6',
+    tickerColor: '#93c5fd',
+    descBg: 'rgba(29,78,216,.1)',
+    descBorder: '#3b82f6',
+    descColor: '#93c5fd',
+    desc: '激光器（VCSEL/DFB/EML）、光探测器与光调制器是光互连核心有源器件，技术壁垒极高；速率从100G升级至800G/1.6T推动量价双升，行业龙头毛利率超50%，是产业链最高毛利环节之一。',
+    subs: [
+      {
+        id: 'T2A',
+        label: '💡 激光器（VCSEL / DFB / EML）',
+        color: '#2563eb',
+        bgColor: 'rgba(37,99,235,.15)',
+        labelColor: '#93c5fd',
+        valBg: 'rgba(37,99,235,.07)',
+        valColor: '#60a5fa',
+        ccBorder: '#2563eb',
+        tickerColor: '#93c5fd',
+        desc: 'VCSEL主导短距(<500m)，EML/DFB主导中长距；800G需要单通道EML实现更高调制速率，扩产周期长(18-24个月)，2025-2026年供应持续紧张。',
+        companies: [
+          { ticker: 'LITE', mcap:'mid', name: 'Lumentum Holdings', desc: 'VCSEL全球第一，DFB/EML+3D感测+光网络多点布局，ROE改善周期' },
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '激光器品类最全，VCSEL/DFB/EML/泵浦源全系列，垂直整合优势' },
+          { ticker: 'IPGP', mcap:'mid', name: 'IPG Photonics', desc: '高功率光纤激光器全球第一，毛利率行业标杆(~50%)，工业+通信双市场' },
+          { ticker: 'MTSI', mcap:'mid', name: 'MACOM Technology', desc: '高速驱动器IC及光子半导体，CPO光引擎关键供应商，参与CPO生态' }
+        ]
+      },
+      {
+        id: 'T2B',
+        label: '📡 光探测器、调制器与WSS器件',
+        color: '#1e40af',
+        bgColor: 'rgba(30,64,175,.15)',
+        labelColor: '#bfdbfe',
+        valBg: 'rgba(30,64,175,.07)',
+        valColor: '#93c5fd',
+        ccBorder: '#1e40af',
+        tickerColor: '#bfdbfe',
+        desc: 'PIN/APD探测器与电光调制器是光信号关键转换器；WSS（波长选择开关）是ROADM/OXC核心，Lumentum市占率超50%构建深厚护城河，是全光网络长期受益核心器件。',
+        companies: [
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '全系列InP探测器与调制器，相干模块不可或缺的核心组件' },
+          { ticker: 'LITE', mcap:'mid', name: 'Lumentum Holdings', desc: 'WSS/ROADM器件全球领先（市占率>50%），光交换核心枢纽资产' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'T3',
+    num: 'Tier 3',
+    title: '硅光芯片与光子集成',
+    width: '',
+    color: '#0369a1',
+    bgGrad: ['#0c2a4a','#0369a1'],
+    bodyBg: 'rgba(3,105,161,.08)',
+    borderColor: 'rgba(3,105,161,.22)',
+    ccBorderColor: '#0ea5e9',
+    tickerColor: '#7dd3fc',
+    descBg: 'rgba(3,105,161,.1)',
+    descBorder: '#0ea5e9',
+    descColor: '#7dd3fc',
+    desc: '硅光子（SiPh）平台与CMOS工艺兼容，成本是InP方案的1/3；DSP芯片实现高速数字信号处理，是800G/1.6T的算法核心。CPO趋势下，本层价值将显著提升，是未来产业链价值迁移的最大受益方。',
+    subs: [
+      {
+        id: 'T3A',
+        label: '⚡ 硅光子平台（SiPh PIC）',
+        color: '#0369a1',
+        bgColor: 'rgba(3,105,161,.15)',
+        labelColor: '#7dd3fc',
+        valBg: 'rgba(3,105,161,.07)',
+        valColor: '#38bdf8',
+        ccBorder: '#0369a1',
+        tickerColor: '#7dd3fc',
+        desc: 'Broadcom/Marvell已实现硅光800G量产；CPO结构中硅光PIC价值从模块内$15→CPO光引擎$80+/件；台积电/GF为主要代工平台，规模效应推动成本持续下行。',
+        companies: [
+          { ticker: 'AVGO', mcap:'mega', name: 'Broadcom Inc', desc: '自研硅光PIC量产800G，CPO战略清晰，自用DSP+光模块垂直整合' },
+          { ticker: 'MRVL', mcap:'large', name: 'Marvell Technology', desc: '5nm硅光+Teralynx DSP系列，AI基础设施光互连核心供应商' },
+          { ticker: 'INTC', mcap:'large', name: 'Intel Corp', desc: '硅光技术先驱，800G CW-WDM领先量产，独立光子业务IPO预期' },
+          { ticker: 'GFS', mcap:'large', name: 'GlobalFoundries', desc: '全球最大独立硅光代工平台，300mm产能，绑定多家模块厂' }
+        ]
+      },
+      {
+        id: 'T3B',
+        label: '🔧 DSP / TIA / SerDes 信号处理',
+        color: '#075985',
+        bgColor: 'rgba(7,89,133,.15)',
+        labelColor: '#bae6fd',
+        valBg: 'rgba(7,89,133,.07)',
+        valColor: '#7dd3fc',
+        ccBorder: '#075985',
+        tickerColor: '#bae6fd',
+        desc: 'DSP（数字信号处理）占相干模块成本40%+，TIA（跨阻放大器）是高速光接收核心；Marvell外部市场占有率超60%；Credo的SerDes与AEC为短距互连提供铜/光可替换方案。',
+        companies: [
+          { ticker: 'MRVL', mcap:'large', name: 'Marvell Technology', desc: 'Teralynx系列DSP市占率>60%，相干+直接探测双覆盖，AI互连必选' },
+          { ticker: 'AVGO', mcap:'mega', name: 'Broadcom Inc', desc: '自用DSP不对外销售，内部垂直整合强化竞争壁垒，提高客户门槛' },
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '收购II-VI获相干DSP能力，系统内部自给自足，降低对外依赖' },
+          { ticker: 'CRDO', mcap:'mid', name: 'Credo Technology', desc: 'HiWire AEC主动铜缆+SerDes IP核；≤3m短链路与光模块形成替代；AI大客户集中，高增速纯正标的' }
+        ]
+      },
+      {
+        id: 'T3C',
+        label: '🔗 AI互连接口芯片（PCIe/CXL Retimer）',
+        color: '#0c4a6e',
+        bgColor: 'rgba(12,74,110,.15)',
+        labelColor: '#7dd3fc',
+        valBg: 'rgba(12,74,110,.07)',
+        valColor: '#38bdf8',
+        ccBorder: '#0c4a6e',
+        tickerColor: '#7dd3fc',
+        desc: 'PCIe Gen5/6 Retimer与CXL控制器是GPU/CPU与光网络接口的桥接芯片，直接嵌入AI服务器主板；AI算力密度提升推动Retimer从可选变刚需，是光互连产业链中最具成长性的新兴子环节。',
+        companies: [
+          { ticker: 'ALAB', mcap:'large', name: 'Astera Labs', desc: 'TAURUS(PCIe Retimer)/ARIES(CXL)/SCORPIO(Smart Switch)全系AI互连芯片；2024年IPO；AI超大规模DC互连基础设施最纯正标的之一，年增速>80%' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'T4',
+    num: 'Tier 4',
+    title: '光模块与收发器封装',
+    width: 'wide',
+    color: '#b45309',
+    bgGrad: ['#451a03','#b45309'],
+    bodyBg: 'rgba(180,83,9,.08)',
+    borderColor: 'rgba(180,83,9,.22)',
+    ccBorderColor: '#f59e0b',
+    tickerColor: '#fcd34d',
+    descBg: 'rgba(180,83,9,.1)',
+    descBorder: '#f59e0b',
+    descColor: '#fcd34d',
+    desc: '光模块是产业链规模最大环节，集成激光器（T2）+硅光芯片（T3）以QSFP-DD/OSFP标准封装交付数据中心和运营商；2024-2026年800G爆发周期，1.6T进入测试阶段；价格弹性最大，也是景气度最高的环节。',
+    subs: [
+      {
+        id: 'T4A',
+        label: '🏢 数据中心光模块（400G / 800G / 1.6T）',
+        color: '#b45309',
+        bgColor: 'rgba(180,83,9,.15)',
+        labelColor: '#fcd34d',
+        valBg: 'rgba(180,83,9,.07)',
+        valColor: '#fbbf24',
+        ccBorder: '#b45309',
+        tickerColor: '#fcd34d',
+        desc: '2025年800G为主战场（ASP约$400-500），1.6T开始测试；Coherent市占率~30%全球第一；CPO若2026年商业化将部分替代插拔模块，需持续跟踪架构迁移节奏。',
+        companies: [
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '数据中心光模块全球市占率第一（~30%），400G/800G量产，CPO同步布局' },
+          { ticker: 'FN', mcap:'mid', name: 'Fabrinet', desc: '全球最大光电合同制造商，毛利稳健（~12%净利），专注光电精密制造，CPO时代反而持续受益' },
+          { ticker: 'CLS', mcap:'large', name: 'Celestica Inc', desc: '加拿大EMS龙头，AI网络驱动营收$69亿(2022)→$97亿(2024)；高密交换机+光模块代工，客户含CSCO/ANET/超大规模云厂商；与FN互补——FN专注光电制造，CLS更擅长整机系统级集成' },
+          { ticker: 'AAOI', mcap:'small', name: 'Applied Optoelectronics', desc: '100G/400G数据中心模块，弹性最大但波动性最高，适合波段操作' },
+          { ticker: 'LITE', mcap:'mid', name: 'Lumentum Holdings', desc: '泵浦激光器+光模块双主线，积极向CPO光引擎转型布局' }
+        ]
+      },
+      {
+        id: 'T4B',
+        label: '🌐 相干光模块（ZR / ZR+ / 长途相干）',
+        color: '#92400e',
+        bgColor: 'rgba(146,64,14,.15)',
+        labelColor: '#fde68a',
+        valBg: 'rgba(146,64,14,.07)',
+        valColor: '#fcd34d',
+        ccBorder: '#92400e',
+        tickerColor: '#fde68a',
+        desc: '相干模块ASP是直接探测模块的3-5倍（约$800-2000+），Coherent占相干市场约40%份额；400ZR/ZR+标准化推动DCI渗透率从15%→30%，ASP下行但量增补偿有余。',
+        companies: [
+          { ticker: 'COHR', mcap:'large', name: 'Coherent Corp', desc: '相干模块全球第一，ICR/Optilux系列，DCI+长途运营商双覆盖' },
+          { ticker: 'CIEN', mcap:'mid', name: 'Ciena Corp', desc: 'WaveLogic自研相干DSP+模块，系统集成商中模块能力最强' },
+          { ticker: 'NOK', mcap:'large', name: 'Nokia Corp', desc: 'PSE-5x相干技术，欧洲运营商长期首选，稳定性高成长性适中' },
+          { ticker: 'CSCO', mcap:'mega', name: 'Cisco Systems (Acacia)', desc: '2021年收购Acacia获高性能相干模块能力；Acacia系列$1000-2000+ ASP；网络设备巨头+相干模块垂直整合，常被低估的光互连隐性受益方' }
+        ]
+      },
+      {
+        id: 'T4C',
+        label: '🔌 连接器 / Cage / AOC 物理封装',
+        color: '#78350f',
+        bgColor: 'rgba(120,53,15,.15)',
+        labelColor: '#fef08a',
+        valBg: 'rgba(120,53,15,.07)',
+        valColor: '#fde68a',
+        ccBorder: '#78350f',
+        tickerColor: '#fef08a',
+        desc: '光模块须插入交换机/服务器标准笼子（Cage），每个800G端口对应1个OSFP Cage；AI DC端口密度提升是cage需求刚性锚点；AOC主动光缆是机架内部光互连标准形态——此环节常被市场忽视，但受益AI扩容的确定性极高。',
+        companies: [
+          { ticker: 'APH', mcap:'large', name: 'Amphenol Corp', desc: 'QSFP-DD/OSFP Cage+高密背板连接器+AOC主动光缆全球领先；市值~$650亿；AI DC每台400口交换机需400+ cage；是光互连产业链中最被忽视的大盘标的' },
+          { ticker: 'TEL', mcap:'large', name: 'TE Connectivity', desc: '工业+数据中心连接器综合龙头，与APH竞争同一市场；高速光纤连接器/线缆组件+BEAD宽带接入网双线受益；市值~$430亿' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'T5',
+    num: 'Tier 5',
+    title: '光网络系统与设备',
+    width: '',
+    color: '#166534',
+    bgGrad: ['#052e16','#166534'],
+    bodyBg: 'rgba(22,101,52,.08)',
+    borderColor: 'rgba(22,101,52,.22)',
+    ccBorderColor: '#22c55e',
+    tickerColor: '#86efac',
+    descBg: 'rgba(22,101,52,.1)',
+    descBorder: '#22c55e',
+    descColor: '#86efac',
+    desc: '将光模块集成为WDM传输系统、ROADM光交换和OXC全光交换，面向运营商和超大规模数据中心；受益AI流量爆炸，但竞争更激烈（华为/中兴参与），需关注技术代差和定价能力的可持续性。',
+    subs: [
+      {
+        id: 'T5A',
+        label: '📶 WDM / 相干传输系统',
+        color: '#166534',
+        bgColor: 'rgba(22,101,52,.15)',
+        labelColor: '#86efac',
+        valBg: 'rgba(22,101,52,.07)',
+        valColor: '#4ade80',
+        ccBorder: '#166534',
+        tickerColor: '#86efac',
+        desc: '运营商骨干网升级+DCI驱动需求；Ciena靠WaveLogic技术领先约2年维持溢价（毛利率稳定在50%+）；美国BEAD宽带补贴$425亿为Adtran带来接入侧机遇。',
+        companies: [
+          { ticker: 'CIEN', mcap:'mid', name: 'Ciena Corp', desc: 'WaveLogic相干引擎技术领先同业约2年，系统+模块双线垂直整合' },
+          { ticker: 'NOK', mcap:'large', name: 'Nokia Corp', desc: '光传输+接入网综合布局，欧洲运营商市场保有率高，股息稳健' },
+          { ticker: 'ADTN', mcap:'small', name: 'Adtran Holdings', desc: '接入光网络设备，BEAD补贴直接受益方，小盘高弹性标的' },
+          { ticker: 'CALX', mcap:'small', name: 'Calix Inc', desc: '宽带接入平台+云管理软件，BEAD补贴$425亿最直接受益方之一；专注宽带运营商，客户粘性强' }
+        ]
+      },
+      {
+        id: 'T5B',
+        label: '🔀 光交换 / ROADM / OXC全光网络',
+        color: '#15803d',
+        bgColor: 'rgba(21,128,61,.15)',
+        labelColor: '#bbf7d0',
+        valBg: 'rgba(21,128,61,.07)',
+        valColor: '#86efac',
+        ccBorder: '#15803d',
+        tickerColor: '#bbf7d0',
+        desc: 'ROADM是现有长途波分网络核心，OXC是下一代全光交换（5-7年演进）；AI工厂能耗约束倒逼光交换替代电交换，降低约70%互连功耗；Lumentum WSS市占率>50%。',
+        companies: [
+          { ticker: 'LITE', mcap:'mid', name: 'Lumentum Holdings', desc: 'WSS/ROADM器件全球第一（市占率>50%），OXC全光交换超前布局' },
+          { ticker: 'CIEN', mcap:'mid', name: 'Ciena Corp', desc: '完整ROADM系统集成商，DCI全光网络交钥匙方案提供者' }
+        ]
+      },
+      {
+        id: 'T5C',
+        label: '🖧 以太网交换机 / AI集群网络集成',
+        color: '#065f46',
+        bgColor: 'rgba(6,95,70,.15)',
+        labelColor: '#6ee7b7',
+        valBg: 'rgba(6,95,70,.07)',
+        valColor: '#34d399',
+        ccBorder: '#065f46',
+        tickerColor: '#6ee7b7',
+        desc: '以太网交换机是AI集群的"神经系统"——每台旗舰交换机有512个800G端口，即512个光模块插槽+512个APH Cage。ANET出货节奏直接决定T4光模块需求量；2026年首批商用CPO交换机（ANET+AVGO）是CPO商业化的标志事件。此层是T4的直接客户，是T5与DC之间的系统集成环节。',
+        companies: [
+          { ticker: 'ANET', mcap:'large', name: 'Arista Networks', desc: 'AI集群以太网交换机全球市占率>40%；512端口/台×800G直接驱动光模块出货；2026年首批CPO商用交换机与AVGO联合推出；客户含Meta/MSFT/Google' },
+          { ticker: 'HPE', mcap:'large', name: 'HP Enterprise (Juniper)', desc: '2024年以$140亿收购Juniper Networks；Juniper AI-native交换机直接竞争ANET；HPE服务器+Juniper网络垂直整合；AI数据中心以太网交换第二大玩家' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'TM',
+    num: '横切层',
+    title: '测试与计量（T&M）',
+    crosscut: true,
+    width: 'wide',
+    color: '#9333ea',
+    bgGrad: ['#2e1065','#7e22ce'],
+    bodyBg: 'rgba(147,51,234,.08)',
+    borderColor: 'rgba(147,51,234,.22)',
+    ccBorderColor: '#a855f7',
+    tickerColor: '#d8b4fe',
+    descBg: 'rgba(147,51,234,.1)',
+    descBorder: '#a855f7',
+    descColor: '#d8b4fe',
+    desc: '产业链中最被忽视的横切层——T1→T5 每一层级的器件、模块、系统在出厂前均须通过光学测量验证。T&M 需求与产业链资本开支高度正相关，VIAV/KEYS 合计市占 60%+，是高确定性的"卖铲子"逻辑，与光模块 ASP 价格战完全脱钩。',
+    subs: [
+      {
+        id: 'TMA',
+        label: '🔬 光学测试仪表（全链覆盖 T1→T5）',
+        color: '#9333ea',
+        bgColor: 'rgba(147,51,234,.15)',
+        labelColor: '#d8b4fe',
+        valBg: 'rgba(147,51,234,.07)',
+        valColor: '#c4b5fd',
+        ccBorder: '#9333ea',
+        tickerColor: '#d8b4fe',
+        desc: 'T1 OTDR光纤检测 · T2/T3 光谱分析仪OSA · T4 800G全自动测试台（VIAV市占>40%）· T5 WDM线路测试。AI Capex直接驱动仪器订单：T4产能扩张1× → VIAV仪器需求约0.3×同比增长，与光模块ASP无关。',
+        companies: [
+          { ticker: 'VIAV', mcap:'small', name: 'Viavi Solutions', desc: '光网络测试仪表垂直专家，T1→T5全链覆盖；800G模块全自动测试台市占率>40%；约40%收入来自DC测试，AI Capex直接驱动仪器订单；小盘高弹性（Beta~1.5），纯光互连Beta' }
+        ]
+      },
+      {
+        id: 'TMB',
+        label: '📏 电子测量与协议分析（SerDes + 光子 + PCIe）',
+        color: '#7c3aed',
+        bgColor: 'rgba(124,58,237,.15)',
+        labelColor: '#c4b5fd',
+        valBg: 'rgba(124,58,237,.07)',
+        valColor: '#a78bfa',
+        ccBorder: '#7c3aed',
+        tickerColor: '#c4b5fd',
+        desc: 'T3B SerDes/PAM4信号完整性 · T4 400G/800G相干矢量分析 · T3C PCIe Gen5/6/CXL协议分析仪（ALAB/CRDO研发必用）。每代新速率标准落地→换代采购周期，领先大规模量产12-18个月。',
+        companies: [
+          { ticker: 'KEYS', mcap:'large', name: 'Keysight Technologies', desc: '高端电子+光学综合测试仪器；T3/T4/T3C全覆盖；1.6T/3.2T新速率标准带动换代采购周期；光子测试约15%收入增速加速；大盘稳健复合增速标的（市值~$200亿）' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'EDA',
+    num: '横切层',
+    title: '光子 EDA 设计工具',
+    crosscut: true,
+    width: 'wide',
+    color: '#4f46e5',
+    bgGrad: ['#1e1b4b','#3730a3'],
+    bodyBg: 'rgba(79,70,229,.08)',
+    borderColor: 'rgba(79,70,229,.22)',
+    ccBorderColor: '#818cf8',
+    tickerColor: '#a5b4fc',
+    descBg: 'rgba(79,70,229,.1)',
+    descBorder: '#818cf8',
+    descColor: '#a5b4fc',
+    desc: '光子芯片设计（PIC）需要专用 EDA 工具——传统数字 EDA 无法处理电磁场/光场耦合、波导弯曲、多物理场协同仿真。每家 T3A 硅光公司（AVGO/MRVL/INTC 及 GFS PDK 客户）均须购买工具，光子业务规模化→EDA订阅收入稳定增长（"隐形税"逻辑）。',
+    subs: [
+      {
+        id: 'EDAA',
+        label: '🔧 光子 EDA 三大平台（T3A 硅光 PIC 设计必选）',
+        color: '#4f46e5',
+        bgColor: 'rgba(79,70,229,.15)',
+        labelColor: '#a5b4fc',
+        valBg: 'rgba(79,70,229,.07)',
+        valColor: '#818cf8',
+        ccBorder: '#4f46e5',
+        tickerColor: '#a5b4fc',
+        desc: '光子EDA仅占各公司收入<2%，是正面评级的边际加分项而非独立主题。SNPS RSoft / CDN Lumerical FDTD / ANSS Lumerical+HFSS三平台分别侧重波导仿真、精密电磁仿真、多物理场协同（CPO光+热+力学）。',
+        companies: [
+          { ticker: 'SNPS', mcap:'large', name: 'Synopsys Inc', desc: 'RSoft Photonic Suite（业界最广泛）：BeamPROP波导传播/ModeSYS光链路仿真，已整合入PrimeSim支持光-电协同设计；光子EDA是SNPS EDA帝国的光子时代护城河延伸' },
+          { ticker: 'CDN',  mcap:'large', name: 'Cadence Design Systems', desc: '收购Lumerical提供FDTD/FDE/EME精密电磁仿真；TFLN调制器和CPO光引擎设计首选工具，被COHR/LITE/GFS PDK广泛采用；Photonic Design Platform' },
+          { ticker: 'ANSS', mcap:'large', name: 'Ansys Inc', desc: 'Lumerical+HFSS多物理场：FDTD电磁仿真+结构热仿真；CPO光+热+力学协同设计，AVGO/INTC CPO开发必备工具；2021年收购Lumerical整合光子EDA' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'TF',
+    num: '前沿',
+    title: '未上市前沿架构创始者',
+    crosscut: true,
+    width: 'wide',
+    color: '#d97706',
+    bgGrad: ['#451a03','#92400e'],
+    bodyBg: 'rgba(217,119,6,.08)',
+    borderColor: 'rgba(217,119,6,.22)',
+    ccBorderColor: '#f59e0b',
+    tickerColor: '#fcd34d',
+    descBg: 'rgba(217,119,6,.1)',
+    descBorder: '#f59e0b',
+    descColor: '#fcd34d',
+    desc: '以下公司均未上市，技术路线将直接影响 2026–2028 年光互连格局（对应 OIO 信号架构）。战略价值：竞争对手情报 + 并购目标追踪 + 第一性原理技术验证。颠覆威胁：Ayar Labs TeraPHY 直接挑战 T4 可插拔模块与 CRDO AEC；Lightmatter Passage 光交换矩阵威胁 ANET/CSCO 电交换机。',
+    subs: [
+      {
+        id: 'TFA',
+        label: '🚀 光 I/O Chiplet & 光子互连 Fabric（In-Package Optics / OIO 架构，2027+ 节点）',
+        color: '#d97706',
+        bgColor: 'rgba(217,119,6,.15)',
+        labelColor: '#fcd34d',
+        valBg: 'rgba(217,119,6,.07)',
+        valColor: '#fbbf24',
+        ccBorder: '#d97706',
+        tickerColor: '#fcd34d',
+        desc: 'T3A/T5C层前沿，OIO信号架构代表（功耗-80%，带宽密度4×提升）。与上游T2/T3深度耦合，TSMC 3D CoW为工艺护城河；NVDA/INTC/AMD/Samsung均有战略投资布局。',
+        companies: [
+          { ticker: 'AYAR', private: true, mcap:'', name: 'Ayar Labs（私有）', desc: 'TeraPHY光I/O Chiplet：光TX/RX直接集成封装内（UCIe接口），带宽密度4×↑，功耗-80%；TSMC 3D CoW工艺；NVDA/INTC/AMD战略投资；Series C估值~$3亿。⚠️ 颠覆风险：对CRDO HiWire AEC和T4可插拔模块构成直接挑战；AVGO/INTC潜在并购目标' },
+          { ticker: 'LMAT', private: true, mcap:'', name: 'Lightmatter（私有）', desc: 'Passage光子互连平台：硅光波导矩阵替代铜线Crossbar，Tbps互连，延迟<1ns（vs铜>10ns），功耗-60%；B轮后估值~$45亿；Google DeepMind已签MOU验证。🎯 机会：若AI超算切换光Fabric，ANET/CSCO电交换机将首当其冲；ANET/AVGO潜在并购目标' },
+          { ticker: 'CLAI', private: true, mcap:'', name: 'Celestial AI（私有）', desc: 'Photonic Fabric：专为GPU-to-Memory(HBM/DRAM)带宽瓶颈设计的光子互连；$1.75亿（Samsung Ventures/SK Hynix战略投资）；路线差异化：专注Memory Bandwidth，与Ayar/Lightmatter互补。🔬 若光子HBM接口量产将颠覆ALAB/CRDO总线互连市场' }
+        ]
+      }
+    ]
+  }
+];
+
+const SPECIAL_SECTIONS = [
+  {
+    id: 'special-dc',
+    bgColor: 'rgba(14,165,233,.06)',
+    borderColor: 'rgba(14,165,233,.2)',
+    accentColor: '#38bdf8',
+    title: '⬡ AI 超大规模数据中心 — 产业链终端需求侧核心驱动力',
+    subtitle: '云厂商与AI公司是光互连最终需求来源，GPU算力集群光互连带宽需求CAGR超40%；2025年全球AI/云基础设施资本开支合计超$3000亿',
+    companies: [
+      { ticker: 'NVDA', mcap:'mega', name: 'Nvidia Corp', desc: 'GPU算力集群最大光互连需求驱动方；NVLink/光铜混合互连推动800G/1.6T爆发；CPO最大受益者之一；AI Factories建设节奏决定光互连订单能见度' },
+      { ticker: 'META', mcap:'mega', name: 'Meta Platforms', desc: '全球最大400G单一买家之一；2025年AI基础设施资本开支达$600-650亿；光模块直接采购金额超$10亿；MTIA自研芯片促进算力扩张' },
+      { ticker: 'MSFT', mcap:'mega', name: 'Microsoft Corp', desc: 'Azure AI光互连采购全球前三；与OpenAI深度绑定持续推动Capex；数据中心建设计划明确至2027年；光互连多供应商策略' },
+      { ticker: 'AMZN', mcap:'mega', name: 'Amazon (AWS)', desc: 'AWS全球最大云基础设施；Trainium/Inferentia自研芯片集群扩张带动光互连需求；光互连采购全链覆盖上下游' }
+    ]
+  }
+];
+
+/* ── Ticker 详情查询表 ── */
+const TICKER_INFO = {};
+TIERS.forEach(t => (t.subs||[]).forEach(s => s.companies.forEach(c => {
+  TICKER_INFO[c.ticker] = { name: c.name, desc: c.desc, color: s.tickerColor || t.tickerColor, tier: t.title };
+})));
+SPECIAL_SECTIONS.forEach(ss => ss.companies.forEach(c => {
+  TICKER_INFO[c.ticker] = { name: c.name, desc: c.desc, color: ss.accentColor, tier: 'AI超大规模DC' };
+}));
+
+const SEGMENTS = [
+  { id: 'T1', label: 'T1', sub: '基础材料', color: '#c4b5fd' },
+  { id: 'T2', label: 'T2', sub: '光子器件', color: '#93c5fd' },
+  { id: 'T3', label: 'T3', sub: '硅光芯片', color: '#7dd3fc' },
+  { id: 'T4', label: 'T4', sub: '光模块', color: '#fcd34d' },
+  { id: 'T5', label: 'T5', sub: '光网系统', color: '#86efac' },
+  { id: 'T5C', label: 'T5C', sub: '以太网交换', color: '#34d399' },
+  { id: 'DC', label: 'DC', sub: 'AI超大规模', color: '#38bdf8' }
+];
+
+const THEMES = [
+  {
+    color: '#f87171',
+    icon: '🚀',
+    name: 'AI算力集群光互连需求爆发',
+    priority: { lvl: 0, label: 'P0 最优先', color: '#f87171' },
+    reason: '2024-2026 AI训练集群GPU互连带宽CAGR>42%；800G模块2025年出货额$80亿+，同比翻倍增长',
+    desc: 'ChatGPT/大模型训练对GPU互连带宽需求指数级增长，从100G跨越至400G/800G；超大规模DC资本开支2025年合计超$3000亿，GPU利用率天花板由光互连带宽决定，光模块成为AI算力"刚性基础设施"，需求可见度高至2027年。',
+    note: '链路：AI算力扩张(DC) → 光模块量价双升(T4) → 激光器/PIC供不应求(T2/T3) → InP晶圆趋紧(T1)。T4是最直接受益，T2是弹性最大，T3是长期格局最优。',
+    segs: {
+      T1: { lvl: 'med', cos: ['AXTI', 'GLW'], desc: 'InP晶圆随激光器扩产拉动；光纤需求跟随DC建设' },
+      T2: { lvl: 'high', cos: ['LITE', 'COHR', 'MTSI'], desc: '800G EML/VCSEL供不应求；毛利提升周期明确可见' },
+      T3: { lvl: 'high', cos: ['AVGO', 'MRVL', 'ALAB', 'CRDO'], desc: '硅光PIC+DSP是800G/1.6T核心成本中枢；ALAB Retimer+CRDO AEC为光模块提供接口适配' },
+      T4: { lvl: 'high', cos: ['COHR', 'FN', 'AAOI', 'APH'], desc: '最直接受益层；出货量与ASP均向上；APH cage需求随端口密度刚性增长' },
+      T5: { lvl: 'low', cos: ['CIEN'], desc: 'DCI需求间接拉动，非主要受益层' },
+      T5C: { lvl: 'high', cos: ['ANET', 'HPE'], desc: 'ANET 512×800G端口是T4光模块最大直接买家；出货量与光模块需求1:1绑定；每季度订单可视度强' },
+      DC: { lvl: 'high', cos: ['NVDA', 'META', 'MSFT', 'AMZN'], desc: '需求端核心驱动；资本开支可见度高至2027年' }
+    }
+  },
+  {
+    color: '#fb923c',
+    icon: '⚛️',
+    name: 'CPO共封装光学重塑价值链',
+    priority: { lvl: 0, label: 'P0 最优先', color: '#fb923c' },
+    reason: 'CPO降低75%光互连功耗；2026年进入商业化量产；2028年CPO市场规模$80亿，年增速>60%',
+    desc: 'Co-Packaged Optics（CPO）将光引擎与交换机ASIC共封装在同一基板，消除PCB插拔损耗，功耗降低75%，这是光互连架构的革命性升级。Broadcom/Marvell/Intel是首批量产方；CPO将重构T4→T3的价值分配，硅光芯片单位价值大幅提升。',
+    note: '价值链从T4（传统插拔模块厂）向T3（硅光光引擎）迁移；T2（激光器有源器件）依然不可替代；Fabrinet等先进封装代工受益；小型传统光模块厂面临被颠覆的风险。',
+    segs: {
+      T1: { lvl: 'low', cos: ['GLW'], desc: '光纤基板材料小幅受益于CPO引脚规格升级' },
+      T2: { lvl: 'high', cos: ['COHR', 'LITE', 'MTSI'], desc: 'CPO光引擎中激光器/探测器依然刚需，价值不可替代' },
+      T3: { lvl: 'high', cos: ['AVGO', 'MRVL', 'INTC', 'GFS', 'ALAB'], desc: '硅光PIC是CPO核心；$15→$80+的价值重估；ALAB Retimer在CPO架构中同步升级' },
+      T4: { lvl: 'med', cos: ['FN', 'COHR', 'APH'], desc: 'CPO封装转向先进制造；APH需同步开发CPO专用连接器标准' },
+      T5: { lvl: 'low', cos: [], desc: '传统光网络系统层间接受益于CPO降本' },
+      T5C: { lvl: 'high', cos: ['ANET', 'HPE'], desc: 'ANET/HPE推动CPO交换机商业化；首批CPO产品2026年量产，是CPO从实验室到规模部署的关键验证方' },
+      DC: { lvl: 'high', cos: ['NVDA', 'MSFT'], desc: 'CPO降低总拥有成本；超大规模DC是最积极推动方' }
+    }
+  },
+  {
+    color: '#a78bfa',
+    icon: '💎',
+    name: '硅光平台规模化 — 成本革命',
+    priority: { lvl: 1, label: 'P1 高优先', color: '#a78bfa' },
+    reason: '硅光成本比InP低50-60%；2025年800G硅光模块BOM降至$120以下；渗透率2024→2026从35%→65%',
+    desc: '硅光子技术利用台积电/GF标准CMOS制程，将光子器件集成在硅晶圆，大幅降低成本与功耗。2024-2026年是硅光从验证走向规模量产的关键窗口期，Broadcom/Marvell已量产，Intel紧随，GF绑定多家客户，竞争格局相对清晰。',
+    note: '核心价值在T3（硅光平台拥有者获超额利润）；降本加速T4（模块出货量爆发）；GF代工受益；传统InP路线T2厂商面临压力，需向混合硅光方向转型。',
+    segs: {
+      T1: { lvl: 'low', cos: ['GLW'], desc: 'SOI晶圆基板小幅受益' },
+      T2: { lvl: 'med', cos: ['COHR', 'LITE', 'MTSI'], desc: 'InP激光器仍是光源，但调制/探测功能被硅光替代，压力与机遇并存' },
+      T3: { lvl: 'high', cos: ['AVGO', 'MRVL', 'INTC', 'GFS'], desc: '硅光平台价值中枢，超额毛利率来源，竞争壁垒深' },
+      T4: { lvl: 'high', cos: ['COHR', 'FN', 'AAOI'], desc: '硅光BOM下降驱动量的爆发，Fabrinet代工持续受益' },
+      T5: { lvl: 'low', cos: [], desc: '系统厂商间接受益于成本下降' },
+      T5C: { lvl: 'low', cos: ['ANET', 'HPE'], desc: '硅光BOM下降→模块成本降低→单端口TCO改善，有助ANET/HPE交换机部署规模扩张；间接受益' },
+      DC: { lvl: 'med', cos: ['NVDA', 'META'], desc: '总拥有成本下降，有利于扩大AI集群规模' }
+    }
+  },
+  {
+    color: '#34d399',
+    icon: '🌐',
+    name: '光纤基础设施长期建设主线',
+    priority: { lvl: 1, label: 'P1 高优先', color: '#34d399' },
+    reason: 'AI DC内部光纤需求CAGR 35%；BEAD宽带补贴$425亿；Corning 2025年供应严重不足，产能周期2-3年',
+    desc: 'Corning作为光纤预制棒全球龙头，在AI数据中心内部光纤爆发（单个超大规模AI DC用纤量是传统DC的10倍）和政府BEAD宽带补贴双重驱动下，迎来建厂以来最强周期。光纤是实物资产，需求可见度高，建新产能需2-3年，供给刚性保护价格——是典型的"确定性长期受益"逻辑标的。',
+    note: '核心在T1（GLW为最纯正受益），与T4光模块不同，光纤是一次性基础设施投入，需求稳定性更强，逻辑清晰；BEAD补贴带动T5接入层（ADTN等）同步受益；适合长期持有。',
+    segs: {
+      T1: { lvl: 'high', cos: ['GLW', 'AXTI'], desc: 'GLW是稀缺实物基础设施资产，供需缺口持续至2026年以上' },
+      T2: { lvl: 'low', cos: [], desc: '非主要传导链路，间接受益' },
+      T3: { lvl: 'low', cos: [], desc: '非主要传导链路，间接受益' },
+      T4: { lvl: 'med', cos: ['FN'], desc: '数据中心光缆组件制造需求小幅受益' },
+      T5: { lvl: 'med', cos: ['ADTN', 'CIEN'], desc: 'BEAD补贴带动接入光网络系统需求明确增长' },
+      T5C: { lvl: 'low', cos: ['ANET'], desc: 'AI DC光纤扩容随交换机端口密度同步提升；ANET受益于数据中心整体建设节奏，非直接光纤受益方' },
+      DC: { lvl: 'high', cos: ['MSFT', 'AMZN', 'META'], desc: '新建AI DC是最大光纤消耗方，单个园区用纤超百万公里' }
+    }
+  },
+  {
+    color: '#38bdf8',
+    icon: '🔄',
+    name: '相干技术下沉DCI与城域网',
+    priority: { lvl: 2, label: 'P2 中关注', color: '#38bdf8' },
+    reason: '400ZR/ZR+相干模块ASP降至$800以下；DCI渗透率2025年从15%→30%；相干市场规模达$22亿',
+    desc: '相干技术原本用于长途传输，通过400ZR/ZR+标准化模块化，降本后正在下沉至数据中心互联（DCI）和城域接入，使中小云厂商也能负担相干性能；Ciena的系统优势正向Coherent的模块优势迁移是核心产业趋势。',
+    note: 'T4相干模块（COHR最强）是核心受益；T5系统（CIEN/NOK在过渡期有系统到模块的迁移收益）；T3 DSP是成本下降关键（Marvell相干DSP占模块成本40%+）。',
+    segs: {
+      T1: { lvl: 'low', cos: [], desc: '材料层间接受益，非主要驱动链路' },
+      T2: { lvl: 'med', cos: ['COHR', 'LITE'], desc: 'EML/相干光源是相干模块不可或缺的有源器件' },
+      T3: { lvl: 'high', cos: ['MRVL', 'COHR'], desc: '相干DSP成本下降是整个主题商业化的关键路径' },
+      T4: { lvl: 'high', cos: ['COHR', 'CIEN', 'CSCO'], desc: '400ZR/ZR+模块商业化核心受益；CSCO/Acacia是常被忽视的大盘相干模块标的' },
+      T5: { lvl: 'med', cos: ['CIEN', 'NOK'], desc: '系统向模块化迁移有3-5年过渡期，影响相对可控' },
+      T5C: { lvl: 'med', cos: ['ANET', 'HPE'], desc: '相干 DCI 模块插入 ANET/HPE 交换机；DCI 降本推动采购量增长' },
+      DC: { lvl: 'med', cos: ['AMZN'], desc: 'DCI降本后中小云厂商采购意愿大增，量的增长补偿' }
+    }
+  },
+  {
+    color: '#fbbf24',
+    icon: '🔆',
+    name: '全光网络与OXC光交换长期演进',
+    priority: { lvl: 2, label: 'P2 中关注', color: '#fbbf24' },
+    reason: 'OXC全光交换2027年市场规模达$8亿；AI工厂能耗约束倒逼光交换替代电交换，降低约70%互连功耗',
+    desc: '随AI工厂网络流量增大，传统电交换能耗成为数据中心功耗瓶颈，全光网络/OXC技术有望重塑DC内部网络架构。这是5-7年的长期主题，技术成熟度尚低，但方向清晰；适合前瞻性建仓，而非短期交易，需持续跟踪商业化节奏。',
+    note: 'T5（光交换系统）和T2（WSS/ROADM器件）是最直接受益方；Lumentum在WSS器件市占率超50%是最纯正受益标的；T3芯片负责光交换控制逻辑。',
+    segs: {
+      T1: { lvl: 'low', cos: [], desc: '长期边缘受益，非主要催化剂' },
+      T2: { lvl: 'high', cos: ['LITE', 'COHR'], desc: 'WSS是OXC核心器件，Lumentum市占率>50%，护城河极深' },
+      T3: { lvl: 'med', cos: ['AVGO', 'MRVL'], desc: '光交换控制芯片和集成方案，CPO延伸至交换架构' },
+      T4: { lvl: 'low', cos: ['FN'], desc: '制造层间接受益，非主要受益层' },
+      T5: { lvl: 'high', cos: ['LITE', 'CIEN'], desc: 'OXC系统集成和全光ROADM是下一代核心战场' },
+      T5C: { lvl: 'high', cos: ['ANET', 'HPE'], desc: 'AI工厂网络层：ANET/HPE交换机是OXC全光网络最大潜在采购方' },
+      DC: { lvl: 'high', cos: ['NVDA', 'MSFT'], desc: 'AI工厂能耗刚性需求驱动全光网络，超大规模DC是最积极推动方' }
+    }
+  }
+];
+
+/* ═══════════════════════════════════════════
+   长期价值投资视角数据
+═══════════════════════════════════════════ */
+const VI_CARDS = [
+  {
+    icon: '🏆',
+    title: '买入标的（3只）：COHR / MRVL / FN',
+    color: '#34d399',
+    tag: '深研 Buy',
+    body: '<b>COHR Buy/$284：</b>T1~T4唯一垂直整合巨头，FY2026E EBITDA $2.0B，EV/EBITDA主方法目标$277，分析师共识$284，当前$253.63上行+12%；合并整合进入尾声，EBITDA margin持续改善。<b>MRVL Buy/$115：</b>硅光DSP外部市占率>60%，Teralynx系列AI互连必选，高毛利DSP收入直接受益AI基础设施采购增长。<b>FN Buy/$538：</b>全球最大光电合同制造商，CEO用"exceptional quarter"表述Q2FY26，PE 38x综合目标$538，分析师共识$582（+18%上行）；代工模式不承担技术路线风险，CPO时代反而持续受益。'
+  },
+  {
+    icon: '📊',
+    title: '持有标的（10只）：估值合理，等待更好买点',
+    color: '#fbbf24',
+    tag: '深研 Hold',
+    body: '<b>GLW $133：</b>Hold；EV/EBITDA 27.94x历史高位，$110-115为理想买入区间；光纤基础设施护城河强，但当前安全边际有限。<b>LITE $673：</b>Hold/Watch；EPS转正阶段性，VCSEL+WSS器件双主线，ROE改善周期中。<b>CIEN $390：</b>Hold；WaveLogic DSP技术领先2年护城河，$7B积压可见度高，但股价已超分析师共识$335.94。<b>AAOI $90：</b>Hold；P/S 11x定价，800G纯玩家但客户集中82%（Amazon）执行风险高。<b>NOK $8：</b>Hold；EV/EBITDA 10x，Nokia Tech IP稳固护城河，成长性有限。<b>ADTN $14：</b>Hold；BEAD $425亿补贴受益，EV/EBITDA 10x，等待政策执行验证后转Buy。<b>IPGP $107：</b>Hold；工业激光需求疲软，通信转型尚在进行，PE主方法与分析师共识差距大。<b>MTSI $190：</b>Hold；PE次选$190，CPO光引擎关键供应商逻辑成立，但分析师共识$261与模型差异大，需更多验证。<b>GFS $50：</b>Hold；硅光代工平台价值清晰，但盈利能力改善节奏慢，300mm产能利用率是关键跟踪指标。<b>INTC $46：</b>Hold；硅光业务价值需独立上市解锁，整体转型不确定性高。'
+  },
+  {
+    icon: '🚨',
+    title: '卖出警告：AXTI 当前价格严重透支预期',
+    color: '#f87171',
+    tag: '深研 Sell',
+    body: '<b>AXTI Sell/$35：</b>当前价$52.73已超过<b>所有5位分析师目标价上限（最高$45）</b>，P/S 33x极度泡沫定价。InP积压创历史新高$6000万是真实信号，但管理层目标需要InP季度营收从$8M→$35M（4倍增长）才能支撑当前估值，执行难度极高；合理买入区间$15-20，现价有-34%~-52%下行风险。双向地缘政治管制是极端尾风险。'
+  },
+  {
+    icon: '⚡',
+    title: 'CPO赛道前瞻布局：AVGO + FN（INTC待验证）',
+    color: '#fb923c',
+    tag: '长期催化',
+    body: 'Broadcom（AVGO）已量产硅光800G，CPO路线图最清晰，AI ASIC+光互连双线驱动。Fabrinet（FN，Buy/$538）是CPO先进封装代工最大受益者，CEO表述"exceptional quarter"，不承担技术路线风险而稳稳捕获制造价值。Intel（INTC，Hold/$46）硅光业务有望独立上市解锁估值，但整体转型风险高；建议等待光子业务独立上市事件驱动再介入。'
+  },
+  {
+    icon: '🌊',
+    title: '选股框架：优先垂直整合/技术壁垒，规避纯组装',
+    color: '#a78bfa',
+    tag: '选股原则',
+    body: '光互连行业技术迭代快（2-3年一代），真正的长期价值来自：①垂直整合（COHR覆盖T1~T4护城河最深）；②技术领先代差（CIEN WaveLogic领先2年+，MRVL DSP市占>60%）；③制造代工（FN不押技术路线，CPO时代反而持续受益）。<b>规避：</b>纯组装型光模块厂面临CPO颠覆+中国竞争双重压力；AXTI当前价格已透支未来3年预期，需回落后再看。'
+  },
+  {
+    icon: '⚠️',
+    title: '主要风险点',
+    color: '#f87171',
+    tag: '风险提示',
+    body: '①景气度周期风险：超大规模DC资本开支有周期性，2018/2022年曾出现去库存；②CPO替代节奏不确定：若2027年前CPO大规模落地，传统插拔模块厂压力加大；③中美脱钩风险：中国制造商（中际旭创/新易盛）迅速崛起，对COHR/AAOI形成价格竞争；④估值泡沫：AXTI P/S 33x已超所有分析师目标，部分光互连标的相对价值低于预期（IPGP PE模型$96 vs 共识$145，差异较大）。'
+  },
+  {
+    icon: '🆕',
+    title: '新增关注：ALAB / APH / CRDO / CSCO',
+    color: '#a78bfa',
+    tag: '补充标的',
+    body: '<b>ALAB（Astera Labs）</b>：AI互连芯片最纯正新贵，PCIe/CXL Retimer直接嵌入GPU服务器，年增速>80%；<b>APH（Amphenol）</b>：光模块Cage+AOC隐形基础设施，被市场忽视的$650亿大盘确定性受益；<b>CRDO（Credo）</b>：SerDes/AEC短距互连，AI大客户集中，与MRVL互补；<b>CSCO（Cisco/Acacia）</b>：常被低估的相干模块隐性受益方，Acacia系列ASP$1000-2000+。'
+  },
+  {
+    icon: '📅',
+    title: '关键时间节点跟踪',
+    color: '#38bdf8',
+    tag: '催化剂',
+    body: '2025Q3-Q4：800G出货量/ASP走势；2025年下半年：1.6T模块首批量产出货；2026年：CPO商业化验证（Arista/Broadcom首批CPO交换机量产）；2026-2027年：Intel光子业务独立上市；2027年：OXC市场规模突破临界点；<b>近期触媒：</b>ADTN BEAD补贴执行进度（转Buy条件）；AAOI Q2/Q3执行交叉验证；MTSI CPO光引擎订单放量时间表。'
+  },
+  {
+    icon: '🌏',
+    title: '中国供应链崛起：值得关注的隐性风险',
+    color: '#fbbf24',
+    tag: '风险监控',
+    body: '中际旭创（300308）、新易盛（300502）、天孚通信（300394）等A股公司正快速提升800G光模块份额，主要面向Meta/微软等超大规模DC。中国厂商在A/H股有独立投资机会，但对美股标的（尤其COHR/AAOI）构成价格竞争压力，需持续监控份额变化。T3硅光/DSP受出口管制制约，是美股护城河最稳固的环节。'
+  }
+];
+
+/* ═══════════════════════════════════════════
+   渲染引擎
+═══════════════════════════════════════════ */
+function initLinks() {
+  document.querySelectorAll('[data-ticker]').forEach(card => {
+    const ticker = card.dataset.ticker;
+    const info = FEISHU[ticker];
+    const el = card.querySelector('.cc-links');
+    if (!el) return;
+    if (info && info.researched) {
+      if (info.rating) {
+        const chip = document.createElement('span');
+        chip.className = 'rating-chip ' + info.rating.toLowerCase();
+        chip.textContent = info.rating + ' ' + (info.target || '');
+        el.appendChild(chip);
+      }
+      const makeBtn = (href, cls, label) => {
+        const a = document.createElement('a');
+        if (href && href !== '#') { a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+        else { a.href = 'javascript:void(0)'; a.style.opacity = '0.4'; a.style.cursor = 'default'; a.addEventListener('click', e => e.preventDefault()); }
+        a.className = 'cc-btn ' + cls;
+        a.innerHTML = label;
+        return a;
+      };
+      el.appendChild(makeBtn(info.doc, 'doc', '📄 研报'));
+      el.appendChild(makeBtn(info.val, 'xls', '📊 估值'));
+    } else {
+      const sp = document.createElement('span');
+      sp.className = 'cc-btn pending';
+      sp.textContent = '待研究';
+      el.appendChild(sp);
+    }
+  });
+  const total = new Set([...document.querySelectorAll('[data-ticker]')].map(el => el.dataset.ticker)).size;
+  const done = Object.values(FEISHU).filter(v => v.researched).length;
+  const prog = document.getElementById('research-progress');
+  if (prog) prog.textContent = done + ' / ' + total + ' 家公司已完成深度研究';
+  const rc = document.getElementById('researched-count');
+  if (rc) rc.textContent = done;
+}
+
+function renderLegend() {
+  const legend = document.getElementById('legend');
+  if (!legend) return;
+  TIERS.forEach(t => {
+    if (t.crosscut) return; // skip crosscut tiers in legend
+    (t.subs || []).forEach(s => {
+      if (s.id === 'T5C') return; // 以太网交换机 - skip from legend
+      const d = document.createElement('div');
+      d.className = 'leg';
+      const raw = s.label.replace(/^.{1,2}\s/, '');
+      d.innerHTML = `<div class="leg-dot" style="background:${s.color}"></div>${raw}`;
+      legend.appendChild(d);
+    });
+  });
+  // AI超大规模DC legend item removed per user request
+}
+
+/* ── 各 Tier 对应中国企业 ── */
+const CN_BY_TIER = {
+  T1: [
+    { ticker:'601869.SH', name:'长飞光纤 YOFC', desc:'中国最大光纤制造商，全球前三，国内AI DC建设核心受益', threat:'高', tc:'#f87171' }
+  ],
+  T2: [
+    { ticker:'688498.SH', name:'源杰科技', desc:'国内少数可量产EML/DFB芯片，800G器件攻坚中，国产替代先锋', threat:'中↑', tc:'#fbbf24' },
+    { ticker:'000988.SZ', name:'华工正源（华工科技）', desc:'DFB激光芯片+通信光器件，国内光芯片前三', threat:'中', tc:'#fbbf24' },
+    { ticker:'002281.SZ', name:'光迅科技 Accelink', desc:'DFB/PIN光芯片完整产线，中国电信级光器件龙头', threat:'中', tc:'#fbbf24' }
+  ],
+  T3: [
+    { ticker:'⚠ 空白', name:'硅光/DSP尚无规模标的', desc:'受出口管制（EDA工具+先进制程）+技术代差双重制约，华为内部有布局但不对外；是美股T3护城河最稳固的原因', threat:'低', tc:'#34d399' }
+  ],
+  T4: [
+    { ticker:'300308.SZ', name:'中际旭创 Innolight', desc:'全球光模块出货量TOP2，Meta/微软主供，400G/800G领先量产', threat:'极高', tc:'#f43f5e' },
+    { ticker:'300502.SZ', name:'新易盛 Eoptolink', desc:'400G/800G全系列，全球前五，亚马逊主要供应商', threat:'高', tc:'#f87171' },
+    { ticker:'300394.SZ', name:'天孚通信', desc:'光纤阵列FAU+精密陶瓷组件，CPO时代关键零部件', threat:'中高', tc:'#fb923c' },
+    { ticker:'002281.SZ', name:'光迅科技（模块线）', desc:'100G/400G光模块，中国电信级模块综合龙头', threat:'中', tc:'#fbbf24' }
+  ],
+  T5: [
+    { ticker:'600498.SH', name:'烽火通信', desc:'中国电信WDM/OTN主力，国内运营商市场前三', threat:'中（境内）', tc:'#fbbf24' },
+    { ticker:'000063.SZ', name:'中兴通讯 ZTE', desc:'5G+光网络综合厂商，运营商光传输全球前四', threat:'高（境内）', tc:'#f87171' }
+  ]
+};
+
+const MCAP_CFG = {
+  mega:  { label:'超大盘', color:'#f97316', bg:'rgba(249,115,22,.15)', border:'rgba(249,115,22,.4)' },
+  large: { label:'大盘',   color:'#60a5fa', bg:'rgba(96,165,250,.15)',  border:'rgba(96,165,250,.4)' },
+  mid:   { label:'中盘',   color:'#34d399', bg:'rgba(52,211,153,.15)',  border:'rgba(52,211,153,.4)' },
+  small: { label:'小盘',   color:'#94a3b8', bg:'rgba(148,163,184,.15)', border:'rgba(148,163,184,.4)' }
+};
+function mcapBadgeHtml(mcap) {
+  const m = MCAP_CFG[mcap];
+  if (!m) return '';
+  return `<span class="mcap-badge" style="background:${m.bg};color:${m.color};border:1px solid ${m.border};">${m.label}</span>`;
+}
+
+function renderChain() {
+  const wrap = document.getElementById('chain-wrap');
+  if (!wrap) return;
+  const arrow = `<div class="arr-col"><div class="arr-sp"></div><div class="arr-body">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div></div>`;
+
+  let prevRendered = false;
+  TIERS.forEach((t, i) => {
+    if (t.crosscut) return; // handled by renderCrosscut
+    if (prevRendered) wrap.innerHTML += arrow;
+    prevRendered = true;
+    let subsHtml = '';
+    (t.subs || []).forEach(s => {
+      const cosHtml = s.companies.map(c => {
+        const isPrivate = c.private === true;
+        const tickerAttr = isPrivate ? '' : `data-ticker="${c.ticker}"`;
+        const linksHtml = isPrivate
+          ? `<span class="cc-btn" style="background:rgba(217,119,6,.15);color:#fbbf24;border:1px solid rgba(217,119,6,.4);font-size:8px;padding:2px 6px;border-radius:3px;white-space:nowrap;">私有·未上市</span>`
+          : `<div class="cc-links"></div>`;
+        return `
+        <div class="cc" ${tickerAttr} style="border-left-color:${s.ccBorder||t.ccBorderColor};">
+          <div class="cc-top"><div class="cc-info">
+            <div class="cc-ticker" style="color:${s.tickerColor||t.tickerColor};">${c.ticker}</div>
+            <div class="cc-name">${c.name}</div>
+            <div class="cc-desc">${c.desc}</div>
+          </div><div class="cc-links">${linksHtml}</div></div>
+        </div>`;
+      }).join('');
+      subsHtml += `
+        <div>
+          <div class="sub-lbl" style="background:${s.bgColor};color:${s.labelColor};">${s.label}</div>
+          ${s.desc ? `<div class="sub-val" style="background:${s.valBg};color:${s.valColor};">${s.desc}</div>` : ''}
+          ${cosHtml}
+        </div>`;
+    });
+
+    // 注入中国企业（仅限非横切层）
+    const cnCos = !t.crosscut && CN_BY_TIER[t.id];
+    if (cnCos && cnCos.length) {
+      const cnCardsHtml = cnCos.map(c => `
+        <div class="cc" style="border-left-color:#dc2626;background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.15);">
+          <div class="cc-top"><div class="cc-info">
+            <div style="display:flex;align-items:center;gap:5px;line-height:1;">
+              <span class="cc-ticker" style="color:#fca5a5;font-size:12px;">${c.ticker}</span>
+              <span style="font-size:7.5px;font-weight:700;padding:1px 4px;border-radius:2px;
+                background:${c.tc}20;color:${c.tc};border:1px solid ${c.tc}50;white-space:nowrap;">${c.threat}</span>
+            </div>
+            <div class="cc-name">${c.name}</div>
+            <div class="cc-desc">${c.desc}</div>
+          </div></div>
+        </div>`).join('');
+      subsHtml += `
+        <div style="margin-top:10px;">
+          <div style="font-size:10px;font-weight:600;padding:4px 8px;border-radius:4px;margin-bottom:5px;
+            background:rgba(220,38,38,.1);color:#fca5a5;border:1px solid rgba(220,38,38,.25);
+            letter-spacing:.3px;">🇨🇳 中国参与方</div>
+          ${cnCardsHtml}
+        </div>`;
+    }
+
+    if (t.crosscut) return; // crosscut tiers handled separately by renderCrosscut()
+    wrap.innerHTML += `
+      <div class="tb ${t.width||''}" id="${t.id}">
+        <div class="th" style="background:linear-gradient(135deg,${t.bgGrad[0]},${t.bgGrad[1]});">
+          <div class="th-num">${t.num}</div>
+          <div class="th-title">${t.title}</div>
+        </div>
+        <div class="tb-body" style="background:${t.bodyBg};border-color:${t.borderColor};">
+          <div class="t-desc" style="background:${t.descBg};border-left-color:${t.descBorder};color:${t.descColor};">${t.desc}</div>
+          ${subsHtml}
+        </div>
+      </div>`;
+  });
+}
+
+
+function renderCrosscut() {
+  const wrap = document.getElementById('crosscut-wrap');
+  if (!wrap) return;
+  TIERS.filter(t => t.crosscut).forEach(t => {
+    // Collect all companies from all subs
+    const allCos = [];
+    (t.subs || []).forEach(s => {
+      s.companies.forEach(c => allCos.push({ c, s }));
+    });
+    const cardsHtml = allCos.map(({c, s}) => {
+      const isPrivate = c.private === true;
+      const tickerAttr = isPrivate ? '' : `data-ticker="${c.ticker}"`;
+      const linksHtml = isPrivate
+        ? `<span class="cc-btn" style="background:rgba(217,119,6,.15);color:#fbbf24;border:1px solid rgba(217,119,6,.4);font-size:8px;padding:2px 6px;border-radius:3px;white-space:nowrap;">私有·未上市</span>`
+        : `<div class="cc-links"></div>`;
+      return `<div class="special-card" ${tickerAttr}
+        style="background:${t.bodyBg};border:1px solid ${t.borderColor};border-left:3px solid ${s.ccBorder||t.ccBorderColor};">
+        <div class="cc-ticker" style="color:${s.tickerColor||t.tickerColor};font-size:13px;">${c.ticker}</div>
+        <div class="cc-name" style="color:var(--text2);font-size:11px;margin-top:3px;">${c.name}</div>
+        <div class="cc-desc" style="color:var(--text3);font-size:10px;margin-top:4px;line-height:1.4;">${c.desc}</div>
+        <div class="cc-links" style="flex-direction:row;margin-top:7px;">${linksHtml}</div>
+      </div>`;
+    }).join('');
+    const div = document.createElement('div');
+    div.id = t.id;
+    div.className = 'special-row';
+    div.style.cssText = `background:${t.bodyBg};border:1px solid ${t.borderColor};margin-bottom:14px;`;
+    div.innerHTML = `
+      <div class="special-hdr">
+        <div class="special-title" style="color:${t.color};">${t.num} — ${t.title}</div>
+        <div class="special-sub">${t.desc}</div>
+      </div>
+      <div class="special-cards">${cardsHtml}</div>`;
+    wrap.appendChild(div);
+  });
+}
+
+function renderSpecial() {
+  SPECIAL_SECTIONS.forEach(ss => {
+    if (document.getElementById(ss.id)) return;
+    const div = document.createElement('div');
+    div.id = ss.id;
+    div.className = 'special-row';
+    div.style.cssText = `background:${ss.bgColor};border:1px solid ${ss.borderColor};`;
+    const cardsHtml = ss.companies.map(c => `
+      <div class="special-card" data-ticker="${c.ticker}"
+        style="background:${ss.bgColor};border:1px solid ${ss.borderColor};border-left:3px solid ${ss.accentColor};">
+        <div class="cc-ticker" style="color:${ss.accentColor};font-size:14px;">${c.ticker}${mcapBadgeHtml(c.mcap)}</div>
+        <div class="cc-name" style="color:var(--text2);font-size:11px;margin-top:3px;">${c.name}</div>
+        <div class="cc-desc" style="color:var(--text3);font-size:10px;margin-top:4px;line-height:1.4;">${c.desc}</div>
+        <div class="cc-links" style="flex-direction:row;margin-top:7px;"></div>
+      </div>`).join('');
+    div.innerHTML = `
+      <div class="special-hdr">
+        <div class="special-title" style="color:${ss.accentColor};">${ss.title}</div>
+        <div class="special-sub">${ss.subtitle}</div>
+      </div>
+      <div class="special-cards">${cardsHtml}</div>`;
+    const chainScroll = document.querySelector('.chain-scroll');
+    if (chainScroll && chainScroll.parentNode) {
+      chainScroll.parentNode.insertBefore(div, chainScroll.nextSibling);
+    } else {
+      const divider = document.querySelector('.divider');
+      if (divider) divider.parentNode.insertBefore(div, divider);
+    }
+  });
+}
+
+function renderMatrix() {
+  const tbl = document.getElementById('matrix');
+  if (!tbl) return;
+  const lvlBg      = { high:'rgba(255,255,255,.11)', med:'rgba(255,255,255,.06)', low:'rgba(255,255,255,.03)' };
+  const lvlLabel   = { high:'核心', med:'协同', low:'边缘' };
+  const lvlOpacity = { high:1, med:0.88, low:0.62 };
+
+  let headRow = '<tr><th style="width:270px;"></th>';
+  SEGMENTS.forEach(s => {
+    headRow += `<th class="seg" style="border-color:${s.color}99;color:${s.color};">
+      <div class="seg-header">${s.label}<span>${s.sub}</span></div></th>`;
+  });
+  headRow += '</tr>';
+  tbl.innerHTML = headRow;
+
+  THEMES.forEach(th => {
+    const tr = document.createElement('tr');
+    const tdInfo = document.createElement('td');
+    tdInfo.className = 'theme-info';
+    tdInfo.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:5px;">
+        <div style="color:${th.color};font-size:12px;font-weight:700;">${th.icon} ${th.name}</div>
+        <span style="flex-shrink:0;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;
+          background:${th.priority.color}20;border:1px solid ${th.priority.color}60;
+          color:${th.priority.color};">${th.priority.label}</span>
+      </div>
+      <div style="font-size:9px;font-weight:600;padding:3px 8px;margin-bottom:7px;border-radius:4px;
+        background:${th.priority.color}15;color:${th.priority.color}cc;">${th.reason}</div>
+      <div style="font-size:10px;color:#9ab8d0;line-height:1.45;margin-bottom:6px;">${th.desc}</div>
+      <div style="font-size:9.5px;color:#7a9ab8;border-top:1px solid rgba(255,255,255,.06);
+        padding-top:6px;line-height:1.45;"><b style="color:#90b0cc;">链路：</b>${th.note}</div>`;
+    tr.appendChild(tdInfo);
+
+    SEGMENTS.forEach(seg => {
+      const td = document.createElement('td');
+      const d = th.segs[seg.id];
+      if (!d) {
+        td.className = 'cell none';
+        td.innerHTML = '<div style="font-size:14px;opacity:.18;line-height:3;text-align:center;">·</div>';
+      } else {
+        td.className = 'cell';
+        td.style.opacity  = String(lvlOpacity[d.lvl]);
+        td.style.background = lvlBg[d.lvl];
+        td.style.border   = `1px solid ${seg.color}55`;
+        td.style.verticalAlign = 'top';
+        td.style.padding  = '6px 5px';
+        const badge = `<div style="display:inline-block;font-size:8.5px;font-weight:700;
+          padding:2px 7px;border-radius:3px;margin-bottom:5px;
+          background:${seg.color}30;color:${seg.color};
+          border:1px solid ${seg.color}70;letter-spacing:.4px;">${lvlLabel[d.lvl]}</div>`;
+        const cosHtml = d.cos.map(c =>
+          `<span data-tt-ticker="${c}" style="display:inline-block;font-size:9px;font-weight:700;
+            padding:1px 5px;border-radius:3px;margin:1px;cursor:default;
+            background:rgba(255,255,255,.07);border:1px solid ${seg.color}55;
+            color:${seg.color};">${c}</span>`
+        ).join('');
+        const descHtml = d.desc
+          ? `<div style="font-size:8px;color:${seg.color}cc;margin-top:5px;line-height:1.35;text-align:left;padding:0 1px;">${d.desc}</div>`
+          : '';
+        td.innerHTML = `${badge}<div>${cosHtml}</div>${descHtml}`;
+      }
+      tr.appendChild(td);
+    });
+    tbl.appendChild(tr);
+  });
+}
+
+function renderVICards() {
+  const grid = document.getElementById('vi-grid');
+  if (!grid) return;
+  VI_CARDS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'vi-card';
+    div.innerHTML = `
+      <div class="vi-card-title" style="color:${c.color};">
+        ${c.icon} ${c.title}
+        <span class="vi-tag" style="background:${c.color}15;border-color:${c.color}40;color:${c.color};">${c.tag}</span>
+      </div>
+      <div class="vi-card-body">${c.body}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+function renderFootnote() {
+  const el = document.getElementById('footnote');
+  if (!el) return;
+  const total = new Set([...document.querySelectorAll('[data-ticker]')].map(el => el.dataset.ticker)).size;
+  el.textContent = `覆盖 ${total} 家核心上市公司 · 基础材料→光子器件→硅光/AI互连芯片→光模块/连接器→光网系统→以太网交换 · 2026-04 v7 · 数据仅供研究参考，不构成投资建议`;
+}
+
+/* ═══════════════════════════════════════════
+   光互连 & 光模块 技术深度数据
+═══════════════════════════════════════════ */
+
+// 基础概念卡片
+const BASICS = [
+  {
+    icon: '💡',
+    color: '#a78bfa',
+    title: '什么是光互连',
+    body: '光互连（Optical Interconnect）用光子代替电子传输数据，核心优势：<b>带宽密度高</b>（单纤可传数十Tbps）、<b>传输损耗低</b>（光纤损耗0.2dB/km vs 铜线10dB/m）、<b>无电磁干扰</b>、<b>功耗低</b>。AI时代GPU间通信瓶颈使光互连从"可选"变"刚需"。',
+    tags: ['高带宽密度','低延迟','低功耗','抗EMI']
+  },
+  {
+    icon: '📦',
+    color: '#60a5fa',
+    title: '光模块是什么',
+    body: '光模块（Optical Transceiver）= <b>E→O转换（发端）</b> + <b>O→E转换（收端）</b>的集成封装，是光互连产业链体量最大的商业化环节。内部集成：激光器（光源）+ 调制器 + 光探测器 + TIA（跨阻放大器）+ DSP芯片，以标准化封装（QSFP/OSFP）插入交换机/服务器。',
+    tags: ['E→O→E转换','标准化封装','QSFP-DD','OSFP']
+  },
+  {
+    icon: '📏',
+    color: '#34d399',
+    title: '传输距离分类',
+    body: '<b>SR（短距 &lt;100m）</b>：VCSEL光源，多模光纤，用于机架内/机柜间。<b>DR（500m）/ FR（2km）/ LR（10km）</b>：DFB/EML光源，单模光纤，用于数据中心内部。<b>ZR/ZR+（80km+）</b>：相干技术，用于DCI/城域/长途。AI集群主要用SR4/DR4/FR4。',
+    tags: ['SR/DR/FR/LR','相干ZR/ZR+','单模vs多模']
+  },
+  {
+    icon: '⚙️',
+    color: '#fbbf24',
+    title: '调制方式演进',
+    body: '<b>NRZ（1bit/symbol）</b>：100G时代主流，简单但频谱效率低。<b>PAM4（2bit/symbol）</b>：400G/800G主流，频谱效率翻倍，但对噪声更敏感，需要DSP纠错。<b>相干调制（QAM16/64）</b>：ZR+/长途，频谱效率最高，需复杂DSP，成本高但ASP高3-5倍。',
+    tags: ['NRZ→PAM4','相干QAM','DSP纠错']
+  },
+  {
+    icon: '🔌',
+    color: '#fb923c',
+    title: '封装形式演进 → CPO',
+    body: '<b>可插拔（Pluggable）</b>：SFP→QSFP28→QSFP-DD/OSFP，模块可热插拔，灵活但PCB走线损耗大。<b>On-Board Optics（OBO）</b>：模块焊接在主板，消除连接器损耗。<b>CPO（共封装）</b>：光引擎与ASIC共封装在同一基板，PCB走线从10cm→1cm，功耗降75%，2026年量产，是下一代主流。',
+    tags: ['Pluggable→OBO→CPO','功耗降75%','2026量产']
+  },
+  {
+    icon: '🔀',
+    color: '#38bdf8',
+    title: 'CPO 架构详解',
+    body: '<b>传统插拔</b>：ASIC → PCB走线(5-10cm,损耗大) → Retimer → QSFP-DD模块外壳 → 光纤。<b>CPO</b>：ASIC ↔ 硅光PIC(光引擎，贴合封装，1-3mm间距) → 光纤。<b>价值重构</b>：T4光模块价值部分迁移至T3硅光PIC（PIC价值$15→$80+），传统模块组装厂面临颠覆，FN等先进封装代工受益。',
+    tags: ['ASIC+光引擎共封装','PIC价值翻5倍','FN先进封装受益']
+  },
+  {
+    icon: '⚡',
+    color: '#7dd3fc',
+    title: '硅光子平台（SiPh）深度解析',
+    body: '传统光器件：激光器用 InP、调制器用 LiNbO₃、探测器用 Ge——三种材料三条产线，昂贵且难规模化。<b>硅光子</b>把这些功能全部集成在一块硅芯片上，在台积电/GF 标准晶圆厂流片，成本是 InP 路线的 1/3。<b>关键局限</b>：硅发不出激光 → 仍需外挂 InP 激光器（混合集成）→ 这是 T1 InP 晶圆即使在硅光时代依然不可替代的根本原因。<b>CPO 为何以硅光为基础</b>：SiPh PIC 与交换机 ASIC 同为硅芯片，可用先进封装（CoWoS/SoIC）直接贴合，传统 InP 模块无法做到。',
+    tags: ['SiPh成本=InP的1/3','仍需InP激光源','CPO的物理基础','AVGO/MRVL/INTC量产']
+  },
+  {
+    icon: '🔍',
+    color: '#fbbf24',
+    title: '数据中心模块 vs 相干模块——一图看懂区别',
+    body: '<b>数据中心光模块（T4A）</b>：短距（100m–2km）· PAM4调制（只看光强弱）· DSP简单 · 800G约$400–500 · 中国竞争激烈。类比：<b>手电筒打摩斯电码</b>——对方只需数"亮/灭"即可解码，简单粗暴。<br><b>相干光模块（T4B）</b>：长距（80km–数千km）· QAM调制（同时编码振幅+相位）· 需本振激光+ICR相干接收机+高端DSP（占成本40%）· 400ZR约$800–1500 · 中国暂时无法竞争。类比：<b>专业调相无线电台</b>——收发双方需共享本振频率才能解调，技术门槛天壤之别。',
+    tags: ['PAM4 vs QAM','$400 vs $1500','短距 vs 长距','中国可追 vs 暂时无法追']
+  },
+  {
+    icon: '🌐',
+    color: '#34d399',
+    title: '相干传输系统是什么（T5A）',
+    body: 'CIEN/NOK 卖的<b>不是一个模块，是完整的光网络基础设施</b>。系统组成：①相干转发器（终端模块）②<b>WDM合波器</b>（把80–100个不同波长同时塞进一根光纤）③<b>EDFA光放大器</b>（每80km纯光放大，全程无光→电→光转换）④<b>ROADM</b>（在节点把某波长"扳"到不同方向，不需变回电信号）⑤<b>NMS网管软件</b>（管控全网）。这是"交钥匙"方案，运营商买一套就能建城市A到城市B的骨干光路。<b>CIEN护城河</b>：WaveLogic DSP领先竞争对手约2代→同一根光纤跑出2倍容量→运营商付溢价。',
+    tags: ['WDM百波长复用','EDFA纯光放大','ROADM光路由','NMS软件绑定','CIEN领先2代']
+  }
+];
+
+// 技术迭代时间轴
+const TECH_NODES = [
+  {
+    speed: '10G/40G',
+    year: '2000–2012',
+    color: '#6b7280',
+    phase: 'legacy',
+    tech: ['SFP/QSFP封装','多模VCSEL光源','NRZ调制'],
+    cos: ['JDSU','Finisar','Oplink'],
+    note: '企业网/运营商接入'
+  },
+  {
+    speed: '100G',
+    year: '2013–2019',
+    color: '#818cf8',
+    phase: 'past',
+    tech: ['QSFP28封装','CWDM4/LR4/SR4','PAM4初探'],
+    cos: ['LITE','COHR','IPGP'],
+    note: '数据中心骨干网标配'
+  },
+  {
+    speed: '400G',
+    year: '2019–2023',
+    color: '#60a5fa',
+    phase: 'past',
+    tech: ['QSFP-DD/OSFP','DR4/FR4','PAM4成熟','硅光初用'],
+    cos: ['COHR','FN','MRVL'],
+    note: '超大规模DC大规模部署'
+  },
+  {
+    speed: '800G',
+    year: '2023–2026',
+    color: '#fbbf24',
+    phase: 'current',
+    tech: ['OSFP/QSFP-DD','DR8/2xFR4','EML激光器','硅光主流'],
+    cos: ['COHR','LITE','MRVL','AVGO'],
+    note: '▲ 当前主战场，AI集群首选'
+  },
+  {
+    speed: '1.6T',
+    year: '2025–2027',
+    color: '#fb923c',
+    phase: 'future',
+    tech: ['OSFP-XD封装','CW-WDM','硅光+InP混合'],
+    cos: ['COHR','INTC','AVGO'],
+    note: 'AI工厂核心互连，样品送测中'
+  },
+  {
+    speed: 'CPO 3.2T+',
+    year: '2026–2029',
+    color: '#a78bfa',
+    phase: 'future',
+    tech: ['共封装光学','硅光PIC光引擎','ASIC贴合封装'],
+    cos: ['AVGO','MRVL','INTC','FN'],
+    note: '架构革命，功耗降75%'
+  },
+  {
+    speed: '全光 OXC',
+    year: '2028+',
+    color: '#34d399',
+    phase: 'future',
+    tech: ['全光交换','OXC/光路由','无O→E→O转换'],
+    cos: ['LITE','CIEN','COHR'],
+    note: '全光AI工厂，长期演进方向'
+  }
+];
+
+// 发展周期 & 卡点 & 依赖
+const CYCLE_CARDS = [
+  {
+    icon: '📍',
+    title: '当前所处发展周期',
+    color: '#fbbf24',
+    bgColor: 'rgba(251,191,36,.05)',
+    borderColor: 'rgba(251,191,36,.2)',
+    items: [
+      '<b>阶段定位：</b>800G量产爬坡期 + CPO前商业化验证期，产业链景气度最高点',
+      '<b>市场规模：</b>2025年光模块市场约$200亿，2027年预计超$350亿，CAGR约30%',
+      '<b>供需状态：</b>800G EML激光器供不应求，InP晶圆紧缺，Coherent产能满载',
+      '<b>资本开支：</b>超大规模DC 2025年合计Capex超$3000亿，光互连占比约5-7%',
+      '<b>估值逻辑：</b>当前是景气周期，估值偏高；需关注2026年后CPO落地节奏'
+    ],
+    gauges: [
+      { label: '景气度', pct: 90, color: '#4ade80' },
+      { label: '供需紧张', pct: 82, color: '#fbbf24' }
+    ]
+  },
+  {
+    icon: '🔒',
+    title: '三大供给卡点（瓶颈）',
+    color: '#f87171',
+    bgColor: 'rgba(248,113,113,.05)',
+    borderColor: 'rgba(248,113,113,.2)',
+    items: [
+      '<b>InP外延片：</b>全球仅COHR/住友/IQE等少数可供应，扩产周期18-24月，是最硬的瓶颈',
+      '<b>EML激光器产能：</b>800G单通道需56Gbaud EML，MOCVD生长工艺复杂，良率爬坡慢',
+      '<b>CPO协同设计工具链：</b>光-电协同EDA软件不成熟，光学对准精度要求纳米级，良率是量产关键',
+      '<b>硅光代工产能：</b>台积电SiPh产线需求激增，GF 300mm硅光产能有限，2025年紧张',
+      '<b>高速连接器：</b>CPO/1.6T需要新一代光连接器，供应商准备不足'
+    ],
+    gauges: [
+      { label: '供给紧张度', pct: 78, color: '#f87171' },
+      { label: '扩产难度', pct: 85, color: '#fb923c' }
+    ]
+  },
+  {
+    icon: '🔗',
+    title: '关键依赖与风险',
+    color: '#38bdf8',
+    bgColor: 'rgba(56,189,248,.05)',
+    borderColor: 'rgba(56,189,248,.2)',
+    items: [
+      '<b>NVDA集群架构：</b>NVLink带宽规格直接决定光模块速率要求，英伟达路线图是最上游的需求锚点',
+      '<b>台积电/GF代工节奏：</b>硅光产能决定CPO商业化时间表，外部依赖不可控',
+      '<b>超大规模DC验证周期：</b>新产品从样品到量产需12-18个月客户验证，导致出货延迟',
+      '<b>景气周期风险：</b>历史上2018/2022年曾出现去库存，Capex放缓会导致光模块需求骤降',
+      '<b>中国供应链替代：</b>中际旭创/新易盛等A股厂商快速崛起，对COHR等美股标的形成价格压力'
+    ],
+    gauges: [
+      { label: '外部依赖度', pct: 72, color: '#38bdf8' },
+      { label: '周期波动风险', pct: 60, color: '#a78bfa' }
+    ]
+  }
+];
+
+// 定价权地图
+const PRICING = [
+  { tier:'T1', name:'光纤预制棒', cos:'GLW · 住友 · 古河', pct:85, color:'#c4b5fd', trend:'→', margin:'33–42%', marginPct:38, marginNote:'GLW光纤分部毛利率~35%，特种光纤更高；BEAD补贴+AI需求拉动ASP', reason:'CR3约70%，新产能建设需3年，AI+BEAD双轮需求可见度高，价格转嫁能力强' },
+  { tier:'T1', name:'InP化合物晶圆', cos:'AXTI · COHR内部', pct:92, color:'#d8b4fe', trend:'↑', margin:'42–55%', marginPct:48, marginNote:'AXTI历史高峰毛利率45%+，供给刚性支撑高利润；800G扩产周期内利润率持续扩张', reason:'全球仅4-5家可量产，扩产极困难，800G放量供应偏紧，定价权最强的上游环节' },
+  { tier:'T2', name:'EML/DFB激光器', cos:'LITE · COHR', pct:88, color:'#93c5fd', trend:'↑', margin:'50–60%', marginPct:55, marginNote:'COHR/LITE激光器业务毛利率50%+，800G EML ASP $30–80+/颗，MOCVD工艺壁垒支撑溢价', reason:'技术壁垒极高，MOCVD设备+工艺know-how双重护城河，供不应求推高ASP' },
+  { tier:'T2', name:'VCSEL激光器', cos:'LITE · COHR · IPGP', pct:72, color:'#93c5fd', trend:'↑', margin:'35–50%', marginPct:42, marginNote:'VCSEL单价$2–5/颗，但AI集群每套H100 NVLink交换机含576通道；LITE/COHR短距VCSEL随AI集群扩张量价双升；IPGP泵浦激光器工业+通信双市场', reason:'短距(<100m)AI互连绝对主力，H200/B200扩产直接驱动出货量增长；供给集中于LITE/COHR，IPGP泵浦源用于EDFA光放大器，AI长距互连不可或缺' },
+  { tier:'T2', name:'光探测器与调制器', cos:'COHR · LITE · MTSI', pct:76, color:'#bfdbfe', trend:'↑', margin:'45–55%', marginPct:50, marginNote:'InP/Ge光探测器是所有光模块收端核心；TFLN电光调制器带宽>100GHz（EO系数硅的30×）；MTSI高速驱动IC毛利率~55%+，CPO光引擎标配', reason:'硅无法直接实现高效光探测，InP材料壁垒维持供给集中；TFLN调制器颠覆性潜力推动COHR/LITE/MTSI估值重构' },
+  { tier:'T2', name:'WSS/ROADM器件', cos:'LITE（市占>50%）', pct:91, color:'#bfdbfe', trend:'→', margin:'55–65%', marginPct:60, marginNote:'LITE整体毛利率~47%，WSS/ROADM业务显著高于均值；OXC演进将进一步提升ASP', reason:'Lumentum寡头地位，专利+工艺双壁垒，OXC趋势强化其长期定价权' },
+  { tier:'T3', name:'相干DSP芯片', cos:'MRVL（外部>60%）', pct:90, color:'#7dd3fc', trend:'↑', margin:'55–65%', marginPct:60, marginNote:'MRVL光网络业务毛利率~60%+，纯IP/算法属性，无重资产拖累，AI互连加速放量', reason:'寡头垄断，无第二选择，AI光互连DSP需求爆发，定价权持续强化' },
+  { tier:'T3', name:'硅光PIC平台', cos:'AVGO · MRVL · INTC', pct:80, color:'#38bdf8', trend:'↑', margin:'50–62%', marginPct:56, marginNote:'AVGO整体毛利率~64%（含软件），硅光PIC随CPO从$15→$80+单价，T3是价值迁移最大受益层', reason:'CPO趋势下PIC价值$15→$80+，AVGO/MRVL双寡头，GFS代工绑定' },
+  { tier:'T3', name:'TIA/SerDes驱动IC', cos:'MTSI · MRVL', pct:75, color:'#38bdf8', trend:'↑', margin:'50–60%', marginPct:55, marginNote:'MTSI高速驱动IC和TIA毛利率~55%+；TIA（跨阻放大器）是光接收端不可省略的模拟前端；CPO光引擎需要高带宽驱动IC与硅光PIC配对', reason:'纯模拟芯片设计壁垒高（7nm以下工艺节点敏感），MTSI与CPO供应链深度绑定；SerDes IP在LPO/AEC架构中随速率升级持续受益' },
+  { tier:'T3', name:'AI互连Retimer/AEC', cos:'CRDO · ALAB', pct:80, color:'#7dd3fc', trend:'↑', margin:'55–65%', marginPct:60, marginNote:'CRDO HiWire AEC毛利率~60%+，替代≤3m短距光模块；ALAB Retimer/CXL芯片成为每台GPU服务器标配，FY2025营收增速>80%', reason:'AI超大规模DC端口密度爆炸式增长，每台H100服务器内Retimer需求4-8颗；AEC替代短距光模块是成本驱动的结构性趋势；CRDO/ALAB是T3中增速最快的细分' },
+  { tier:'T4', name:'直接探测光模块', cos:'COHR · FN · AAOI', pct:52, color:'#fcd34d', trend:'↓', margin:'20–33%', marginPct:27, marginNote:'COHR DC模块毛利率~30%，AAOI仅15–22%；中国竞争持续压缩ASP，FN净利仅~12%（代工属性）', reason:'中国厂商（中际旭创/新易盛）快速渗透，400G/800G价格竞争加剧，ASP承压' },
+  { tier:'T4', name:'相干光模块', cos:'COHR · CIEN · CSCO/Acacia', pct:76, color:'#fbbf24', trend:'→', margin:'38–50%', marginPct:44, marginNote:'CIEN模块业务毛利率~50%+，COHR相干模块~40%；ASP $800–2000+/颗，技术壁垒支撑溢价', reason:'技术壁垒高，ASP是直接探测模块3-5倍，中国厂商暂未能规模化突破' },
+  { tier:'T4', name:'连接器/Cage/AOC', cos:'APH · TEL', pct:68, color:'#fef08a', trend:'↑', margin:'30–36%', marginPct:33, marginNote:'APH整体毛利率~33%，IT分部（含Cage/AOC）略高；精密制造属性，与光模块价格战完全无关', reason:'供给相对集中（APH市占>40%），AI DC端口密度提升刚性拉动cage需求；与光模块价格竞争无关，需求确定性高' },
+  { tier:'T5', name:'光传输系统', cos:'CIEN · NOK', pct:62, color:'#86efac', trend:'→', margin:'45–55%', marginPct:50, marginNote:'CIEN毛利率稳定~52%（WaveLogic技术领先2年支撑溢价）；NOK约38%偏低，软硬件组合拉平', reason:'运营商采购集中，系统集成商有技术代差但面临价格谈判压力' },
+  { tier:'DC', name:'超大规模DC买方', cos:'META · MSFT · AMZN', pct:70, color:'#38bdf8', trend:'↑', margin:'N/A', marginPct:0, marginNote:'需求侧，非供应方——光互连成本约占DC总建设成本5–7%，属刚需支出，买方议价有天花板', reason:'集中采购规模大，多供应商策略压价，但光互连属刚需故买方博弈有天花板' }
+];
+
+/* ═══════════════════════════════════════════
+   新增渲染函数
+═══════════════════════════════════════════ */
+function renderBasics() {
+  const grid = document.getElementById('basics-grid');
+  if (!grid) return;
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;';
+  BASICS.forEach(b => {
+    const div = document.createElement('div');
+    div.style.cssText = `background:rgba(255,255,255,.03);border:1px solid ${b.color}30;border-left:3px solid ${b.color};border-radius:8px;padding:12px 14px;`;
+    const tagsHtml = b.tags.map(t => `<span style="font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;background:${b.color}18;color:${b.color};border:1px solid ${b.color}40;margin-right:3px;">${t}</span>`).join('');
+    div.innerHTML = `
+      <div style="font-size:12px;font-weight:700;color:${b.color};margin-bottom:7px;">${b.icon} ${b.title}</div>
+      <div style="font-size:10px;color:var(--text2);line-height:1.6;margin-bottom:8px;">${b.body}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px;">${tagsHtml}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+function renderTechTimeline() {
+  const tl = document.getElementById('tech-timeline');
+  const bar = document.getElementById('tech-phase-bar');
+  if (!tl) return;
+  TECH_NODES.forEach(n => {
+    const seg = document.createElement('div');
+    seg.className = 'tech-seg ' + (n.phase === 'current' ? 'current' : n.phase === 'future' ? 'future' : '');
+    const techHtml = n.tech.map(t => `<div>· ${t}</div>`).join('');
+    const cosHtml = n.cos.map(c => `<span class="tech-co">${c}</span>`).join('');
+    seg.innerHTML = `
+      <div class="tech-dot-row"><div class="tech-dot" style="background:${n.color};border-color:${n.color};"></div></div>
+      <div class="tech-card">
+        <div class="tech-speed" style="color:${n.color};">${n.speed}</div>
+        <div class="tech-year">${n.year}</div>
+        <div class="tech-items">${techHtml}</div>
+        <div class="tech-cos">${cosHtml}</div>
+        ${n.note ? `<div style="font-size:8.5px;margin-top:6px;color:${n.color};font-weight:600;border-top:1px solid rgba(255,255,255,.06);padding-top:5px;">${n.note}</div>` : ''}
+      </div>`;
+    tl.appendChild(seg);
+  });
+  if (bar) {
+    const phases = [
+      { label:'已成熟', color:'#6b7280' },
+      { label:'▲ 当前主战场 800G', color:'#fbbf24' },
+      { label:'即将量产 1.6T / CPO', color:'#fb923c' },
+      { label:'长期演进 全光OXC', color:'#34d399' }
+    ];
+    phases.forEach(p => {
+      const s = document.createElement('span');
+      s.style.cssText = `font-size:9.5px;padding:3px 10px;border-radius:12px;font-weight:600;border:1px solid ${p.color}50;background:${p.color}15;color:${p.color};`;
+      s.textContent = p.label;
+      bar.appendChild(s);
+    });
+  }
+}
+
+function renderCycleCards() {
+  const wrap = document.getElementById('cycle-wrap');
+  if (!wrap) return;
+  CYCLE_CARDS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'cycle-card';
+    div.style.cssText = `background:${c.bgColor};border-color:${c.borderColor};`;
+    const itemsHtml = c.items.map(i => `<div class="cycle-item">${i}</div>`).join('');
+    const gaugesHtml = c.gauges.map(g => `
+      <div class="cycle-gauge-wrap">
+        <div class="cycle-gauge-label"><span>${g.label}</span><span style="color:${g.color};font-weight:700;">${g.pct}%</span></div>
+        <div class="cycle-gauge-bg"><div class="cycle-gauge-fill" style="width:${g.pct}%;background:${g.color};"></div></div>
+      </div>`).join('');
+    div.innerHTML = `
+      <div class="cycle-card-title" style="color:${c.color};">${c.icon} ${c.title}</div>
+      ${itemsHtml}
+      ${gaugesHtml}`;
+    wrap.appendChild(div);
+  });
+}
+
+function renderPricingPower() {
+  const grid = document.getElementById('pricing-grid');
+  const legend = document.getElementById('pricing-legend');
+  if (!grid) return;
+  PRICING.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'p-card';
+    const tierColors = { T1:'#c4b5fd', T2:'#93c5fd', T3:'#7dd3fc', T4:'#fcd34d', T5:'#86efac', DC:'#38bdf8' };
+    const tc = tierColors[p.tier] || '#aaa';
+    // margin color coding
+    const marginColor = p.margin === 'N/A' ? '#475569'
+      : p.marginPct >= 50 ? '#34d399'   // high
+      : p.marginPct >= 35 ? '#fbbf24'   // medium
+      : '#f87171';                        // thin
+    const marginLabel = p.margin === 'N/A' ? '需求侧'
+      : p.marginPct >= 50 ? '高利润'
+      : p.marginPct >= 35 ? '中利润'
+      : '薄利';
+    const marginBarWidth = p.margin === 'N/A' ? 0 : Math.min(p.marginPct * 1.4, 100);
+    div.innerHTML = `
+      <div class="p-card-hdr">
+        <span class="p-tier" style="background:${tc}18;color:${tc};border:1px solid ${tc}40;">${p.tier}</span>
+        <span class="p-trend" title="定价权趋势">${p.trend === '↑' ? '⬆' : p.trend === '↓' ? '⬇' : '➡'}</span>
+      </div>
+      <div class="p-name" style="color:${p.color};">${p.name}</div>
+      <div class="p-cos">${p.cos}</div>
+      <div class="p-bar-row" title="定价权强度">
+        <div style="font-size:8px;color:var(--text3);flex-shrink:0;width:42px;letter-spacing:.3px;">定价权</div>
+        <div class="p-bar-bg"><div class="p-bar-fill" style="width:${p.pct}%;background:${p.color};"></div></div>
+        <div class="p-pct" style="color:${p.color};">${p.pct}%</div>
+      </div>
+      <div class="p-margin-row" title="毛利率区间">
+        <div class="p-margin-label">毛利率</div>
+        <div class="p-bar-bg"><div class="p-bar-fill" style="width:${marginBarWidth}%;background:${marginColor};opacity:.8;"></div></div>
+        <div class="p-margin-val" style="color:${marginColor};">${p.margin}</div>
+      </div>
+      <span style="display:inline-block;font-size:8px;font-weight:700;padding:1px 6px;border-radius:3px;margin-top:5px;background:${marginColor}18;color:${marginColor};border:1px solid ${marginColor}40;">${marginLabel}</span>
+      <div class="p-divider"></div>
+      <div class="p-reason">${p.reason}</div>
+      ${p.marginNote ? `<div class="p-margin-note">📊 ${p.marginNote}</div>` : ''}`;
+    grid.appendChild(div);
+  });
+  if (legend) {
+    const items = [
+      { color:'#d8b4fe', label:'T1 原材料（定价权最强）' },
+      { color:'#93c5fd', label:'T2 光子器件（技术壁垒高）' },
+      { color:'#7dd3fc', label:'T3 硅光芯片（CPO推升中）' },
+      { color:'#fcd34d', label:'T4 光模块（竞争加剧承压）' },
+      { color:'#86efac', label:'T5 系统（系统集成商压力大）' },
+      { color:'#38bdf8', label:'DC 采购方（反向议价上升）' },
+      { color:'#34d399', label:'🟢 高利润（毛利率≥50%）' },
+      { color:'#fbbf24', label:'🟡 中利润（毛利率35–50%）' },
+      { color:'#f87171', label:'🔴 薄利（毛利率<35%）' },
+    ];
+    items.forEach(i => {
+      const d = document.createElement('div');
+      d.className = 'pl-item';
+      d.innerHTML = `<div class="pl-dot" style="background:${i.color};"></div>${i.label}`;
+      legend.appendChild(d);
+    });
+  }
+}
+
+// 中国供应链数据
+const CN_THREAT_SEGS = [
+  { tier:'T1 光纤', level:'高威胁', color:'#f87171', bg:'rgba(248,113,113,.25)', pct:25 },
+  { tier:'T2 激光器', level:'中威胁', color:'#fbbf24', bg:'rgba(251,191,36,.2)', pct:20 },
+  { tier:'T3 硅光/DSP', level:'低威胁', color:'#34d399', bg:'rgba(52,211,153,.15)', pct:20 },
+  { tier:'T4 光模块', level:'极高威胁', color:'#f43f5e', bg:'rgba(244,63,94,.3)', pct:20 },
+  { tier:'T5 网络系统', level:'高威胁', color:'#f87171', bg:'rgba(248,113,113,.25)', pct:15 }
+];
+
+const CN_COMPANIES = [
+  {
+    ticker: '300308.SZ',
+    name: '中际旭创（Innolight）',
+    tier: 'T4 · 数据中心光模块',
+    color: '#f43f5e',
+    threat: '极高威胁',
+    threatColor: '#f43f5e',
+    desc: '全球数据中心光模块出货量第一/第二，400G/800G产能已超越COHR部分产品线；Meta/Microsoft主要供应商，国内最强纯正光模块标的',
+    vs: '直接竞争：COHR、FN制造的COHR产品'
+  },
+  {
+    ticker: '300502.SZ',
+    name: '新易盛（Eoptolink）',
+    tier: 'T4 · 数据中心光模块',
+    color: '#f87171',
+    threat: '高威胁',
+    threatColor: '#f87171',
+    desc: '100G/400G/800G全系列模块，全球出货量前五；客户含亚马逊/Meta，800G产品加速放量，ASP持续提升中',
+    vs: '直接竞争：COHR、LITE、AAOI'
+  },
+  {
+    ticker: '300394.SZ',
+    name: '天孚通信',
+    tier: 'T2/T4 · 光器件&精密组件',
+    color: '#fb923c',
+    threat: '中高威胁',
+    threatColor: '#fb923c',
+    desc: '光纤阵列（FAU）/光连接器/精密陶瓷组件，是Coherent/II-VI的核心零部件供应商，CPO时代需求随之增长',
+    vs: '协同供应：为COHR/FN提供组件'
+  },
+  {
+    ticker: '002281.SZ',
+    name: '光迅科技（Accelink）',
+    tier: 'T2/T4 · 光芯片&模块',
+    color: '#fbbf24',
+    threat: '中威胁',
+    threatColor: '#fbbf24',
+    desc: '光芯片（DFB/PIN）+ 光模块全线，中国电信主力供应商，100G/400G模块已规模量产，烽火通信子公司',
+    vs: '竞争：LITE/COHR的电信模块'
+  },
+  {
+    ticker: '688498.SH',
+    name: '源杰科技',
+    tier: 'T2 · DFB/EML激光芯片',
+    color: '#fbbf24',
+    threat: '中威胁（成长中）',
+    threatColor: '#fbbf24',
+    desc: '国内少数具备EML芯片量产能力的公司，25G/50G DFB/EML，向800G EML努力中；国产替代上游器件的核心标的',
+    vs: '追赶：LITE/COHR的激光芯片'
+  },
+  {
+    ticker: '601869.SH',
+    name: '长飞光纤（YOFC）',
+    tier: 'T1 · 光纤预制棒&光缆',
+    color: '#f87171',
+    threat: '高威胁',
+    threatColor: '#f87171',
+    desc: '中国最大光纤制造商，全球前三（与Corning/住友并列），国内AI DC建设的首要光纤受益方，BEAD对其影响有限',
+    vs: '直接竞争：GLW（Corning）中国市场'
+  },
+  {
+    ticker: '000988.SZ',
+    name: '华工科技',
+    tier: 'T2/T4 · 激光器&模块',
+    color: '#fbbf24',
+    threat: '中威胁',
+    threatColor: '#fbbf24',
+    desc: '工业激光器+通信光器件双线，旗下华工正源专注通信光芯片，国内少数具备10G/25G激光芯片完整供应链的企业',
+    vs: '竞争：IPGP工业激光；LITE通信器件'
+  },
+  {
+    ticker: '(私有)',
+    name: '华为光产业',
+    tier: 'T3/T4/T5 · 全链布局',
+    color: '#a78bfa',
+    threat: '战略威胁',
+    threatColor: '#a78bfa',
+    desc: '华为具备自研光芯片/模块/系统能力，但因出口管制无法进入美国市场；在中国市场构建闭环供应链，是美股企业中国业务的最大竞争对手',
+    vs: '战略竞争：CIEN/NOK/COHR在中国市场'
+  },
+  {
+    ticker: '600498.SH',
+    name: '烽火通信',
+    tier: 'T5 · 光网络系统',
+    color: '#86efac',
+    threat: '中威胁（境内）',
+    threatColor: '#86efac',
+    desc: '中国电信光网络系统主力供应商，国内WDM/OTN市场前三；对美股标的影响主要通过中国运营商市场挤占CIEN/NOK份额',
+    vs: '境内竞争：CIEN/NOK中国市场'
+  }
+];
+
+function renderChinaSection() {
+  const threatBar = document.getElementById('cn-threat-bar');
+  const grid = document.getElementById('cn-grid');
+  if (!threatBar || !grid) return;
+
+  CN_THREAT_SEGS.forEach(s => {
+    const seg = document.createElement('div');
+    seg.className = 'cn-threat-seg';
+    seg.style.cssText = `background:${s.bg};flex:${s.pct};`;
+    seg.innerHTML = `<div class="cn-threat-label"><div style="color:${s.color};font-weight:800;">${s.level}</div><div style="color:rgba(255,255,255,.5);font-size:8px;margin-top:1px;">${s.tier}</div></div>`;
+    threatBar.appendChild(seg);
+  });
+
+  CN_COMPANIES.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'cn-card';
+    div.style.cssText = `background:${c.color}08;border-color:${c.color}30;`;
+    div.innerHTML = `
+      <div class="cn-card-hdr">
+        <div class="cn-ticker" style="color:${c.color};">${c.ticker}</div>
+        <span class="cn-threat-badge" style="background:${c.threatColor}20;color:${c.threatColor};border:1px solid ${c.threatColor}40;">${c.threat}</span>
+      </div>
+      <div class="cn-name">${c.name}</div>
+      <div class="cn-tier" style="color:${c.color}99;">${c.tier}</div>
+      <div class="cn-desc">${c.desc}</div>
+      <div class="cn-vs" style="color:${c.color}aa;">${c.vs}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+function initTooltip() {
+  const tt = document.getElementById('tt');
+  function positionTT(e) {
+    const pad = 15, w = window.innerWidth, h = window.innerHeight;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    const tw = tt.offsetWidth, th = tt.offsetHeight;
+    if (x + tw > w - 8) x = e.clientX - tw - pad;
+    if (y + th > h - 8) y = e.clientY - th - pad;
+    tt.style.left = x + 'px';
+    tt.style.top  = y + 'px';
+  }
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tt-ticker]');
+    if (!el) { tt.classList.remove('show'); return; }
+    const ticker = el.dataset.ttTicker;
+    const info = TICKER_INFO[ticker] || {};
+    const fe   = FEISHU[ticker]    || {};
+    const col  = info.color || '#e8eef7';
+    let ratingHtml = '';
+    if (fe.rating) {
+      const rc = fe.rating === 'Buy' ? '#34d399' : fe.rating === 'Hold' ? '#fbbf24' : '#f87171';
+      ratingHtml = `<span style="display:inline-block;font-size:8.5px;font-weight:700;padding:1px 6px;
+        border-radius:3px;background:${rc}22;color:${rc};border:1px solid ${rc}55;margin-left:6px;">
+        ${fe.rating}${fe.target ? ' ' + fe.target : ''}</span>`;
+    }
+    tt.innerHTML = `
+      <div style="display:flex;align-items:center;margin-bottom:4px;">
+        <span style="font-size:14px;font-weight:800;color:${col};">${ticker}</span>${ratingHtml}
+      </div>
+      ${info.name ? `<div style="font-size:9.5px;color:#6e8eac;margin-bottom:7px;">${info.name}${info.tier ? ' &nbsp;·&nbsp; ' + info.tier : ''}</div>` : ''}
+      ${info.desc ? `<div style="font-size:10px;color:#c0d8f0;line-height:1.5;">${info.desc}</div>` : ''}
+    `;
+    tt.classList.add('show');
+    positionTT(e);
+  });
+  document.addEventListener('mousemove', e => {
+    if (tt.classList.contains('show')) positionTT(e);
+  });
+  document.addEventListener('mouseout', e => {
+    if (!e.relatedTarget || !e.relatedTarget.closest('[data-tt-ticker]')) tt.classList.remove('show');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderLegend();
+  renderChain();
+  renderCrosscut();
+  renderSpecial();
+  renderMatrix();
+  renderBasics();
+  renderTechTimeline();
+  renderPricingPower();
+  renderChinaSection();
+  initLinks();
+  renderFootnote();
+  initTooltip();
+});
+</script>
+<div id="tt"></div>
+</body>
+</html>

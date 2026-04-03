@@ -1801,6 +1801,34 @@ function mcapBadgeHtml(mcap) {
   return `<span class="mcap-badge" style="background:${m.bg};color:${m.color};border:1px solid ${m.border};">${m.label}</span>`;
 }
 
+
+const SUB_PRICING = {
+  T1A: { score: 85, tag: '强',  trend: '→' },
+  T1B: { score: 92, tag: '最强', trend: '↑' },
+  T2A: { score: 88, tag: '强',  trend: '↑' },
+  T2B: { score: 91, tag: '最强', trend: '→' },
+  T3A: { score: 80, tag: '强',  trend: '↑' },
+  T3B: { score: 90, tag: '强',  trend: '↑' },
+  T3C: { score: 80, tag: '强',  trend: '↑' },
+  T4A: { score: 52, tag: '弱',  trend: '↓' },
+  T4B: { score: 76, tag: '中高', trend: '→' },
+  T4C: { score: 68, tag: '中',  trend: '↑' },
+  T5A: { score: 62, tag: '中低', trend: '→' },
+  T5B: { score: 65, tag: '中',  trend: '→' },
+  T5C: { score: 70, tag: '中高', trend: '↑' },
+};
+function pricingBadge(subId, labelColor) {
+  const p = SUB_PRICING[subId];
+  if (!p) return '';
+  const c = p.score >= 88 ? '#c084fc' : p.score >= 75 ? '#34d399' : p.score >= 65 ? '#fbbf24' : '#f87171';
+  const bar = `<span style="display:inline-block;width:${p.score * 0.28}px;max-width:28px;height:2px;border-radius:2px;background:${c};vertical-align:middle;margin-left:2px;"></span>`;
+  return `<span style="display:inline-flex;align-items:center;gap:3px;flex-shrink:0;padding:1px 5px 1px 6px;border-radius:4px;background:${c}15;border:1px solid ${c}35;white-space:nowrap;">
+    <span style="font-size:6px;font-weight:700;color:${labelColor};opacity:.7;letter-spacing:.3px;">定价权</span>
+    <span style="font-size:12px;font-weight:900;color:${c};line-height:1;">${p.score}</span>
+    <span style="font-size:7px;font-weight:800;color:${c};">${p.tag}${p.trend}</span>${bar}
+  </span>`;
+}
+
 function renderChain() {
   const wrap = document.getElementById('chain-wrap');
   if (!wrap) return;
@@ -1832,7 +1860,7 @@ function renderChain() {
       }).join('');
       subsHtml += `
         <div>
-          <div class="sub-lbl" style="background:${s.bgColor};color:${s.labelColor};">${s.label}</div>
+          <div class="sub-lbl" style="background:${s.bgColor};color:${s.labelColor};display:flex;align-items:center;justify-content:space-between;gap:6px;">${s.label}${s.id ? pricingBadge(s.id, s.labelColor) : ''}</div>
           ${s.desc ? `<div class="sub-val" style="background:${s.valBg};color:${s.valColor};">${s.desc}</div>` : ''}
           ${cosHtml}
         </div>`;

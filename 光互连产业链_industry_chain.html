@@ -1016,6 +1016,7 @@ const FEISHU = {
   IPGP: { doc: "https://feishu.cn/docx/J1a6d2ey2o42joxJ26TcQbRBnyd", val: "https://feishu.cn/sheet/XVf6s3ykXhaoYgt0indcWCjpnkd", researched: true, rating: 'Hold', target: '$107' },
   MTSI: { doc: "https://feishu.cn/docx/HYgbdsrrsoXlkOxx4rScsJvknrf", val: "https://feishu.cn/sheet/DgcRsaxWphOJWbtvIKlc1LLSne8", researched: true, rating: 'Hold', target: '$190' },
   GFS:  { doc: "https://feishu.cn/docx/GBJndUFUpoAQKOxqqI5cG4vsnsE", val: "https://feishu.cn/sheet/FXBDsCYOjhPqDMtkkFkcpwpdnbh", researched: true, rating: 'Hold', target: '$50'  },
+  TSEM: { researched: false },
   MRVL: { doc: "https://feishu.cn/docx/DEbcdNOfoo5kaVxaONXcqfiAn3r", val: "https://feishu.cn/sheet/HUUfsJTCah1COCt1qQwcsT5cn2d", researched: true, rating: 'Buy',  target: '$115' },
   INTC: { doc: "https://feishu.cn/docx/UAlgdL73JoRbZrxVJjRcBqROnnd", val: "https://feishu.cn/sheet/OuKUsNAtMhibPNth0bjcW6zknFd", researched: true, rating: 'Hold', target: '$46'  },
   FN:   { doc: "https://feishu.cn/docx/JAg8dXXMjooSXhxWoKxcyXEHnyd", val: "https://feishu.cn/sheet/Jb6DseP5XhAseBtbgFac7m7hnMh", researched: true, rating: 'Buy',  target: '$538' },
@@ -1166,12 +1167,13 @@ const TIERS = [
         valColor: '#38bdf8',
         ccBorder: '#0369a1',
         tickerColor: '#7dd3fc',
-        desc: 'Broadcom/Marvell已实现硅光800G量产；CPO结构中硅光PIC价值从模块内$15→CPO光引擎$80+/件；台积电/GF为主要代工平台，规模效应推动成本持续下行。',
+        desc: 'Broadcom/Marvell已实现硅光800G量产；CPO结构中硅光PIC价值从模块内$15→CPO光引擎$80+/件；台积电/GFS/TSEM为主要代工平台，规模效应推动成本持续下行。',
         companies: [
           { ticker: 'AVGO', mcap:'mega', name: 'Broadcom Inc', desc: '自研硅光PIC量产800G，CPO战略清晰，自用DSP+光模块垂直整合' },
           { ticker: 'MRVL', mcap:'large', name: 'Marvell Technology', desc: '5nm硅光+Teralynx DSP系列，AI基础设施光互连核心供应商' },
           { ticker: 'INTC', mcap:'large', name: 'Intel Corp', desc: '硅光技术先驱，800G CW-WDM领先量产，独立光子业务IPO预期' },
-          { ticker: 'GFS', mcap:'large', name: 'GlobalFoundries', desc: '全球最大独立硅光代工平台，300mm产能，绑定多家模块厂' }
+          { ticker: 'GFS', mcap:'large', name: 'GlobalFoundries', desc: '全球最大独立硅光代工平台，300mm产能，绑定多家模块厂' },
+          { ticker: 'TSEM', mcap:'large', name: 'Tower Semiconductor', desc: 'PH18开放硅光平台+SiGe BiCMOS双工艺壁垒；全球前5大光集成商中4家独家供应（sole-source）；与COHR合作400Gbps硅调制器里程碑；硅光营收2025年$228M（+115% YoY），$650M Capex扩产至2026；CPO异构3D键合技术=SiPh PIC+SiGe EIC同片集成，全球代工商中技术组合最完整' }
         ]
       },
       {
@@ -2251,6 +2253,7 @@ const PRICING = [
   { tier:'T2', name:'WSS/ROADM器件', cos:'LITE（市占>50%）', pct:91, color:'#bfdbfe', trend:'→', margin:'55–65%', marginPct:60, marginNote:'LITE整体毛利率~47%，WSS/ROADM业务显著高于均值；OXC演进将进一步提升ASP', reason:'Lumentum寡头地位，专利+工艺双壁垒，OXC趋势强化其长期定价权' },
   { tier:'T3', name:'相干DSP芯片', cos:'MRVL（外部>60%）', pct:90, color:'#7dd3fc', trend:'↑', margin:'55–65%', marginPct:60, marginNote:'MRVL光网络业务毛利率~60%+，纯IP/算法属性，无重资产拖累，AI互连加速放量', reason:'寡头垄断，无第二选择，AI光互连DSP需求爆发，定价权持续强化' },
   { tier:'T3', name:'硅光PIC平台', cos:'AVGO · MRVL · INTC', pct:80, color:'#38bdf8', trend:'↑', margin:'50–62%', marginPct:56, marginNote:'AVGO整体毛利率~64%（含软件），硅光PIC随CPO从$15→$80+单价，T3是价值迁移最大受益层', reason:'CPO趋势下PIC价值$15→$80+，AVGO/MRVL双寡头，GFS代工绑定' },
+  { tier:'T3', name:'硅光代工平台（Foundry）', cos:'GFS · TSEM', pct:72, color:'#38bdf8', trend:'↑', margin:'22–35%', marginPct:28, marginNote:'TSEM PH18硅光营收2025年$228M（+115% YoY），GFS Fotonix绑定COHR/MRVL PDK客户；代工毛利率低于IP拥有者，但客户re-qualification壁垒形成粘性', reason:'TSEM PH18：前5大光集成商4家独家（sole-source），+SiGe BiCMOS+3D键合=全球唯一三合一工艺；GFS是硅光最大独立代工PDK生态；光模块速率每代升级→代工厂随量受益' },
   { tier:'T3', name:'TIA/SerDes驱动IC', cos:'MTSI · MRVL', pct:75, color:'#38bdf8', trend:'↑', margin:'50–60%', marginPct:55, marginNote:'MTSI高速驱动IC和TIA毛利率~55%+；TIA（跨阻放大器）是光接收端不可省略的模拟前端；CPO光引擎需要高带宽驱动IC与硅光PIC配对', reason:'纯模拟芯片设计壁垒高（7nm以下工艺节点敏感），MTSI与CPO供应链深度绑定；SerDes IP在LPO/AEC架构中随速率升级持续受益' },
   { tier:'T3', name:'AI互连Retimer/AEC', cos:'CRDO · ALAB', pct:80, color:'#7dd3fc', trend:'↑', margin:'55–65%', marginPct:60, marginNote:'CRDO HiWire AEC毛利率~60%+，替代≤3m短距光模块；ALAB Retimer/CXL芯片成为每台GPU服务器标配，FY2025营收增速>80%', reason:'AI超大规模DC端口密度爆炸式增长，每台H100服务器内Retimer需求4-8颗；AEC替代短距光模块是成本驱动的结构性趋势；CRDO/ALAB是T3中增速最快的细分' },
   { tier:'T4', name:'直接探测光模块', cos:'COHR · FN · AAOI', pct:52, color:'#fcd34d', trend:'↓', margin:'20–33%', marginPct:27, marginNote:'COHR DC模块毛利率~30%，AAOI仅15–22%；中国竞争持续压缩ASP，FN净利仅~12%（代工属性）', reason:'中国厂商（中际旭创/新易盛）快速渗透，400G/800G价格竞争加剧，ASP承压' },

@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSEM - Tower Semiconductor | Deep Value Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1628;
+    --bg-card: #141c2e;
+    --bg-card-hover: #1a2438;
+    --border: #1e2d47;
+    --border-bright: #2a3f5f;
+    --text-primary: #e8edf5;
+    --text-secondary: #8fa3c0;
+    --text-muted: #5a7090;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --accent-orange: #f97316;
+    --gradient-blue: linear-gradient(135deg, #1e3a5f, #0f2a4a);
+    --gradient-green: linear-gradient(135deg, #064e3b, #0a3628);
+    --gradient-red: linear-gradient(135deg, #4c1d1d, #3b1515);
+    --gradient-yellow: linear-gradient(135deg, #3d2a05, #2d1f04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(160deg, #0d1930 0%, #091525 40%, #0a0e1a 100%);
+    border-bottom: 1px solid var(--border-bright);
+    padding: 48px 32px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .hero-left { flex: 1; min-width: 280px; }
+  .hero-ticker {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .hero-name {
+    font-size: 36px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .badge-hold { background: rgba(245,158,11,0.15); color: var(--accent-yellow); border: 1px solid rgba(245,158,11,0.35); }
+  .badge-caution { background: rgba(239,68,68,0.12); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+  .badge-narrow-moat { background: rgba(59,130,246,0.12); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-neutral { background: rgba(139,92,246,0.12); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.3); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+  .price-display {
+    text-align: right;
+  }
+  .price-main {
+    font-size: 52px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .price-change {
+    font-size: 15px;
+    color: var(--accent-yellow);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .price-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+  .analyst-consensus {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 10px;
+    padding: 12px 18px;
+    text-align: right;
+  }
+  .consensus-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .consensus-price { font-size: 24px; font-weight: 800; color: var(--accent-red); }
+  .consensus-gap { font-size: 11px; color: var(--accent-red); margin-top: 2px; }
+
+  /* ── LAYOUT ─────────────────────────────────────────────── */
+  .main { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent-cyan);
+    border-radius: 2px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border-bright); }
+
+  /* ── KPI GRID ───────────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 16px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+  .kpi-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+  .kpi-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+  .kpi-value { font-size: 22px; font-weight: 800; color: #fff; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 6px; }
+  .kpi-warn { color: var(--accent-red) !important; }
+  .kpi-ok { color: var(--accent-green) !important; }
+  .kpi-neutral { color: var(--accent-yellow) !important; }
+
+  /* ── CHART CONTAINERS ───────────────────────────────────── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+  }
+  .chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .chart-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* ── BUSINESS MODEL ─────────────────────────────────────── */
+  .biz-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media(max-width:768px){ .biz-grid { grid-template-columns: 1fr; } }
+
+  .revenue-legend { margin-top: 16px; }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-pct { margin-left: auto; font-weight: 700; color: var(--text-primary); }
+
+  .moat-desc { line-height: 1.8; color: var(--text-secondary); font-size: 14px; }
+  .moat-desc strong { color: var(--text-primary); }
+
+  /* ── MOAT SCORECARD ─────────────────────────────────────── */
+  .moat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .moat-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .moat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .moat-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .moat-score { font-size: 18px; font-weight: 800; }
+  .moat-bar-bg {
+    height: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .moat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+  .moat-desc-small { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── COMPETITOR TABLE ───────────────────────────────────── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    padding: 12px 14px;
+    text-align: right;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  th:first-child { text-align: left; }
+  td {
+    padding: 12px 14px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  td:first-child { text-align: left; color: var(--text-primary); font-weight: 600; }
+  tr.highlight-row td { background: rgba(59,130,246,0.06); color: var(--text-primary); }
+  .tag-leader { color: var(--accent-green); font-size: 10px; font-weight: 700; }
+  .tag-laggard { color: var(--accent-red); font-size: 10px; font-weight: 700; }
+
+  /* ── CYCLE & RISK ───────────────────────────────────────── */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .risk-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .risk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .risk-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .risk-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .risk-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .rb-high { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+  .rb-med { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
+  .rb-low { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+  .risk-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── VALUATION SECTION ──────────────────────────────────── */
+  .val-frameworks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .val-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .val-title {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .graham-title { color: #6ee7b7; }
+  .buffett-title { color: #93c5fd; }
+  .marks-title { color: #fbbf24; }
+
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .check-pass { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+  .check-fail { background: rgba(239,68,68,0.2); color: var(--accent-red); }
+  .check-label { color: var(--text-secondary); flex: 1; }
+  .check-val { color: var(--text-primary); font-weight: 700; font-size: 12px; }
+
+  /* ── CONCLUSION CARD ────────────────────────────────────── */
+  .conclusion-card {
+    background: var(--gradient-red);
+    border: 2px solid rgba(239,68,68,0.4);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 24px;
+  }
+  .conclusion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .conclusion-rating {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-red);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .conclusion-verdict {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .buy-zone {
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .buy-zone-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--accent-green); text-transform: uppercase; margin-bottom: 6px; }
+  .buy-zone-range { font-size: 30px; font-weight: 900; color: var(--accent-green); }
+  .buy-zone-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .conclusion-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .cp-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .cp-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cp-bear { background: rgba(239,68,68,0.2); }
+  .cp-bull { background: rgba(16,185,129,0.2); }
+  .cp-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .cp-text strong { color: var(--text-primary); }
+
+  /* ── GROWTH DRIVERS ─────────────────────────────────────── */
+  .driver-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .driver-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .driver-icon { font-size: 24px; margin-bottom: 10px; }
+  .driver-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .driver-body { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .driver-kpi {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  /* ── CYCLE VISUALIZATION ────────────────────────────────── */
+  .cycle-stage {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .cycle-node {
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .cycle-node:last-child { border-right: none; }
+  .cycle-node.active-sip {
+    background: rgba(16,185,129,0.15);
+    color: var(--accent-green);
+    font-weight: 800;
+    border-right-color: rgba(16,185,129,0.2);
+  }
+  .cycle-node.active-late {
+    background: rgba(245,158,11,0.12);
+    color: var(--accent-yellow);
+    font-weight: 800;
+  }
+  .cycle-node-label { font-size: 9px; margin-top: 3px; color: inherit; opacity: 0.7; }
+
+  /* ── SOURCES ────────────────────────────────────────────── */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  .source-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .source-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    flex-shrink: 0;
+  }
+
+  /* ── SIPO TRAJECTORY ────────────────────────────────────── */
+  .traj-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .traj-label { width: 80px; color: var(--text-muted); font-size: 12px; }
+  .traj-bg { flex: 1; background: rgba(255,255,255,0.06); border-radius: 4px; height: 20px; overflow: hidden; }
+  .traj-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: #fff; }
+  .traj-val { width: 70px; text-align: right; font-weight: 700; color: var(--text-primary); }
+
+  /* ── PE PERCENTILE ──────────────────────────────────────── */
+  .pe-bar-container {
+    margin: 16px 0;
+    position: relative;
+  }
+  .pe-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .pe-track {
+    height: 28px;
+    background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-yellow) 50%, var(--accent-red) 85%, #7f1d1d 100%);
+    border-radius: 6px;
+    position: relative;
+  }
+  .pe-marker {
+    position: absolute;
+    top: -6px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pe-arrow {
+    width: 0; height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #fff;
+  }
+  .pe-label {
+    position: absolute;
+    top: 34px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media(max-width:600px){
+    .hero { padding: 32px 20px 28px; }
+    .hero-name { font-size: 26px; }
+    .price-main { font-size: 36px; }
+    .main { padding: 20px 14px; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .val-frameworks { grid-template-columns: 1fr; }
+  }
+
+  .separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+    margin: 40px 0;
+  }
+
+  /* accent colors per KPI type */
+  .kpi-revenue { --accent: #06b6d4; }
+  .kpi-growth  { --accent: #10b981; }
+  .kpi-margin  { --accent: #8b5cf6; }
+  .kpi-valuation { --accent: #f59e0b; }
+  .kpi-warn-card { --accent: #ef4444; }
+  .kpi-neutral-card { --accent: #64748b; }
+
+  .flag-red { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); }
+  .flag-green { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
+
+  .val-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+  .vsr-label { color: var(--text-muted); }
+  .vsr-val { font-weight: 700; color: var(--text-primary); }
+  .vsr-red { color: var(--accent-red); }
+  .vsr-green { color: var(--accent-green); }
+  .vsr-yellow { color: var(--accent-yellow); }
+
+  .info-box {
+    background: rgba(59,130,246,0.06);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  .dcf-scenario {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .dcf-box {
+    flex: 1;
+    min-width: 100px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .dcf-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .dcf-val { font-size: 20px; font-weight: 800; }
+  .dcf-sub { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+  .dcf-bear { color: var(--accent-red); }
+  .dcf-base { color: var(--accent-yellow); }
+  .dcf-bull { color: var(--accent-green); }
+
+  .marks-meter {
+    margin: 16px 0;
+  }
+  .marks-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .marks-track {
+    height: 14px;
+    background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-yellow) 40%, var(--accent-orange) 70%, var(--accent-red) 100%);
+    border-radius: 4px;
+    position: relative;
+  }
+  .marks-indicator {
+    position: absolute;
+    top: -3px;
+    width: 20px; height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    border: 3px solid var(--accent-red);
+  }
+
+  .upside-downside {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .ud-box {
+    flex: 1;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .ud-bear { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); }
+  .ud-base { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); }
+  .ud-bull { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); }
+  .ud-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+  .ud-val { font-size: 18px; font-weight: 800; }
+  .ud-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO HEADER ══════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-ticker">NASDAQ: TSEM</div>
+      <div class="hero-name">Tower Semiconductor Ltd.</div>
+      <div class="hero-sub">Specialty Analog &amp; Mixed-Signal Foundry &mdash; Israel / Japan / USA &mdash; Founded 1993</div>
+      <div class="hero-badges">
+        <span class="badge badge-hold">CAUTIOUS HOLD</span>
+        <span class="badge badge-caution">591% 12M Run — Euphoric Pricing</span>
+        <span class="badge badge-narrow-moat">Narrow Moat</span>
+        <span class="badge badge-neutral">Wait for Pullback</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="price-display">
+        <div class="price-main">$197.80</div>
+        <div class="price-change">+591% over 12 months &nbsp;&#9650;</div>
+        <div class="price-meta">Market Cap ~$21.0B &nbsp;|&nbsp; Shares 112.4M &nbsp;|&nbsp; Beta 0.938</div>
+      </div>
+      <div class="analyst-consensus">
+        <div class="consensus-label">Analyst Consensus Target</div>
+        <div class="consensus-price">$173.00</div>
+        <div class="consensus-gap">Stock trading 14.3% ABOVE consensus</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ MAIN CONTENT ════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- KPI GRID -->
+  <div class="section">
+    <div class="section-title">Key Performance Indicators &mdash; FY2025 Actuals</div>
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-revenue">
+        <div class="kpi-label">FY2025 Revenue</div>
+        <div class="kpi-value">$1.57B</div>
+        <div class="kpi-sub">+9.1% YoY vs $1.44B FY2024</div>
+      </div>
+      <div class="kpi-card kpi-growth">
+        <div class="kpi-label">Q4 Revenue (Record)</div>
+        <div class="kpi-value kpi-ok">$440.2M</div>
+        <div class="kpi-sub">+13.7% YoY &mdash; All-time high</div>
+      </div>
+      <div class="kpi-card kpi-margin">
+        <div class="kpi-label">Gross Margin FY2025</div>
+        <div class="kpi-value">23.2%</div>
+        <div class="kpi-sub">Q4FY25: 26.7% (record high)</div>
+      </div>
+      <div class="kpi-card kpi-margin">
+        <div class="kpi-label">Operating Margin</div>
+        <div class="kpi-value">12.4%</div>
+        <div class="kpi-sub">Q4FY25: 16.1% (record high)</div>
+      </div>
+      <div class="kpi-card kpi-margin">
+        <div class="kpi-label">Net Margin FY2025</div>
+        <div class="kpi-value">14.1%</div>
+        <div class="kpi-sub">Q4FY25: 18.2% (record high)</div>
+      </div>
+      <div class="kpi-card kpi-warn-card">
+        <div class="kpi-label">Free Cash Flow</div>
+        <div class="kpi-value kpi-warn">-$41.1M</div>
+        <div class="kpi-sub">OCF $395.5M; Capex $650M+ invest cycle</div>
+      </div>
+      <div class="kpi-card kpi-valuation">
+        <div class="kpi-label">TTM P/E</div>
+        <div class="kpi-value kpi-warn">95.93x</div>
+        <div class="kpi-sub">EPS TTM $1.95 &mdash; Graham limit: 15x</div>
+      </div>
+      <div class="kpi-card kpi-valuation">
+        <div class="kpi-label">Forward P/E</div>
+        <div class="kpi-value kpi-warn">65.79x</div>
+        <div class="kpi-sub">Reflects higher expected earnings FY2026E</div>
+      </div>
+      <div class="kpi-card kpi-valuation">
+        <div class="kpi-label">EV / EBITDA</div>
+        <div class="kpi-value kpi-warn">~41x</div>
+        <div class="kpi-sub">EBITDA $497M; EV ~$21B</div>
+      </div>
+      <div class="kpi-card kpi-valuation">
+        <div class="kpi-label">Price / Book</div>
+        <div class="kpi-value kpi-warn">7.21x</div>
+        <div class="kpi-sub">Book ~$27.43/share; Graham limit: 1.5x</div>
+      </div>
+      <div class="kpi-card kpi-growth">
+        <div class="kpi-label">Total Debt</div>
+        <div class="kpi-value kpi-ok">$28.1M</div>
+        <div class="kpi-sub">Near zero leverage &mdash; fortress balance sheet</div>
+      </div>
+      <div class="kpi-card kpi-neutral-card">
+        <div class="kpi-label">52-Week Range</div>
+        <div class="kpi-value" style="font-size:16px;">$28.64 &mdash; $198.94</div>
+        <div class="kpi-sub">Currently near 52W high; +591% run</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUARTERLY CHARTS -->
+  <div class="section">
+    <div class="section-title">Financial Performance Charts</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Quarterly Revenue (FY2025)</div>
+        <div class="chart-wrap">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Margin Trend &mdash; Quarterly FY2025</div>
+        <div class="chart-wrap">
+          <canvas id="marginChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Annual Revenue &amp; FCF Trend</div>
+        <div class="chart-wrap">
+          <canvas id="annualChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">DCF Scenario Valuation vs Current Price</div>
+        <div class="chart-wrap">
+          <canvas id="dcfChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- BUSINESS MODEL -->
+  <div class="section">
+    <div class="section-title">Business Model &amp; Revenue Structure</div>
+    <div class="biz-grid">
+      <div class="chart-card">
+        <div class="chart-title">Revenue Breakdown FY2025E</div>
+        <div class="chart-wrap" style="height:200px;">
+          <canvas id="pieChart"></canvas>
+        </div>
+        <div class="revenue-legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#06b6d4;"></div>
+            <span>Silicon Photonics (SiPho)</span>
+            <span class="legend-pct">14.5%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#8b5cf6;"></div>
+            <span>SiGe BiCMOS &amp; RF</span>
+            <span class="legend-pct">12.5%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#3b82f6;"></div>
+            <span>Mobile RF (RFCMOS)</span>
+            <span class="legend-pct">23.0%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#10b981;"></div>
+            <span>Industrial / Medical / Auto</span>
+            <span class="legend-pct">35.5%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#f59e0b;"></div>
+            <span>Power &amp; Other</span>
+            <span class="legend-pct">14.5%</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:16px;">
+          <div class="chart-title" style="margin-bottom:10px;">Moat Description &amp; Revenue Quality</div>
+          <div class="moat-desc">
+            Tower Semiconductor is the world's leading <strong>specialty analog &amp; mixed-signal pure-play foundry</strong>, operating a differentiated model distinct from TSMC or Samsung. Unlike leading-edge logic foundries, TSEM specializes in process nodes where <strong>physics maturity and process customization</strong> matter more than Moore's Law scaling.
+            <br><br>
+            <strong>Revenue Quality:</strong> Approximately 60-65% of revenue is derived from <strong>long-cycle industrial, medical, automotive, and power</strong> applications with multi-year design cycles (18-24 months re-qualification). The remaining 35-40% is more cyclical (mobile RF, consumer). The strategic pivot toward SiPho (now 14.5% and growing rapidly at +115% YoY) is transforming the mix toward higher-margin, AI-driven secular demand.
+            <br><br>
+            <strong>Management 2028 Targets:</strong> Revenue $2.84B (+81% from FY2025), Gross Margin 39-40% (+16-17ppt), Net Income ~$750M. The SiPho ramp from $228M to ~$1B+/yr is the single largest value driver.
+            <br><br>
+            <strong>Key Risk:</strong> Management narrative emphasizes SiPho hypergrowth, but current revenue quality (23% gross margin vs 40% target) requires substantial execution on a $920M capex program over 2025-2028. FCF is currently negative (-$41M) during this investment cycle.
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;">
+          <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">SiPho Revenue FY2025</div>
+            <div style="font-size:22px; font-weight:800; color:var(--accent-green);">$228M</div>
+            <div style="font-size:11px; color:var(--text-muted);">+115% YoY</div>
+          </div>
+          <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">SiPho 2028E Target</div>
+            <div style="font-size:22px; font-weight:800; color:var(--accent-blue);">$1.0B+</div>
+            <div style="font-size:11px; color:var(--text-muted);">70% capacity booked through 2028</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Gross Margin FY2028E</div>
+            <div style="font-size:22px; font-weight:800; color:var(--accent-yellow);">39-40%</div>
+            <div style="font-size:11px; color:var(--text-muted);">vs 23.2% today (+16ppt)</div>
+          </div>
+          <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:12px; text-align:center;">
+            <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Q1 2026E Guidance</div>
+            <div style="font-size:22px; font-weight:800; color:var(--accent-red);">$412M</div>
+            <div style="font-size:11px; color:var(--text-muted);">±5%, +15% YoY vs Q1 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROWTH DRIVERS -->
+  <div class="section">
+    <div class="section-title">Key Growth Drivers &amp; Secular Catalysts</div>
+    <div class="driver-grid">
+      <div class="driver-card flag-green">
+        <div class="driver-title">Silicon Photonics (SiPho) AI Supercycle</div>
+        <div class="driver-body">Tower is the only specialty foundry with volume-scale SiPho production for 800G/1.6T optical transceivers. NVIDIA partnership (Feb 2026) for 1.6T data center optical modules validates technology leadership. CPO (Co-Packaged Optics) adoption at hyperscalers (Meta, Microsoft, Google) is still early-stage &mdash; Q4 2026 capacity qualification, full production 2027.</div>
+        <div class="driver-kpi">$228M FY2025 &rarr; $1B+ FY2028E &nbsp;|&nbsp; TAM CAGR: ~29-32%</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-title">SiGe BiCMOS &mdash; RF Infrastructure &amp; Radar</div>
+        <div class="driver-body">World-class SiGe BiCMOS platform used in 5G base stations, automotive radar, and mmWave sensing. 30+ years of process IP creates formidable switching barriers. Combined SiGe+SiPho revenue: $421M (27% of total), growing as both platforms share wafer fab infrastructure.</div>
+        <div class="driver-kpi">SiGe+SiPho combined: $421M FY2025 &nbsp;|&nbsp; 5G and ADAS tailwind</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-title">$920M Capex Program &mdash; 5x SiPho Capacity</div>
+        <div class="driver-body">Total $920M capex commitment ($270M incremental announced Q4 2025) targeting 5x monthly SiPho wafer shipments vs. 2024 baseline. Over 70% of new capacity reserved with customer prepayments, reducing demand uncertainty. Q4 2026 full qualification, 2027 production ramp begins.</div>
+        <div class="driver-kpi">70% capacity pre-booked &nbsp;|&nbsp; Customer prepayments de-risk</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-title">Hyperscaler CapEx Tailwind</div>
+        <div class="driver-body">Combined hyperscaler CapEx (Meta, Microsoft, Google, Amazon) exceeded $300B in 2025, with AI infrastructure spending still expanding. The shift from copper to optical interconnects (CPO) is structural &mdash; every NVL72/NVL576 rack requires optical transceivers, directly benefiting Tower's SiPho platform.</div>
+        <div class="driver-kpi">Data center: 40-45% of total revenue by 2028E</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-title">NVIDIA Partnership &mdash; 1.6T Modules</div>
+        <div class="driver-body">Feb 2026 announcement: Tower powers NVIDIA's next-gen 1.6T optical modules, doubling data-rate vs prior solutions. This positions TSEM as sole-source or primary-source for NVIDIA's networking ecosystem &mdash; a relationship with exceptional switching costs and multi-year revenue visibility.</div>
+        <div class="driver-kpi">1.6T = 2x bandwidth uplift vs 800G &nbsp;|&nbsp; Sole-source candidate</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-title">Margin Expansion Cycle</div>
+        <div class="driver-body">Q4FY25 gross margin 26.7% already showing trajectory toward 39-40% 2028 target. Fixed-cost absorption from SiPho ramp on existing fab infrastructure provides significant operating leverage. Each percentage point of gross margin improvement at $2.84B revenue = ~$28M in additional gross profit.</div>
+        <div class="driver-kpi">Q4FY25 OpMargin 16.1% &rarr; 31.7% FY2028E target</div>
+      </div>
+    </div>
+
+    <!-- SiPho Trajectory Visual -->
+    <div class="card" style="margin-top:20px;">
+      <div class="chart-title" style="margin-bottom:16px;">Silicon Photonics Revenue Trajectory</div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2023</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:10.6%; background: linear-gradient(90deg, #3b82f6, #1d4ed8);">$106M</div></div>
+        <div class="traj-val">$106M</div>
+      </div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2024</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:10.6%; background: linear-gradient(90deg, #06b6d4, #0e7490);">$106M</div></div>
+        <div class="traj-val">$106M</div>
+      </div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2025A</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:22.8%; background: linear-gradient(90deg, #10b981, #047857);">$228M (+115%)</div></div>
+        <div class="traj-val">$228M</div>
+      </div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2026E</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:45%; background: linear-gradient(90deg, #8b5cf6, #6d28d9);">~$450-500M</div></div>
+        <div class="traj-val">~$475M</div>
+      </div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2027E</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:70%; background: linear-gradient(90deg, #f59e0b, #b45309);">~$700-800M</div></div>
+        <div class="traj-val">~$750M</div>
+      </div>
+      <div class="traj-bar">
+        <div class="traj-label">FY2028E</div>
+        <div class="traj-bg"><div class="traj-fill" style="width:100%; background: linear-gradient(90deg, #ef4444, #991b1b);">$1.0B+ Target</div></div>
+        <div class="traj-val">$1.0B+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- COMPETITIVE LANDSCAPE -->
+  <div class="section">
+    <div class="section-title">Competitive Landscape &amp; Market Position</div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left;">Company</th>
+              <th>Ticker</th>
+              <th>Revenue</th>
+              <th>Rev Growth</th>
+              <th>Gross Margin</th>
+              <th>Net Margin</th>
+              <th>P/E (Fwd)</th>
+              <th>EV/EBITDA</th>
+              <th>SiPho Position</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td>Tower Semiconductor <span style="font-size:10px;color:var(--accent-cyan);">(Subject)</span></td>
+              <td>TSEM</td>
+              <td>$1.57B</td>
+              <td style="color:var(--accent-green);">+9.1%</td>
+              <td>23.2%</td>
+              <td>14.1%</td>
+              <td style="color:var(--accent-red);">65.8x</td>
+              <td style="color:var(--accent-red);">~41x</td>
+              <td style="color:var(--accent-green);font-weight:700;">Leader &mdash; $228M</td>
+            </tr>
+            <tr>
+              <td>GlobalFoundries</td>
+              <td>GFS</td>
+              <td>~$7.5B</td>
+              <td style="color:var(--accent-red);">-2%</td>
+              <td>~24%</td>
+              <td>~5%</td>
+              <td>~35x</td>
+              <td>~18x</td>
+              <td style="color:var(--accent-yellow);">Growing &mdash; Fotonix platform; AMF acquired</td>
+            </tr>
+            <tr>
+              <td>UMC</td>
+              <td>UMC</td>
+              <td>~$8.0B</td>
+              <td style="color:var(--accent-red);">-4%</td>
+              <td>~30%</td>
+              <td>~12%</td>
+              <td>~15x</td>
+              <td>~10x</td>
+              <td style="color:var(--accent-red);">Early &mdash; iSiPP300 licensed from imec; 2026-27 risk prod.</td>
+            </tr>
+            <tr>
+              <td>TSMC (reference)</td>
+              <td>TSM</td>
+              <td>~$90B</td>
+              <td style="color:var(--accent-green);">+35%</td>
+              <td>~56%</td>
+              <td>~41%</td>
+              <td>~20x</td>
+              <td>~15x</td>
+              <td style="color:var(--text-muted);">N/A &mdash; leading-edge logic focus</td>
+            </tr>
+            <tr>
+              <td>Skyworks Solutions</td>
+              <td>SWKS</td>
+              <td>~$3.7B</td>
+              <td style="color:var(--accent-red);">-10%</td>
+              <td>~45%</td>
+              <td>~18%</td>
+              <td>~12x</td>
+              <td>~10x</td>
+              <td style="color:var(--text-muted);">N/A &mdash; IDM model, customer not competitor</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:16px;">
+        <strong>Competitive insight:</strong> Tower holds a 12-24 month lead over GlobalFoundries in SiPho volume production and a 2-3 year lead over UMC. Samsung also announced SiPho foundry entry but is years from volume. TSEM's narrow moat in SiPho is real but shrinking as GFS aggressively acquires capacity (AMF acquisition). The window of competitive exclusivity is approximately 2025-2027.
+      </div>
+    </div>
+  </div>
+
+  <!-- MOAT SCORECARD -->
+  <div class="section">
+    <div class="section-title">Buffett Moat Scorecard &mdash; Five Dimensions</div>
+    <div class="moat-grid">
+      <div class="moat-item">
+        <div class="moat-header">
+          <div class="moat-name">Intangibles &mdash; Process IP &amp; Know-How</div>
+          <div class="moat-score" style="color:#10b981;">4/5</div>
+        </div>
+        <div class="moat-bar-bg">
+          <div class="moat-bar-fill" style="width:80%; background:linear-gradient(90deg,#10b981,#047857);"></div>
+        </div>
+        <div class="moat-desc-small">30+ years of analog specialty process IP. SiGe BiCMOS and SiPho PDKs are unique; no direct copy-paste competition. NVIDIA selected TSEM for 1.6T optical modules, validating IP leadership.</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div class="moat-name">Switching Costs &mdash; Customer Lock-In</div>
+          <div class="moat-score" style="color:#10b981;">4/5</div>
+        </div>
+        <div class="moat-bar-bg">
+          <div class="moat-bar-fill" style="width:80%; background:linear-gradient(90deg,#10b981,#047857);"></div>
+        </div>
+        <div class="moat-desc-small">18-24 month re-qualification process for analog foundry changes. Chip designs are process-specific; switching costs $5-20M+ per design. 70% of new SiPho capacity pre-booked with customer prepayments. Near-zero customer churn historically.</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div class="moat-name">Cost Advantage &mdash; Specialty Scale</div>
+          <div class="moat-score" style="color:#f59e0b;">3/5</div>
+        </div>
+        <div class="moat-bar-bg">
+          <div class="moat-bar-fill" style="width:60%; background:linear-gradient(90deg,#f59e0b,#b45309);"></div>
+        </div>
+        <div class="moat-desc-small">Multi-fab flexibility (Israel + Japan + US) and specialty process focus gives some cost edge. However, gross margin at 23.2% is below specialty foundry peers. Not a low-cost commodity producer; competes on differentiation, not pure cost.</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div class="moat-name">Network Effects</div>
+          <div class="moat-score" style="color:#ef4444;">1/5</div>
+        </div>
+        <div class="moat-bar-bg">
+          <div class="moat-bar-fill" style="width:20%; background:linear-gradient(90deg,#ef4444,#991b1b);"></div>
+        </div>
+        <div class="moat-desc-small">Foundry services inherently lack network effects. More customers do not make the process better for other customers. No platform dynamic or data flywheel. This is the fundamental structural weakness of the foundry business model.</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div class="moat-name">Brand &mdash; B2B Recognition</div>
+          <div class="moat-score" style="color:#f59e0b;">2/5</div>
+        </div>
+        <div class="moat-bar-bg">
+          <div class="moat-bar-fill" style="width:40%; background:linear-gradient(90deg,#f97316,#c2410c);"></div>
+        </div>
+        <div class="moat-desc-small">Strong brand within specialty analog/RF engineering community. No consumer brand. B2B reputation for process reliability and customer support is valued, but brand alone creates minimal pricing power versus TSMC or Samsung in their domains.</div>
+      </div>
+    </div>
+    <div class="info-box" style="margin-top:16px;">
+      <strong>Overall Moat Assessment: Narrow Moat</strong> &mdash; TSEM's moat is real but narrow. The combination of process IP intangibles (4/5) and customer switching costs (4/5) creates genuine competitive advantages in specialty analog and SiPho. However, the absence of network effects (1/5) and modest brand strength limit the ceiling. The moat is currently widening in SiPho (NVIDIA partnership, capacity pre-booking) but faces a potential 2027-2028 compression as GFS and UMC scale their competing platforms.
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- CYCLE & MACRO -->
+  <div class="section">
+    <div class="section-title">Howard Marks Cycle Analysis &amp; Sentiment</div>
+
+    <div class="charts-grid" style="margin-bottom:20px;">
+      <div class="chart-card">
+        <div class="chart-title">P/E Historical Context &mdash; Where Are We?</div>
+        <div class="pe-bar-container">
+          <div class="pe-scale">
+            <span>Cheap (10x)</span>
+            <span>Fair (25x)</span>
+            <span>Elevated (50x)</span>
+            <span>Euphoric (95x+)</span>
+          </div>
+          <div class="pe-track">
+            <div class="pe-marker" style="left:96%;">
+              <div class="pe-arrow"></div>
+              <div class="pe-label">TTM P/E 95.9x</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:50px; font-size:13px; color:var(--text-muted); line-height:1.6;">
+          Current TTM P/E of <strong style="color:var(--accent-red);">95.93x</strong> is near the 95th+ percentile of TSEM's valuation history. One year ago the stock traded at $28 (P/E ~14x). The 591% move in 12 months is one of the most extreme reratings in semiconductor history &mdash; driven by the SiPho/AI narrative but now pricing near-perfection.
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Market Cycle Stage &mdash; SiPho vs RF Mobile</div>
+        <div style="margin-top:10px;">
+          <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Silicon Photonics (SiPho) &mdash; 14.5% of Revenue, Growing</div>
+          <div class="cycle-stage">
+            <div class="cycle-node active-sip">Early Growth<div class="cycle-node-label">CPO just starting</div></div>
+            <div class="cycle-node">Mid Growth<div class="cycle-node-label">2027-28</div></div>
+            <div class="cycle-node">Mature<div class="cycle-node-label">2029+</div></div>
+            <div class="cycle-node">Consolidating<div class="cycle-node-label"></div></div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin:16px 0 8px;">RF Mobile (RFCMOS) &mdash; 23% of Revenue, Declining Mix</div>
+          <div class="cycle-stage">
+            <div class="cycle-node">Early Growth<div class="cycle-node-label"></div></div>
+            <div class="cycle-node">Mid Growth<div class="cycle-node-label"></div></div>
+            <div class="cycle-node active-late">Mature<div class="cycle-node-label">5G penetrated</div></div>
+            <div class="cycle-node">Consolidating<div class="cycle-node-label">Android mix ↓</div></div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin:16px 0 8px;">Sentiment &amp; Price Momentum</div>
+          <div class="marks-meter">
+            <div class="marks-label-row"><span>Fearful</span><span>Neutral</span><span>Greedy</span><span>Euphoric</span></div>
+            <div class="marks-track"><div class="marks-indicator" style="left:92%;"></div></div>
+          </div>
+          <div style="font-size:12px; color:var(--accent-red); margin-top:24px; font-weight:600;">Sentiment: Euphoric &mdash; Stock at 52W high, 14.3% above analyst consensus, 591% in 12M</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RISK MATRIX -->
+    <div class="section-title" style="margin-top:32px;">Tail Risk Matrix &mdash; Five Key Risks</div>
+    <div class="risk-grid">
+      <div class="risk-card flag-red">
+        <div class="risk-header">
+          <div class="risk-name">SiPho Execution Risk &mdash; Capex vs Demand Mismatch</div>
+          <div class="risk-badges">
+            <span class="risk-badge rb-med">Prob: 25%</span>
+            <span class="risk-badge rb-high">Impact: HIGH</span>
+          </div>
+        </div>
+        <div class="risk-desc">$920M capex program is predicated on continuous hyperscaler demand. If AI spending slows (DeepSeek-style efficiency shock) or CPO adoption timeline slips 12-18 months, Tower faces stranded capacity and deteriorating FCF. Stock could retrace 40-50% on a miss vs. 2028 targets.</div>
+      </div>
+      <div class="risk-card flag-red">
+        <div class="risk-header">
+          <div class="risk-name">Valuation Multiple Compression</div>
+          <div class="risk-badges">
+            <span class="risk-badge rb-high">Prob: 40%</span>
+            <span class="risk-badge rb-high">Impact: HIGH</span>
+          </div>
+        </div>
+        <div class="risk-desc">Stock at 95.93x TTM P/E is priced for near-perfection. Any guidance miss, macro softening, or risk-off rotation could compress multiple from 65x forward to 30-35x (where narrow-moat 20% growers typically trade). At 30x FY2026E EPS ~$3.00, stock would trade ~$90 &mdash; a 54% decline.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header">
+          <div class="risk-name">GFS / UMC Competitive Encroachment</div>
+          <div class="risk-badges">
+            <span class="risk-badge rb-med">Prob: 35%</span>
+            <span class="risk-badge rb-med">Impact: MED</span>
+          </div>
+        </div>
+        <div class="risk-desc">GlobalFoundries (AMF acquisition) is 12-18 months behind TSEM in SiPho volume. UMC using imec's iSiPP300 could commoditize the SiPho foundry market by 2028. ASP pressure could prevent margin expansion to 39-40% targets, compressing the 2028 net income thesis.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header">
+          <div class="risk-name">Geopolitical Risk &mdash; Israel Operations</div>
+          <div class="risk-badges">
+            <span class="risk-badge rb-low">Prob: 15%</span>
+            <span class="risk-badge rb-high">Impact: HIGH</span>
+          </div>
+        </div>
+        <div class="risk-desc">Primary fab operations located in Migdal Ha'Emek and Kiryat Gat, Israel. Escalation in Middle East conflict could disrupt operations. Japan (JTower, Panasonic JV) and Newport Beach provide geographic diversification, but Israel remains the majority of production.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header">
+          <div class="risk-name">Mobile RF Secular Decline</div>
+          <div class="risk-badges">
+            <span class="risk-badge rb-med">Prob: 50%</span>
+            <span class="risk-badge rb-med">Impact: MED</span>
+          </div>
+        </div>
+        <div class="risk-desc">23% of revenue from mobile RFCMOS is facing structural headwinds as 5G penetration matures and Chinese handset share (Huawei self-supply) reduces the TAM. Decline in mobile RF could offset SiPho growth, particularly in H1 2026 before CPO ramp offsets the drag.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- VALUATION SECTION -->
+  <div class="section">
+    <div class="section-title">Three-Framework Valuation Analysis</div>
+
+    <div class="val-frameworks">
+      <!-- GRAHAM -->
+      <div class="val-card">
+        <div class="val-title graham-title">I &mdash; Benjamin Graham Framework</div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Graham Checklist</div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">X</div>
+            <div class="check-label">P/E Ratio &le; 15x</div>
+            <div class="check-val" style="color:var(--accent-red);">95.93x FAIL</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">X</div>
+            <div class="check-label">Price/Book &le; 1.5x</div>
+            <div class="check-val" style="color:var(--accent-red);">7.21x FAIL</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">X</div>
+            <div class="check-label">P/E &times; P/B &le; 22.5</div>
+            <div class="check-val" style="color:var(--accent-red);">692 FAIL</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-pass">&#10003;</div>
+            <div class="check-label">Debt/Equity &le; 0.5x</div>
+            <div class="check-val" style="color:var(--accent-green);">Near-zero PASS</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">X</div>
+            <div class="check-label">FCF Positive (Margin Safety)</div>
+            <div class="check-val" style="color:var(--accent-red);">-$41M FAIL</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">X</div>
+            <div class="check-label">Premium to Graham Number</div>
+            <div class="check-val" style="color:var(--accent-red);">+470% FAIL</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(110,231,183,0.06); border:1px solid rgba(110,231,183,0.15); border-radius:8px; padding:14px; margin-bottom:14px;">
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">Graham Number = &radic;(22.5 &times; EPS &times; Book)</div>
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">= &radic;(22.5 &times; $1.95 &times; $27.43) = &radic;(1205.8)</div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:10px; color:var(--text-muted);">Graham Number</div>
+              <div style="font-size:22px; font-weight:800; color:#6ee7b7;">$34.72</div>
+            </div>
+            <div style="font-size:22px; color:var(--text-muted);">vs</div>
+            <div>
+              <div style="font-size:10px; color:var(--text-muted);">Current Price</div>
+              <div style="font-size:22px; font-weight:800; color:var(--accent-red);">$197.80</div>
+            </div>
+            <div>
+              <div style="font-size:10px; color:var(--text-muted);">Premium</div>
+              <div style="font-size:22px; font-weight:800; color:var(--accent-red);">+470%</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">DCF Scenarios (Normalized FCF ~$245M)</div>
+        <div class="dcf-scenario">
+          <div class="dcf-box">
+            <div class="dcf-label">Bear (30%)</div>
+            <div class="dcf-val dcf-bear">$50</div>
+            <div class="dcf-sub">15% 5yr, 8% term, 3% terminal</div>
+          </div>
+          <div class="dcf-box">
+            <div class="dcf-label">Base (45%)</div>
+            <div class="dcf-val dcf-base">$95</div>
+            <div class="dcf-sub">25% 5yr, 12% term, 3% terminal</div>
+          </div>
+          <div class="dcf-box">
+            <div class="dcf-label">Bull (25%)</div>
+            <div class="dcf-val dcf-bull">$175</div>
+            <div class="dcf-sub">35% 5yr, 15% term, 4% terminal</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--accent-red); margin-bottom:4px;">Graham Verdict: SELL / REDUCE</div>
+          <div style="font-size:12px; color:var(--text-muted);">Weighted DCF avg ~$90-105. Stock at $197.80 is 88-120% above weighted DCF average. Only the extreme bull scenario ($175) approaches current price. Graham's three core tests all fail with extreme readings. Margin of safety: deeply negative.</div>
+        </div>
+      </div>
+
+      <!-- BUFFETT -->
+      <div class="val-card">
+        <div class="val-title buffett-title">II &mdash; Buffett Moat Framework</div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Moat Rating Summary</div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Moat Classification</span>
+            <span class="vsr-val">Narrow Moat</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Return on Equity (FY2025)</span>
+            <span class="vsr-red">7.6% (low, below 15% threshold)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">ROE FY2023 (pre-capex cycle)</span>
+            <span class="vsr-yellow">17.5% (historically acceptable)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Reinvestment Rate</span>
+            <span class="vsr-val">High ($920M capex = 59% of revenue)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Intangible IP Strength</span>
+            <span class="vsr-green">Strong (30yr SiGe, SiPho PDKs)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Switching Cost Depth</span>
+            <span class="vsr-green">High (18-24M re-qual, $5-20M cost)</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Intrinsic Value Estimate</div>
+          <div class="val-summary-row">
+            <span class="vsr-label">FY2026E EPS (estimated)</span>
+            <span class="vsr-val">~$3.00</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Reasonable P/E (Narrow Moat + 20% growth)</span>
+            <span class="vsr-val">25-35x</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Intrinsic Value (Base: 30x)</span>
+            <span class="vsr-yellow">~$90-110</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">With Growth Premium (35x)</span>
+            <span class="vsr-yellow">~$100-130</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Margin of Safety (20-30%)</span>
+            <span class="vsr-green">Ideal Buy: $70-$100</span>
+          </div>
+        </div>
+
+        <div style="background:rgba(147,197,253,0.06); border:1px solid rgba(147,197,253,0.15); border-radius:8px; padding:14px; margin-bottom:12px;">
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            <strong>Buffett's key question: "What is the business worth as a going concern?"</strong><br><br>
+            TSEM is an excellent business &mdash; specialty foundry with real switching costs, growing AI tailwind, and a credible path to 40% gross margins. However, Buffett's framework demands a <strong>durable competitive advantage translating to sustained high ROE (15%+)</strong>. Current ROE of 7.6% reflects the investment cycle. The question is whether the 2028 target ($750M net income on ~$3B equity base = ~25% ROE) is achievable and durable, or whether competition erodes it before it materializes.
+          </div>
+        </div>
+
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--accent-red); margin-bottom:4px;">Buffett Verdict: OVERVALUED vs Intrinsic Value</div>
+          <div style="font-size:12px; color:var(--text-muted);">At $197.80, stock trades at 180-220% of estimated intrinsic value ($100-130). For a Buffett-style investment, the stock would need to decline to $70-100 to offer adequate margin of safety on a narrow-moat business still proving its SiPho thesis.</div>
+        </div>
+      </div>
+
+      <!-- MARKS -->
+      <div class="val-card">
+        <div class="val-title marks-title">III &mdash; Howard Marks Cycle Framework</div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Cycle Position Indicators</div>
+          <div class="val-summary-row">
+            <span class="vsr-label">12-Month Price Return</span>
+            <span class="vsr-red">+591% (extreme)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">P/E vs 5-Year History</span>
+            <span class="vsr-red">95th+ Percentile</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Stock vs Analyst Target</span>
+            <span class="vsr-red">14.3% ABOVE consensus</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">AI CapEx Cycle Stage</span>
+            <span class="vsr-green">Expanding ($300B+ 2025)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">SiPho Adoption Stage</span>
+            <span class="vsr-green">Early-Growth (favorable)</span>
+          </div>
+          <div class="val-summary-row">
+            <span class="vsr-label">Sentiment</span>
+            <span class="vsr-red">Euphoric &mdash; Marks "Stage 3"</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Bull / Bear Scenarios (12M)</div>
+          <div class="upside-downside">
+            <div class="ud-box ud-bear">
+              <div class="ud-label">Bear (30%)</div>
+              <div class="ud-val" style="color:var(--accent-red);">$90-110</div>
+              <div class="ud-sub">Multiple compress to 30x<br>-44% to -54%</div>
+            </div>
+            <div class="ud-box ud-base">
+              <div class="ud-label">Base (50%)</div>
+              <div class="ud-val" style="color:var(--accent-yellow);">$155-175</div>
+              <div class="ud-sub">Multiple compress to 50x<br>-11% to -21%</div>
+            </div>
+            <div class="ud-box ud-bull">
+              <div class="ud-label">Bull (20%)</div>
+              <div class="ud-val" style="color:var(--accent-green);">$210-240</div>
+              <div class="ud-sub">Multiple holds + EPS beat<br>+6% to +21%</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--accent-yellow); margin-bottom:6px;">Marks: "The Pendulum Has Swung Too Far"</div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            The underlying secular story (SiPho, AI optical interconnects) is genuine and exciting. But market pricing has extrapolated this narrative to its most optimistic conclusion. Marks would note: <em>"When everyone knows an asset has great prospects, those prospects are already priced in &mdash; and then some."</em> The stock's move from $28 to $198 in 12 months reflects a massive PE expansion from ~14x to ~96x, not just earnings growth.
+          </div>
+        </div>
+
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:12px;">
+          <div style="font-size:12px; font-weight:700; color:var(--accent-red); margin-bottom:4px;">Marks Verdict: CAUTIOUS HOLD &mdash; Wait for Correction</div>
+          <div style="font-size:12px; color:var(--text-muted);">Excellent business, terrible current entry. Marks framework suggests asymmetric downside risk at 95th percentile valuation. Patient investors should wait for a 20-35% correction to $130-160 before establishing positions.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBINED CONCLUSION -->
+    <div class="conclusion-card">
+      <div class="conclusion-header">
+        <div>
+          <div class="conclusion-rating">Combined Three-Framework Verdict</div>
+          <div class="conclusion-verdict">Cautious Hold &mdash; Wait for the Pullback</div>
+          <div style="font-size:14px; color:var(--text-muted); margin-top:8px;">Exceptional business. Euphoric valuation. Asymmetric risk/reward favors patience.</div>
+        </div>
+        <div class="buy-zone">
+          <div class="buy-zone-label">Ideal Entry Range</div>
+          <div class="buy-zone-range">$146 &mdash; $165</div>
+          <div class="buy-zone-sub">~25-35% below current price</div>
+          <div class="buy-zone-sub">~30-40x FY2026E EPS, with MoS</div>
+        </div>
+      </div>
+
+      <div class="conclusion-points">
+        <div class="cp-item">
+          <div class="cp-icon cp-bear">&#9660;</div>
+          <div class="cp-text"><strong>Graham:</strong> All three tests fail by extreme margins. Graham Number $34.72 vs $197.80. P/E x P/B = 692 (limit: 22.5). DCF weighted avg ~$95-105. Verdict: REDUCE.</div>
+        </div>
+        <div class="cp-item">
+          <div class="cp-icon cp-bear">&#9660;</div>
+          <div class="cp-text"><strong>Buffett:</strong> ROE 7.6% during capex cycle, narrow moat not yet proven at scale. Intrinsic value $100-130. Stock at 180-220% premium to IV. Need pullback to $70-100 for Buffett-style MoS.</div>
+        </div>
+        <div class="cp-item">
+          <div class="cp-icon cp-bear">&#9660;</div>
+          <div class="cp-text"><strong>Marks:</strong> Euphoric sentiment, 95th+ PE percentile, stock 14.3% above analyst consensus after +591% run. Pendulum has swung far. Asymmetric downside risk.</div>
+        </div>
+        <div class="cp-item">
+          <div class="cp-icon cp-bull">&#9650;</div>
+          <div class="cp-text"><strong>Bull Case:</strong> NVIDIA partnership, 70% capacity pre-booked, SiPho TAM $250M &rarr; $3.7B+ by 2030 (29% CAGR). Management 2028 targets ($2.84B rev, 40% GM) are credible if executed. Best-in-class SiPho foundry.</div>
+        </div>
+        <div class="cp-item">
+          <div class="cp-icon cp-bull">&#9650;</div>
+          <div class="cp-text"><strong>Q1 2026 Guidance:</strong> $412M (+15% YoY), confirming revenue acceleration. Margin expansion trajectory intact. Sequential growth expected through 2026. Near-zero debt ($28M) provides financial flexibility for the $920M capex cycle.</div>
+        </div>
+        <div class="cp-item">
+          <div class="cp-icon cp-bear">&#9660;</div>
+          <div class="cp-text"><strong>Key Risk:</strong> At 65.8x forward P/E, any earnings miss, AI spending pause, or GFS competitive news could compress multiples to 30-35x, implying ~$90-105. Downside of 47-54% from current price. Risk/reward skews negative at $197.80.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYST RATINGS -->
+  <div class="section" style="margin-top:40px;">
+    <div class="section-title">Analyst Ratings &amp; Price Targets (Updated March 2026)</div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left;">Institution</th>
+              <th>Rating</th>
+              <th>Price Target</th>
+              <th>vs Current ($197.80)</th>
+              <th>Core Thesis</th>
+              <th>Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Benchmark</td>
+              <td style="color:var(--accent-green); font-weight:700;">BUY</td>
+              <td style="color:var(--accent-green); font-weight:700;">$230</td>
+              <td style="color:var(--accent-green);">+16.3%</td>
+              <td>SiPho capacity ramp + NVIDIA partnership long-term payoff</td>
+              <td>Mar 2026</td>
+            </tr>
+            <tr>
+              <td>Susquehanna</td>
+              <td style="color:var(--accent-green); font-weight:700;">POSITIVE</td>
+              <td style="color:var(--accent-yellow);">$180</td>
+              <td style="color:var(--accent-red);">-9.0%</td>
+              <td>SiPho leader with AI data center optical tailwind</td>
+              <td>Feb 2026</td>
+            </tr>
+            <tr>
+              <td>Barclays</td>
+              <td style="color:var(--accent-yellow); font-weight:700;">EQUAL WEIGHT</td>
+              <td style="color:var(--accent-red);">$142</td>
+              <td style="color:var(--accent-red);">-28.2%</td>
+              <td>Raised from $114 but valuation concern; execution risk on capex</td>
+              <td>Feb 2026</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>Consensus Average</td>
+              <td style="color:var(--accent-yellow); font-weight:700;">HOLD</td>
+              <td style="color:var(--accent-yellow); font-weight:800;">$173</td>
+              <td style="color:var(--accent-red); font-weight:700;">-12.5%</td>
+              <td>Target range $140-$230; median below current price</td>
+              <td>Mar 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:14px;">
+        <strong>Key Insight:</strong> The stock at $197.80 is trading ABOVE the analyst consensus target of $173 and significantly above Barclays' $142 target. Only Benchmark's aggressive $230 target offers upside from current levels. This suggests the market has priced in more optimism than even bullish sell-side analysts. The "Buy" camp's strongest argument is the 2028 revenue model ($2.84B) justifying a higher long-term multiple; the "Hold/Sell" argument is that this is already priced in and capex execution risk is not adequately reflected.
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA SOURCES -->
+  <div class="section" style="margin-top:40px;">
+    <div class="section-title">Data Sources &amp; Research References</div>
+    <div class="sources-grid">
+      <div class="source-item"><div class="source-dot"></div>Alpha Vantage API &mdash; FY2025 Financials (Ground Truth)</div>
+      <div class="source-item"><div class="source-dot"></div>yfinance &mdash; Market Data, Beta, 52W Range</div>
+      <div class="source-item"><div class="source-dot"></div>Tower Semiconductor Q4 2025 Earnings Release (Feb 2026)</div>
+      <div class="source-item"><div class="source-dot"></div>GlobeNewswire &mdash; TSEM+NVIDIA 1.6T Partnership (Feb 5, 2026)</div>
+      <div class="source-item"><div class="source-dot"></div>GuruFocus &mdash; Q1 2026 Revenue Guidance $412M &plusmn;5%</div>
+      <div class="source-item"><div class="source-dot"></div>Benchmark Research &mdash; Buy / $230 PT (Mar 2026)</div>
+      <div class="source-item"><div class="source-dot"></div>Susquehanna &mdash; Positive / $180 PT (Feb 2026)</div>
+      <div class="source-item"><div class="source-dot"></div>Barclays &mdash; Equal Weight / $142 PT (Feb 2026)</div>
+      <div class="source-item"><div class="source-dot"></div>Mordor Intelligence &mdash; SiPho Market TAM $2.16B (2024) &rarr; $9.65B (2030)</div>
+      <div class="source-item"><div class="source-dot"></div>36Kr &mdash; GFS / UMC Silicon Photonics Competition Analysis</div>
+      <div class="source-item"><div class="source-dot"></div>TrendForce &mdash; 800G+ Transceiver Shipments 24M &rarr; 63M units (2025-26)</div>
+      <div class="source-item"><div class="source-dot"></div>AlphaStreet &mdash; Q4 2025 Earnings Call Summary</div>
+    </div>
+    <div style="margin-top:16px; padding:12px 16px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; font-size:12px; color:var(--text-muted);">
+      Report generated: April 3, 2026 &nbsp;|&nbsp; Data as of: April 3, 2026 &nbsp;|&nbsp; For informational purposes only. Not investment advice. All valuations are estimates based on public information and analytical frameworks. Past performance does not guarantee future results.
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+// ── CHART DEFAULTS ──────────────────────────────────────────
+Chart.defaults.color = '#8fa3c0';
+Chart.defaults.borderColor = '#1e2d47';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+
+// ── 1. QUARTERLY REVENUE BAR CHART ─────────────────────────
+(function() {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Q1 FY2025', 'Q2 FY2025', 'Q3 FY2025', 'Q4 FY2025'],
+      datasets: [{
+        label: 'Revenue ($M)',
+        data: [358.2, 372.1, 395.7, 440.2],
+        backgroundColor: [
+          'rgba(59,130,246,0.5)',
+          'rgba(59,130,246,0.55)',
+          'rgba(59,130,246,0.65)',
+          'rgba(16,185,129,0.7)'
+        ],
+        borderColor: [
+          'rgba(59,130,246,0.9)',
+          'rgba(59,130,246,0.9)',
+          'rgba(59,130,246,0.9)',
+          'rgba(16,185,129,0.9)'
+        ],
+        borderWidth: 1.5,
+        borderRadius: 5,
+      }, {
+        label: 'Q1 2026E Guidance',
+        data: [null, null, null, null, 412],
+        backgroundColor: 'rgba(245,158,11,0.5)',
+        borderColor: 'rgba(245,158,11,0.9)',
+        borderWidth: 1.5,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 12, padding: 12 } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` $${ctx.parsed.y}M`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#8fa3c0' }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#8fa3c0', callback: v => '$' + v + 'M' },
+          min: 300,
+          max: 460
+        }
+      }
+    }
+  });
+})();
+
+// ── 2. MARGIN TREND LINE CHART ──────────────────────────────
+(function() {
+  const ctx = document.getElementById('marginChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25'],
+      datasets: [
+        {
+          label: 'Gross Margin %',
+          data: [20.8, 22.1, 23.8, 26.7],
+          borderColor: '#8b5cf6',
+          backgroundColor: 'rgba(139,92,246,0.1)',
+          tension: 0.35,
+          pointBackgroundColor: '#8b5cf6',
+          pointRadius: 5,
+          fill: true,
+        },
+        {
+          label: 'Operating Margin %',
+          data: [9.4, 11.2, 13.0, 16.1],
+          borderColor: '#06b6d4',
+          backgroundColor: 'rgba(6,182,212,0.08)',
+          tension: 0.35,
+          pointBackgroundColor: '#06b6d4',
+          pointRadius: 5,
+          fill: true,
+        },
+        {
+          label: 'Net Margin %',
+          data: [11.1, 13.0, 14.6, 18.2],
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16,185,129,0.06)',
+          tension: 0.35,
+          pointBackgroundColor: '#10b981',
+          pointRadius: 5,
+          fill: true,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 12, padding: 10 } },
+        tooltip: {
+          callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%` }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { callback: v => v + '%' },
+          min: 0,
+          max: 32
+        }
+      }
+    }
+  });
+})();
+
+// ── 3. ANNUAL REVENUE & FCF CHART ───────────────────────────
+(function() {
+  const ctx = document.getElementById('annualChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['FY2021', 'FY2022', 'FY2023', 'FY2024', 'FY2025A'],
+      datasets: [
+        {
+          label: 'Annual Revenue ($M)',
+          data: [1290, 1926, 1419, 1440, 1566],
+          backgroundColor: 'rgba(59,130,246,0.55)',
+          borderColor: 'rgba(59,130,246,0.9)',
+          borderWidth: 1.5,
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          label: 'OCF ($M)',
+          data: [210, 420, 260, 310, 395.5],
+          type: 'line',
+          borderColor: '#10b981',
+          backgroundColor: 'transparent',
+          tension: 0.35,
+          pointBackgroundColor: '#10b981',
+          pointRadius: 5,
+          yAxisID: 'y',
+        },
+        {
+          label: 'FCF ($M)',
+          data: [50, 180, -20, -80, -41.1],
+          type: 'line',
+          borderColor: '#ef4444',
+          backgroundColor: 'transparent',
+          tension: 0.35,
+          pointBackgroundColor: '#ef4444',
+          pointRadius: 5,
+          borderDash: [5,4],
+          yAxisID: 'y',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 12, padding: 10 } },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { callback: v => '$' + v + 'M' }
+        }
+      }
+    }
+  });
+})();
+
+// ── 4. DCF SCENARIO BAR CHART ───────────────────────────────
+(function() {
+  const ctx = document.getElementById('dcfChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Graham Number', 'DCF Bear (30%)', 'Analyst Consensus', 'DCF Base (45%)', 'Current Price', 'DCF Bull (25%)', 'Benchmark PT'],
+      datasets: [{
+        label: 'Price / Value ($)',
+        data: [34.72, 50, 173, 95, 197.80, 175, 230],
+        backgroundColor: [
+          'rgba(16,185,129,0.7)',
+          'rgba(239,68,68,0.6)',
+          'rgba(245,158,11,0.6)',
+          'rgba(245,158,11,0.7)',
+          'rgba(239,68,68,0.85)',
+          'rgba(16,185,129,0.6)',
+          'rgba(59,130,246,0.6)'
+        ],
+        borderColor: [
+          'rgba(16,185,129,1)',
+          'rgba(239,68,68,1)',
+          'rgba(245,158,11,1)',
+          'rgba(245,158,11,1)',
+          'rgba(239,68,68,1)',
+          'rgba(16,185,129,1)',
+          'rgba(59,130,246,1)'
+        ],
+        borderWidth: 1.5,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (ctx) => ` $${ctx.parsed.x.toFixed(2)}` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { callback: v => '$' + v },
+          max: 260
+        },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// ── 5. REVENUE PIE / DOUGHNUT ───────────────────────────────
+(function() {
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['SiPho (AI Optical)', 'SiGe BiCMOS + RF', 'Mobile RF (RFCMOS)', 'Industrial / Medical / Auto', 'Power & Other'],
+      datasets: [{
+        data: [14.5, 12.5, 23.0, 35.5, 14.5],
+        backgroundColor: [
+          'rgba(6,182,212,0.8)',
+          'rgba(139,92,246,0.8)',
+          'rgba(59,130,246,0.8)',
+          'rgba(16,185,129,0.8)',
+          'rgba(245,158,11,0.8)'
+        ],
+        borderColor: '#0a0e1a',
+        borderWidth: 3,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.label}: ${ctx.parsed}%`
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

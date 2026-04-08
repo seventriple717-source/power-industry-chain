@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APH - Amphenol Corporation 价值投资深度分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
+    --bg-card: #1a2235;
+    --bg-card-hover: #1e2a42;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e293b;
+    --border-light: #2d3748;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg-primary); color: var(--text-primary); font-family: 'SF Pro Display', -apple-system, 'Segoe UI', sans-serif; line-height: 1.6; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #0a0e1a 0%, #0f1f3d 50%, #0a1628 100%); padding: 60px 0 40px; border-bottom: 1px solid var(--border-light); }
+  .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  .hero-ticker { font-size: 14px; color: var(--accent-cyan); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .hero-company { font-size: 36px; font-weight: 700; margin-bottom: 6px; }
+  .hero-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 20px; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+  .hero-meta-item { display: flex; align-items: center; gap: 8px; }
+  .hero-meta-label { color: var(--text-muted); font-size: 13px; }
+  .hero-meta-value { font-size: 14px; font-weight: 600; }
+  .hero-price-block { text-align: right; }
+  .hero-price { font-size: 52px; font-weight: 800; color: var(--accent-cyan); }
+  .hero-price-change { font-size: 16px; color: var(--accent-red); margin-bottom: 8px; }
+  .hero-mktcap { font-size: 15px; color: var(--text-secondary); }
+  .rating-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+  .rating-hold { background: rgba(245,158,11,0.15); color: var(--accent-yellow); border: 1px solid rgba(245,158,11,0.3); }
+  .rating-buy { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+  .rating-sell { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+
+  /* SECTIONS */
+  .section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  .section-header { margin-bottom: 32px; }
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before { content: ''; display: inline-block; width: 4px; height: 24px; background: var(--accent-cyan); border-radius: 2px; }
+  .section-subtitle { color: var(--text-secondary); font-size: 14px; }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .kpi-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 20px; transition: border-color 0.2s; }
+  .kpi-card:hover { border-color: var(--accent-cyan); }
+  .kpi-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--text-secondary); }
+  .kpi-positive { color: var(--accent-green); }
+  .kpi-negative { color: var(--accent-red); }
+  .kpi-neutral { color: var(--accent-yellow); }
+  .kpi-cyan { color: var(--accent-cyan); }
+
+  /* CARDS */
+  .card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 24px; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #1e293b; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .td-positive { color: var(--accent-green); font-weight: 600; }
+  .td-negative { color: var(--accent-red); font-weight: 600; }
+  .td-neutral { color: var(--accent-yellow); font-weight: 600; }
+
+  /* MOAT SCORES */
+  .moat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .moat-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; }
+  .moat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .moat-name { font-size: 14px; font-weight: 600; }
+  .moat-stars { color: var(--accent-yellow); font-size: 16px; }
+  .moat-bar-bg { background: #1e293b; border-radius: 4px; height: 6px; margin: 8px 0; }
+  .moat-bar { height: 6px; border-radius: 4px; background: var(--accent-cyan); }
+  .moat-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+  .moat-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+  .moat-wide { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+  .moat-narrow { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
+  .moat-none { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+
+  /* VALUATION */
+  .val-framework { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .val-framework-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .val-framework-sub { color: var(--text-secondary); font-size: 13px; margin-bottom: 20px; }
+  .dcf-bar-container { margin: 12px 0; }
+  .dcf-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .dcf-bar-bg { background: #1e293b; border-radius: 4px; height: 28px; position: relative; }
+  .dcf-bar-fill { height: 28px; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 13px; font-weight: 700; color: #fff; }
+  .dcf-bar-conservative { background: linear-gradient(90deg, #ef4444, #f97316); }
+  .dcf-bar-neutral { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+  .dcf-bar-optimistic { background: linear-gradient(90deg, #10b981, #06b6d4); }
+  .dcf-price-marker { position: absolute; top: -6px; height: 40px; width: 2px; background: var(--accent-yellow); }
+  .dcf-price-label { position: absolute; top: -22px; font-size: 11px; color: var(--accent-yellow); font-weight: 700; transform: translateX(-50%); white-space: nowrap; }
+
+  .verdict-card { border-radius: 12px; padding: 20px 24px; margin-top: 16px; }
+  .verdict-red { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); }
+  .verdict-yellow { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); }
+  .verdict-green { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); }
+  .verdict-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .verdict-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+  /* FINAL CONCLUSION */
+  .final-conclusion { background: linear-gradient(135deg, #0f1f3d, #1a2235); border: 2px solid var(--accent-cyan); border-radius: 16px; padding: 36px; margin-top: 24px; }
+  .buy-range-label { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 8px; }
+  .buy-range { font-size: 48px; font-weight: 900; color: var(--accent-green); text-align: center; margin: 16px 0; }
+  .buy-range-note { text-align: center; color: var(--text-secondary); font-size: 13px; }
+
+  /* RISK MATRIX */
+  .risk-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .risk-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .risk-name { font-size: 14px; font-weight: 600; }
+  .risk-badges { display: flex; gap: 8px; }
+  .risk-prob { font-size: 11px; padding: 3px 10px; border-radius: 12px; background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+  .risk-impact { font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+  .impact-high { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+  .impact-med { background: rgba(245,158,11,0.15); color: var(--accent-yellow); }
+  .impact-low { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+  .risk-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* CHECK LIST */
+  .checklist-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .check-pass { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+  .check-fail { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid var(--accent-red); }
+  .check-label { flex: 1; font-size: 14px; }
+  .check-value { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+  /* SOURCES */
+  .sources-list { list-style: none; }
+  .sources-list li { padding: 6px 0; font-size: 13px; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+  .sources-list li:last-child { border-bottom: none; }
+  .sources-list a { color: var(--accent-blue); text-decoration: none; }
+  .sources-list a:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-price-block { text-align: left; }
+    .hero-price { font-size: 36px; }
+    .kpi-grid, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .moat-grid { grid-template-columns: 1fr; }
+    .buy-range { font-size: 32px; }
+  }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+  .tag-ai { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
+  .tag-growth { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+  .chart-container { position: relative; height: 300px; }
+  .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--text-secondary); }
+  .stat-value { font-weight: 600; }
+  .info-box { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .highlight-box { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .warn-box { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-ticker">NYSE: APH &nbsp;·&nbsp; 互连系统 &nbsp;·&nbsp; 工业 / AI / 国防</div>
+        <div class="hero-company">Amphenol Corporation</div>
+        <div class="hero-desc">全球领先互连系统供应商 | AI数据中心 · 国防航空 · 汽车 · 工业</div>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">分析日期</span>
+            <span class="hero-meta-value">2026-04-08</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">52周区间</span>
+            <span class="hero-meta-value">$56.45 – $167.04</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">分析师共识</span>
+            <span class="hero-meta-value" style="color:var(--accent-green)">强烈买入 / 均值$153.92</span>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <span class="rating-badge rating-buy">谨慎买入</span>
+          <span class="rating-badge rating-hold" style="margin-left:8px;">宽护城河</span>
+        </div>
+      </div>
+      <div class="hero-price-block">
+        <div class="hero-price">$128.38</div>
+        <div class="hero-price-change">-23.1% 距52周高 $167.04</div>
+        <div class="hero-mktcap">市值 $157.8B &nbsp;|&nbsp; EV $162.4B</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI GRID -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">核心 KPI 指标</div>
+      <div class="section-subtitle">FY2025全年 + 最新季度数据（截至2026-04-08）</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 营收</div>
+        <div class="kpi-value kpi-cyan">$23.1B</div>
+        <div class="kpi-sub kpi-positive">+51.7% YoY（含收购）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 净利润</div>
+        <div class="kpi-value kpi-positive">$4.27B</div>
+        <div class="kpi-sub">净利率 18.5%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 FCF</div>
+        <div class="kpi-value kpi-positive">$4.4B</div>
+        <div class="kpi-sub kpi-positive">FCF率 19.1% / 净利润转化103%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 毛利率</div>
+        <div class="kpi-value kpi-cyan">36.9%</div>
+        <div class="kpi-sub">调整营业利润率 26.2%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">TTM P/E</div>
+        <div class="kpi-value kpi-neutral">38.4x</div>
+        <div class="kpi-sub">10年均值 28.8x / 当前+33%溢价</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Forward P/E</div>
+        <div class="kpi-value kpi-positive">29.2x</div>
+        <div class="kpi-sub">基于FY2026E EPS ~$3.7</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROE / ROIC</div>
+        <div class="kpi-value kpi-positive">36.8%</div>
+        <div class="kpi-sub">ROIC 27.9%（行业顶级）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 Adj. EPS</div>
+        <div class="kpi-value kpi-cyan">$3.34</div>
+        <div class="kpi-sub kpi-positive">+77% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">每股账面价值</div>
+        <div class="kpi-value">~$11.0</div>
+        <div class="kpi-sub">P/B 11.7x（反映护城河溢价）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">净债务</div>
+        <div class="kpi-value kpi-neutral">$4.1B</div>
+        <div class="kpi-sub">净杠杆 0.6x（CCS收购后）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Q4 2025 Book-to-Bill</div>
+        <div class="kpi-value kpi-positive">1.31x</div>
+        <div class="kpi-sub">Q4订单 $8.43B / +68% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Q1 2026 指引</div>
+        <div class="kpi-value kpi-cyan">$6.9-7.0B</div>
+        <div class="kpi-sub kpi-positive">+43-45% YoY</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">商业模式分析</div>
+      <div class="section-subtitle">收入结构、客户集中度、定价权与生态飞轮</div>
+    </div>
+    <div class="grid-3">
+      <!-- Revenue Structure -->
+      <div class="card" style="grid-column: span 1;">
+        <div class="card-title">FY2025 业务分部</div>
+        <canvas id="segmentChart" style="height:220px;"></canvas>
+      </div>
+      <!-- End Markets -->
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-title">Q4 2025 终端市场分布 & YoY增速</div>
+        <canvas id="endMarketChart" style="height:220px;"></canvas>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title">收入质量评分</div>
+        <div class="stat-row"><span class="stat-label">重复性/长期合同收入</span><span class="stat-value kpi-positive">75%+</span></div>
+        <div class="stat-row"><span class="stat-label">国防/航空（长周期合同）</span><span class="stat-value">~11%</span></div>
+        <div class="stat-row"><span class="stat-label">汽车（多年平台合同）</span><span class="stat-value">~10%</span></div>
+        <div class="stat-row"><span class="stat-label">IT Datacom（超大规模CapEx项目）</span><span class="stat-value kpi-positive">~38%</span></div>
+        <div class="stat-row"><span class="stat-label">软件/订阅收入占比</span><span class="stat-value kpi-negative">近零（硬件为主）</span></div>
+        <div class="info-box" style="margin-top:12px;">Amphenol是纯互连硬件公司，无软件收入。但国防/汽车长合同+AI超大规模CapEx承诺使收入高度可见，质量整体高。</div>
+      </div>
+      <div class="card">
+        <div class="card-title">客户集中度风险</div>
+        <div class="stat-row"><span class="stat-label">前5大客户收入占比</span><span class="stat-value kpi-neutral">约30-35%（中等风险）</span></div>
+        <div class="stat-row"><span class="stat-label">超大规模云厂商（AWS/Azure/GCP/Meta）</span><span class="stat-value">约20-25%</span></div>
+        <div class="stat-row"><span class="stat-label">国防/政府客户</span><span class="stat-value">约11%</span></div>
+        <div class="stat-row"><span class="stat-label">汽车客户（全球OEM）</span><span class="stat-value">约10%</span></div>
+        <div class="stat-row"><span class="stat-label">工业客户数量</span><span class="stat-value kpi-positive">10,000+</span></div>
+        <div class="highlight-box" style="margin-top:12px;">客户高度分散（10,000+客户），无单一客户超过10%。云厂商是最大集中风险，但属于行业结构性需求，不依赖单一买家。</div>
+      </div>
+      <div class="card">
+        <div class="card-title">定价权分析</div>
+        <div class="stat-row"><span class="stat-label">FY2023 毛利率</span><span class="stat-value">~32%</span></div>
+        <div class="stat-row"><span class="stat-label">FY2024 毛利率</span><span class="stat-value">33.8%</span></div>
+        <div class="stat-row"><span class="stat-label">FY2025 毛利率</span><span class="stat-value kpi-positive">36.9%（持续扩张）</span></div>
+        <div class="stat-row"><span class="stat-label">Q4 2025 调整营业利润率</span><span class="stat-value kpi-positive">27.5%</span></div>
+        <div class="stat-row"><span class="stat-label">AI专用高速铜/光连接器ASP溢价</span><span class="stat-value kpi-positive">2-3倍于标准产品</span></div>
+        <div class="highlight-box" style="margin-top:12px;">AI数据中心连接器单价远高于传统产品，驱动组合毛利率持续提升。管理层未公布提价案例，但产品组合高端化是定价权的体现。</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">Amphenol 生态系统飞轮</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center;padding:16px 0;">
+        <div style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:14px;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-cyan);">国防/航空认证</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:6px;">MIL-SPEC认证壁垒，10-15年客户关系</div>
+        </div>
+        <div style="font-size:20px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;">→</div>
+        <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:14px;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-green);">规模制造优势</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:6px;">全球45+工厂，低成本国家布局，ROIC 28%</div>
+        </div>
+        <div style="font-size:20px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;">→</div>
+        <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:14px;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-purple);">产品组合广度</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:6px;">100,000+SKU，全行业覆盖</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;">
+        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-yellow);">新客户获取</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">AI数据中心超大规模客户 → 定制连接器 → 长期供货协议</div>
+        </div>
+        <div style="background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-cyan);">M&A整合能力</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">30+年收购历史，CommScope CCS $10.5B强化光纤布局</div>
+        </div>
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:13px;font-weight:700;color:var(--accent-blue);">毛利率持续扩张</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">AI产品组合提升均价 → 毛利率32%→37%，仍有上行空间</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIAL ANALYSIS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">财务分析</div>
+      <div class="section-subtitle">季度营收趋势、利润率演变与现金流</div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">季度营收趋势（2023-2025）含YoY增速</div>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">利润率趋势（毛利率 / 营业利润率 / 净利率）</div>
+        <div class="chart-container">
+          <canvas id="marginChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">季度财务数据表（最近6个季度）</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>季度</th>
+              <th>营收</th>
+              <th>YoY%</th>
+              <th>调整毛利率</th>
+              <th>调整营业利润率</th>
+              <th>Adj. EPS</th>
+              <th>EPS YoY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q3 2024</td><td>$4,040M</td><td class="td-positive">+26.2%</td><td>34.5%</td><td>22.0%</td><td>$0.50</td><td class="td-positive">+25%</td></tr>
+            <tr><td>Q4 2024</td><td>$4,318M</td><td class="td-positive">+29.8%</td><td>35.1%</td><td>22.5%</td><td>$0.55</td><td class="td-positive">+34%</td></tr>
+            <tr><td>Q1 2025</td><td>$4,811M</td><td class="td-positive">+47.7%</td><td>36.4%</td><td>25.4%</td><td>$0.63</td><td class="td-positive">+58%</td></tr>
+            <tr><td>Q2 2025</td><td>$5,651M</td><td class="td-positive">+56.5%</td><td>37.0%</td><td>26.1%</td><td>$0.81</td><td class="td-positive">+84%</td></tr>
+            <tr><td>Q3 2025</td><td>$6,194M</td><td class="td-positive">+53.4%</td><td>37.2%</td><td>26.8%</td><td>$0.93</td><td class="td-positive">+86%</td></tr>
+            <tr style="background:rgba(6,182,212,0.05);"><td><strong>Q4 2025</strong></td><td><strong>$6,441M</strong></td><td class="td-positive"><strong>+49.1%</strong></td><td><strong>37.5%</strong></td><td><strong>27.5%</strong></td><td><strong>$0.93</strong></td><td class="td-positive"><strong>+69%</strong></td></tr>
+            <tr style="background:rgba(6,182,212,0.03);font-style:italic;"><td>Q1 2026 指引</td><td>$6,900–$7,000M</td><td class="td-positive">+43-45%</td><td>数据不可用</td><td>数据不可用</td><td>$0.91–$0.93</td><td class="td-positive">+44-48%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:12px;">*FY2025 Q1-Q4 全部显著超越分析师预期均值：Q2超预期+11.9%（营收）/+21.7%（EPS），Q3超预期+13.6%/+17.7%。管理层指引历来保守。CommScope CCS（$10.5B）已于2026年1月9日完成交割，将贡献FY2026约$4.1B营收。</div>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title">年度自由现金流趋势</div>
+        <div class="chart-container" style="height:220px;">
+          <canvas id="fcfChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">资产负债表关键指标（FY2025）</div>
+        <div class="stat-row"><span class="stat-label">总资产</span><span class="stat-value">$36.24B</span></div>
+        <div class="stat-row"><span class="stat-label">总负债</span><span class="stat-value">$22.73B</span></div>
+        <div class="stat-row"><span class="stat-label">股东权益</span><span class="stat-value kpi-positive">$13.51B</span></div>
+        <div class="stat-row"><span class="stat-label">长期债务</span><span class="stat-value kpi-neutral">$14.57B</span></div>
+        <div class="stat-row"><span class="stat-label">现金及短期投资</span><span class="stat-value kpi-positive">$11.13B</span></div>
+        <div class="stat-row"><span class="stat-label">净债务</span><span class="stat-value">$4.1B（净杠杆0.6x）</span></div>
+        <div class="stat-row"><span class="stat-label">负债/权益</span><span class="stat-value kpi-neutral">1.08x（略高，CCS收购影响）</span></div>
+        <div class="stat-row"><span class="stat-label">每股账面价值</span><span class="stat-value">~$11.0</span></div>
+        <div class="highlight-box" style="margin-top:8px;">CCS收购导致债务暂时升高，但强劲FCF（$4.4B/年）将在2-3年内快速去杠杆。管理层目标净杠杆维持在1x以内。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROWTH DRIVERS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">增长驱动与关键追踪指标</div>
+      <div class="section-subtitle">云厂商CapEx、AI需求、终端市场量化数据</div>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-title">IT Datacom / AI</div>
+        <div class="kpi-value kpi-positive" style="font-size:20px;">+124%</div>
+        <div style="font-size:12px;color:var(--text-secondary);">FY2025 有机增速</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">超大规模AI基础设施建设，800G/1.6T铜缆及光纤互连需求爆发</div>
+      </div>
+      <div class="card">
+        <div class="card-title">国防/航空</div>
+        <div class="kpi-value kpi-positive" style="font-size:20px;">+27%</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Q3 2025 有机增速</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">美国+盟国防务支出提升，雷达/通信/机载系统持续需求</div>
+      </div>
+      <div class="card">
+        <div class="card-title">汽车</div>
+        <div class="kpi-value kpi-neutral" style="font-size:20px;">+15%</div>
+        <div style="font-size:12px;color:var(--text-secondary);">FY2025 有机增速</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">电动化+ADAS传感器需求，每辆EV连接器数量是传统燃油车2-3倍</div>
+      </div>
+      <div class="card">
+        <div class="card-title">CommScope CCS</div>
+        <div class="kpi-value kpi-cyan" style="font-size:20px;">$4.1B</div>
+        <div style="font-size:12px;color:var(--text-secondary);">FY2026预计贡献</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">光纤/结构布线，数据中心基础设施，$10.5B最大并购</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">云厂商 CapEx 趋势（核心驱动力）</div>
+      <div class="chart-container" style="height:250px;">
+        <canvas id="capexChart"></canvas>
+      </div>
+      <div class="info-box" style="margin-top:12px;">四大超大规模云厂商2025年CapEx合计超$300B，YoY增速超50%。Amphenol IT Datacom分部（约38%营收）直接受益于每个数据中心机架部署的数百至数千个连接器需求。1.6T交换机升级需要全新连接器规格，预计H2 2026开始部署。</div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">需持续追踪的 KPIs</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>关键指标</th><th>当前数值</th><th>目标值/预期</th><th>趋势</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>IT Datacom 分部有机增速</td><td class="td-positive">+110% YoY（Q4 2025）</td><td>维持30%+有机增速</td><td class="td-positive">加速中</td></tr>
+            <tr><td>Q4 2025 Book-to-Bill</td><td class="td-positive">1.31x（$8.43B订单）</td><td>>1.0x（健康）</td><td class="td-positive">强劲</td></tr>
+            <tr><td>调整营业利润率</td><td class="td-positive">27.5%（Q4 2025）</td><td>管理层长期目标 28-30%</td><td class="td-positive">扩张中</td></tr>
+            <tr><td>净杠杆比率</td><td class="td-neutral">0.6x（CCS后）</td><td><1.0x（2年去杠杆目标）</td><td class="td-positive">可控</td></tr>
+            <tr><td>CCS整合进度</td><td class="td-neutral">已完成交割（2026-01-09）</td><td>FY2026 $4.1B贡献+$0.15 EPS</td><td class="td-positive">按计划推进</td></tr>
+            <tr><td>四大云CapEx YoY增速</td><td class="td-positive">+50%+（2025全年）</td><td>2026维持30%+（分析师预期）</td><td class="td-neutral">观察中</td></tr>
+            <tr><td>汽车分部有机增速</td><td>+15%</td><td>维持10-15%（EV渗透率提升）</td><td>稳定</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITIVE LANDSCAPE -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">竞争格局</div>
+      <div class="section-subtitle">同业对比、市场地位与竞争优势分析</div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">主要竞争对手对比（互连系统行业）</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>公司</th><th>代码</th><th>市值</th><th>FY2025营收</th><th>营业利润率</th><th>ROE</th><th>P/E TTM</th><th>核心市场</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:rgba(6,182,212,0.05);"><td><strong>Amphenol</strong></td><td>APH</td><td>$157.8B</td><td>$23.1B</td><td>25.4%</td><td class="td-positive">36.8%</td><td>38.4x</td><td>全行业覆盖</td></tr>
+            <tr><td>TE Connectivity</td><td>TEL</td><td>~$40B</td><td>~$16-17B</td><td>~18%</td><td>~20%</td><td>~20x</td><td>汽车/工业</td></tr>
+            <tr><td>Coherent</td><td>COHR</td><td>~$15B</td><td>$5.8B</td><td>~8%</td><td>负值</td><td>N/M</td><td>光学/数据中心</td></tr>
+            <tr><td>Molex</td><td>私有</td><td>N/A</td><td>~$6-7B</td><td>数据不可用</td><td>数据不可用</td><td>N/A</td><td>工业/汽车</td></tr>
+            <tr><td>Belden</td><td>BDC</td><td>~$3.5B</td><td>~$2.5B</td><td>~15%</td><td>~20%</td><td>~15x</td><td>工业/企业网络</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Amphenol 竞争优势定量评估</div>
+        <div class="stat-row"><span class="stat-label">连接器市场份额（全球）</span><span class="stat-value kpi-positive">~12%+（含CCS后可能升至#1）</span></div>
+        <div class="stat-row"><span class="stat-label">AI数据中心连接器市占率</span><span class="stat-value kpi-positive">行业前列（具体数字未公开）</span></div>
+        <div class="stat-row"><span class="stat-label">客户数量</span><span class="stat-value">10,000+</span></div>
+        <div class="stat-row"><span class="stat-label">全球生产基地</span><span class="stat-value">45+ 工厂（低成本国家为主）</span></div>
+        <div class="stat-row"><span class="stat-label">MIL-SPEC认证产品线</span><span class="stat-value">数千种</span></div>
+        <div class="stat-row"><span class="stat-label">研发支出/营收</span><span class="stat-value">约3-4%（偏低，更靠应用工程）</span></div>
+        <div class="stat-row"><span class="stat-label">历史连续超越管理层指引</span><span class="stat-value kpi-positive">2025年四个季度全部超预期</span></div>
+        <div class="highlight-box" style="margin-top:8px;">Amphenol的核心竞争力是制造规模+认证壁垒+快速M&A整合，而非技术创新领先。这使护城河稳定但非绝对宽阔。</div>
+      </div>
+      <div class="card">
+        <div class="card-title">AI互连市场竞争格局（数据中心专项）</div>
+        <canvas id="competitorChart" style="height:200px;"></canvas>
+        <div class="warn-box" style="margin-top:12px;">AI数据中心连接器市场2024年$1.47B，预计2031年$8.49B（CAGR 28.6%）。Amphenol、TE Connectivity、Molex、Samtec是主要玩家。高速铜缆互连（DAC/AOC）是Amphenol核心优势领域。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOAT SCORECARD -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">护城河评分卡</div>
+      <div class="section-subtitle">巴菲特五维度护城河分析</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+      <span style="font-size:18px;font-weight:700;">综合护城河评级：</span>
+      <span class="moat-badge moat-wide" style="font-size:15px;padding:6px 18px;">Wide Moat（宽护城河）</span>
+      <span style="color:var(--text-secondary);font-size:14px;">— 多维度构筑，稳健性高于分散创新型企业</span>
+    </div>
+    <div class="moat-grid">
+      <div class="moat-item">
+        <div class="moat-header">
+          <div>
+            <div class="moat-name">品牌护城河</div>
+            <span class="moat-badge moat-wide">宽</span>
+          </div>
+          <div class="moat-stars">★★★★☆</div>
+        </div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:80%;"></div></div>
+        <div class="moat-desc">Amphenol是工业连接器领域的顶级品牌，国防/航空客户高度认可。30年+稳定供应记录增强品牌价值。但在消费电子和AI新兴市场，品牌知名度低于旗舰芯片公司。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div>
+            <div class="moat-name">转换成本</div>
+            <span class="moat-badge moat-wide">宽</span>
+          </div>
+          <div class="moat-stars">★★★★★</div>
+        </div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:90%;"></div></div>
+        <div class="moat-desc">MIL-SPEC认证连接器需经过严格资质认证（通常1-3年），国防/航空客户替换供应商成本极高。数据中心平台设计一经固定，连接器供应商通常在产品生命周期内不变更（5-7年）。转换成本是最核心护城河。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div>
+            <div class="moat-name">网络效应</div>
+            <span class="moat-badge moat-narrow">窄</span>
+          </div>
+          <div class="moat-stars">★★★☆☆</div>
+        </div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:50%;background:var(--accent-yellow);"></div></div>
+        <div class="moat-desc">连接器是物理硬件，不具备典型网络效应。但客户越多，定制化工程积累越深，间接构成规模网络效应。全球10,000+客户带来的应用工程知识库是隐性壁垒。</div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-header">
+          <div>
+            <div class="moat-name">成本优势</div>
+            <span class="moat-badge moat-wide">宽</span>
+          </div>
+          <div class="moat-stars">★★★★☆</div>
+        </div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:80%;"></div></div>
+        <div class="moat-desc">全球45+低成本制造基地（越南、印度、墨西哥、中国），ROIC 27.9%远超资本成本。规模采购原材料，运营效率系统性高于小型竞争对手。TE Connectivity是最接近对手但盈利能力明显落后。</div>
+      </div>
+      <div class="moat-item" style="grid-column:span 2;">
+        <div class="moat-header">
+          <div>
+            <div class="moat-name">无形资产</div>
+            <span class="moat-badge moat-wide">宽</span>
+          </div>
+          <div class="moat-stars">★★★★☆</div>
+        </div>
+        <div class="moat-bar-bg"><div class="moat-bar" style="width:75%;"></div></div>
+        <div class="moat-desc">MIL-SPEC + DO-160 + AS9100等军航认证是监管护城河，竞争对手难以复制。数千项专利保护高速连接器设计。CommScope CCS收购带来大量光纤互连知识产权。30年并购历史积累的整合能力也属于无形资产。核心工程人才（应用工程师）在全球多地培养。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CYCLE & MACRO -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">周期与宏观分析</div>
+      <div class="section-subtitle">霍华德·马克斯框架：周期定位、估值分位与风险评估</div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">估值历史分位（P/E）</div>
+        <div class="chart-container" style="height:240px;">
+          <canvas id="peHistoryChart"></canvas>
+        </div>
+        <div class="stat-row" style="margin-top:12px;"><span class="stat-label">当前 TTM P/E</span><span class="stat-value kpi-neutral">38.4x</span></div>
+        <div class="stat-row"><span class="stat-label">5年平均 P/E</span><span class="stat-value">33.2x</span></div>
+        <div class="stat-row"><span class="stat-label">10年平均 P/E</span><span class="stat-value">28.8x</span></div>
+        <div class="stat-row"><span class="stat-label">10年最高 P/E</span><span class="stat-value kpi-negative">49.4x</span></div>
+        <div class="stat-row"><span class="stat-label">10年最低 P/E</span><span class="stat-value kpi-positive">18.6x</span></div>
+        <div class="stat-row"><span class="stat-label">当前Forward P/E（基于FY2026E）</span><span class="stat-value kpi-positive">29.2x（接近10年均值）</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">周期定位判断</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:15px;font-weight:700;color:var(--accent-cyan);margin-bottom:8px;">当前阶段：AI基础设施扩张中期</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.8;">
+            <strong>量化依据1：</strong>Q4 2025 Book-to-Bill = 1.31x，$8.43B订单创历史新高，前向需求可见度高。<br>
+            <strong>量化依据2：</strong>超大规模云厂商2025年CapEx合计超$300B，2026年预期继续高增长，暂无拐点信号。<br>
+            <strong>量化依据3：</strong>IT Datacom分部Q4有机增速+110% YoY，但并非每季度均加速（Q3有机+75%，Q4有机+60%），增速高位略有回落但仍强劲。<br>
+            <strong>结论：</strong>连接器需求处于AI基础设施建设的扩张期，尚未到过热阶段。风险是云厂商CapEx周期转向。
+          </div>
+        </div>
+        <div class="stat-row"><span class="stat-label">空头比例（做空压力）</span><span class="stat-value kpi-positive">0.90%（极低）</span></div>
+        <div class="stat-row"><span class="stat-label">机构持仓比例</span><span class="stat-value kpi-positive">94.84%</span></div>
+        <div class="stat-row"><span class="stat-label">内部人近期操作</span><span class="stat-value kpi-neutral">以期权行权+赠予为主，非恐慌性卖出</span></div>
+        <div class="stat-row"><span class="stat-label">分析师评级分布</span><span class="stat-value kpi-positive">7强买/4买/1持有/0卖出</span></div>
+        <div class="stat-row"><span class="stat-label">分析师均值目标价</span><span class="stat-value kpi-positive">$153.92（当前溢价+19.9%）</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">五大尾部风险矩阵</div>
+      <div class="risk-item">
+        <div class="risk-header">
+          <span class="risk-name">云厂商CapEx周期风险（最大风险）</span>
+          <div class="risk-badges">
+            <span class="risk-prob">概率 30%</span>
+            <span class="risk-impact impact-high">影响 高</span>
+          </div>
+        </div>
+        <div class="risk-desc">如2026-2027年超大规模云厂商CapEx增速放缓至10-15%（vs当前50%+），IT Datacom分部增速可能骤降至20%以下。历史上2015-2016年CapEx周期调整期间APH股价下跌30%+。量化影响：IT Datacom占38%营收，假设该分部增速从+50%降至+10%，则整体营收增速从+30%降至~+15%。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-header">
+          <span class="risk-name">CCS整合风险 / 协同效应低于预期</span>
+          <div class="risk-badges">
+            <span class="risk-prob">概率 25%</span>
+            <span class="risk-impact impact-med">影响 中</span>
+          </div>
+        </div>
+        <div class="risk-desc">$10.5B CCS收购是Amphenol史上最大交易（约为之前单笔的5倍）。若整合出现文化冲突或客户流失，FY2026 EPS可能低于$0.15增厚预期。但Amphenol有30年并购整合经验，历史成功率高。量化影响：CCS占FY2026预计营收约$4.1B（24%），若利润率不及预期，EPS影响约-$0.05至-$0.20。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-header">
+          <span class="risk-name">关税/供应链地缘政治风险</span>
+          <div class="risk-badges">
+            <span class="risk-prob">概率 40%</span>
+            <span class="risk-impact impact-med">影响 中</span>
+          </div>
+        </div>
+        <div class="risk-desc">Amphenol在中国有大量制造基地，若中美贸易摩擦升级或关税提高，成本端将受压。但公司已在越南、印度等地分散制造，抵御能力优于3年前。量化影响：预计毛利率影响约-50至-100 bps，EPS影响约-$0.05至-$0.10。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-header">
+          <span class="risk-name">估值风险（当前P/E高于历史均值）</span>
+          <div class="risk-badges">
+            <span class="risk-prob">概率 35%</span>
+            <span class="risk-impact impact-med">影响 中</span>
+          </div>
+        </div>
+        <div class="risk-desc">当前TTM P/E 38.4x高于10年均值28.8x约33%。若市场情绪转向或AI需求预期下修，估值可能压缩至25-28x，对应股价约$83-95（基于FY2025 EPS $3.34）。但Forward P/E 29.2x已接近历史均值，较为合理。量化影响：估值从38x压缩至28x = 股价下跌约27%至$94。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-header">
+          <span class="risk-name">汽车市场下行风险</span>
+          <div class="risk-badges">
+            <span class="risk-prob">概率 25%</span>
+            <span class="risk-impact impact-low">影响 低</span>
+          </div>
+        </div>
+        <div class="risk-desc">汽车占APH约10%营收。若全球汽车销量下滑（尤其是EV渗透增速放缓），该分部有10-15%下行风险。但由于汽车占比较小且被其他分部增长覆盖，整体影响有限。量化影响：汽车分部下滑20%对整体营收影响约-2%。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUATION FRAMEWORKS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">三大框架估值分析</div>
+      <div class="section-subtitle">格雷厄姆 · 巴菲特 · 霍华德·马克斯</div>
+    </div>
+
+    <!-- Graham -->
+    <div class="val-framework">
+      <div class="val-framework-title">格雷厄姆安全边际估值</div>
+      <div class="val-framework-sub">本杰明·格雷厄姆经典价值投资框架</div>
+      <div class="grid-2">
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">安全检验清单</div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">P/E ≤ 15x</div>
+            <div class="check-value">实际 38.4x — 不通过</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">P/B ≤ 1.5x</div>
+            <div class="check-value">实际 11.7x — 不通过</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">P/E × P/B ≤ 22.5</div>
+            <div class="check-value">实际 450x — 不通过</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">流动比率 ≥ 2x</div>
+            <div class="check-value">约 1.6-1.8x — 不通过</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">负债/权益 ≤ 1x</div>
+            <div class="check-value">实际 1.08x — 勉强不通过</div>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon check-fail">✗</div>
+            <div class="check-label">资产/负债 ≥ 2x</div>
+            <div class="check-value">实际 1.59x — 不通过</div>
+          </div>
+          <div class="warn-box" style="margin-top:12px;">
+            <strong>Graham Number</strong> = √(22.5 × $3.34 × $11.0) = √826.65 = <strong>$28.75</strong><br>
+            当前股价 $128.38 对 Graham Number 溢价：<strong>+347%</strong>
+          </div>
+        </div>
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">DCF 三情景估值（基准FCF=$4.4B，折现率10%，10年期）</div>
+          <div class="dcf-bar-container">
+            <div class="dcf-label"><span>保守情景（30%）: 前5年+15%，后5年+8%，终端+3%</span><span>每股 ~$102</span></div>
+            <div class="dcf-bar-bg" style="position:relative;">
+              <div class="dcf-bar-fill dcf-bar-conservative" style="width:54%;">$102</div>
+              <div class="dcf-price-marker" style="left:68%;"><span class="dcf-price-label">当前 $128</span></div>
+            </div>
+          </div>
+          <div class="dcf-bar-container">
+            <div class="dcf-label"><span>中性情景（45%）: 前5年+25%，后5年+12%，终端+3%</span><span>每股 ~$172</span></div>
+            <div class="dcf-bar-bg" style="position:relative;">
+              <div class="dcf-bar-fill dcf-bar-neutral" style="width:73%;">$172</div>
+              <div class="dcf-price-marker" style="left:54%;"><span class="dcf-price-label">当前 $128</span></div>
+            </div>
+          </div>
+          <div class="dcf-bar-container">
+            <div class="dcf-label"><span>乐观情景（25%）: 前5年+35%，后5年+15%，终端+4%</span><span>每股 ~$307</span></div>
+            <div class="dcf-bar-bg" style="position:relative;">
+              <div class="dcf-bar-fill dcf-bar-optimistic" style="width:100%;">$307</div>
+              <div class="dcf-price-marker" style="left:42%;"><span class="dcf-price-label">当前 $128</span></div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:16px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:8px;">
+            <div style="font-size:13px;color:var(--text-secondary);">三情景加权内在价值（30%保守+45%中性+25%乐观）</div>
+            <div style="font-size:28px;font-weight:800;color:var(--accent-cyan);margin:6px 0;">~$185/股</div>
+            <div style="font-size:12px;color:var(--text-secondary);">当前股价 $128 较DCF加权估值<strong style="color:var(--accent-green);">折价约30.8%</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict-card verdict-yellow">
+        <div class="verdict-title" style="color:var(--accent-yellow);">格雷厄姆结论：谨慎买入（DCF支撑，传统指标不通过）</div>
+        <div class="verdict-desc">格雷厄姆传统6项指标全部未通过——这是大多数优质成长型蓝筹股的共同特征。然而，Graham Number $28.75 vs 当前价$128反映了350%溢价。关键区别在于：DCF内在价值（中性$172/乐观$307）支持当前估值，这是传统格雷厄姆框架未能捕捉的增长价值。FCF $4.4B强劲转化（103%净利润转化率）是重要正面信号。从纯格雷厄姆角度偏"减持"，但考虑到护城河和增长后，倾向"谨慎买入"——当前$128已接近DCF保守情景$102与中性情景$172的中间地带。</div>
+      </div>
+    </div>
+
+    <!-- Buffett -->
+    <div class="val-framework">
+      <div class="val-framework-title">巴菲特护城河估值</div>
+      <div class="val-framework-sub">沃伦·巴菲特：持续竞争优势 + 合理价格买入优质公司</div>
+      <div class="grid-2">
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">ROE 持续性评估（近5年）</div>
+          <div class="stat-row"><span class="stat-label">2021 ROE</span><span class="stat-value kpi-positive">~27%</span></div>
+          <div class="stat-row"><span class="stat-label">2022 ROE</span><span class="stat-value kpi-positive">28.6%</span></div>
+          <div class="stat-row"><span class="stat-label">2023 ROE</span><span class="stat-value kpi-positive">25.1%</span></div>
+          <div class="stat-row"><span class="stat-label">2024 ROE</span><span class="stat-value kpi-positive">26.7%</span></div>
+          <div class="stat-row"><span class="stat-label">2025 ROE</span><span class="stat-value kpi-positive">36.8%（AI加速推升）</span></div>
+          <div class="stat-row"><span class="stat-label">5年 ROE 均值</span><span class="stat-value kpi-positive">~28.8%（极为稳健）</span></div>
+          <div class="stat-row"><span class="stat-label">ROIC 2025</span><span class="stat-value kpi-positive">27.9%（远超WACC ~8%）</span></div>
+          <div class="highlight-box" style="margin-top:8px;">Amphenol是罕见的"ROE持续性"典范：25-37% ROE维持5年+，符合巴菲特"持续高ROE = 真实宽护城河"的核心标准。</div>
+        </div>
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">巴菲特估值参数</div>
+          <div class="stat-row"><span class="stat-label">护城河宽度</span><span class="stat-value kpi-positive">宽（Wide Moat）</span></div>
+          <div class="stat-row"><span class="stat-label">合理买入 P/E 区间</span><span class="stat-value">25-35x（宽护城河+稳定增长）</span></div>
+          <div class="stat-row"><span class="stat-label">FY2025 EPS</span><span class="stat-value">$3.34</span></div>
+          <div class="stat-row"><span class="stat-label">FY2026E EPS（指引）</span><span class="stat-value kpi-positive">~$3.64-$3.76</span></div>
+          <div class="stat-row"><span class="stat-label">基于FY2026E合理价值（30x）</span><span class="stat-value kpi-cyan">~$110-113</span></div>
+          <div class="stat-row"><span class="stat-label">基于FY2026E合理价值（35x）</span><span class="stat-value kpi-cyan">~$127-132</span></div>
+          <div class="stat-row"><span class="stat-label">DCF中性内在价值</span><span class="stat-value kpi-positive">$172</span></div>
+          <div class="stat-row"><span class="stat-label">含护城河溢价内在价值</span><span class="stat-value kpi-positive">$155-185</span></div>
+          <div class="highlight-box" style="margin-top:8px;">当前$128.38 ≈ FY2026E P/E 34.4x，接近巴菲特框架下宽护城河公司合理区间上限。考虑到EPS持续超预期节奏，当前价位已具备合理吸引力。</div>
+        </div>
+      </div>
+      <div class="verdict-card verdict-green">
+        <div class="verdict-title" style="color:var(--accent-green);">巴菲特结论：买入（当前价位已进入合理区间）</div>
+        <div class="verdict-desc">Amphenol是巴菲特框架下的标准优质企业：宽护城河（转换成本+MIL认证+成本优势）、持续高ROE（5年均值~29%）、优秀的资本配置者（FCF 103%净利润转化、30年M&A记录）、管理层保守指引持续超预期。Forward P/E 29.2x（FY2026）接近10年历史均值，在增速+43%背景下属于合理甚至偏便宜。巴菲特偏好"合理价格买入优质公司"，当前$128即处于这一范畴（FY2026E P/E 34x，含护城河溢价的DCF折价约30%）。建议在$110-$135区间积极建仓，$100以下加大力度。</div>
+      </div>
+    </div>
+
+    <!-- Howard Marks -->
+    <div class="val-framework">
+      <div class="val-framework-title">霍华德·马克斯周期分析</div>
+      <div class="val-framework-sub">橡树资本：周期定位与风险调整后预期收益</div>
+      <div class="grid-2">
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">周期阶段可视化</div>
+          <div style="background:var(--bg-secondary);border-radius:10px;padding:20px;font-size:13px;color:var(--text-secondary);line-height:1.9;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="width:12px;height:12px;border-radius:50%;background:#94a3b8;display:inline-block;"></span>早期复苏</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="width:12px;height:12px;border-radius:50%;background:#10b981;display:inline-block;"></span>成长扩张</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-weight:700;color:var(--text-primary);"><span style="width:16px;height:16px;border-radius:50%;background:#06b6d4;border:3px solid #f59e0b;display:inline-block;"></span>→ <strong>当前：成长中期（AI建设高峰）</strong></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="width:12px;height:12px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>过热阶段（暂未到达）</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:12px;height:12px;border-radius:50%;background:#ef4444;display:inline-block;"></span>衰退调整</div>
+          </div>
+          <div class="info-box" style="margin-top:12px;">
+            APH目前处于AI基础设施建设的成长中期：<br>
+            • Book-to-Bill 1.31x（需求仍远超供给）<br>
+            • Forward P/E 29x（合理，非泡沫估值）<br>
+            • 管理层指引保守（2025年四季度全部超预期）<br>
+            • 超大规模CapEx增速持续+50%，暂无峰值信号
+          </div>
+        </div>
+        <div>
+          <div class="card-title" style="margin-bottom:12px;">情景分析（12个月预期回报）</div>
+          <div style="padding:14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;margin-bottom:10px;">
+            <div style="font-weight:700;color:var(--accent-green);margin-bottom:6px;">牛市情景（30%概率）</div>
+            <div style="font-size:13px;color:var(--text-secondary);">云厂商CapEx超预期，CCS整合顺利，FY2026 EPS $4.0，P/E 38x = $152+。回报约+19%。</div>
+          </div>
+          <div style="padding:14px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:8px;margin-bottom:10px;">
+            <div style="font-weight:700;color:var(--accent-cyan);margin-bottom:6px;">基准情景（50%概率）</div>
+            <div style="font-size:13px;color:var(--text-secondary);">指引达成，FY2026 EPS $3.70，P/E 34x = $126。回报约-2%（接近盘整，等待下一催化剂）。</div>
+          </div>
+          <div style="padding:14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;">
+            <div style="font-weight:700;color:var(--accent-red);margin-bottom:6px;">熊市情景（20%概率）</div>
+            <div style="font-size:13px;color:var(--text-secondary);">CapEx周期回调+CCS整合不顺，FY2026 EPS $3.0，P/E 28x = $84。下跌风险约-35%。</div>
+          </div>
+          <div style="margin-top:12px;font-size:13px;color:var(--text-secondary);">
+            <strong>加权预期12个月回报：</strong> 0.30×(+19%) + 0.50×(-2%) + 0.20×(-35%) = +5.7% - 1% - 7% = <strong style="color:var(--accent-yellow);">约-2.3%（含股息+0.78% = 约-1.5%）</strong><br>
+            <em>风险/收益比：上行+19% vs 下行-35%，不对称性偏弱，需在$120以下才改善至更有吸引力区间。</em>
+          </div>
+        </div>
+      </div>
+      <div class="verdict-card verdict-yellow">
+        <div class="verdict-title" style="color:var(--accent-yellow);">马克斯结论：谨慎买入（处于合理区间下沿，风险/收益可接受）</div>
+        <div class="verdict-desc">从马克斯周期框架看，APH处于AI基础设施扩张的成长中期：Book-to-Bill 1.31x、超大规模CapEx持续高增长是健康信号；Forward P/E 29x接近历史均值说明市场预期合理而非过度乐观；空头比例仅0.9%，机构持仓高达94%，市场情绪偏正面但未极度贪婪。综合加权预期回报约-1.5%（含股息），反映当前价位风险/收益对称性有限。建议在$115-$130区间谨慎分批买入，$100以下加大配置，耐心等待后续业绩兑现带来的股价催化。</div>
+      </div>
+    </div>
+
+    <!-- Final Conclusion -->
+    <div class="final-conclusion">
+      <div style="text-align:center;font-size:22px;font-weight:700;margin-bottom:20px;">三框架综合结论</div>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div class="verdict-card verdict-yellow" style="margin:0;">
+          <div class="verdict-title" style="color:var(--accent-yellow);">格雷厄姆</div>
+          <div style="font-size:13px;color:var(--text-secondary);">谨慎买入<br>传统指标不通过，但DCF支撑（中性$172），当前$128较中性折价25%</div>
+        </div>
+        <div class="verdict-card verdict-green" style="margin:0;">
+          <div class="verdict-title" style="color:var(--accent-green);">巴菲特</div>
+          <div style="font-size:13px;color:var(--text-secondary);">买入<br>宽护城河 + 持续高ROE + Forward P/E 29x进入合理买入区间</div>
+        </div>
+        <div class="verdict-card verdict-yellow" style="margin:0;">
+          <div class="verdict-title" style="color:var(--accent-yellow);">马克斯</div>
+          <div style="font-size:13px;color:var(--text-secondary);">谨慎买入<br>AI成长中期，估值合理，但风险/收益对称性需$120以下才更佳</div>
+        </div>
+      </div>
+      <div class="buy-range-label">三框架加权综合建议买入区间（含20-30%安全边际）</div>
+      <div class="buy-range">$100 – $130</div>
+      <div class="buy-range-note">
+        当前股价 $128.38 已处于买入区间上沿。<br>
+        若回调至$115以下，风险/收益比显著改善，可积极加仓。<br>
+        若股价上涨至$150+（FY2026E P/E 40x+），应考虑减持。<br>
+        <br>
+        <strong style="color:var(--accent-cyan);">长期投资者可在当前价位小仓建仓，分批累积至$100-$115区间。</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="section" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">数据来源</div>
+      <div class="section-subtitle">分析时间戳：2026-04-08 | 所有数据来自实时 WebSearch，严禁训练数据</div>
+    </div>
+    <ul class="sources-list">
+      <li><a href="https://investors.amphenol.com/news-and-events/news-details/2026/Amphenol-Reports-Record-Fourth-Quarter-and-Full-Year-2025-Results/default.aspx" target="_blank">Amphenol Q4 & FY2025 财报（官方IR）</a></li>
+      <li><a href="https://investors.amphenol.com/news-and-events/news-details/2025/Amphenol-Reports-Record-First-Quarter-2025-Results/default.aspx" target="_blank">Amphenol Q1 2025 财报（官方IR）</a></li>
+      <li><a href="https://investors.amphenol.com/news-and-events/news-details/2025/Amphenol-Reports-Record-Third-Quarter-2025-Results-and-Announces-Dividend-Increase/default.aspx" target="_blank">Amphenol Q3 2025 财报（官方IR）</a></li>
+      <li><a href="https://stockanalysis.com/stocks/aph/financials/" target="_blank">APH 财务数据 — StockAnalysis</a></li>
+      <li><a href="https://stockanalysis.com/stocks/aph/statistics/" target="_blank">APH 估值统计 — StockAnalysis</a></li>
+      <li><a href="https://stockanalysis.com/stocks/aph/forecast/" target="_blank">APH 分析师预测 — StockAnalysis</a></li>
+      <li><a href="https://www.macrotrends.net/stocks/charts/APH/amphenol/pe-ratio" target="_blank">APH 历史P/E — MacroTrends</a></li>
+      <li><a href="https://www.macrotrends.net/stocks/charts/APH/amphenol/roe" target="_blank">APH ROE历史 — MacroTrends</a></li>
+      <li><a href="https://www.macrotrends.net/stocks/charts/APH/amphenol/free-cash-flow" target="_blank">APH 自由现金流 — MacroTrends</a></li>
+      <li><a href="https://www.gurufocus.com/term/roic/APH" target="_blank">APH ROIC 27.87% — GuruFocus</a></li>
+      <li><a href="https://www.marketbeat.com/stocks/NYSE/APH/short-interest/" target="_blank">APH 空头数据 — MarketBeat</a></li>
+      <li><a href="https://fintel.io/so/us/aph" target="_blank">APH 机构持仓 — Fintel</a></li>
+      <li><a href="https://www.marketbeat.com/stocks/NYSE/APH/forecast/" target="_blank">APH 分析师目标价 — MarketBeat</a></li>
+      <li><a href="https://www.businesswire.com/news/home/20260112617512/en/Amphenol-Completes-Acquisition-of-CCS-Business-From-CommScope" target="_blank">Amphenol完成CCS收购 — BusinessWire</a></li>
+      <li><a href="https://www.fortunebusinessinsights.com/connector-market-110061" target="_blank">连接器市场规模预测 — Fortune Business Insights</a></li>
+      <li><a href="https://www.openpr.com/news/4435165/ai-data-center-connectors-market-share-driven-by-ai-workloads" target="_blank">AI数据中心连接器市场 — OpenPR/Valuates</a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+// Segment Pie Chart
+const segCtx = document.getElementById('segmentChart').getContext('2d');
+new Chart(segCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['通信解决方案(AI/IT)', '恶劣环境(国防/航空)', '互连&传感器(汽车/工业)'],
+    datasets: [{
+      data: [52, 26, 22],
+      backgroundColor: ['rgba(6,182,212,0.8)', 'rgba(139,92,246,0.8)', 'rgba(16,185,129,0.8)'],
+      borderColor: ['#06b6d4','#8b5cf6','#10b981'],
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, padding: 10 } }
+    }
+  }
+});
+
+// End Market Chart
+const emCtx = document.getElementById('endMarketChart').getContext('2d');
+new Chart(emCtx, {
+  type: 'bar',
+  data: {
+    labels: ['IT/AI数据中心', '通信网络', '国防/军事', '汽车', '移动设备', '工业', '商业航空', '宽带'],
+    datasets: [{
+      label: '营收占比 %',
+      data: [38, 11, 11, 10, 9, 9, 5, 4],
+      backgroundColor: ['rgba(6,182,212,0.7)', 'rgba(59,130,246,0.7)', 'rgba(139,92,246,0.7)', 'rgba(16,185,129,0.7)', 'rgba(245,158,11,0.7)', 'rgba(239,68,68,0.7)', 'rgba(59,130,246,0.5)', 'rgba(16,185,129,0.5)'],
+      borderRadius: 4
+    }, {
+      label: 'Q4 2025 有机YoY%',
+      data: [110, 25, 30, 15, 5, 12, 8, 3],
+      type: 'line',
+      borderColor: '#f59e0b',
+      backgroundColor: 'transparent',
+      pointBackgroundColor: '#f59e0b',
+      tension: 0.3,
+      yAxisID: 'y1'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#64748b', callback: v => v + '%' }, grid: { color: '#1e293b' }, title: { display: true, text: '营收占比', color: '#64748b' } },
+      y1: { position: 'right', ticks: { color: '#f59e0b', callback: v => '+' + v + '%' }, grid: { drawOnChartArea: false }, title: { display: true, text: '有机YoY%', color: '#f59e0b' } }
+    }
+  }
+});
+
+// Revenue Chart
+const revCtx = document.getElementById('revenueChart').getContext('2d');
+new Chart(revCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Q1 23', 'Q2 23', 'Q3 23', 'Q4 23', 'Q1 24', 'Q2 24', 'Q3 24', 'Q4 24', 'Q1 25', 'Q2 25', 'Q3 25', 'Q4 25'],
+    datasets: [{
+      label: '季度营收 ($B)',
+      data: [2.97, 3.05, 3.20, 3.33, 3.26, 3.61, 4.04, 4.32, 4.81, 5.65, 6.19, 6.44],
+      backgroundColor: 'rgba(6,182,212,0.6)',
+      borderColor: '#06b6d4',
+      borderWidth: 1,
+      borderRadius: 4
+    }, {
+      label: 'YoY增速 %',
+      data: [0.8, -2.6, -2.9, 2.7, 9.5, 18.2, 26.2, 29.8, 47.7, 56.5, 53.4, 49.1],
+      type: 'line',
+      borderColor: '#10b981',
+      backgroundColor: 'transparent',
+      pointBackgroundColor: '#10b981',
+      tension: 0.3,
+      yAxisID: 'y1'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#64748b', callback: v => '$' + v + 'B' }, grid: { color: '#1e293b' } },
+      y1: { position: 'right', ticks: { color: '#10b981', callback: v => v + '%' }, grid: { drawOnChartArea: false } }
+    }
+  }
+});
+
+// Margin Chart
+const margCtx = document.getElementById('marginChart').getContext('2d');
+new Chart(margCtx, {
+  type: 'line',
+  data: {
+    labels: ['FY2022', 'FY2023', 'FY2024', 'Q1 25', 'Q2 25', 'Q3 25', 'Q4 25'],
+    datasets: [{
+      label: '毛利率',
+      data: [31.2, 32.0, 33.8, 36.4, 37.0, 37.2, 37.5],
+      borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', tension: 0.3, fill: false
+    }, {
+      label: '调整营业利润率',
+      data: [21.0, 21.5, 21.7, 25.4, 26.1, 26.8, 27.5],
+      borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.1)', tension: 0.3, fill: false
+    }, {
+      label: '净利率',
+      data: [14.5, 15.0, 15.9, 16.5, 17.5, 18.2, 18.5],
+      borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.1)', tension: 0.3, fill: false
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#64748b', callback: v => v + '%' }, grid: { color: '#1e293b' }, min: 10, max: 45 }
+    }
+  }
+});
+
+// FCF Chart
+const fcfCtx = document.getElementById('fcfChart').getContext('2d');
+new Chart(fcfCtx, {
+  type: 'bar',
+  data: {
+    labels: ['FY2021', 'FY2022', 'FY2023', 'FY2024', 'FY2025'],
+    datasets: [{
+      label: '自由现金流 ($B)',
+      data: [1.5, 1.8, 2.16, 2.16, 4.4],
+      backgroundColor: ['rgba(6,182,212,0.5)','rgba(6,182,212,0.5)','rgba(6,182,212,0.5)','rgba(6,182,212,0.5)','rgba(16,185,129,0.8)'],
+      borderColor: ['#06b6d4','#06b6d4','#06b6d4','#06b6d4','#10b981'],
+      borderWidth: 2, borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#64748b', callback: v => '$' + v + 'B' }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
+// CapEx Chart
+const capexCtx = document.getElementById('capexChart').getContext('2d');
+new Chart(capexCtx, {
+  type: 'bar',
+  data: {
+    labels: ['2022', '2023', '2024', '2025E', '2026E'],
+    datasets: [
+      { label: 'AWS', data: [60, 53, 75, 104, 130], backgroundColor: 'rgba(245,158,11,0.7)', borderRadius: 3 },
+      { label: 'Azure', data: [42, 44, 55, 80, 100], backgroundColor: 'rgba(59,130,246,0.7)', borderRadius: 3 },
+      { label: 'GCP', data: [31, 32, 48, 60, 75], backgroundColor: 'rgba(16,185,129,0.7)', borderRadius: 3 },
+      { label: 'Meta', data: [32, 28, 38, 60, 65], backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } }, title: { display: true, text: '四大云厂商年度CapEx ($B)', color: '#94a3b8', font: { size: 13 } } },
+    scales: {
+      x: { stacked: true, ticks: { color: '#64748b' }, grid: { color: '#1e293b' } },
+      y: { stacked: true, ticks: { color: '#64748b', callback: v => '$' + v + 'B' }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
+// Competitor Chart
+const compCtx = document.getElementById('competitorChart').getContext('2d');
+new Chart(compCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Amphenol (APH)', 'TE Connectivity', 'Molex (私有)', 'Samtec (私有)', 'Others'],
+    datasets: [{
+      label: 'AI数据中心连接器市场估算份额',
+      data: [28, 22, 15, 12, 23],
+      backgroundColor: ['rgba(6,182,212,0.8)','rgba(59,130,246,0.6)','rgba(139,92,246,0.6)','rgba(16,185,129,0.6)','rgba(100,116,139,0.4)'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#64748b', callback: v => v + '%' }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: '#1e293b' } }
+    }
+  }
+});
+
+// PE History Chart
+const peCtx = document.getElementById('peHistoryChart').getContext('2d');
+new Chart(peCtx, {
+  type: 'line',
+  data: {
+    labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+    datasets: [{
+      label: 'TTM P/E',
+      data: [26, 29, 18.6, 28, 40, 42, 25, 30, 35, 38, 38.4],
+      borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.1)', tension: 0.3, fill: true, pointRadius: 4
+    }, {
+      label: '10年均值 28.8x',
+      data: [28.8, 28.8, 28.8, 28.8, 28.8, 28.8, 28.8, 28.8, 28.8, 28.8, 28.8],
+      borderColor: '#f59e0b', backgroundColor: 'transparent', borderDash: [6, 3], tension: 0, pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+    scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#64748b', callback: v => v + 'x' }, grid: { color: '#1e293b' }, min: 10, max: 55 }
+    }
+  }
+});
+</script>
+</body>
+</html>

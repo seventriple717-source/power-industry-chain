@@ -3,1238 +3,1356 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COHR — Coherent Corp 价值投资深度分析</title>
+<title>COHR Coherent Corp - 价值投资深度分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #0a0e1a;
-    --bg2: #111827;
-    --bg3: #1a2235;
-    --bg4: #1f2d45;
-    --border: #2a3a54;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --blue: #3b82f6;
-    --cyan: #06b6d4;
-    --green: #22c55e;
-    --yellow: #eab308;
-    --red: #ef4444;
-    --orange: #f97316;
-    --purple: #a855f7;
-    --accent: #38bdf8;
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
+    --bg-card: #1a2035;
+    --bg-card-hover: #1e2640;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --accent-orange: #f97316;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #2d3748;
+    --border-bright: #374151;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+  a { color: var(--accent-cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
-  .page { max-width: 1600px; margin: 0 auto; padding: 24px 20px; }
-
-  /* Hero */
-  .hero { background: linear-gradient(135deg, #0a0e1a 0%, #0d1b33 50%, #0a1628 100%); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-bottom: 24px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--cyan), var(--purple)); }
-  .hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-  .hero-left h1 { font-size: 48px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
-  .hero-left h2 { font-size: 22px; color: var(--muted); font-weight: 400; margin-top: 4px; }
-  .hero-left .hero-meta { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
-  .hero-meta span { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 13px; color: var(--muted); }
-  .hero-meta span strong { color: var(--text); }
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0f1829 40%, #0a1628 100%);
+    border-bottom: 1px solid var(--border-bright);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .hero-left {}
+  .hero-ticker { font-size: 14px; color: var(--accent-cyan); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .hero-name { font-size: 32px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; line-height: 1.2; }
+  .hero-desc { font-size: 14px; color: var(--text-secondary); max-width: 560px; }
   .hero-right { text-align: right; }
-  .hero-price { font-size: 52px; font-weight: 800; color: var(--text); }
-  .hero-cap { font-size: 18px; color: var(--muted); margin-top: 4px; }
-  .rating-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; font-size: 18px; font-weight: 700; margin-top: 12px; }
-  .rating-hold { background: rgba(234,179,8,0.15); border: 2px solid var(--yellow); color: var(--yellow); }
-  .rating-buy { background: rgba(34,197,94,0.15); border: 2px solid var(--green); color: var(--green); }
-  .rating-sell { background: rgba(239,68,68,0.15); border: 2px solid var(--red); color: var(--red); }
+  .hero-price { font-size: 42px; font-weight: 800; color: var(--text-primary); }
+  .hero-price-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .hero-bottom { margin-top: 28px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-blue { background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4); color: #93c5fd; }
+  .badge-green { background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; }
+  .badge-yellow { background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4); color: #fcd34d; }
+  .badge-red { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; }
+  .badge-purple { background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.4); color: #c4b5fd; }
+  .badge-cyan { background: rgba(6,182,212,0.2); border: 1px solid rgba(6,182,212,0.4); color: #67e8f9; }
+  .meta-info { font-size: 12px; color: var(--text-muted); }
 
-  /* Section headers */
-  .section { margin-bottom: 28px; }
-  .section-title { font-size: 20px; font-weight: 700; color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
-  .section-title::before { content: ''; width: 4px; height: 20px; background: var(--blue); border-radius: 2px; display: inline-block; }
+  /* ===== LAYOUT ===== */
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 40px 0 32px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title {
+    font-size: 20px; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 20px;
+    background: var(--accent-blue);
+    border-radius: 2px;
+  }
 
-  /* KPI Grid */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
-  .kpi-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; transition: border-color 0.2s; }
-  .kpi-card:hover { border-color: var(--blue); }
-  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .kpi-value { font-size: 26px; font-weight: 700; color: var(--text); }
-  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .kpi-good { color: var(--green); }
-  .kpi-warn { color: var(--yellow); }
-  .kpi-bad { color: var(--red); }
+  /* ===== KPI GRID ===== */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .kpi-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+  .kpi-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
+  .kpi-value { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .kpi-sub { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+  .kpi-up { color: var(--accent-green); }
+  .kpi-down { color: var(--accent-red); }
+  .kpi-neutral { color: var(--accent-yellow); }
 
-  /* Two-col layout */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  /* ===== CARDS & TABLES ===== */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(45,55,72,0.5);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(59,130,246,0.04); }
+  .td-main { font-weight: 600; color: var(--text-primary); }
+  .td-green { color: var(--accent-green); font-weight: 600; }
+  .td-red { color: var(--accent-red); font-weight: 600; }
+  .td-yellow { color: var(--accent-yellow); font-weight: 600; }
+
+  /* ===== CHARTS ===== */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .chart-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .chart-box h4 { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600; }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* ===== SEGMENT BAR ===== */
+  .seg-bar-wrap { margin-bottom: 14px; }
+  .seg-bar-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; }
+  .seg-bar-name { color: var(--text-secondary); }
+  .seg-bar-val { color: var(--text-primary); font-weight: 600; }
+  .seg-bar-bg { background: var(--bg-secondary); border-radius: 4px; height: 8px; overflow: hidden; }
+  .seg-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+  /* ===== MOAT STARS ===== */
+  .moat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .moat-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .moat-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .moat-item-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .moat-stars { color: var(--accent-yellow); font-size: 16px; letter-spacing: 2px; }
+  .moat-bar-bg { background: var(--bg-secondary); border-radius: 4px; height: 6px; margin-bottom: 8px; overflow: hidden; }
+  .moat-bar-fill { height: 100%; border-radius: 4px; }
+  .moat-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ===== RISK MATRIX ===== */
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .risk-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    border-left: 4px solid;
+  }
+  .risk-high { border-left-color: var(--accent-red); }
+  .risk-med { border-left-color: var(--accent-yellow); }
+  .risk-low { border-left-color: var(--accent-green); }
+  .risk-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+  .risk-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .risk-score { display: flex; gap: 16px; margin-top: 8px; font-size: 11px; }
+  .risk-score span { color: var(--text-secondary); }
+  .risk-score strong { color: var(--text-primary); }
+
+  /* ===== VALUATION ===== */
+  .val-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .val-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .val-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .val-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .val-card-title { font-size: 16px; font-weight: 700; }
+  .val-verdict {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    margin: 16px 0;
+  }
+  .val-verdict-red { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+  .val-verdict-yellow { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
+  .val-verdict-green { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+  .check-pass { color: var(--accent-green); font-weight: 700; min-width: 20px; }
+  .check-fail { color: var(--accent-red); font-weight: 700; min-width: 20px; }
+  .check-warn { color: var(--accent-yellow); font-weight: 700; min-width: 20px; }
+
+  /* ===== DCF BAR ===== */
+  .dcf-bar-wrap { margin: 14px 0; }
+  .dcf-bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+  .dcf-bar-bg { background: var(--bg-secondary); border-radius: 4px; height: 28px; position: relative; overflow: hidden; }
+  .dcf-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 600; color: white; }
+  .dcf-current-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: white;
+  }
+
+  /* ===== BUY RANGE ===== */
+  .buy-range-box {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1));
+    border: 2px solid rgba(16,185,129,0.4);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 24px;
+  }
+  .buy-range-label { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .buy-range-value { font-size: 48px; font-weight: 800; color: var(--accent-green); margin-bottom: 8px; }
+  .buy-range-note { font-size: 13px; color: var(--text-secondary); }
+
+  /* ===== COMPREHENSIVE VERDICT ===== */
+  .verdict-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .verdict-card {
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .verdict-card-green { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); }
+  .verdict-card-yellow { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); }
+  .verdict-card-red { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); }
+  .verdict-framework { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .verdict-text { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .verdict-detail { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+  .verdict-green { color: var(--accent-green); }
+  .verdict-yellow { color: var(--accent-yellow); }
+  .verdict-red { color: var(--accent-red); }
+
+  /* ===== CYCLE PHASE ===== */
+  .cycle-phases { display: flex; gap: 0; margin: 16px 0; border-radius: 8px; overflow: hidden; }
+  .phase { flex: 1; padding: 12px 8px; text-align: center; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+  .phase-inactive { background: var(--bg-secondary); color: var(--text-muted); }
+  .phase-active { background: var(--accent-yellow); color: #000; }
+
+  /* ===== MISC ===== */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  @media (max-width: 900px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+  .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(45,55,72,0.4); font-size: 13px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row-label { color: var(--text-muted); }
+  .info-row-val { color: var(--text-primary); font-weight: 600; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+  .highlight-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .sources-list { list-style: none; }
+  .sources-list li { padding: 5px 0; font-size: 12px; border-bottom: 1px solid rgba(45,55,72,0.3); }
+  .sources-list li:last-child { border-bottom: none; }
 
-  /* Cards */
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
-  .card-title { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 14px; }
-  .chart-wrap { position: relative; height: 260px; }
-  .chart-wrap-tall { position: relative; height: 320px; }
-
-  /* Tables */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th { background: var(--bg3); color: var(--muted); font-weight: 600; padding: 10px 12px; text-align: left; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-  tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-  tbody tr:hover { background: var(--bg3); }
-  tbody tr:last-child td { border-bottom: none; }
-  .td-num { text-align: right; font-variant-numeric: tabular-nums; }
-  .td-good { color: var(--green); font-weight: 600; }
-  .td-warn { color: var(--yellow); font-weight: 600; }
-  .td-bad { color: var(--red); font-weight: 600; }
-
-  /* Moat stars */
-  .stars { color: var(--yellow); font-size: 16px; }
-  .moat-bar-wrap { background: var(--bg3); border-radius: 6px; height: 8px; margin-top: 6px; }
-  .moat-bar { height: 8px; border-radius: 6px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
-
-  /* Checklist */
-  .check-list { list-style: none; }
-  .check-list li { padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; }
-  .check-list li:last-child { border-bottom: none; }
-  .pass { color: var(--green); font-weight: 700; }
-  .fail { color: var(--red); font-weight: 700; }
-  .badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
-  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid var(--green); }
-  .badge-yellow { background: rgba(234,179,8,0.15); color: var(--yellow); border: 1px solid var(--yellow); }
-  .badge-red { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid var(--red); }
-  .badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid var(--blue); }
-
-  /* Conclusion cards */
-  .conclusion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-  @media (max-width: 800px) { .conclusion-grid { grid-template-columns: 1fr; } }
-  .conclusion-card { border-radius: 12px; padding: 22px; border-width: 2px; border-style: solid; }
-  .c-red { background: rgba(239,68,68,0.08); border-color: var(--red); }
-  .c-yellow { background: rgba(234,179,8,0.08); border-color: var(--yellow); }
-  .c-green { background: rgba(34,197,94,0.08); border-color: var(--green); }
-  .conclusion-title { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .conclusion-verdict { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
-  .conclusion-detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
-  .c-red .conclusion-verdict { color: var(--red); }
-  .c-yellow .conclusion-verdict { color: var(--yellow); }
-  .c-green .conclusion-verdict { color: var(--green); }
-
-  /* Buy range */
-  .buy-range-card { background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1)); border: 2px solid var(--green); border-radius: 14px; padding: 28px; text-align: center; }
-  .buy-range-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .buy-range-value { font-size: 48px; font-weight: 800; color: var(--green); }
-  .buy-range-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
-
-  /* Risk matrix */
-  .risk-grid { display: grid; gap: 10px; }
-  .risk-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; }
-  .risk-score { min-width: 52px; text-align: center; }
-  .risk-score .prob { font-size: 18px; font-weight: 700; }
-  .risk-score .impact-label { font-size: 10px; color: var(--muted); }
-  .risk-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .risk-desc { font-size: 12px; color: var(--muted); }
-
-  /* DCF bar */
-  .dcf-bar-section { margin-top: 14px; }
-  .dcf-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .dcf-label { width: 120px; font-size: 13px; color: var(--muted); }
-  .dcf-bar-track { flex: 1; background: var(--bg3); border-radius: 4px; height: 24px; position: relative; }
-  .dcf-bar-fill { height: 24px; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 12px; font-weight: 700; color: #fff; }
-  .dcf-current-line { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--orange); }
-  .dcf-val { width: 70px; font-size: 13px; font-weight: 600; text-align: right; }
-
-  /* Sources */
-  .sources { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 24px; }
-  .sources h3 { font-size: 14px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .sources ul { list-style: none; }
-  .sources li { font-size: 12px; color: var(--muted); padding: 4px 0; }
-  .sources a { color: var(--blue); text-decoration: none; }
-  .sources a:hover { text-decoration: underline; }
-
-  /* Divider */
-  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-
-  /* Tags */
-  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; margin-left: 6px; }
-  .tag-blue { background: rgba(59,130,246,0.15); color: var(--blue); }
-  .tag-green { background: rgba(34,197,94,0.15); color: var(--green); }
-  .tag-yellow { background: rgba(234,179,8,0.15); color: var(--yellow); }
-  .tag-red { background: rgba(239,68,68,0.15); color: var(--red); }
-  .tag-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
-
-  /* Moat radar wrapper */
-  .radar-wrap { position: relative; height: 280px; }
-
-  /* Segment donut */
-  .donut-wrap { position: relative; height: 220px; }
-
-  /* Phase indicator */
-  .phase-track { background: var(--bg3); border-radius: 8px; height: 40px; display: flex; position: relative; overflow: hidden; margin-top: 12px; }
-  .phase-seg { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
-  .phase-active { outline: 3px solid var(--accent); outline-offset: -3px; }
-
-  /* Analyst bar */
-  .analyst-bar { display: flex; height: 30px; border-radius: 8px; overflow: hidden; margin-top: 10px; }
-  .analyst-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
+  @media (max-width: 900px) {
+    .chart-grid, .chart-grid-3, .val-grid, .verdict-cards, .two-col, .three-col { grid-template-columns: 1fr; }
+    .hero { padding: 32px 20px 24px; }
+    .hero-price { font-size: 32px; }
+    .hero-name { font-size: 24px; }
+    .container { padding: 0 16px; }
+    .risk-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-<div class="page">
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
+<!-- ===== HERO ===== -->
 <div class="hero">
-  <div class="hero-top">
-    <div class="hero-left">
-      <h1>COHR</h1>
-      <h2>Coherent Corp. — 光互连 &amp; 激光技术</h2>
-      <div class="hero-meta">
-        <span>交易所：<strong>NYSE</strong></span>
-        <span>财年终：<strong>6月30日</strong></span>
-        <span>最新季报：<strong>Q2 FY2026（2025年12月）</strong></span>
-        <span>行业：<strong>光子学 / 半导体</strong></span>
-        <span>分析日期：<strong>2026-04-02</strong></span>
+  <div class="container">
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="hero-ticker">NYSE: COHR &nbsp;|&nbsp; 光子学与化合物半导体</div>
+        <div class="hero-name">Coherent Corp.</div>
+        <div class="hero-desc">全球领先的光学元器件、化合物半导体及激光产品制造商。前II-VI于2022年与Coherent Inc.合并，覆盖AI数据中心光互连、电信网络、工业激光及SiC功率半导体。</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-price">$255.68</div>
+        <div class="hero-price-sub">截至 2026-04-07 &nbsp;|&nbsp; 市值 ~$49.9B</div>
       </div>
     </div>
-    <div class="hero-right">
-      <div class="hero-price">$248.00</div>
-      <div class="hero-cap">市值 $47.3B &nbsp;|&nbsp; 52周：$45.58 – $300.20</div>
-      <div>
-        <span class="rating-badge rating-hold">HOLD / 谨慎持有</span>
-      </div>
+    <div class="hero-bottom">
+      <span class="badge badge-yellow">综合评级: 谨慎持有/等待买入</span>
+      <span class="badge badge-cyan">护城河: Narrow-to-Wide</span>
+      <span class="badge badge-blue">FY2025 营收: $5.81B +23%</span>
+      <span class="badge badge-green">数据中心需求强劲</span>
+      <span class="badge badge-purple">1.6T 先行量产</span>
+      <span class="meta-info">分析日期: 2026-04-07 &nbsp;|&nbsp; 数据来源: 官方业绩发布、Stockanalysis、MarketBeat、GuruFocus</span>
     </div>
   </div>
 </div>
 
-<!-- ── KPI CARDS ─────────────────────────────────────────────── -->
+<div class="container">
+
+<!-- ===== SECTION 1: KPI GRID ===== -->
 <div class="section">
-  <div class="section-title">核心 KPI 一览</div>
+  <div class="section-title">核心 KPI 指标</div>
   <div class="kpi-grid">
     <div class="kpi-card">
-      <div class="kpi-label">TTM 营收</div>
-      <div class="kpi-value">$6.29B</div>
-      <div class="kpi-sub kpi-good">+21.7% YoY</div>
+      <div class="kpi-label">FY2025 全年营收</div>
+      <div class="kpi-value">$5.81B</div>
+      <div class="kpi-sub kpi-up">+23.4% YoY</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">Q2 FY26 营收</div>
+      <div class="kpi-label">Q2 FY2026 营收</div>
       <div class="kpi-value">$1.69B</div>
-      <div class="kpi-sub kpi-good">+17.5% YoY</div>
+      <div class="kpi-sub kpi-up">+17% YoY | +7% QoQ</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">非GAAP 毛利率</div>
+      <div class="kpi-label">Non-GAAP EPS (FY2025)</div>
+      <div class="kpi-value">$3.53</div>
+      <div class="kpi-sub kpi-up">+191% YoY</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Non-GAAP 毛利率 (Q2'26)</div>
       <div class="kpi-value">39.0%</div>
-      <div class="kpi-sub kpi-good">+160bp YoY</div>
+      <div class="kpi-sub kpi-up">+77bps YoY | 扩张中</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">非GAAP 营业利润率</div>
+      <div class="kpi-label">Non-GAAP 营业利润率</div>
       <div class="kpi-value">19.9%</div>
-      <div class="kpi-sub kpi-good">+147bp YoY</div>
+      <div class="kpi-sub">Q2 FY2026</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">GAAP EPS（TTM）</div>
-      <div class="kpi-value">$1.21</div>
-      <div class="kpi-sub kpi-good">同比扭亏</div>
+      <div class="kpi-label">自由现金流 (FY2025)</div>
+      <div class="kpi-value">$192.8M</div>
+      <div class="kpi-sub kpi-down">FCF 利润率 ~3.3%</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">非GAAP EPS（Q2）</div>
-      <div class="kpi-value">$1.29</div>
-      <div class="kpi-sub kpi-good">+35% YoY</div>
+      <div class="kpi-label">TTM 市盈率 (P/E)</div>
+      <div class="kpi-value">~232x</div>
+      <div class="kpi-sub kpi-down">GAAP 含大量摊销</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">自由现金流（TTM）</div>
-      <div class="kpi-value kpi-warn">-$104M</div>
-      <div class="kpi-sub">重资本投入期</div>
+      <div class="kpi-label">前向 P/E</div>
+      <div class="kpi-value">~44x</div>
+      <div class="kpi-sub kpi-neutral">Non-GAAP 基础</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">前向 PE（非GAAP）</div>
-      <div class="kpi-value">39.0x</div>
-      <div class="kpi-sub kpi-warn">高于5年均值</div>
+      <div class="kpi-label">市值</div>
+      <div class="kpi-value">~$50B</div>
+      <div class="kpi-sub">企业价值 ~$57.7B</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">P/S（TTM）</div>
-      <div class="kpi-value">7.69x</div>
-      <div class="kpi-sub kpi-warn">处历史高位</div>
+      <div class="kpi-label">净债务</div>
+      <div class="kpi-value">$2.82B</div>
+      <div class="kpi-sub">总债务 $3.69B - 现金 $0.87B</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">债务/权益</div>
-      <div class="kpi-value">0.40x</div>
-      <div class="kpi-sub kpi-good">持续去杠杆</div>
+      <div class="kpi-label">ROE (GAAP)</div>
+      <div class="kpi-value">3.2%</div>
+      <div class="kpi-sub kpi-neutral">转型期，扩张中</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">ROE</div>
-      <div class="kpi-value kpi-warn">3.24%</div>
-      <div class="kpi-sub">受商誉拖累</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">机构持仓</div>
-      <div class="kpi-value">80.2%</div>
-      <div class="kpi-sub kpi-good">空头 3.55%</div>
+      <div class="kpi-label">52周区间</div>
+      <div class="kpi-value" style="font-size:16px;">$47.71–$300.20</div>
+      <div class="kpi-sub">+272% 1年涨幅</div>
     </div>
   </div>
 </div>
 
-<!-- ── BUSINESS MODEL ────────────────────────────────────────── -->
+<!-- ===== SECTION 2: BUSINESS MODEL ===== -->
 <div class="section">
   <div class="section-title">商业模式分析</div>
+
   <div class="two-col">
-    <div class="card">
-      <div class="card-title">营收分部结构（Q2 FY2026）</div>
-      <div class="donut-wrap"><canvas id="segChart"></canvas></div>
-      <table style="margin-top:14px">
-        <thead><tr><th>分部</th><th class="td-num">Q2 FY26</th><th class="td-num">YoY</th><th class="td-num">占比</th></tr></thead>
-        <tbody>
-          <tr><td>数据中心 &amp; 通信</td><td class="td-num">$1,211M</td><td class="td-num td-good">+33.6%</td><td class="td-num">71.6%</td></tr>
-          <tr><td>工业</td><td class="td-num">$478M</td><td class="td-num td-bad">-9.9%</td><td class="td-num">28.4%</td></tr>
-          <tr><td><strong>合计</strong></td><td class="td-num"><strong>$1,689M</strong></td><td class="td-num td-good"><strong>+17.5%</strong></td><td class="td-num">100%</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">商业模式核心特征</div>
-      <div style="margin-bottom:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">垂直整合 T1→T5（唯一上市公司）</div>
-        <table>
-          <thead><tr><th>层级</th><th>资产</th><th>护城河</th><th>毛利率</th></tr></thead>
-          <tbody>
-            <tr><td><span class="badge badge-blue">T1</span></td><td>6英寸 InP 晶圆厂（德州）</td><td>全球唯一量产</td><td class="td-good">60%+</td></tr>
-            <tr><td><span class="badge badge-blue">T2</span></td><td>EML/VCSEL/DFB 激光芯片</td><td>自供应链壁垒</td><td class="td-good">55–65%</td></tr>
-            <tr><td><span class="badge badge-blue">T3</span></td><td>硅光子 + DSP 芯片</td><td>Co-design 优势</td><td class="td-good">50–60%</td></tr>
-            <tr><td><span class="badge badge-yellow">T4</span></td><td>800G/1.6T 可插拔模块</td><td>弱（中国竞争）</td><td class="td-warn">20–35%</td></tr>
-            <tr><td><span class="badge badge-blue">T5</span></td><td>DCI 相干系统 + WSS/ROADM</td><td>准垄断地位</td><td class="td-good">50–60%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="background:var(--bg3);border-radius:8px;padding:12px;font-size:13px">
-        <div style="color:var(--yellow);font-weight:600;margin-bottom:6px">收入质量评分：B+（硬件+长期合同）</div>
-        <ul style="margin-left:16px;color:var(--muted)">
-          <li>重复性收入：约35%（DCI 系统维保 + WSS 耗材）</li>
-          <li>项目/模块销售：约65%（AI 数据中心超周期驱动）</li>
-          <li>book-to-bill &gt; 4x（数据中心），订单能见度延伸至2028年</li>
-          <li>已与超大规模客户签署长期供货协议（含资金承诺）</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div style="margin-top:16px" class="two-col">
-    <div class="card">
-      <div class="card-title">定价权分析</div>
-      <table>
-        <thead><tr><th>资产</th><th>定价权</th><th>近期趋势</th></tr></thead>
-        <tbody>
-          <tr><td>6" InP 晶圆 &amp; 芯片（T1/T2）</td><td><span class="td-good">极强</span></td><td>成本下降→利润扩张</td></tr>
-          <tr><td>WSS/ROADM 器件（T5）</td><td><span class="td-good">强（市场近40%）</span></td><td>OXC 演进推高 ASP</td></tr>
-          <tr><td>1.6T 硅光子收发器（T3/T4）</td><td><span class="td-good">强（稀缺）</span></td><td>200G EML 价格看涨</td></tr>
-          <tr><td>800G 可插拔（T4）</td><td><span class="td-warn">中（中国竞争）</span></td><td>价格稳中有降</td></tr>
-          <tr><td>工业激光系统</td><td><span class="td-warn">中</span></td><td>需求疲软，价格承压</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">生态系统飞轮 —— CPO 战略卡位</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.8">
-        <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:6px;margin-bottom:8px">
-          <span style="color:var(--blue);font-weight:700">InP晶圆(T1)</span>
-          <span>→</span>
-          <span style="color:var(--cyan);font-weight:700">激光芯片(T2)</span>
-          <span>→</span>
-          <span style="color:var(--green);font-weight:700">SiPh引擎(T3)</span>
-          <span>→</span>
-          <span style="color:var(--yellow);font-weight:700">CPO模块(T4→T3融合)</span>
+    <div>
+      <div class="card">
+        <div class="card-title">收入分部结构 (FY2025 重分类后)</div>
+        <!-- Segment bars -->
+        <div class="seg-bar-wrap">
+          <div class="seg-bar-label">
+            <span class="seg-bar-name">Networking (数据中心光互连)</span>
+            <span class="seg-bar-val">$3,421M | 58.9%</span>
+          </div>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:58.9%;background:linear-gradient(90deg,#3b82f6,#06b6d4);"></div></div>
         </div>
-        <p>CPO 趋势将 T4 可插拔模块价值内化到 T3 硅光子，而 COHR 两层均有布局。中国竞争对手擅长 T4，随着 CPO 渗透，其威胁将系统性降低。</p>
-        <p style="margin-top:8px">6英寸 InP 产能已达目标产能80%，每芯片成本相对4英寸晶圆降低约40%，建立制造成本护城河。</p>
-        <p style="margin-top:8px;color:var(--green);font-weight:600">关键催化剂：1.6T 收发器量产 + OCS（光学电路交换）早期订单，均基于 COHR 独有 InP 技术。</p>
+        <div class="seg-bar-wrap">
+          <div class="seg-bar-label">
+            <span class="seg-bar-name">Lasers (工业激光/光学)</span>
+            <span class="seg-bar-val">$1,435M | 24.7%</span>
+          </div>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:24.7%;background:linear-gradient(90deg,#8b5cf6,#ec4899);"></div></div>
+        </div>
+        <div class="seg-bar-wrap">
+          <div class="seg-bar-label">
+            <span class="seg-bar-name">Materials (SiC/材料)</span>
+            <span class="seg-bar-val">$954M | 16.4%</span>
+          </div>
+          <div class="seg-bar-bg"><div class="seg-bar-fill" style="width:16.4%;background:linear-gradient(90deg,#f59e0b,#f97316);"></div></div>
+        </div>
+        <div style="margin-top:16px;font-size:12px;color:var(--text-muted);">
+          注: FY2026起重分类为两段: Datacenter &amp; Communications (~70%); Industrial (~30%)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Q2 FY2026 分部增速</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">数据中心 YoY</div>
+            <div style="font-size:24px;font-weight:700;color:var(--accent-green);">+36%</div>
+            <div style="font-size:11px;color:var(--text-secondary);">$1,208M 季度营收</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">工业 YoY</div>
+            <div style="font-size:24px;font-weight:700;color:var(--accent-yellow);">持平</div>
+            <div style="font-size:11px;color:var(--text-secondary);">$478M 季度营收</div>
+          </div>
+        </div>
+        <div class="highlight-box">
+          通信 (Telecom) 板块 Q2 YoY +44%，体现电信市场从2024年底部强力复苏，与Networking合并报告。
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">收入质量评分与客户集中度</div>
+        <div class="info-row"><span class="info-row-label">收入可重复性</span><span class="info-row-val td-yellow">中等 — 硬件主导</span></div>
+        <div class="info-row"><span class="info-row-label">软件/服务收入占比</span><span class="info-row-val td-red">极低 (&lt;3%)</span></div>
+        <div class="info-row"><span class="info-row-label">前5大客户占比</span><span class="info-row-val td-yellow">约35-45%（未公开披露具体数字）</span></div>
+        <div class="info-row"><span class="info-row-label">AI/数据中心依赖度</span><span class="info-row-val td-yellow">约65%（双刃剑）</span></div>
+        <div class="info-row"><span class="info-row-label">地理集中度风险</span><span class="info-row-val td-yellow">美国+亚洲，中国运营敞口</span></div>
+        <div class="info-row"><span class="info-row-label">数据中心订单能见度</span><span class="info-row-val td-green">极强 — Book-to-Bill 4x+</span></div>
+        <div class="info-row"><span class="info-row-label">2028年前订单能见度</span><span class="info-row-val td-green">客户预测已延伸至2028</span></div>
+        <div style="margin-top:14px;font-size:12px;color:var(--text-muted);">
+          Q2 FY2026数据中心book-to-bill超过4倍，为历史最高水平，CEO称"业务能见度是有史以来最好的"。
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">定价权与垂直整合优势</div>
+        <div class="highlight-box">
+          <strong style="color:var(--accent-cyan);">6英寸InP晶圆线 (德克萨斯Sherman)</strong> — 2025年底量产，每枚芯片成本不足4英寸晶圆的50%，产能提升4倍以上。竞争对手Lumentum尚未实现同等规模，提供约12-18个月制造壁垒。
+        </div>
+        <div class="info-row"><span class="info-row-label">毛利率趋势</span><span class="info-row-val td-green">持续扩张 (+358bps FY2025)</span></div>
+        <div class="info-row"><span class="info-row-label">长期毛利率目标</span><span class="info-row-val td-green">&gt;42% (管理层指引)</span></div>
+        <div class="info-row"><span class="info-row-label">垂直整合范围</span><span class="info-row-val td-green">晶圆→激光芯片→模块 全链条</span></div>
+        <div class="info-row"><span class="info-row-label">SiC业务</span><span class="info-row-val">Denso/三菱电机 $10亿战略投资</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flywheel -->
+  <div class="card" style="margin-top:8px;">
+    <div class="card-title">生态飞轮与增长引擎</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;padding:8px 0;">
+      <div style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px 16px;text-align:center;min-width:140px;">
+        <div style="font-size:12px;color:var(--accent-cyan);font-weight:600;">AI CapEx 超级周期</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">超大规模云厂商持续加码</div>
+      </div>
+      <div style="font-size:20px;color:var(--accent-blue);padding:0 8px;">→</div>
+      <div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:12px 16px;text-align:center;min-width:140px;">
+        <div style="font-size:12px;color:var(--accent-green);font-weight:600;">800G/1.6T 需求爆发</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">每个机柜更多光纤</div>
+      </div>
+      <div style="font-size:20px;color:var(--accent-blue);padding:0 8px;">→</div>
+      <div style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:12px 16px;text-align:center;min-width:140px;">
+        <div style="font-size:12px;color:var(--accent-purple);font-weight:600;">6英寸InP规模量产</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">成本↓，利润率↑</div>
+      </div>
+      <div style="font-size:20px;color:var(--accent-blue);padding:0 8px;">→</div>
+      <div style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:12px 16px;text-align:center;min-width:140px;">
+        <div style="font-size:12px;color:var(--accent-yellow);font-weight:600;">CPO 新机遇</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">"极大采购订单"2026年</div>
+      </div>
+      <div style="font-size:20px;color:var(--accent-blue);padding:0 8px;">→</div>
+      <div style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);border-radius:8px;padding:12px 16px;text-align:center;min-width:140px;">
+        <div style="font-size:12px;color:#f87171;font-weight:600;">FY2027 增速超FY2026</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">管理层明确展望</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── FINANCIAL ANALYSIS ────────────────────────────────────── -->
+<!-- ===== SECTION 3: FINANCIALS ===== -->
 <div class="section">
-  <div class="section-title">财务趋势分析</div>
-  <div class="two-col">
-    <div class="card">
-      <div class="card-title">季度营收趋势（含 Q3 FY26 指引）</div>
-      <div class="chart-wrap-tall"><canvas id="revChart"></canvas></div>
+  <div class="section-title">财务深度分析</div>
+
+  <div class="chart-grid" style="margin-bottom:24px;">
+    <div class="chart-box">
+      <h4>季度营收趋势 (百万美元)</h4>
+      <div class="chart-wrap">
+        <canvas id="revenueChart"></canvas>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">非GAAP 利润率趋势</div>
-      <div class="chart-wrap-tall"><canvas id="marginChart"></canvas></div>
+    <div class="chart-box">
+      <h4>Non-GAAP 毛利率趋势 (%)</h4>
+      <div class="chart-wrap">
+        <canvas id="marginChart"></canvas>
+      </div>
     </div>
   </div>
-  <div style="margin-top:16px">
+
+  <!-- Quarterly Data Table -->
+  <div class="card">
+    <div class="card-title">季度财务数据 (近6季度)</div>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>季度</th>
+          <th>营收</th>
+          <th>YoY</th>
+          <th>GAAP 毛利率</th>
+          <th>Non-GAAP 毛利率</th>
+          <th>GAAP EPS</th>
+          <th>Non-GAAP EPS</th>
+          <th>Non-GAAP 营业利润率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-main">Q1 FY2025 (Sep'24)</td>
+          <td>$1,351M</td>
+          <td class="td-green">+28%</td>
+          <td>32.7%</td>
+          <td>36.5%</td>
+          <td class="td-red">$(0.30)</td>
+          <td>$0.68</td>
+          <td>16.0%</td>
+        </tr>
+        <tr>
+          <td class="td-main">Q2 FY2025 (Dec'24)</td>
+          <td>$1,432M</td>
+          <td class="td-green">+27%</td>
+          <td>34.0%</td>
+          <td>37.2%</td>
+          <td class="td-red">$(0.14)</td>
+          <td>$0.86</td>
+          <td>17.0%</td>
+        </tr>
+        <tr>
+          <td class="td-main">Q3 FY2025 (Mar'25)</td>
+          <td>$1,498M</td>
+          <td class="td-green">+24%</td>
+          <td>35.4%</td>
+          <td>38.4%</td>
+          <td class="td-red">$(0.21)</td>
+          <td>$0.99</td>
+          <td>17.5%</td>
+        </tr>
+        <tr>
+          <td class="td-main">Q4 FY2025 (Jun'25)</td>
+          <td>$1,529M</td>
+          <td class="td-green">+16%</td>
+          <td>35.7%</td>
+          <td>38.1%</td>
+          <td class="td-red">$(0.83)</td>
+          <td>$1.00</td>
+          <td>18.0%</td>
+        </tr>
+        <tr>
+          <td class="td-main">Q1 FY2026 (Sep'25)</td>
+          <td>$1,580M</td>
+          <td class="td-green">+17%</td>
+          <td>36.6%</td>
+          <td>38.7%</td>
+          <td class="td-green">$1.19</td>
+          <td>$1.16</td>
+          <td>19.0%</td>
+        </tr>
+        <tr>
+          <td class="td-main">Q2 FY2026 (Dec'25)</td>
+          <td>$1,690M</td>
+          <td class="td-green">+17%</td>
+          <td>36.9%</td>
+          <td>39.0%</td>
+          <td class="td-green">$0.76</td>
+          <td>$1.29</td>
+          <td>19.9%</td>
+        </tr>
+        <tr style="background:rgba(245,158,11,0.08);">
+          <td class="td-main">Q3 FY2026 指引</td>
+          <td>$1,700–1,840M</td>
+          <td class="td-green">~18-25%</td>
+          <td>—</td>
+          <td>38.5%–40.5%</td>
+          <td>—</td>
+          <td>$1.28–$1.48</td>
+          <td>~20-22%</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Balance Sheet + Cash Flow -->
+  <div class="two-col">
     <div class="card">
-      <div class="card-title">近6季财务数据</div>
-      <table>
-        <thead>
-          <tr>
-            <th>季度</th>
-            <th class="td-num">营收（$M）</th>
-            <th class="td-num">YoY%</th>
-            <th class="td-num">数据中心&amp;通信</th>
-            <th class="td-num">工业</th>
-            <th class="td-num">非GAAP毛利率</th>
-            <th class="td-num">非GAAP营业利润率</th>
-            <th class="td-num">非GAAP EPS</th>
-            <th class="td-num">GAAP EPS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Q1 FY2025 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,350M</td>
-            <td class="td-num">—</td>
-            <td class="td-num">~$945M</td>
-            <td class="td-num">~$405M</td>
-            <td class="td-num">36.7%</td>
-            <td class="td-num">16.1%</td>
-            <td class="td-num">$0.89</td>
-            <td class="td-num td-warn">-$0.15</td>
-          </tr>
-          <tr>
-            <td>Q2 FY2025 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,438M</td>
-            <td class="td-num td-good">+5.8%</td>
-            <td class="td-num">~$905M</td>
-            <td class="td-num">~$533M</td>
-            <td class="td-num">36.8%</td>
-            <td class="td-num">16.9%</td>
-            <td class="td-num">$0.96</td>
-            <td class="td-num td-warn">-$0.10</td>
-          </tr>
-          <tr>
-            <td>Q3 FY2025 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,424M</td>
-            <td class="td-num">—</td>
-            <td class="td-num">~$982M</td>
-            <td class="td-num">~$442M</td>
-            <td class="td-num">37.0%</td>
-            <td class="td-num">17.2%</td>
-            <td class="td-num">$0.95</td>
-            <td class="td-num td-warn">-$0.18</td>
-          </tr>
-          <tr>
-            <td>Q4 FY2025 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,598M</td>
-            <td class="td-num td-good">+28.0%</td>
-            <td class="td-num">~$1,150M</td>
-            <td class="td-num">~$448M</td>
-            <td class="td-num">38.0%</td>
-            <td class="td-num">18.0%</td>
-            <td class="td-num">$1.02</td>
-            <td class="td-num td-warn">-$0.14</td>
-          </tr>
-          <tr>
-            <td>Q1 FY2026 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,580M</td>
-            <td class="td-num td-good">+17.0%</td>
-            <td class="td-num">~$1,170M</td>
-            <td class="td-num">~$410M</td>
-            <td class="td-num">38.7%</td>
-            <td class="td-num">19.5%</td>
-            <td class="td-num td-good">$1.16</td>
-            <td class="td-num td-good">$1.19</td>
-          </tr>
-          <tr style="background:rgba(59,130,246,0.06)">
-            <td>Q2 FY2026 <span class="tag tag-blue">已确认</span></td>
-            <td class="td-num">$1,689M</td>
-            <td class="td-num td-good">+17.5%</td>
-            <td class="td-num">$1,211M</td>
-            <td class="td-num">$478M</td>
-            <td class="td-num td-good">39.0%</td>
-            <td class="td-num td-good">19.9%</td>
-            <td class="td-num td-good">$1.29</td>
-            <td class="td-num td-good">$0.76</td>
-          </tr>
-          <tr style="background:rgba(234,179,8,0.04);font-style:italic">
-            <td>Q3 FY2026 <span class="tag tag-yellow">指引</span></td>
-            <td class="td-num">$1,700–$1,840M</td>
-            <td class="td-num td-good">~+18%</td>
-            <td class="td-num">—</td>
-            <td class="td-num">—</td>
-            <td class="td-num">38.5–40.5%</td>
-            <td class="td-num">—</td>
-            <td class="td-num">$1.28–$1.48</td>
-            <td class="td-num">—</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card-title">资产负债表 (Jun 30, 2025)</div>
+      <div class="info-row"><span class="info-row-label">总资产</span><span class="info-row-val">$14,911M</span></div>
+      <div class="info-row"><span class="info-row-label">现金及等价物</span><span class="info-row-val">$909M</span></div>
+      <div class="info-row"><span class="info-row-label">流动资产</span><span class="info-row-val">$3,927M</span></div>
+      <div class="info-row"><span class="info-row-label">商誉 (合并遗留)</span><span class="info-row-val">$4,471M</span></div>
+      <div class="info-row"><span class="info-row-label">无形资产</span><span class="info-row-val">$3,205M</span></div>
+      <div class="info-row"><span class="info-row-label">总负债</span><span class="info-row-val">$6,430M</span></div>
+      <div class="info-row"><span class="info-row-label">长期债务</span><span class="info-row-val">$3,499M</span></div>
+      <div class="info-row"><span class="info-row-label">股东权益</span><span class="info-row-val">$5,644M (归母)</span></div>
+      <div class="info-row"><span class="info-row-label">每股账面价值</span><span class="info-row-val">~$36.31</span></div>
+      <div class="info-row"><span class="info-row-label">流动比率</span><span class="info-row-val td-green">2.25x</span></div>
+      <div class="info-row"><span class="info-row-label">负债/权益</span><span class="info-row-val td-green">0.40x (总债务/总权益)</span></div>
+      <div class="info-row"><span class="info-row-label">财务杠杆比率</span><span class="info-row-val">1.7x EBITDA (Q2'26, 下降中)</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">现金流分析</div>
+      <div class="info-row"><span class="info-row-label">FY2023 经营现金流</span><span class="info-row-val">$634M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2023 资本支出</span><span class="info-row-val">$436M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2023 自由现金流</span><span class="info-row-val td-green">$198M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2024 经营现金流</span><span class="info-row-val">$546M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2024 资本支出</span><span class="info-row-val">$347M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2024 自由现金流</span><span class="info-row-val td-green">$199M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2025 经营现金流</span><span class="info-row-val">$634M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2025 资本支出</span><span class="info-row-val">$441M</span></div>
+      <div class="info-row"><span class="info-row-label">FY2025 自由现金流</span><span class="info-row-val td-yellow">$193M (FCF率3.3%)</span></div>
+      <div class="info-row"><span class="info-row-label">TTM FCF (至Dec'25)</span><span class="info-row-val td-red">-$104M (扩张性CapEx)</span></div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+        注: 6英寸InP产线大规模扩产导致TTM FCF为负，属战略性资本支出，预期2026年后FCF显著改善。
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ── GROWTH DRIVERS ─────────────────────────────────────────── -->
+<!-- ===== SECTION 4: GROWTH DRIVERS ===== -->
 <div class="section">
   <div class="section-title">增长驱动与关键追踪指标</div>
-  <div class="three-col">
+
+  <div class="three-col" style="margin-bottom:24px;">
     <div class="card">
-      <div class="card-title">AI 数据中心超周期</div>
-      <ul class="check-list">
-        <li><span>800G 出货（TrendForce 2026E）</span><span class="badge badge-green">63M 件（+162%）</span></li>
-        <li><span>1.6T 量产开始时间</span><span class="badge badge-green">H1 2026 SiPh先行</span></li>
-        <li><span>VCSEL-1.6T 量产时间</span><span class="badge badge-yellow">中CY2026</span></li>
-        <li><span>book-to-bill（数据中心）</span><span class="badge badge-green">&gt; 4x 破纪录</span></li>
-        <li><span>云厂商 CapEx 2026E</span><span class="badge badge-green">$300B+（历史最高）</span></li>
-        <li><span>客户订单能见度</span><span class="badge badge-green">延伸至 2028年</span></li>
-      </ul>
+      <div class="card-title">AI 数据中心光互连</div>
+      <div class="info-row"><span class="info-row-label">800G 出货量</span><span class="info-row-val td-green">大规模量产，快速增长</span></div>
+      <div class="info-row"><span class="info-row-label">1.6T 进展</span><span class="info-row-val td-green">2024年底全球首家量产</span></div>
+      <div class="info-row"><span class="info-row-label">1.6T 技术路径</span><span class="info-row-val">EML+硅光→VCSEL(H2'26)</span></div>
+      <div class="info-row"><span class="info-row-label">OCS 漏斗</span><span class="info-row-val">10+客户，$2B+可寻址市场</span></div>
+      <div class="info-row"><span class="info-row-label">CPO 订单</span><span class="info-row-val td-green">"极大" AI客户采购订单</span></div>
+      <div class="info-row"><span class="info-row-label">数据中心 Book-to-Bill</span><span class="info-row-val td-green">&gt;4x (Q2 FY2026)</span></div>
     </div>
     <div class="card">
-      <div class="card-title">InP 晶圆战略产能</div>
-      <ul class="check-list">
-        <li><span>6" InP 晶圆产能利用率</span><span class="badge badge-green">已达目标80%</span></li>
-        <li><span>vs 竞争对手（Lumentum）</span><span class="badge badge-blue">仍停留4英寸线</span></li>
-        <li><span>每芯片成本优势</span><span class="badge badge-green">~40% 较4"线降低</span></li>
-        <li><span>初始良率 vs 3"成熟线</span><span class="badge badge-green">已超越成熟3"线</span></li>
-        <li><span>下一年产能目标</span><span class="badge badge-yellow">翻倍（含良率提升）</span></li>
-        <li><span>OCS 激光 —— 已获最大单笔购买承诺</span><span class="badge badge-green">Lumentum 宣布</span></li>
-      </ul>
+      <div class="card-title">硅碳化物 (SiC) 电动车</div>
+      <div class="info-row"><span class="info-row-label">战略投资</span><span class="info-row-val">Denso + 三菱 $10亿</span></div>
+      <div class="info-row"><span class="info-row-label">晶圆规格</span><span class="info-row-val td-green">200mm — 领先竞争对手</span></div>
+      <div class="info-row"><span class="info-row-label">主要客户</span><span class="info-row-val">日本汽车OEM，部分欧系</span></div>
+      <div class="info-row"><span class="info-row-label">竞争对手</span><span class="info-row-val">Wolfspeed、ON Semi、Infineon</span></div>
+      <div class="info-row"><span class="info-row-label">近期挑战</span><span class="info-row-val td-yellow">EV需求放缓，短期压力</span></div>
+      <div class="info-row"><span class="info-row-label">长期潜力</span><span class="info-row-val td-green">功率半导体大周期</span></div>
     </div>
     <div class="card">
-      <div class="card-title">工业复苏与催化剂</div>
-      <ul class="check-list">
-        <li><span>工业 Q2 FY26 YoY</span><span class="badge badge-red">-9.9%</span></li>
-        <li><span>管理层展望</span><span class="badge badge-yellow">FY2026 H2 复苏</span></li>
-        <li><span>半导体设备激光需求</span><span class="badge badge-yellow">2026 周期回升</span></tr></li>
-        <li><span>医疗 / 科学激光</span><span class="badge badge-green">稳定增长</span></li>
-        <li><span>工业 / 微加工</span><span class="badge badge-yellow">复苏中</span></li>
-        <li><span>FY2027 管理层预期</span><span class="badge badge-green">增速超FY2026</span></li>
-      </ul>
+      <div class="card-title">电信与工业</div>
+      <div class="info-row"><span class="info-row-label">Telecom Q2 FY2026</span><span class="info-row-val td-green">+44% YoY 强劲复苏</span></div>
+      <div class="info-row"><span class="info-row-label">工业激光</span><span class="info-row-val td-yellow">Q2持平YoY，Q4预期改善</span></div>
+      <div class="info-row"><span class="info-row-label">A&D 业务</span><span class="info-row-val">已剥离，聚焦核心</span></div>
+      <div class="info-row"><span class="info-row-label">OLED制造激光</span><span class="info-row-val">小规模，稳定</span></div>
+      <div class="info-row"><span class="info-row-label">Munich材料加工</span><span class="info-row-val">已剥离 (~425员工,$25M/季)</span></div>
     </div>
   </div>
-  <div style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">需持续追踪的 KPI 清单</div>
-      <table>
-        <thead><tr><th>KPI</th><th class="td-num">当前值</th><th class="td-num">目标 / 参考</th><th>信号</th></tr></thead>
-        <tbody>
-          <tr><td>数据中心营收 QoQ 增速</td><td class="td-num td-good">+5.5%（Q2 vs Q1）</td><td class="td-num">持续正增长</td><td><span class="badge badge-green">强劲</span></td></tr>
-          <tr><td>非GAAP 毛利率趋势</td><td class="td-num td-good">39.0%（+160bp YoY）</td><td class="td-num">42-45%（FY2028E）</td><td><span class="badge badge-green">上升通道</span></td></tr>
-          <tr><td>1.6T 收发器出货量</td><td class="td-num td-good">量产中（SiPh先行）</td><td class="td-num">VCSEL版 CY2026中</td><td><span class="badge badge-green">按计划</span></td></tr>
-          <tr><td>book-to-bill 比率（数据中心）</td><td class="td-num td-good">&gt; 4x</td><td class="td-num">&gt; 1.5x 为健康</td><td><span class="badge badge-green">供不应求</span></td></tr>
-          <tr><td>工业分部 YoY 增速</td><td class="td-num td-bad">-9.9%</td><td class="td-num">转正（H2 FY2026）</td><td><span class="badge badge-yellow">待观察</span></td></tr>
-          <tr><td>FCF 转正时间线</td><td class="td-num td-warn">-$104M（TTM）</td><td class="td-num">FY2027 转正</td><td><span class="badge badge-yellow">CapEx高峰期</span></td></tr>
-          <tr><td>长期债务余额</td><td class="td-num">$3.2B</td><td class="td-num">持续下降</td><td><span class="badge badge-yellow">去杠杆中</span></td></tr>
-          <tr><td>6" InP 产能利用率</td><td class="td-num td-good">80%</td><td class="td-num">100%（明年）</td><td><span class="badge badge-green">快速爬坡</span></td></tr>
-        </tbody>
-      </table>
+
+  <!-- KPIs to Watch -->
+  <div class="card">
+    <div class="card-title">需持续追踪的关键 KPI 清单</div>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>KPI</th>
+          <th>当前值 / 最新数据</th>
+          <th>目标/健康值</th>
+          <th>趋势</th>
+          <th>重要性</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-main">数据中心营收 QoQ 增速</td>
+          <td class="td-green">+14% (Q2 FY26)</td>
+          <td>&gt;10% 持续健康</td>
+          <td class="td-green">加速</td>
+          <td class="badge badge-red" style="font-size:10px;">核心</td>
+        </tr>
+        <tr>
+          <td class="td-main">Non-GAAP 毛利率</td>
+          <td class="td-green">39.0% (Q2 FY26)</td>
+          <td>&gt;42% (长期目标)</td>
+          <td class="td-green">扩张中</td>
+          <td class="badge badge-red" style="font-size:10px;">核心</td>
+        </tr>
+        <tr>
+          <td class="td-main">6英寸InP产能达成率</td>
+          <td class="td-green">80% of 目标</td>
+          <td>100% = 成本优势完全释放</td>
+          <td class="td-green">推进中</td>
+          <td class="badge badge-blue" style="font-size:10px;">高</td>
+        </tr>
+        <tr>
+          <td class="td-main">财务杠杆比率 (净债务/EBITDA)</td>
+          <td class="td-green">1.7x</td>
+          <td>&lt;1.5x (目标区间)</td>
+          <td class="td-green">下降中 (from 2.3x)</td>
+          <td class="badge badge-blue" style="font-size:10px;">高</td>
+        </tr>
+        <tr>
+          <td class="td-main">自由现金流</td>
+          <td class="td-red">-$104M TTM</td>
+          <td>&gt;$400M/年 (正常化)</td>
+          <td class="td-yellow">CapEx峰值期</td>
+          <td class="badge badge-blue" style="font-size:10px;">高</td>
+        </tr>
+        <tr>
+          <td class="td-main">数据中心 Book-to-Bill</td>
+          <td class="td-green">&gt;4x</td>
+          <td>&gt;1.2x 健康</td>
+          <td class="td-green">历史最强</td>
+          <td class="badge badge-red" style="font-size:10px;">核心</td>
+        </tr>
+        <tr>
+          <td class="td-main">1.6T 收入占比</td>
+          <td>开始放量</td>
+          <td>2026年成为主力产品</td>
+          <td class="td-green">加速</td>
+          <td class="badge badge-blue" style="font-size:10px;">高</td>
+        </tr>
+        <tr>
+          <td class="td-main">工业/SiC 营收复苏</td>
+          <td class="td-yellow">Q2持平</td>
+          <td>Q4 FY2026 改善信号</td>
+          <td class="td-yellow">等待转折</td>
+          <td class="badge badge-cyan" style="font-size:10px;">中</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </div>
 
-<!-- ── COMPETITIVE LANDSCAPE ─────────────────────────────────── -->
+<!-- ===== SECTION 5: COMPETITION ===== -->
 <div class="section">
   <div class="section-title">竞争格局分析</div>
-  <div class="two-col">
-    <div class="card">
-      <div class="card-title">同业对比表</div>
-      <table>
-        <thead>
-          <tr>
-            <th>公司</th>
-            <th class="td-num">市值</th>
-            <th class="td-num">TTM营收</th>
-            <th class="td-num">毛利率</th>
-            <th class="td-num">P/S</th>
-            <th class="td-num">FWD PE</th>
-            <th>核心优势</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background:rgba(59,130,246,0.08)">
-            <td><strong>COHR</strong> <span class="badge badge-blue">本标的</span></td>
-            <td class="td-num">$47.3B</td>
-            <td class="td-num">$6.29B</td>
-            <td class="td-num">36.4%</td>
-            <td class="td-num td-warn">7.7x</td>
-            <td class="td-num td-warn">39.0x</td>
-            <td>垂直整合T1-T5 / 6"InP</td>
-          </tr>
-          <tr>
-            <td>LITE（Lumentum）</td>
-            <td class="td-num">~$5B</td>
-            <td class="td-num">~$1.4B</td>
-            <td class="td-num td-good">~42%</td>
-            <td class="td-num">~3.5x</td>
-            <td class="td-num">~25x</td>
-            <td>EML纯玩 / WSS龙头</td>
-          </tr>
-          <tr>
-            <td>IPGP（IPG Photonics）</td>
-            <td class="td-num">~$5B</td>
-            <td class="td-num">~$1.1B</td>
-            <td class="td-num td-good">~42%</td>
-            <td class="td-num">~4.5x</td>
-            <td class="td-num">~20x</td>
-            <td>工业激光领导者</td>
-          </tr>
-          <tr>
-            <td>FN（Fabrinet）</td>
-            <td class="td-num">~$7.8B</td>
-            <td class="td-num">~$3.1B</td>
-            <td class="td-num td-warn">~12%</td>
-            <td class="td-num">~2.5x</td>
-            <td class="td-num">~20x</td>
-            <td>契约制造 / CPO受益</td>
-          </tr>
-          <tr>
-            <td>MRVL（Marvell）</td>
-            <td class="td-num">~$65B</td>
-            <td class="td-num">~$6.2B</td>
-            <td class="td-num td-good">~50%</td>
-            <td class="td-num">~10.5x</td>
-            <td class="td-num">~35x</td>
-            <td>DSP芯片 / 定制ASIC</td>
-          </tr>
-          <tr>
-            <td>NOK（Nokia）</td>
-            <td class="td-num">~$18B</td>
-            <td class="td-num">~$22B</td>
-            <td class="td-num">~36%</td>
-            <td class="td-num">~0.8x</td>
-            <td class="td-num">~10x</td>
-            <td>电信系统 / 光网络</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">竞争格局横向比较</div>
-      <div class="chart-wrap-tall"><canvas id="compChart"></canvas></div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">光学收发器主要竞争对手对比</div>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>公司</th>
+          <th>市场地位</th>
+          <th>数据中心光学市占率</th>
+          <th>毛利率</th>
+          <th>关键优势</th>
+          <th>主要威胁</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-main" style="color:var(--accent-cyan);">Coherent (COHR)</td>
+          <td>Top-2 全球</td>
+          <td class="td-green">~20-25%</td>
+          <td class="td-green">39% (Non-GAAP)</td>
+          <td>垂直整合 + 6"InP + 1.6T先行</td>
+          <td>债务负担 + 中国竞争</td>
+        </tr>
+        <tr>
+          <td class="td-main">Lumentum (LITE)</td>
+          <td>Top-3 全球</td>
+          <td>~15-20%</td>
+          <td>~35-40%</td>
+          <td>200G EML领先，VCSEL深厚</td>
+          <td>6"InP落后Coherent</td>
+        </tr>
+        <tr>
+          <td class="td-main">Broadcom (AVGO)</td>
+          <td>DSP + 模块</td>
+          <td>~15-20%</td>
+          <td>~75%</td>
+          <td>DSP芯片霸主 + 定制芯片</td>
+          <td>硅光自研影响外购</td>
+        </tr>
+        <tr>
+          <td class="td-main">Innolight (中国)</td>
+          <td>高量低端市场</td>
+          <td>~10-15%</td>
+          <td>~25-30%</td>
+          <td>极低成本，量大</td>
+          <td>出口管制风险</td>
+        </tr>
+        <tr>
+          <td class="td-main">Marvell (MRVL)</td>
+          <td>电子集成商</td>
+          <td>增长中</td>
+          <td>~50%+</td>
+          <td>定制AI ASIC + Celestial AI收购</td>
+          <td>转向CPO影响模块需求</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </div>
-  <div style="margin-top:16px">
+
+  <div class="two-col">
     <div class="card">
-      <div class="card-title">竞争威胁与护城河深度评估</div>
-      <div class="two-col">
-        <div>
-          <div style="font-size:13px;font-weight:600;color:var(--yellow);margin-bottom:10px">主要威胁来源</div>
-          <table>
-            <thead><tr><th>竞争来源</th><th>威胁层级</th><th class="td-num">威胁评分</th></tr></thead>
-            <tbody>
-              <tr><td>中国 INNOLIGHT / Accelink（T4模块）</td><td><span class="badge badge-yellow">中等</span></td><td class="td-num td-warn">6/10</td></tr>
-              <tr><td>Lumentum（T2 EML / T5 WSS）</td><td><span class="badge badge-yellow">中等</span></td><td class="td-num td-warn">5/10</td></tr>
-              <tr><td>MRVL（T3 DSP 定制ASIC）</td><td><span class="badge badge-yellow">中等</span></td><td class="td-num td-warn">5/10</td></tr>
-              <tr><td>超大规模客户自研（Google TPU光）</td><td><span class="badge badge-red">新兴威胁</span></td><td class="td-num td-warn">4/10</td></tr>
-              <tr><td>台湾廠商（T4 800G制造）</td><td><span class="badge badge-green">低</span></td><td class="td-num td-good">3/10</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px">COHR 独有竞争优势</div>
-          <ul class="check-list">
-            <li><span>6" InP 晶圆厂 —— 全球唯一量产级</span><span class="badge badge-green">不可复制</span></li>
-            <li><span>T1→T5 垂直整合（唯一上市公司）</span><span class="badge badge-green">稀缺</span></li>
-            <li><span>WSS/ROADM 市场份额约40%（T5）</span><span class="badge badge-green">准垄断</span></li>
-            <li><span>CPO 布局（T3 SiPh + T2 激光双腿）</span><span class="badge badge-green">战略卡位</span></li>
-            <li><span>DCI 相干系统客户关系（多年合同）</span><span class="badge badge-green">高粘性</span></li>
-            <li><span>1.6T VCSEL 全球首发（COHR独有技术）</span><span class="badge badge-blue">近期催化剂</span></li>
-          </ul>
-        </div>
+      <div class="card-title">Coherent 核心竞争优势矩阵</div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px;">技术护城河</div>
+        <div class="highlight-box">6英寸InP晶圆量产（唯一规模商用，竞争对手差距12-18个月），1.6T全球首批量产，CPO领先布局</div>
       </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px;">垂直整合</div>
+        <div class="highlight-box">从材料→晶圆→激光芯片→光学引擎→模块全链条，每个数据中心机柜美元含量最大化</div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px;">SiC + 光子双驱动</div>
+        <div class="highlight-box">唯一同时具备数据中心光互连和SiC功率半导体（日本战略支持$10亿）双增长引擎的公司</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">竞争风险评估</div>
+      <div class="info-row"><span class="info-row-label">中国厂商低价竞争</span><span class="info-row-val td-yellow">中高风险 — 量大价低，美国客户偏好供应链安全</span></div>
+      <div class="info-row"><span class="info-row-label">CPO/共封装替代插拔式</span><span class="info-row-val td-yellow">长期转型风险，Coherent已提前布局</span></div>
+      <div class="info-row"><span class="info-row-label">Lumentum 200G EML</span><span class="info-row-val td-yellow">1.6T关键部件，存在份额竞争</span></div>
+      <div class="info-row"><span class="info-row-label">超大规模云内部研发</span><span class="info-row-val td-green">低 — 光学组件高度专业化</span></div>
+      <div class="info-row"><span class="info-row-label">出口管制风险</span><span class="info-row-val td-yellow">中国业务敞口，需监控</span></div>
+      <div class="info-row"><span class="info-row-label">地缘政治/供应链</span><span class="info-row-val td-green">美国+日本+德国制造布局，相对安全</span></div>
     </div>
   </div>
 </div>
 
-<!-- ── MOAT SCORECARD ─────────────────────────────────────────── -->
+<!-- ===== SECTION 6: MOAT ===== -->
 <div class="section">
-  <div class="section-title">巴菲特护城河评分卡</div>
-  <div class="two-col">
-    <div class="card">
-      <div class="card-title">五维度护城河评估</div>
-      <table style="margin-bottom:16px">
-        <thead><tr><th>维度</th><th class="td-num">评分</th><th>说明</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>品牌 / 无形资产</strong></td>
-            <td class="td-num"><span class="stars">★★★★</span></td>
-            <td>50+年激光物理 IP；InP 晶圆专有工艺专利；工程师社区认知度极高</td>
-          </tr>
-          <tr>
-            <td><strong>转换成本</strong></td>
-            <td class="td-num"><span class="stars">★★★★</span></td>
-            <td>DCI/DWDM 系统级认证周期长（12–18个月）；更换供应商需重新设计光接口</td>
-          </tr>
-          <tr>
-            <td><strong>网络效应</strong></td>
-            <td class="td-num"><span class="stars">★★★</span></td>
-            <td>大型安装基础推动 WSS/ROADM 标准演进；OCS 平台吸引更多系统集成商</td>
-          </tr>
-          <tr>
-            <td><strong>成本优势</strong></td>
-            <td class="td-num"><span class="stars">★★★★</span></td>
-            <td>6" InP 产线成本优势约40%；规模效应在AI周期中持续扩大；Fab-lite不依赖外部代工</td>
-          </tr>
-          <tr>
-            <td><strong>无形资产护城河</strong></td>
-            <td class="td-num"><span class="stars">★★★★★</span></td>
-            <td>全球仅有的 6" InP 量产晶圆厂；WSS 准垄断；约40%全球光互连系统市场份额</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="background:var(--bg3);border-radius:8px;padding:16px;text-align:center">
-        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">综合护城河评级</div>
-        <div style="font-size:28px;font-weight:800;color:var(--yellow)">窄→宽护城河（Narrow→Wide Moat）</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:8px">随 6" InP 晶圆产能爬坡 + CPO 卡位，护城河正在快速加深</div>
+  <div class="section-title">巴菲特护城河分析 (5维度评分)</div>
+
+  <div class="moat-grid">
+    <div class="moat-item">
+      <div class="moat-item-header">
+        <div class="moat-item-name">品牌与定价权</div>
+        <div class="moat-stars">★★★☆☆</div>
       </div>
+      <div class="moat-bar-bg"><div class="moat-bar-fill" style="width:60%;background:linear-gradient(90deg,#3b82f6,#06b6d4);"></div></div>
+      <div class="moat-desc">在专业光子学领域品牌强，但面向最终消费者无品牌溢价。定价权体现在交货期和技术先进性上，而非品牌本身。评级: 窄护城河</div>
     </div>
-    <div class="card">
-      <div class="card-title">护城河雷达图</div>
-      <div class="radar-wrap"><canvas id="radarChart"></canvas></div>
-      <div style="margin-top:16px;font-size:13px">
-        <div style="color:var(--accent);font-weight:600;margin-bottom:8px">巴菲特估值框架</div>
-        <table>
-          <thead><tr><th>指标</th><th class="td-num">当前</th><th class="td-num">目标（FY2028E）</th></tr></thead>
-          <tbody>
-            <tr><td>ROE（GAAP）</td><td class="td-num td-warn">3.24%</td><td class="td-num td-good">~15%</td></tr>
-            <tr><td>非GAAP ROE（调整商誉）</td><td class="td-num">~18%</td><td class="td-num td-good">~25%</td></tr>
-            <tr><td>ROIC</td><td class="td-num td-warn">4.88%</td><td class="td-num td-good">~12%</td></tr>
-            <tr><td>非GAAP EPS</td><td class="td-num">~$5.10（FY26E）</td><td class="td-num td-good">~$9.00（FY28E）</td></tr>
-            <tr><td>合理 PE 区间（30x护城河溢价）</td><td class="td-num" colspan="2">30x × $5.10 = $153 — 30x × $9.00 = $270</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:12px;background:rgba(234,179,8,0.08);border-radius:8px;padding:12px;border:1px solid rgba(234,179,8,0.3)">
-          <div style="color:var(--yellow);font-weight:600">巴菲特结论：持有（等待更好买入点）</div>
-          <div style="color:var(--muted);margin-top:4px">宽护城河正在建立，但当前股价$248已接近FY2028E合理价值区间上沿。等待股价回调至$150-$190为理想建仓窗口。</div>
-        </div>
+    <div class="moat-item">
+      <div class="moat-item-header">
+        <div class="moat-item-name">技术与制造壁垒</div>
+        <div class="moat-stars">★★★★☆</div>
+      </div>
+      <div class="moat-bar-bg"><div class="moat-bar-fill" style="width:80%;background:linear-gradient(90deg,#10b981,#06b6d4);"></div></div>
+      <div class="moat-desc">6英寸InP晶圆独家量产、垂直整合全链条、SiC 200mm技术领先。竞争对手复制需要5-7年。评级: 宽护城河（本维度）</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-item-header">
+        <div class="moat-item-name">转换成本</div>
+        <div class="moat-stars">★★★☆☆</div>
+      </div>
+      <div class="moat-bar-bg"><div class="moat-bar-fill" style="width:60%;background:linear-gradient(90deg,#8b5cf6,#ec4899);"></div></div>
+      <div class="moat-desc">数据中心客户一旦选定光学方案难以快速切换（系统集成测试成本高），但产品本身标准化程度较高。评级: 窄护城河</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-item-header">
+        <div class="moat-item-name">网络效应</div>
+        <div class="moat-stars">★★☆☆☆</div>
+      </div>
+      <div class="moat-bar-bg"><div class="moat-bar-fill" style="width:40%;background:linear-gradient(90deg,#f59e0b,#f97316);"></div></div>
+      <div class="moat-desc">光学元器件行业网络效应有限。规模效应（更大产能→更低成本→更多订单）存在，但非软件式网络效应。评级: 无/弱</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-item-header">
+        <div class="moat-item-name">成本优势与规模</div>
+        <div class="moat-stars">★★★★☆</div>
+      </div>
+      <div class="moat-bar-bg"><div class="moat-bar-fill" style="width:80%;background:linear-gradient(90deg,#f97316,#ef4444);"></div></div>
+      <div class="moat-desc">6英寸InP使单芯片成本降至竞争对手50%以下。垂直整合减少外购。Fab-lite优于纯代工依赖。评级: 宽护城河（本维度）</div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:20px 24px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">综合护城河评级</div>
+        <div style="font-size:13px;color:var(--text-secondary);">基于制造技术壁垒和垂直整合优势，综合评定为 Narrow-to-Wide（窄向宽过渡）护城河</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:800;color:var(--accent-cyan);">Narrow→Wide</div>
+        <div style="font-size:12px;color:var(--text-muted);">随InP+CPO优势强化而拓宽</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── CYCLE & MACRO ──────────────────────────────────────────── -->
+<!-- ===== SECTION 7: CYCLE & MACRO ===== -->
 <div class="section">
-  <div class="section-title">霍华德·马克斯 —— 周期与宏观分析</div>
-  <div class="two-col">
+  <div class="section-title">霍华德·马克斯周期分析</div>
+
+  <div class="two-col" style="margin-bottom:24px;">
     <div class="card">
-      <div class="card-title">行业周期定位</div>
-      <div class="phase-track">
-        <div class="phase-seg" style="background:rgba(34,197,94,0.2);color:var(--green)">早期</div>
-        <div class="phase-seg phase-active" style="background:rgba(59,130,246,0.3);color:var(--blue)">成长期</div>
-        <div class="phase-seg" style="background:rgba(234,179,8,0.2);color:var(--yellow)">过热</div>
-        <div class="phase-seg" style="background:rgba(239,68,68,0.2);color:var(--red)">衰退</div>
+      <div class="card-title">AI 光互连周期定位</div>
+      <div class="cycle-phases">
+        <div class="phase phase-inactive">早期萌芽<br>2022-23</div>
+        <div class="phase phase-active">成长加速<br>2024-26 ← 当前</div>
+        <div class="phase phase-inactive">过热迹象<br>2027?</div>
+        <div class="phase phase-inactive">需求收缩<br>待观察</div>
       </div>
-      <div style="margin-top:14px;font-size:13px;color:var(--muted)">
-        <p><strong style="color:var(--text)">当前定位：成长期早-中段</strong></p>
-        <p style="margin-top:8px">量化依据：</p>
-        <ul style="margin-left:16px;margin-top:6px;line-height:2">
-          <li>800G→1.6T 升级周期刚启动（2026年800G+出货量 +162% YoY）</li>
-          <li>供给严重不足：book-to-bill &gt; 4x，订单积压延伸至2028年</li>
-          <li>6" InP 产能仍在爬坡（目前80%，还有扩张空间）</li>
-          <li>但估值（P/S 7.7x，FWD PE 39x）已在定价相当程度的乐观</li>
-        </ul>
-      </div>
-      <div style="margin-top:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px">估值历史分位（P/S）</div>
-        <div class="chart-wrap"><canvas id="peChart"></canvas></div>
+      <div style="margin-top:14px;">
+        <div class="info-row"><span class="info-row-label">Book-to-Bill</span><span class="info-row-val td-green">&gt;4x — 极度供不应求</span></div>
+        <div class="info-row"><span class="info-row-label">2026年订单</span><span class="info-row-val td-green">基本锁定，2027快速填充</span></div>
+        <div class="info-row"><span class="info-row-label">FY2027增速预期</span><span class="info-row-val td-green">超越FY2026</span></div>
+        <div class="info-row"><span class="info-row-label">云厂商CapEx</span><span class="info-row-val td-green">AWS/Azure/GCP/Meta全部加速</span></div>
+        <div class="info-row"><span class="info-row-label">估值分位</span><span class="info-row-val td-red">P/S ~8.7x — 历史高位</span></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">五大尾部风险矩阵</div>
-      <div class="risk-grid">
-        <div class="risk-item">
-          <div class="risk-score">
-            <div class="prob td-bad">高</div>
-            <div class="impact-label">概率</div>
-            <div class="prob td-bad" style="margin-top:4px">高</div>
-            <div class="impact-label">影响</div>
-          </div>
-          <div>
-            <div class="risk-title">AI CapEx 周期回调</div>
-            <div class="risk-desc">若超大规模云厂商 CapEx 增速从+40% 降至+10%，COHR 数据中心营收增速可能从+33% 骤降至接近0%，估值可能腰斩。DeepSeek 已验证算法效率可降低推理成本。</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-score">
-            <div class="prob td-warn">中</div>
-            <div class="impact-label">概率</div>
-            <div class="prob td-bad">高</div>
-            <div class="impact-label">影响</div>
-          </div>
-          <div>
-            <div class="risk-title">中国竞争加剧（T4层）</div>
-            <div class="risk-desc">INNOLIGHT/Accelink 在800G可插拔模块价格上已有竞争力。若其获得超大规模云厂商认证，COHR T4 模块市场份额可能流失15-20%，拖累整体毛利率。</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-score">
-            <div class="prob td-warn">中</div>
-            <div class="impact-label">概率</div>
-            <div class="prob td-warn">中</div>
-            <div class="impact-label">影响</div>
-          </div>
-          <div>
-            <div class="risk-title">工业分部结构性衰退</div>
-            <div class="risk-desc">工业连续多季度负增长（Q2 -9.9% YoY）。若半导体设备周期延迟至2027年才反弹，工业部门将拖累整体毛利率并分散管理层注意力。</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-score">
-            <div class="prob td-good">低</div>
-            <div class="impact-label">概率</div>
-            <div class="prob td-bad">高</div>
-            <div class="impact-label">影响</div>
-          </div>
-          <div>
-            <div class="risk-title">出口管制升级</div>
-            <div class="risk-desc">若美国对中国的光子学和 InP 技术出口管制扩大，将直接影响 COHR 对中国市场的销售（估计占营收约10-15%）。</div>
-          </div>
-        </div>
-        <div class="risk-item">
-          <div class="risk-score">
-            <div class="prob td-warn">中</div>
-            <div class="impact-label">概率</div>
-            <div class="prob td-warn">中</div>
-            <div class="impact-label">影响</div>
-          </div>
-          <div>
-            <div class="risk-title">II-VI 整合遗留风险</div>
-            <div class="risk-desc">公司仍有 $3.2B 长期债务和大量商誉，负FCF拖累财务灵活性。若 CapEx 支出超预期或营收不及预期，可能需要股权融资导致稀释。</div>
-          </div>
-        </div>
+      <div class="card-title">估值历史分位参考</div>
+      <div class="info-row"><span class="info-row-label">P/S (当前)</span><span class="info-row-val td-red">8.74x — 历史极高</span></div>
+      <div class="info-row"><span class="info-row-label">P/B (当前)</span><span class="info-row-val td-red">6.18x — 历史高位</span></div>
+      <div class="info-row"><span class="info-row-label">EV/EBITDA</span><span class="info-row-val td-red">47.76x</span></div>
+      <div class="info-row"><span class="info-row-label">Forward P/E (Non-GAAP)</span><span class="info-row-val td-yellow">~44x</span></div>
+      <div class="info-row"><span class="info-row-label">1年股价涨幅</span><span class="info-row-val td-green">+272%</span></div>
+      <div class="info-row"><span class="info-row-label">分析师评级</span><span class="info-row-val td-green">强力买入 (24分析师)</span></div>
+      <div class="info-row"><span class="info-row-label">最高目标价</span><span class="info-row-val">$375 (Rosenblatt, 3/30/26)</span></div>
+      <div class="info-row"><span class="info-row-label">均值目标价</span><span class="info-row-val">$272 (19分析师)</span></div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">高估值反映AI光互连超级周期预期，当前股价基本反映了中性至乐观情景。</div>
+    </div>
+  </div>
+
+  <!-- Risk Matrix -->
+  <div class="section-title" style="margin-top:8px;font-size:16px;">主要尾部风险矩阵</div>
+  <div class="risk-grid">
+    <div class="risk-item risk-high">
+      <div class="risk-title">AI CapEx 周期逆转风险</div>
+      <div class="risk-desc">若超大规模云厂商CapEx因宏观衰退或AI ROI证伪而骤降，Coherent数据中心营收将面临30-50%下行风险。参考2022年以太网光模块周期：当时行业需求骤降60%。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-yellow">25%</strong></span>
+        <span>影响: <strong class="td-red">极高 (-40%~-60% 股价)</strong></span>
+      </div>
+    </div>
+    <div class="risk-item risk-med">
+      <div class="risk-title">竞争格局加剧 / 中国替代</div>
+      <div class="risk-desc">Innolight等中国厂商以极低成本抢占800G市场份额，可能导致ASP下降10-20%。若出口管制豁免或反制出现，影响扩大。长期CPO转型亦可能压缩传统插拔式模块市场。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-yellow">35%</strong></span>
+        <span>影响: <strong class="td-yellow">中 (-15%~-25% 股价)</strong></span>
+      </div>
+    </div>
+    <div class="risk-item risk-high">
+      <div class="risk-title">高估值/增速不及预期重估</div>
+      <div class="risk-desc">当前P/S达8.7x，Forward PE ~44x，已定价较高增速持续。若连续两季收入增速低于市场预期15%以上，估值倍数收缩可导致股价30-45%下行，即使基本面无实质恶化。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-yellow">30%</strong></span>
+        <span>影响: <strong class="td-red">高 (-30%~-45% 股价)</strong></span>
+      </div>
+    </div>
+    <div class="risk-item risk-med">
+      <div class="risk-title">合并整合与债务风险</div>
+      <div class="risk-desc">2022年Coherent-II-VI合并遗留$3.7B债务和$4.5B商誉。若整合效率低于预期，或利率持续高位，债务成本压制FCF改善。商誉减值风险（若工业/SiC业务持续不振）。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-green">20%</strong></span>
+        <span>影响: <strong class="td-yellow">中 (-15%~-25% 股价)</strong></span>
+      </div>
+    </div>
+    <div class="risk-item risk-med">
+      <div class="risk-title">地缘政治/出口管制升级</div>
+      <div class="risk-desc">中美贸易摩擦升级可能限制Coherent对中国客户的销售（Huawei等），或影响其在中国的材料采购。SiC业务虽有日本战略背书，但贸易环境恶化仍是潜在变量。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-yellow">30%</strong></span>
+        <span>影响: <strong class="td-yellow">中 (-10%~-20% 营收)</strong></span>
+      </div>
+    </div>
+    <div class="risk-item risk-low">
+      <div class="risk-title">工业/SiC 业务持续低迷</div>
+      <div class="risk-desc">EV需求放缓叠加SiC供应过剩，工业/SiC板块（约30%收入）若持续零增长，对整体增速形成拖累。但该板块已非核心增长引擎，影响边际可控。</div>
+      <div class="risk-score">
+        <span>概率: <strong class="td-yellow">40%</strong></span>
+        <span>影响: <strong class="td-green">低-中 (-5%~-10% 整体营收)</strong></span>
       </div>
     </div>
   </div>
-  <div style="margin-top:16px">
-    <div class="card">
-      <div class="card-title">市场情绪与估值信号</div>
-      <div class="three-col">
-        <div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">分析师评级分布（N=13）</div>
-          <div class="analyst-bar">
-            <div class="analyst-seg" style="width:54%;background:var(--green)">强买54%</div>
-            <div class="analyst-seg" style="width:31%;background:rgba(34,197,94,0.5)">买入31%</div>
-            <div class="analyst-seg" style="width:15%;background:var(--yellow)">持有15%</div>
-          </div>
-          <div style="margin-top:10px;font-size:12px;color:var(--muted)">
-            <div>一致目标价中值：<strong style="color:var(--text)">$254</strong></div>
-            <div>目标价区间：<strong>$170 – $375</strong></div>
-            <div>当前价 vs 目标：<span class="td-warn">$248（+2% 超共识）</span></div>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">估值历史分位</div>
-          <table style="font-size:13px">
-            <tbody>
-              <tr><td>P/S（TTM）</td><td class="td-num">7.69x</td><td><span class="badge badge-red">~90th 分位</span></td></tr>
-              <tr><td>EV/EBITDA</td><td class="td-num">42.3x</td><td><span class="badge badge-red">~85th 分位</span></td></tr>
-              <tr><td>FWD PE（非GAAP）</td><td class="td-num">39.0x</td><td><span class="badge badge-yellow">~75th 分位</span></td></tr>
-              <tr><td>P/B</td><td class="td-num">5.44x</td><td><span class="badge badge-yellow">~80th 分位</span></td></tr>
-              <tr><td>股价 52周表现</td><td class="td-num">+65%</td><td><span class="badge badge-red">动量极强</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">马克斯综合信号</div>
-          <div style="background:rgba(234,179,8,0.08);border-radius:8px;padding:14px;border:1px solid rgba(234,179,8,0.3)">
-            <div style="font-size:16px;font-weight:700;color:var(--yellow);margin-bottom:8px">谨慎持有</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.7">
-              行业基本面仍处上行周期早-中段，但股价已对大部分利好充分定价（P/S 7.7x、52周+65%）。空头比率仅3.55%，市场看多情绪高涨，这本身就是一个谨慎信号。<br><br>
-              <span style="color:var(--yellow)">理想策略：持有已有仓位；等待回调至$180-$200 再加仓；$150以下为激进买入区间。</span>
-            </div>
-          </div>
-        </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--accent-yellow);margin-bottom:6px;">马克斯结论: 谨慎持有 / 等待回调买入</div>
+        <div style="font-size:13px;color:var(--text-secondary);">周期处于成长加速阶段，基本面极强，但估值已充分定价乐观预期。Book-to-Bill超4x是正向信号，但P/S 8.7x在光学硬件公司中属历史高位。建议在股价较52周高点回调15-20%时分批建仓。</div>
       </div>
+      <span class="badge badge-yellow" style="font-size:14px;padding:8px 20px;">谨慎持有</span>
     </div>
   </div>
 </div>
 
-<!-- ── THREE FRAMEWORKS VALUATION ─────────────────────────────── -->
+<!-- ===== SECTION 8: VALUATION ===== -->
 <div class="section">
   <div class="section-title">三大框架估值分析</div>
 
   <!-- Graham -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-title">格雷厄姆框架 —— 安全边际分析</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:40px;height:40px;background:rgba(239,68,68,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent-red);">G</div>
+      <div>
+        <div style="font-size:17px;font-weight:700;">格雷厄姆安全边际估值</div>
+        <div style="font-size:12px;color:var(--text-muted);">基于GAAP数据 + 严格安全边际原则</div>
+      </div>
+    </div>
+
     <div class="two-col">
       <div>
-        <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:12px">安全检验清单</div>
-        <ul class="check-list">
-          <li>
-            <span>P/E ≤ 15x（TTM GAAP）</span>
-            <span><span class="fail">不通过</span> &nbsp; 实际：204x <span class="badge badge-red">极度偏离</span></span>
-          </li>
-          <li>
-            <span>P/B ≤ 1.5x</span>
-            <span><span class="fail">不通过</span> &nbsp; 实际：5.44x <span class="badge badge-red">偏离</span></span>
-          </li>
-          <li>
-            <span>P/E × P/B ≤ 22.5</span>
-            <span><span class="fail">不通过</span> &nbsp; 实际：1,109 <span class="badge badge-red">严重偏离</span></span>
-          </li>
-          <li>
-            <span>流动比率 ≥ 2x</span>
-            <span><span class="pass">通过</span> &nbsp; 实际：2.25x <span class="badge badge-green">达标</span></span>
-          </li>
-          <li>
-            <span>负债/权益 ≤ 1x</span>
-            <span><span class="pass">通过</span> &nbsp; 实际：0.40x <span class="badge badge-green">达标</span></span>
-          </li>
-          <li>
-            <span>总资产/总负债 ≥ 2x</span>
-            <span><span class="pass">通过</span> &nbsp; 实际：2.44x <span class="badge badge-green">达标</span></span>
-          </li>
-        </ul>
-        <div style="margin-top:14px;background:var(--bg3);border-radius:8px;padding:14px">
-          <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px">Graham Number 计算</div>
-          <div style="font-size:13px">
-            <code style="color:var(--cyan)">√(22.5 × EPS × BVPS)</code><br>
-            <code style="color:var(--cyan)">= √(22.5 × $1.21 × $45.56)</code><br>
-            <code style="color:var(--cyan)">= √1,240 = <strong style="color:var(--green)">$35.22</strong></code>
-          </div>
-          <div style="margin-top:8px;font-size:13px;color:var(--red);font-weight:600">
-            当前价 $248 = Graham Number 的 7.0x（溢价 +604%）
-          </div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">格雷厄姆安全检验清单</div>
+        <div class="checklist-item">
+          <span class="check-fail">✗</span>
+          <span>P/E ≤ 15x — 实际 TTM GAAP P/E ~232x (GAAP亏损状态，大量摊销所致)</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-fail">✗</span>
+          <span>P/B ≤ 1.5x — 实际 P/B = 6.18x</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-fail">✗</span>
+          <span>P/E × P/B ≤ 22.5 — 实际远超（不可计算，GAAP亏损）</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-pass">✓</span>
+          <span>流动比率 ≥ 2x — 实际 2.25x (通过)</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-pass">✓</span>
+          <span>负债/权益 ≤ 1x — 实际 0.40x (通过)</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-warn">△</span>
+          <span>资产/负债 ≥ 2x — 实际 2.32x (勉强通过，含大额商誉)</span>
+        </div>
+        <div style="margin-top:14px;padding:12px 14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;font-size:12px;color:var(--text-secondary);">
+          格雷厄姆数 = √(22.5 × EPS × BVPS)<br>
+          由于GAAP EPS为负(-$0.52)，格雷厄姆数无法计算（负数无实数平方根）。<br>
+          使用Non-GAAP EPS=$3.53: Graham Number = √(22.5 × 3.53 × 36.31) = √(2,884) ≈ <strong style="color:var(--accent-red);">$53.70</strong><br>
+          当前股价 $255.68 对Graham Number 溢价 <strong style="color:var(--accent-red);">+376%</strong>
         </div>
       </div>
       <div>
-        <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:12px">DCF 三情景估值（基准 FCF $600M，WACC 10%）</div>
-        <div class="dcf-bar-section">
-          <div class="dcf-row">
-            <div class="dcf-label">保守 (30%)</div>
-            <div class="dcf-bar-track">
-              <div class="dcf-bar-fill" style="width:30%;background:var(--red)">$78</div>
-              <div class="dcf-current-line" style="left:calc(248/300*100%)"></div>
-            </div>
-            <div class="dcf-val td-bad">$78</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">DCF 三情景估值 (基准FCF $193M, 折现率10%)</div>
+
+        <div style="margin-bottom:10px;">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">保守情景 (前5年15%, 后5年8%, 终端3%) — 权重30%</div>
+          <div style="background:var(--bg-secondary);border-radius:6px;height:32px;position:relative;overflow:hidden;">
+            <div style="width:38%;height:100%;background:linear-gradient(90deg,rgba(239,68,68,0.6),rgba(239,68,68,0.4));display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:600;color:white;">$97/股</div>
+            <div style="position:absolute;top:0;bottom:0;left:62%;width:2px;background:rgba(255,255,255,0.4);"></div>
+            <div style="position:absolute;top:6px;right:6px;font-size:10px;color:var(--text-muted);">当前$255.68</div>
           </div>
-          <div class="dcf-row">
-            <div class="dcf-label">中性 (45%)</div>
-            <div class="dcf-bar-track">
-              <div class="dcf-bar-fill" style="width:47%;background:var(--yellow)">$140</div>
-              <div class="dcf-current-line" style="left:calc(248/300*100%)"></div>
-            </div>
-            <div class="dcf-val td-warn">$140</div>
-          </div>
-          <div class="dcf-row">
-            <div class="dcf-label">乐观 (25%)</div>
-            <div class="dcf-bar-track">
-              <div class="dcf-bar-fill" style="width:87%;background:var(--green)">$260</div>
-              <div class="dcf-current-line" style="left:calc(248/300*100%)"></div>
-            </div>
-            <div class="dcf-val td-good">$260</div>
-          </div>
-          <div class="dcf-row">
-            <div class="dcf-label" style="font-weight:700;color:var(--text)">加权均值</div>
-            <div class="dcf-bar-track">
-              <div class="dcf-bar-fill" style="width:50%;background:var(--blue)">$151</div>
-              <div class="dcf-current-line" style="left:calc(248/300*100%)"></div>
-            </div>
-            <div class="dcf-val" style="color:var(--blue);font-weight:700">$151</div>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">橙色竖线 = 当前价 $248 &nbsp;|&nbsp; 保守：前5年增速15%，后5年8%，终端3%；中性：25%/12%/3%；乐观：35%/15%/4%</div>
         </div>
-        <div style="margin-top:14px;background:rgba(239,68,68,0.08);border-radius:8px;padding:12px;border:1px solid rgba(239,68,68,0.3)">
-          <div style="color:var(--red);font-weight:700;margin-bottom:4px">格雷厄姆结论：减持 / 等待</div>
-          <div style="font-size:12px;color:var(--muted)">DCF加权内在价值$151，当前价$248溢价+64%；Graham Number仅$35。对价值型投资者而言股价不具吸引力。只有乐观情景（$260）能接近当前价，且需要持续5年35%+的FCF增长。</div>
+
+        <div style="margin-bottom:10px;">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">中性情景 (前5年30%, 后5年15%, 终端3%) — 权重45%</div>
+          <div style="background:var(--bg-secondary);border-radius:6px;height:32px;position:relative;overflow:hidden;">
+            <div style="width:60%;height:100%;background:linear-gradient(90deg,rgba(245,158,11,0.6),rgba(245,158,11,0.4));display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:600;color:white;">$192/股</div>
+            <div style="position:absolute;top:0;bottom:0;left:80%;width:2px;background:rgba(255,255,255,0.4);"></div>
+            <div style="position:absolute;top:6px;right:6px;font-size:10px;color:var(--text-muted);">当前$255.68</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">乐观情景 (前5年45%, 后5年18%, 终端4%) — 权重25%</div>
+          <div style="background:var(--bg-secondary);border-radius:6px;height:32px;position:relative;overflow:hidden;">
+            <div style="width:100%;height:100%;background:linear-gradient(90deg,rgba(16,185,129,0.5),rgba(16,185,129,0.3));display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:600;color:white;">$354/股 (超出图表)</div>
+          </div>
+        </div>
+
+        <div style="padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;font-size:13px;">
+          <strong>综合内在价值 (加权30/45/25%):</strong><br>
+          $97×0.30 + $192×0.45 + $354×0.25 = <strong style="color:var(--accent-yellow);">$204/股</strong><br>
+          <span style="font-size:11px;color:var(--text-muted);">当前股价 $255.68 高于中性DCF约33%，接近乐观情景</span>
         </div>
       </div>
+    </div>
+
+    <div class="val-verdict val-verdict-red" style="margin-top:16px;">
+      格雷厄姆结论: 卖出/减持 — 当前价格对Graham Number溢价376%，严格价值标准下大幅高估，安全边际为负
+    </div>
+  </div>
+
+  <!-- Buffett -->
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:40px;height:40px;background:rgba(245,158,11,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent-yellow);">B</div>
+      <div>
+        <div style="font-size:17px;font-weight:700;">巴菲特护城河内在价值估值</div>
+        <div style="font-size:12px;color:var(--text-muted);">基于护城河宽度、ROE持续性和合理成长性</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">ROE 持续性评估</div>
+        <div class="info-row"><span class="info-row-label">FY2023 ROE (GAAP)</span><span class="info-row-val td-red">负值 (合并亏损)</span></div>
+        <div class="info-row"><span class="info-row-label">FY2024 ROE (GAAP)</span><span class="info-row-val td-red">负值</span></div>
+        <div class="info-row"><span class="info-row-label">FY2025 ROE (GAAP)</span><span class="info-row-val td-yellow">~0.8% (首次转正)</span></div>
+        <div class="info-row"><span class="info-row-label">TTM ROE (GAAP)</span><span class="info-row-val td-green">3.2% (快速改善)</span></div>
+        <div class="info-row"><span class="info-row-label">Non-GAAP ROIC</span><span class="info-row-val td-yellow">4.88% (摊销前更高)</span></div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+          GAAP ROE因合并摊销($3.2B/年)严重失真。Non-GAAP视角下，业务回报率快速提升。随摊销逐步消耗，GAAP ROE未来3年将快速正常化至10-15%+区间。
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">合理估值区间</div>
+        <div class="info-row"><span class="info-row-label">基于Non-GAAP EPS</span><span class="info-row-val">FY2025: $3.53 | FY2026E: ~$5.5</span></div>
+        <div class="info-row"><span class="info-row-label">窄护城河合理P/E</span><span class="info-row-val">25-35x (成长+护城河溢价)</span></div>
+        <div class="info-row"><span class="info-row-label">基于FY2025 Non-GAAP EPS</span><span class="info-row-val td-yellow">$88–$124/股</span></div>
+        <div class="info-row"><span class="info-row-label">基于FY2026E Non-GAAP EPS</span><span class="info-row-val td-yellow">$138–$193/股</span></div>
+        <div class="info-row"><span class="info-row-label">含护城河成长溢价 (+50%)</span><span class="info-row-val td-green">$207–$290/股</span></div>
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;font-size:12px;color:var(--text-secondary);">
+          当前股价 $255.68 处于巴菲特估值区间上沿，若给予成长溢价则在合理范围内。建议等待FY2026 Non-GAAP EPS验证后再大仓位建仓。
+        </div>
+      </div>
+    </div>
+
+    <div class="val-verdict val-verdict-yellow" style="margin-top:16px;">
+      巴菲特结论: 持有 / 等待买入 — 宽护城河特征明显，但需等待FCF改善和ROE正常化，理想建仓价 $170–$210（含20-25%安全边际）
     </div>
   </div>
 
   <!-- Marks -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-title">马克斯周期框架 —— 情景分析</div>
-    <div class="chart-wrap-tall"><canvas id="scenarioChart"></canvas></div>
-    <div style="margin-top:14px;font-size:13px;color:var(--muted)">
-      情景分析基于 FY2026 非GAAP EPS 约$5.10，FY2027E 约$7.00-8.00，在不同 PE 倍数下的12个月目标价范围。
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:40px;height:40px;background:rgba(139,92,246,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent-purple);">M</div>
+      <div>
+        <div style="font-size:17px;font-weight:700;">霍华德·马克斯周期与情景分析</div>
+        <div style="font-size:12px;color:var(--text-muted);">基于周期位置、估值分位和市场情绪</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">周期位置证据</div>
+        <div class="checklist-item">
+          <span class="check-pass">+</span>
+          <span>AI数据中心建设处于加速阶段，AWS/Azure/GCP/Meta 2026年CapEx全部创历史新高</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-pass">+</span>
+          <span>Book-to-Bill超4x，可见度延伸至2028年，需求强劲信号</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-pass">+</span>
+          <span>1.6T新技术周期刚刚开始放量，CPO尚未到来</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-warn">!</span>
+          <span>分析师评级极度乐观（强买入），历史上是周期后段信号</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-warn">!</span>
+          <span>P/S达8.7x，1年涨幅+272%，估值已定价较高预期</span>
+        </div>
+        <div class="checklist-item">
+          <span class="check-fail">-</span>
+          <span>DeepSeek等算法效率提升可能降低单位AI算力对网络带宽的需求增速</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">情景分析</div>
+        <div style="margin-bottom:12px;padding:12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;">
+          <div style="font-size:12px;font-weight:600;color:var(--accent-green);margin-bottom:4px;">乐观情景 (35%) — $320–$380</div>
+          <div style="font-size:11px;color:var(--text-muted);">FY2026收入超预期25%+，毛利率突破42%，FCF大幅改善，FY2027继续加速</div>
+        </div>
+        <div style="margin-bottom:12px;padding:12px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;">
+          <div style="font-size:12px;font-weight:600;color:var(--accent-yellow);margin-bottom:4px;">基准情景 (45%) — $220–$280</div>
+          <div style="font-size:11px;color:var(--text-muted);">数据中心持续强劲，工业平稳，估值倍数基本维持，接近当前水平</div>
+        </div>
+        <div style="padding:12px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;">
+          <div style="font-size:12px;font-weight:600;color:var(--accent-red);margin-bottom:4px;">悲观情景 (20%) — $100–$150</div>
+          <div style="font-size:11px;color:var(--text-muted);">AI CapEx收缩+估值倍数压缩，双重打击，类2022年半导体周期下行</div>
+        </div>
+      </div>
+    </div>
+    <div class="val-verdict val-verdict-yellow" style="margin-top:16px;">
+      马克斯结论: 谨慎持有 — AI光互连周期处于成长加速中段，基本面极强但估值充分，建议在回调至$190–$220区间分批买入
     </div>
   </div>
 
-  <!-- Combined Conclusion -->
-  <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px">三框架综合结论</div>
-  <div class="conclusion-grid">
-    <div class="conclusion-card c-red">
-      <div class="conclusion-title">格雷厄姆框架</div>
-      <div class="conclusion-verdict">减持 / 等待</div>
-      <div class="conclusion-detail">
-        Graham Number $35.22，当前价溢价 +604%；DCF加权内在价值$151，当前价高估+64%。6项检验仅3项通过（流动比率、D/E、资产倍数）。价值型投资者不应在当前价格建立新仓。
-      </div>
+  <!-- Comprehensive Verdict -->
+  <div class="verdict-cards">
+    <div class="verdict-card verdict-card-red">
+      <div class="verdict-framework">格雷厄姆</div>
+      <div class="verdict-text verdict-red">卖出/减持</div>
+      <div class="verdict-detail">Graham Number $53.70，溢价376%；DCF综合内在价值$204；严格价值标准下高估</div>
     </div>
-    <div class="conclusion-card c-yellow">
-      <div class="conclusion-title">巴菲特框架</div>
-      <div class="conclusion-verdict">持有（等待回调）</div>
-      <div class="conclusion-detail">
-        6" InP 晶圆厂正在构建宽护城河（成本优势40%+，垂直整合T1-T5）。FY2027E 非GAAP EPS ~$8，30x PE对应目标价$240。持有已有仓位；理想买入区间$150-$190（较FY2027E 30x PE 折价20-30%）。
-      </div>
+    <div class="verdict-card verdict-card-yellow">
+      <div class="verdict-framework">巴菲特</div>
+      <div class="verdict-text verdict-yellow">持有/等待</div>
+      <div class="verdict-detail">宽护城河特征，ROE快速改善，含成长溢价合理区间$207–$290，等待FCF转正</div>
     </div>
-    <div class="conclusion-card c-yellow">
-      <div class="conclusion-title">马克斯周期框架</div>
-      <div class="conclusion-verdict">谨慎持有</div>
-      <div class="conclusion-detail">
-        AI 光互连行业处成长早-中段（book-to-bill>4x，1.6T刚量产）。但估值已定价乐观预期：P/S 7.7x（历史90th分位），52周涨幅+65%，空头仅3.55%。工业衰退 + AI CapEx周期回调是最大尾部风险。
-      </div>
+    <div class="verdict-card verdict-card-yellow">
+      <div class="verdict-framework">马克斯</div>
+      <div class="verdict-text verdict-yellow">谨慎持有</div>
+      <div class="verdict-detail">周期中段，基本面极强，估值充分，建议回调后建仓，上行空间优于下行风险</div>
     </div>
   </div>
 
   <!-- Buy Range -->
-  <div class="buy-range-card">
-    <div class="buy-range-label">理想买入区间（含20-30%安全边际）</div>
-    <div class="buy-range-value">$150 – $200</div>
+  <div class="buy-range-box">
+    <div class="buy-range-label">理想买入区间 (含20-25%安全边际)</div>
+    <div class="buy-range-value">$190 – $220</div>
     <div class="buy-range-note">
-      基于 DCF 中性情景$140（+20%缓冲=$168）至巴菲特框架FY2027E目标$240（-20%折价=$192）综合判断 &nbsp;|&nbsp;
-      当前价$248 = 不具安全边际 &nbsp;|&nbsp;
-      $300+（历史高点）= 绝对回避
+      基于DCF中性情景$192/股 + 护城河溢价 + 当前高速增长期估值折衷<br>
+      Q3 FY2026指引中值 $1.77B × 年化约7B ÷ PS 7.5x = 约 $26.9B 市值 ÷ 195M股 ≈ $138，加成长溢价至$190–$220<br>
+      <span style="color:var(--accent-yellow);">当前股价 $255.68 高于理想买入区间约16-35%，建议等待回调机会</span>
     </div>
   </div>
 </div>
 
-<!-- ── SOURCES ─────────────────────────────────────────────────── -->
-<div class="sources">
-  <h3>数据来源 &amp; 参考链接</h3>
-  <ul>
-    <li><a href="https://www.coherent.com/news/press-releases/second-quarter-fiscal-year-2026-results" target="_blank">Coherent Corp. Q2 FY2026 Earnings Release (2026-02-04)</a></li>
-    <li><a href="https://www.coherent.com/news/press-releases/first-quarter-fiscal-year-2026-results" target="_blank">Coherent Corp. Q1 FY2026 Earnings Release (2025-11-05)</a></li>
-    <li><a href="https://www.fool.com/earnings/call-transcripts/2026/02/04/coherent-cohr-q2-2026-earnings-call-transcript/" target="_blank">Coherent Q2 2026 Earnings Call Transcript — The Motley Fool</a></li>
-    <li><a href="https://stockanalysis.com/stocks/cohr/statistics/" target="_blank">Coherent (COHR) Statistics &amp; Valuation — Stock Analysis</a></li>
-    <li><a href="https://futurumgroup.com/insights/coherent-q2-fy-2026-ai-datacenter-demand-lifts-revenue-and-margins/" target="_blank">Coherent Q2 FY2026: AI Datacenter Demand Lifts Revenue and Margins — Futurum</a></li>
-    <li><a href="https://www.marketbeat.com/stocks/NYSE/COHR/forecast/" target="_blank">Coherent Analyst Forecast &amp; Price Target — MarketBeat</a></li>
-    <li><a href="https://www.globenewswire.com/news-release/2026/02/04/3232469/11543/en/Coherent-Corp-Reports-Second-Quarter-Fiscal-2026-Results.html" target="_blank">Coherent Q2 FY2026 Press Release — GlobeNewswire</a></li>
-    <li><a href="https://markets.financialcontent.com/stocks/article/finterra-2026-2-23-coherent-corp-cohr-2026-deep-dive-the-16t-networking-supercycle-and-the-anderson-turnaround" target="_blank">COHR 2026 Deep-Dive: The 1.6T Networking Supercycle — FinancialContent</a></li>
-    <li><a href="https://www.macrotrends.net/stocks/charts/COHR/coherent/pe-ratio" target="_blank">Coherent PE Ratio Historical — MacroTrends</a></li>
-    <li>分析时间戳：2026-04-02 &nbsp;|&nbsp; 分析师：Claude Code AI Research</li>
-  </ul>
-</div>
-
-</div><!-- /page -->
-
+<!-- ===== CHARTS JS ===== -->
 <script>
-// ── Common Chart defaults ──────────────────────────────────────
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.font.family = 'Segoe UI, system-ui, sans-serif';
-Chart.defaults.font.size = 12;
-const gridColor = 'rgba(42,58,84,0.8)';
-
-// ── 1. Segment Donut ──────────────────────────────────────────
-new Chart(document.getElementById('segChart'), {
-  type: 'doughnut',
+// Revenue Chart
+const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+new Chart(revenueCtx, {
+  type: 'bar',
   data: {
-    labels: ['数据中心 & 通信 ($1,211M)', '工业 ($478M)'],
+    labels: ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26'],
     datasets: [{
-      data: [71.6, 28.4],
-      backgroundColor: ['rgba(59,130,246,0.8)', 'rgba(168,85,247,0.7)'],
-      borderColor: ['#3b82f6', '#a855f7'],
-      borderWidth: 2
+      label: '营收 (百万$)',
+      data: [1351, 1432, 1498, 1529, 1580, 1690],
+      backgroundColor: [
+        'rgba(59,130,246,0.6)','rgba(59,130,246,0.6)','rgba(59,130,246,0.6)','rgba(59,130,246,0.6)',
+        'rgba(16,185,129,0.6)','rgba(16,185,129,0.6)'
+      ],
+      borderColor: ['#3b82f6','#3b82f6','#3b82f6','#3b82f6','#10b981','#10b981'],
+      borderWidth: 1,
+      borderRadius: 4,
+    }, {
+      label: 'YoY增速 (%)',
+      data: [28, 27, 24, 16, 17, 17],
+      type: 'line',
+      yAxisID: 'y2',
+      borderColor: '#f59e0b',
+      backgroundColor: 'rgba(245,158,11,0.1)',
+      borderWidth: 2,
+      pointRadius: 4,
+      pointBackgroundColor: '#f59e0b',
+      tension: 0.4,
     }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.label} — ${ctx.parsed}%` } }
-    },
-    cutout: '60%'
-  }
-});
-
-// ── 2. Revenue Chart ──────────────────────────────────────────
-const revCtx = document.getElementById('revChart');
-new Chart(revCtx, {
-  type: 'bar',
-  data: {
-    labels: ['Q1FY25', 'Q2FY25', 'Q3FY25', 'Q4FY25', 'Q1FY26', 'Q2FY26', 'Q3FY26\n(指引中值)'],
-    datasets: [
-      {
-        label: '数据中心&通信',
-        data: [945, 905, 982, 1150, 1170, 1211, 1310],
-        backgroundColor: 'rgba(59,130,246,0.75)',
-        stack: 'rev'
-      },
-      {
-        label: '工业',
-        data: [405, 533, 442, 448, 410, 478, 460],
-        backgroundColor: 'rgba(168,85,247,0.65)',
-        stack: 'rev'
-      },
-      {
-        label: 'YoY增速 %（右轴）',
-        data: [null, null, null, 28, 17, 17.5, 18],
-        type: 'line',
-        borderColor: '#f97316',
-        backgroundColor: 'rgba(249,115,22,0.15)',
-        tension: 0.4,
-        yAxisID: 'y2',
-        pointRadius: 5
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
     scales: {
-      x: { stacked: true, grid: { color: gridColor } },
-      y: { stacked: true, grid: { color: gridColor }, title: { display: true, text: '营收 ($M)' },
-           ticks: { callback: v => `$${v}M` } },
-      y2: { position: 'right', grid: { display: false }, title: { display: true, text: 'YoY %' },
-            ticks: { callback: v => v + '%' }, max: 40 }
-    },
-    plugins: { legend: { position: 'top' } }
-  }
-});
-
-// ── 3. Margin Chart ────────────────────────────────────────────
-new Chart(document.getElementById('marginChart'), {
-  type: 'line',
-  data: {
-    labels: ['Q1FY25', 'Q2FY25', 'Q3FY25', 'Q4FY25', 'Q1FY26', 'Q2FY26', 'Q3FY26E'],
-    datasets: [
-      {
-        label: '非GAAP 毛利率',
-        data: [36.7, 36.8, 37.0, 38.0, 38.7, 39.0, 39.5],
-        borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)',
-        tension: 0.4, fill: true, pointRadius: 5
-      },
-      {
-        label: '非GAAP 营业利润率',
-        data: [16.1, 16.9, 17.2, 18.0, 19.5, 19.9, 20.5],
-        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.08)',
-        tension: 0.4, fill: true, pointRadius: 5
-      },
-      {
-        label: 'GAAP 净利率',
-        data: [-1.1, -0.7, -1.3, -0.9, 14.3, 8.4, null],
-        borderColor: '#f97316', borderDash: [5,5],
-        tension: 0.4, fill: false, pointRadius: 5
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: {
-      x: { grid: { color: gridColor } },
-      y: { grid: { color: gridColor }, ticks: { callback: v => v + '%' },
-           title: { display: true, text: '利润率 (%)' } }
-    },
-    plugins: { legend: { position: 'top' } }
-  }
-});
-
-// ── 4. Competitor Chart ────────────────────────────────────────
-new Chart(document.getElementById('compChart'), {
-  type: 'bar',
-  data: {
-    labels: ['COHR\n(本标的)', 'LITE\n(Lumentum)', 'IPGP\n(IPG)', 'FN\n(Fabrinet)', 'MRVL\n(Marvell)', 'NOK\n(Nokia)'],
-    datasets: [
-      {
-        label: '毛利率 (%)',
-        data: [36.4, 42.0, 42.0, 12.0, 50.0, 36.0],
-        backgroundColor: ['rgba(59,130,246,0.8)', 'rgba(34,197,94,0.7)', 'rgba(34,197,94,0.7)',
-                          'rgba(168,85,247,0.7)', 'rgba(34,197,94,0.7)', 'rgba(94,234,212,0.7)']
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    indexAxis: 'y',
-    scales: {
-      x: { grid: { color: gridColor }, ticks: { callback: v => v + '%' }, max: 60 },
-      y: { grid: { color: gridColor } }
-    },
-    plugins: { legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ` 毛利率 ${ctx.parsed.x}%` } }
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(45,55,72,0.5)' } },
+      y: { ticks: { color: '#64748b', font: { size: 10 }, callback: v => '$' + v }, grid: { color: 'rgba(45,55,72,0.5)' } },
+      y2: { position: 'right', ticks: { color: '#f59e0b', font: { size: 10 }, callback: v => v + '%' }, grid: { display: false } }
     }
   }
 });
 
-// ── 5. Radar Chart ─────────────────────────────────────────────
-new Chart(document.getElementById('radarChart'), {
-  type: 'radar',
+// Margin Chart
+const marginCtx = document.getElementById('marginChart').getContext('2d');
+new Chart(marginCtx, {
+  type: 'line',
   data: {
-    labels: ['品牌/无形资产', '转换成本', '网络效应', '成本优势', '技术护城河'],
-    datasets: [
-      {
-        label: 'COHR（当前）',
-        data: [80, 80, 60, 78, 90],
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.2)',
-        pointBackgroundColor: '#3b82f6'
-      },
-      {
-        label: 'LITE（Lumentum）',
-        data: [70, 72, 50, 60, 80],
-        borderColor: '#22c55e',
-        backgroundColor: 'rgba(34,197,94,0.1)',
-        pointBackgroundColor: '#22c55e',
-        borderDash: [5,5]
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: {
-      r: {
-        grid: { color: gridColor },
-        pointLabels: { color: '#e2e8f0', font: { size: 11 } },
-        ticks: { color: '#94a3b8', backdropColor: 'transparent', stepSize: 20 },
-        min: 0, max: 100
-      }
-    },
-    plugins: { legend: { position: 'top' } }
-  }
-});
-
-// ── 6. P/S Valuation History (bar showing percentile context) ──
-new Chart(document.getElementById('peChart'), {
-  type: 'bar',
-  data: {
-    labels: ['5年低位\n(1.5x)', '5年均值\n(3.5x)', '当前\n(7.7x)', '5年高位\n(9.0x)'],
+    labels: ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26'],
     datasets: [{
-      label: 'P/S 倍数',
-      data: [1.5, 3.5, 7.7, 9.0],
-      backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(59,130,246,0.7)', 'rgba(239,68,68,0.8)', 'rgba(239,68,68,0.4)'],
-      borderColor: ['#22c55e', '#3b82f6', '#ef4444', '#ef4444'],
-      borderWidth: 2,
-      borderRadius: 6
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: {
-      x: { grid: { color: gridColor } },
-      y: { grid: { color: gridColor }, title: { display: true, text: 'P/S' } }
-    },
-    plugins: { legend: { display: false } }
-  }
-});
-
-// ── 7. Scenario Chart (Marks) ──────────────────────────────────
-new Chart(document.getElementById('scenarioChart'), {
-  type: 'bar',
-  data: {
-    labels: [
-      '熊市\n（AI CapEx骤降 + PE压缩25x）',
-      '悲观\n（增速放缓 + PE 30x）',
-      '基准\n（FY27E $7 EPS × 35x）',
-      '乐观\n（强劲增长 + PE 40x）',
-      '极度乐观\n（FY27E $8.5 EPS × 45x）'
-    ],
-    datasets: [{
-      label: '12个月目标价',
-      data: [90, 160, 245, 320, 383],
-      backgroundColor: [
-        'rgba(239,68,68,0.8)',
-        'rgba(249,115,22,0.7)',
-        'rgba(234,179,8,0.7)',
-        'rgba(34,197,94,0.7)',
-        'rgba(59,130,246,0.7)'
-      ],
-      borderRadius: 8,
-      borderWidth: 0
+      label: 'Non-GAAP 毛利率',
+      data: [36.5, 37.2, 38.4, 38.1, 38.7, 39.0],
+      borderColor: '#10b981',
+      backgroundColor: 'rgba(16,185,129,0.1)',
+      borderWidth: 2.5,
+      pointRadius: 5,
+      pointBackgroundColor: '#10b981',
+      tension: 0.4,
+      fill: true,
     }, {
-      label: '当前价 $248',
-      type: 'line',
-      data: [248, 248, 248, 248, 248],
-      borderColor: '#f97316',
+      label: 'Non-GAAP 营业利润率',
+      data: [16.0, 17.0, 17.5, 18.0, 19.0, 19.9],
+      borderColor: '#3b82f6',
+      backgroundColor: 'rgba(59,130,246,0.05)',
       borderWidth: 2,
-      borderDash: [8, 4],
-      pointRadius: 0
+      pointRadius: 4,
+      pointBackgroundColor: '#3b82f6',
+      tension: 0.4,
     }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    scales: {
-      x: { grid: { color: gridColor } },
-      y: { grid: { color: gridColor }, title: { display: true, text: '目标价 ($)' },
-           ticks: { callback: v => '$' + v } }
-    },
     plugins: {
-      legend: { position: 'top' },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y } }
+      legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
+      annotation: {}
+    },
+    scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(45,55,72,0.5)' } },
+      y: {
+        ticks: { color: '#64748b', font: { size: 10 }, callback: v => v + '%' },
+        grid: { color: 'rgba(45,55,72,0.5)' },
+        min: 10, max: 45,
+        title: { display: true, text: '利润率 %', color: '#64748b', font: { size: 10 } }
+      }
     }
   }
 });
 </script>
+
+<!-- ===== DATA SOURCES ===== -->
+<div class="section">
+  <div class="section-title">数据来源与免责声明</div>
+  <div class="card">
+    <div class="card-title">引用数据源 (实时查询, 2026-04-07)</div>
+    <ul class="sources-list">
+      <li><a href="https://www.coherent.com/news/press-releases/second-quarter-fiscal-year-2026-results" target="_blank">Coherent Corp. Q2 FY2026 官方业绩发布 (Feb 4, 2026)</a></li>
+      <li><a href="https://www.globenewswire.com/news-release/2026/02/04/3232469/11543/en/Coherent-Corp-Reports-Second-Quarter-Fiscal-2026-Results.html" target="_blank">GlobeNewswire: Coherent Q2 FY2026 Results</a></li>
+      <li><a href="https://www.coherent.com/news/press-releases/fourth-quarter-and-fiscal-year-2025-results" target="_blank">Coherent Corp. FY2025 全年业绩发布 (Aug 13, 2025)</a></li>
+      <li><a href="https://www.globenewswire.com/news-release/2025/08/13/3132964/11543/en/Coherent-Corp-Reports-Fourth-Quarter-and-Full-Year-Fiscal-2025-Results.html" target="_blank">GlobeNewswire: Coherent FY2025 Annual Results</a></li>
+      <li><a href="https://www.fool.com/earnings/call-transcripts/2026/02/04/coherent-cohr-q2-2026-earnings-call-transcript/" target="_blank">Motley Fool: Coherent Q2 FY2026 Earnings Call Transcript</a></li>
+      <li><a href="https://stockanalysis.com/stocks/cohr/statistics/" target="_blank">StockAnalysis.com: COHR Valuation Statistics</a></li>
+      <li><a href="https://stockanalysis.com/stocks/cohr/financials/cash-flow-statement/" target="_blank">StockAnalysis.com: COHR Cash Flow Statement</a></li>
+      <li><a href="https://www.marketbeat.com/stocks/NYSE/COHR/forecast/" target="_blank">MarketBeat: COHR Analyst Forecasts & Price Targets</a></li>
+      <li><a href="https://www.gurufocus.com/term/forward-pe-ratio/COHR" target="_blank">GuruFocus: COHR Forward P/E Ratio</a></li>
+      <li><a href="https://markets.financialcontent.com/stocks/article/finterra-2026-4-7-the-light-of-intelligence-a-deep-dive-into-coherent-corp-cohr-and-the-future-of-ai-photonics" target="_blank">FinancialContent: COHR Deep Dive (Apr 7, 2026)</a></li>
+      <li><a href="https://futurumgroup.com/insights/coherent-q1-fy-2026-shows-strong-datacenter-comms-momentum/" target="_blank">Futurum Group: COHR Q1 FY2026 Analysis</a></li>
+      <li><a href="https://www.nasdaq.com/articles/coherent-corp-reports-24-year-over-year-revenue-growth-q3-fiscal-2025-results" target="_blank">Nasdaq: Coherent Q3 FY2025 24% Revenue Growth</a></li>
+    </ul>
+    <div style="margin-top:16px;padding:12px 14px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);border-radius:8px;font-size:11px;color:var(--text-muted);">
+      免责声明: 本报告仅供学习研究目的，不构成投资建议。所有估值模型基于当前可获取数据，未来存在重大不确定性。投资有风险，决策请结合个人风险承受能力并参考专业顾问意见。分析时间戳: 2026-04-07。
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
 </body>
 </html>

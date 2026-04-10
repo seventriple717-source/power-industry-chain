@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光模块技术演进全景图 2000-2030</title>
+<style>
+  :root {
+    --bg: #080c14;
+    --bg2: #0f1520;
+    --bg3: #141d2e;
+    --border: #1e2d4a;
+    --accent: #1a6fd4;
+    --accent2: #0fa878;
+    --accent3: #d47a1a;
+    --accent4: #9b3dd4;
+    --text: #c8d8f0;
+    --text2: #7a9bc0;
+    --text3: #3a5a80;
+    --win: #0d5c3a;
+    --win-text: #2dce89;
+    --lose: #5c0d1a;
+    --lose-text: #e35d6a;
+    --neutral: #1a2d4a;
+    --era-a: #1a3d6a;
+    --era-b: #1a5a3a;
+    --era-c: #5a3a1a;
+    --era-d: #3a1a5a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  /* ─── Header ─── */
+  .header {
+    background: linear-gradient(135deg, #0a1628 0%, #0f2040 50%, #0a1628 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 24px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e8f0ff;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    color: var(--text2);
+    font-size: 14px;
+  }
+  .header .meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 20px;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .meta-item .val {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4a9eff;
+  }
+  .meta-item .lbl {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ─── Main Layout ─── */
+  .main {
+    padding: 24px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* ─── Section Title ─── */
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #8ab4f8;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ─── Timeline ─── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .era-block {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0;
+    position: relative;
+  }
+  .era-block::before {
+    content: '';
+    position: absolute;
+    left: 179px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .era-label {
+    padding: 20px 16px 20px 0;
+    position: relative;
+    text-align: right;
+  }
+  .era-dot {
+    position: absolute;
+    right: -8px;
+    top: 28px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    z-index: 1;
+  }
+  .era-years {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e8f0ff;
+    margin-bottom: 4px;
+  }
+  .era-name {
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .era-speed {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .era-content {
+    padding: 16px 0 16px 24px;
+  }
+
+  /* ─── Options Grid ─── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .option-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .option-card:hover {
+    border-color: #2a4a7a;
+  }
+  .option-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg3);
+  }
+  .option-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .badge-a { background: #1a3d6a; color: #4a9eff; }
+  .badge-b { background: #1a5a3a; color: #2dce89; }
+  .badge-c { background: #5a3a1a; color: #ffaa44; }
+  .badge-d { background: #3a1a5a; color: #c07aff; }
+  .badge-e { background: #5a1a1a; color: #ff6b6b; }
+  .option-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #c8d8f0;
+    flex: 1;
+  }
+  .option-status {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .status-dominant { background: #0d3d2a; color: #2dce89; }
+  .status-growing  { background: #0d2a3d; color: #4a9eff; }
+  .status-emerging { background: #2a1d3d; color: #c07aff; }
+  .status-niche    { background: #2d2a1a; color: #ffaa44; }
+  .status-dead     { background: #2d1a1a; color: #ff6b6b; }
+  .option-body {
+    padding: 10px 12px;
+    background: var(--bg2);
+  }
+  .option-tech {
+    font-size: 11.5px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+  .companies-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .company-tag {
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tag-leader   { background: #0d2a3d; color: #4a9eff; border: 1px solid #1a4a6a; }
+  .tag-main     { background: #1a1a3d; color: #8a9eff; border: 1px solid #2a2a5a; }
+  .tag-follower { background: #1a1a1a; color: var(--text2); border: 1px solid #2a2a2a; }
+  .tag-startup  { background: #2a1a3d; color: #c07aff; border: 1px solid #3a2a5a; }
+
+  /* ─── Impact Row ─── */
+  .impact-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .impact-box {
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .impact-win { background: var(--win); }
+  .impact-lose { background: var(--lose); }
+  .impact-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+  .impact-win .impact-title { color: var(--win-text); }
+  .impact-lose .impact-title { color: var(--lose-text); }
+  .impact-items { color: var(--text); line-height: 1.6; }
+
+  /* ─── Parallel note ─── */
+  .parallel-note {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #0f1a2d;
+    border: 1px solid #1a2d4a;
+    border-left: 3px solid #2a5a9a;
+    border-radius: 0 6px 6px 0;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .parallel-note strong { color: #7ab4f0; }
+
+  /* ─── Company Matrix ─── */
+  .matrix-section {
+    overflow-x: auto;
+    margin-top: 8px;
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+    font-size: 11.5px;
+  }
+  .matrix-table th {
+    background: var(--bg3);
+    color: var(--text2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 8px 10px;
+    text-align: center;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .matrix-table th:first-child {
+    text-align: left;
+    width: 130px;
+  }
+  .matrix-table td {
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .matrix-table td:first-child {
+    text-align: left;
+    background: var(--bg3);
+    font-weight: 600;
+    color: #c8d8f0;
+    white-space: nowrap;
+  }
+  .cell-strong { background: #0a2a1a; color: #2dce89; font-weight: 700; }
+  .cell-good   { background: #0a1a2a; color: #4a9eff; }
+  .cell-mid    { background: #1a1a1a; color: var(--text2); }
+  .cell-weak   { background: #1a0a0a; color: #e35d6a; }
+  .cell-none   { background: var(--bg2); color: var(--text3); }
+
+  /* ─── Legend ─── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Speed colors ─── */
+  .speed-10g  { background: #1a3d5a; color: #4a8eff; }
+  .speed-40g  { background: #1a3d5a; color: #4a8eff; }
+  .speed-100g { background: #1a5a3a; color: #2dce89; }
+  .speed-400g { background: #5a3a1a; color: #ffaa44; }
+  .speed-800g { background: #5a1a3a; color: #ff6b9a; }
+  .speed-1-6t { background: #3a1a5a; color: #c07aff; }
+  .speed-3-2t { background: #5a1a1a; color: #ff6b6b; }
+  .speed-cpo  { background: #2a2a1a; color: #ffd066; }
+
+  /* Dot colors per era */
+  .dot-1 { background: #4a8eff; }
+  .dot-2 { background: #2dce89; }
+  .dot-3 { background: #ffaa44; }
+  .dot-4 { background: #ff6b9a; }
+  .dot-5 { background: #c07aff; }
+  .dot-6 { background: #ff6b6b; }
+  .dot-7 { background: #ffd066; }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text3);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* ─── Connectors ─── */
+  .era-connector {
+    margin: 0 0 0 24px;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    color: var(--text3);
+  }
+  .era-connector::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--text3);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>光模块技术演进全景图</h1>
+  <div class="subtitle">Optical Transceiver Technology Evolution 2000 – 2030+</div>
+  <div class="meta">
+    <div class="meta-item"><span class="val">7</span><span class="lbl">技术时代</span></div>
+    <div class="meta-item"><span class="val">30yr</span><span class="lbl">演进跨度</span></div>
+    <div class="meta-item"><span class="val">20+</span><span class="lbl">核心企业</span></div>
+    <div class="meta-item"><span class="val">3.2T</span><span class="lbl">当前前沿</span></div>
+    <div class="meta-item"><span class="val">CPO</span><span class="lbl">未来主流</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════════════════════════════════════════════════
+       TIMELINE
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section-title">技术演进时间轴</div>
+  <div class="timeline">
+
+    <!-- ──────────────────────────────────────
+         Phase 1: 10G/40G Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-1"></div>
+        <div class="era-years">2000 – 2015</div>
+        <div class="era-name">铜轴主导 / 光纤起步</div>
+        <span class="era-speed speed-10g">10G / 40G</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">VCSEL + 多模光纤 (MMF)</div>
+              <span class="option-status status-dominant">主流</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">850nm VCSEL + OM3/OM4 MMF，SFP+ 10G，最高100m。低成本、量产成熟，数据中心内部主流连接。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Finisar（市场第一）</span>
+                <span class="company-tag tag-main">JDSU（VIAVI前身）</span>
+                <span class="company-tag tag-main">COHR（前身II-VI）</span>
+                <span class="company-tag tag-follower">Avago/Broadcom</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">DFB / EML + 单模光纤 (SMF)</div>
+              <span class="option-status status-growing">增长</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">1310nm DFB/EML + SMF，SFP+ 10G-LR，距离2-10km。园区/城域骨干连接，成本高于VCSEL约3-5倍。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（Lumentum，前JDSU光子部门）</span>
+                <span class="company-tag tag-main">Finisar</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-follower">NEL（日本）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">40G QSFP（4×10G NRZ）</div>
+              <span class="option-status status-growing">过渡</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4通道×10G NRZ并行，QSFP28前身。40G-SR4（MMF）+ 40G-LR4（SMF CWDM）。数据中心骨干早期部署。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Finisar</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-main">Oclaro（后被LITE收购）</span>
+                <span class="company-tag tag-follower">Source Photonics</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">铜缆 DAC/AOC（直连铜缆）</div>
+              <span class="option-status status-niche">长期共存</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">直连铜缆（DAC）/有源光缆（AOC），7m以内零光器件成本。Top-of-Rack场景光模块的最早竞争者。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Molex</span>
+                <span class="company-tag tag-main">Amphenol</span>
+                <span class="company-tag tag-main">TE Connectivity（TEL）</span>
+                <span class="company-tag tag-follower">Samtec</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">Finisar / JDSU（VCSEL量产领头）；早期EML厂商建立技术壁垒；铜缆接口厂商占据短距场景</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">传统铜缆以太网（Cat5e/6在机架间场景退出）；SONET/SDH传输设备商（Nortel、Lucent市场萎缩）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 2: 100G Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-2"></div>
+        <div class="era-years">2013 – 2019</div>
+        <div class="era-name">云计算扩张 / 100G标准化</div>
+        <span class="era-speed speed-100g">100G</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">100G-SR4（4×25G VCSEL，MMF）</div>
+              <span class="option-status status-dominant">数据中心主流</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4通道×25G NRZ VCSEL，QSFP28封装，OM4多模100m。成本最低，适合Leaf-Spine短距互连，超大规模数据中心首选方案。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Innolight（国内新兴组装龙头）</span>
+                <span class="company-tag tag-main">Finisar（被COHR收购前）</span>
+                <span class="company-tag tag-main">COHR（前身II-VI）</span>
+                <span class="company-tag tag-follower">Eoptolink（华工正源）</span>
+                <span class="company-tag tag-follower">Accelink（武汉电信器件）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">100G-LR4（4×25G EML CWDM，SMF）</div>
+              <span class="option-status status-growing">园区/DCI</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4波CWDM×25G EML，单模2km，QSFP28。数据中心互联（DCI）和园区骨干场景主流。EML芯片成为核心价值锁定点。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（Lumentum，EML芯片主导）</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-main">Oclaro（2018年被LITE收购）</span>
+                <span class="company-tag tag-follower">Innolight（模块组装）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">100G相干（DP-QPSK）长距DCI</div>
+              <span class="option-status status-niche">DCI长距</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">DP-QPSK调制，CFP/CFP2封装，80-2000km。城域和骨干网DCI（Datacenter Interconnect）场景，与100G直连互补而非竞争。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Ciena（CIEN，系统集成）</span>
+                <span class="company-tag tag-main">LITE（Lumentum，泵浦激光）</span>
+                <span class="company-tag tag-main">COHR（宽带放大器）</span>
+                <span class="company-tag tag-follower">Infinera</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">100G PSM4（4×25G SMF并行）</div>
+              <span class="option-status status-dead">被淘汰</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4通道25G并行SMF，需要8根光纤。Facebook主导推动，结构复杂，最终败给LR4（2根光纤）方案，被市场边缘化。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-follower">Finisar（早期支持）</span>
+                <span class="company-tag tag-follower">Source Photonics</span>
+                <span class="company-tag tag-startup">Luxtera（SiPho方案）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">Innolight崛起（国内SR4组装最低成本）；LITE通过Oclaro收购拿到100G EML垄断地位；COHR收购Finisar（2019年，$3.2B）形成垂直整合</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">10G时代小厂商被并购整合淘汰；PSM4方案死亡；SONET设备商（Tellabs、Nortel）彻底退出DC市场</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>行业并购浪潮：</strong>LITE（前JDSU）收购Oclaro（2018年，$18.75/股，$1.8B），奠定EML芯片垄断地位。COHR（II-VI）收购Finisar（2019年，$3.2B），形成垂直整合。国内Innolight、Eoptolink快速抢占SR4量产市场，以成本优势对抗欧美厂商。
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 3: 400G PAM4 Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-3"></div>
+        <div class="era-years">2019 – 2022</div>
+        <div class="era-name">PAM4革命 / 400G标准战</div>
+        <span class="era-speed speed-400g">400G</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">400G-SR8（8×50G PAM4 VCSEL，MMF）</div>
+              <span class="option-status status-dominant">短距主流</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×50G PAM4 VCSEL，QSFP-DD封装，OM4多模100m。DC内部短距主流，国内厂商凭VCSEL低成本优势量产主导。NRZ→PAM4调制革命标志。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Innolight（国内第一，量产最快）</span>
+                <span class="company-tag tag-main">Eoptolink（华工正源，第二）</span>
+                <span class="company-tag tag-main">COHR（VCSEL自产，垂直整合）</span>
+                <span class="company-tag tag-follower">Accelink、HG Genuine</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">400G-DR4（4×100G PAM4 EML，SMF 500m）</div>
+              <span class="option-status status-growing">单模短距</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4通道×100G PAM4 EML，单模SMF，500m并行。Facebook/Google主推，满足DC内超视距需求。EML 100G/lane首次量产，技术壁垒大幅提升。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（100G EML芯片供应商）</span>
+                <span class="company-tag tag-main">COHR（InP自产）</span>
+                <span class="company-tag tag-follower">Innolight（模块组装，采购LITE EML）</span>
+                <span class="company-tag tag-follower">II-VI（被COHR收购前）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">400G-FR4（4波 LAN-WDM EML，SMF 2km）</div>
+              <span class="option-status status-growing">园区互联</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4波LAN-WDM×100G PAM4 EML，单模2km，QSFP-DD。DCI和园区场景，兼顾成本和距离。EML厂商护城河进一步加深。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（FR4 EML主供）</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-follower">Eoptolink（模块组装）</span>
+                <span class="company-tag tag-follower">Accelink</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">SiPho早期尝试（4×100G MZM）</div>
+              <span class="option-status status-emerging">萌芽</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">硅光子MZM调制器+外部CW DFB激光。Intel Silicon Photonics主推，良率低、成本高、量产能力不足，400G阶段停留实验性部署。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Intel（Si Photonics部门，后卖给Tower）</span>
+                <span class="company-tag tag-main">Luxtera（被COHR收购，2019年）</span>
+                <span class="company-tag tag-startup">Rockley Photonics</span>
+                <span class="company-tag tag-startup">Ayar Labs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">LITE：100G EML芯片垄断，DR4/FR4全面获益；COHR：VCSEL（SR8）+ InP（DR4/FR4）双线布局；Innolight：SR8量产赚取规模利润；Marvell：DSP芯片（PAM4 DSP Colorz II）供应</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">NRZ方案（25G/lane上限，被PAM4 50G/lane取代）；早期SiPho创业公司（良率不足、量产失败）；铜缆DAC在400G以上场景基本退出机架间</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>调制范式革命：</strong>NRZ（1bit/symbol）→ PAM4（2bit/symbol）是400G最核心的技术跳跃。PAM4将单通道速率从25G提升至50G（→100G），代价是信噪比下降6dB，要求DSP芯片精确补偿，催生Marvell/Broadcom PAM4 DSP大市场。COHR以$2.75亿收购Luxtera，布局SiPho为1.6T做准备。
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 4: 800G AI-driven Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-4"></div>
+        <div class="era-years">2022 – 2024</div>
+        <div class="era-name">AI算力爆发 / 800G量产</div>
+        <span class="era-speed speed-800g">800G</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">800G-SR8（8×100G PAM4 VCSEL，MMF）</div>
+              <span class="option-status status-dominant">训练集群主流</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×100G PAM4 VCSEL，OSFP/QSFP-DD封装，OM5多模100m。AI GPU训练集群（H100 NVLink）内部互连首选，超大规模出货量，Innolight/Eoptolink主导。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Innolight（出货第一，单月数十万只）</span>
+                <span class="company-tag tag-main">Eoptolink（第二）</span>
+                <span class="company-tag tag-main">COHR（VCSEL自产，垂直整合）</span>
+                <span class="company-tag tag-follower">HG Genuine、Accelink</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">800G-DR8（8×100G PAM4 EML，SMF 500m）</div>
+              <span class="option-status status-growing">推理/Spine</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×100G PAM4 EML，单模500m。AI推理服务器机架间互连和DC Spine层主流。LITE凭借100G EML生产50-60%市场份额垄断，成为瓶颈资产。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（100G EML芯片50-60%全球份额）</span>
+                <span class="company-tag tag-main">COHR（InP晶圆自产）</span>
+                <span class="company-tag tag-follower">Innolight（模块，依赖LITE EML芯片）</span>
+                <span class="company-tag tag-follower">Eoptolink（模块组装）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">LPO（Linear Pluggable Optics，去DSP）</div>
+              <span class="option-status status-growing">新兴减功耗</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">移除模块端DSP芯片，功耗降低50%，延迟降低90%，成本-30%。需交换机ASIC端DSP配合。NVIDIA H100集群推理场景引入，被视为量产LPO先导。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（Cloud Light部门，LPO模块供应）</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-main">Broadcom（ASIC端DSP配合）</span>
+                <span class="company-tag tag-follower">Credo（CRDO，SerDes+AEC，配合LPO）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">AEC铜缆（Active Electrical Cables，高速铜）</div>
+              <span class="option-status status-growing">GPU集群短距爆发</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">有源铜缆，3-7m，成本比800G光模块低60-70%，功耗低30-40%。AI GPU集群（H100→H200→GB200）机柜内互连替代光模块，Microsoft Azure大规模采购。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Credo（CRDO，AEC IC+模块，Microsoft主供）</span>
+                <span class="company-tag tag-main">Amphenol（AEC连接器）</span>
+                <span class="company-tag tag-main">TE Connectivity（TEL）</span>
+                <span class="company-tag tag-follower">Molex（Koch Industries）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">CRDO：AEC爆发（Q3FY26营收$407M +201% YoY，Microsoft垄断采购）；LITE：800G EML芯片瓶颈资产（NVIDIA预锁定容量至2027+）；Innolight：SR8海量出货；Marvell：DSP芯片（PAM4 DSP Colorz II/III）</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">传统400G量产厂商利润率被压缩；光模块厂商短距份额被AEC铜缆抢夺（3-7m场景）；NRZ设备商（Ciena等）在DC内部场景失利</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>AI算力催化：</strong>NVIDIA H100 NVLink需要数万只800G-SR8（MMF短距）和800G-DR8（SMF中距）。CRDO的AEC（Active Electrical Cable）首次在800G等级实现规模爆发，Microsoft Azure单一客户贡献CRDO约70-80%营收。LITE因EML生产瓶颈（InP晶圆产能）成为稀缺资产，NVIDIA直接预锁定1.6T EML产能至2027年以上。
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 5: 1.6T Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-5"></div>
+        <div class="era-years">2024 – 2026</div>
+        <div class="era-name">LITE护城河顶点 / 1.6T部署</div>
+        <span class="era-speed speed-1-6t">1.6T</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">DR8-200G EML（8×200G PAM4 EML，500m）</div>
+              <span class="option-status status-dominant">单模主流（LITE垄断）</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×200G PAM4 EML，OSFP-XD封装，单模SMF 500m。全球200G EML芯片LITE占50-60%份额，NVIDIA GB200 NVLink Spine首选方案。供给是最大瓶颈。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（200G EML芯片50-60%全球垄断）</span>
+                <span class="company-tag tag-main">COHR（InP自产，唯一另一家量产）</span>
+                <span class="company-tag tag-follower">Innolight（模块组装，采购LITE EML）</span>
+                <span class="company-tag tag-follower">Eoptolink（模块，供应受限）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">DR4-400G EML（4×400G，2km）</div>
+              <span class="option-status status-emerging">下一代单模</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">4通道×400G EML，单模2km，3.2T时代前导方案。需要400G/lane EML（全新工艺节点），技术难度极高，LITE/COHR正在研发，2026H2量产计划。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（400G EML研发中）</span>
+                <span class="company-tag tag-main">COHR（InP 400G lane研发）</span>
+                <span class="company-tag tag-startup">II-VI/COHR联合研发</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">SR8-200G VCSEL（8×200G，多模100m）</div>
+              <span class="option-status status-growing">短距GPU内互连</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×200G PAM4 VCSEL，OM5多模100m。GPU集群机柜内超短距，成本远低于EML方案，但距离受限。COHR在200G VCSEL研发最成熟。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">COHR（200G VCSEL研发最领先）</span>
+                <span class="company-tag tag-main">Innolight（量产方案采购COHR VCSEL）</span>
+                <span class="company-tag tag-follower">Eoptolink</span>
+                <span class="company-tag tag-startup">II-VI（被COHR整合）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">SiPho + CW DFB（硅光子绕过EML）</div>
+              <span class="option-status status-emerging">攻击EML护城河</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">硅光子MZM调制器 + 外部CW DFB激光，绕过InP EML瓶颈，TSMC代工可行。1.6T DR8理论可行，2024-2025年Alpha样品阶段，量产爬坡挑战大。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-startup">OpenLight（2025年Alpha，2026 Beta）</span>
+                <span class="company-tag tag-main">Marvell（SiPho PIC自研）</span>
+                <span class="company-tag tag-main">Intel（IFS SiPho代工）</span>
+                <span class="company-tag tag-follower">Innolight（评估SiPho降低EML依赖）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">LITE：护城河顶点，200G EML产能被预锁定，ASP提升；COHR：VCSEL（SR8-200G）+ InP（DR8-200G）双线受益；NVIDIA：获得优先产能锁定（预付款换容量保证）</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">没有EML自产能力的纯模块组装商（Innolight等）因供应受限产能受约束；SiPho创业公司难以在此阶段撼动EML地位；AEC铜缆在1.6T等级距离受限（&gt;7m退出）</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>LITE顶点时刻：</strong>LITE的200G EML芯片成为1.6T时代最核心的稀缺供给，全球只有LITE和COHR能量产，NVIDIA直接与LITE签署产能预锁定协议。同时LITE推进Cloud Light直销云厂商（绕过模块组装商），并发布OCS（光路交换系统）R64，目标2026年底贡献$100M/季度营收。
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 6: 3.2T Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-6"></div>
+        <div class="era-years">2026 – 2028</div>
+        <div class="era-name">技术路线分叉 / 3.2T混战</div>
+        <span class="era-speed speed-3-2t">3.2T</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">400G/lane EML 可插拔模块（8×400G）</div>
+              <span class="option-status status-growing">EML延续路线</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">8通道×400G PAM4 EML，全新400G/lane工艺节点。OSFP-XD或下一代封装。技术难度极高（400G EML从未量产），若LITE/COHR突破则护城河延续。预计2027+量产。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（400G EML研发主导，技术最成熟）</span>
+                <span class="company-tag tag-main">COHR（InP 6英寸晶圆，并行研发）</span>
+                <span class="company-tag tag-follower">NEL、Sumitomo（日系，量产验证中）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">SiPho PIC（3.2T DR8，绕过EML）</div>
+              <span class="option-status status-emerging">最大威胁路线</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">硅光子集成电路（PIC）+ 外部CW激光，TSMC N3/N5工艺，实现400G/lane调制。2026年Alpha样品，2027年Beta量产目标。若成功将大幅降低对EML的依赖。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-startup">OpenLight（3.2T DR8 Alpha 2026-03，最激进）</span>
+                <span class="company-tag tag-main">Marvell（SiPho PIC + Celestial AI并购）</span>
+                <span class="company-tag tag-main">COHR（Luxtera SiPho技术储备）</span>
+                <span class="company-tag tag-follower">Intel（IFS代工SiPho）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">16×200G EML（倍通道并行方案）</div>
+              <span class="option-status status-niche">过渡妥协方案</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">16通道×200G EML，复用已成熟的200G EML，功耗和体积翻倍但规避400G/lane研发风险。封装挑战大（OSFP-XD 2.0或新型号），可能是3.2T早期过渡方案。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-main">LITE（现有200G EML产线延续）</span>
+                <span class="company-tag tag-main">COHR</span>
+                <span class="company-tag tag-follower">Innolight（模块集成方案）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">CPO雏形（Near-Packaged Optics，NPO）</div>
+              <span class="option-status status-emerging">系统级融合先导</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">光引擎靠近交换ASIC封装（非完全集成），性能优于可插拔但较完整CPO实现灵活。Broadcom Bailly平台首款量产CPO交换机，NVIDIA Quantum-X800布局。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">Broadcom（Bailly CPO交换机，首款量产）</span>
+                <span class="company-tag tag-main">NVIDIA（Quantum-X800，COUPE CPO）</span>
+                <span class="company-tag tag-main">Marvell（CPO光引擎供应）</span>
+                <span class="company-tag tag-follower">LITE（UHP激光器供CPO光源）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">若A路线胜出：LITE护城河再延续5年，估值大幅提升；若B路线胜出：Marvell/OpenLight颠覆EML体系，TSMC代工受益；Broadcom：CPO交换机先发布局（Bailly已是首款量产CPO产品）</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">若SiPho路线成功：LITE护城河被侵蚀，EML垄断价值瓦解；若CPO加速：所有可插拔模块商（Innolight/Eoptolink等）长期需求受压；纯铜缆AEC在3.2T完全退出（距离与信号完整性不支持）</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>关键不确定性：</strong>3.2T是光模块行业最大的技术路线分叉口。(1) EML路线：LITE/COHR若能突破400G/lane EML，护城河延续；(2) SiPho路线：OpenLight、Marvell等若能量产，绕开InP垄断体系；(3) CPO：Broadcom Bailly已是首款量产CPO交换机，若CPO在3.2T普及，可插拔市场天花板将被压缩。OpenLight 3.2T DR8 SiPho PIC已于2026年3月发布Alpha样品，2026年Q4目标Beta量产——这是对LITE最直接的威胁时间节点。
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────
+         Phase 7: CPO Era
+    ────────────────────────────────────── -->
+    <div class="era-block">
+      <div class="era-label">
+        <div class="era-dot dot-7"></div>
+        <div class="era-years">2028+</div>
+        <div class="era-name">CPO / 系统级光子集成</div>
+        <span class="era-speed speed-cpo">CPO Era</span>
+      </div>
+      <div class="era-content">
+        <div class="options-grid">
+          <!-- Option A -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-a">A</div>
+              <div class="option-name">CPO（Co-Packaged Optics）全集成</div>
+              <span class="option-status status-emerging">长期终态方向</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">光引擎与交换ASIC/处理器同封装，带宽密度提升10-100倍，功耗大幅下降。NVIDIA COUPE、Broadcom Bailly平台。需要超高精度UHP激光器（LITE核心地位）。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">NVIDIA（COUPE CPO，Quantum-X800）</span>
+                <span class="company-tag tag-leader">Broadcom（Bailly，首款量产CPO交换机）</span>
+                <span class="company-tag tag-main">Marvell（CPO光引擎，Celestial AI并购）</span>
+                <span class="company-tag tag-main">LITE（UHP超高功率泵浦激光器，CPO光源）</span>
+                <span class="company-tag tag-follower">COHR（光引擎芯片供应）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option B -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-b">B</div>
+              <div class="option-name">NPO（Near-Packaged Optics）中间态</div>
+              <span class="option-status status-growing">过渡方案</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">光引擎靠近但不完全集成交换ASIC，兼顾性能提升和可换性。适合数据中心灵活运维需求（CPO换板成本高），可能与CPO长期共存。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-main">Broadcom（过渡路线推动）</span>
+                <span class="company-tag tag-main">Marvell</span>
+                <span class="company-tag tag-follower">LITE（光引擎供应）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option C -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-c">C</div>
+              <div class="option-name">OCS（光路交换）数据中心组网</div>
+              <span class="option-status status-emerging">LITE新增长引擎</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">直接在光域路由信号，避免光→电→光转换，功耗降低84%。LITE R64 OCS系统（64端口，400G/port），目标$100M/季度收入（2026年底），Meta/Microsoft部署试点。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-leader">LITE（Lumentum R64 OCS，全球唯一商业化）</span>
+                <span class="company-tag tag-follower">Polatis（被Huawei收购，竞品）</span>
+                <span class="company-tag tag-startup">Calient（私有，MEMS OCS）</span>
+              </div>
+            </div>
+          </div>
+          <!-- Option D -->
+          <div class="option-card">
+            <div class="option-header">
+              <div class="option-badge badge-d">D</div>
+              <div class="option-name">可插拔模块持续共存（高端边缘场景）</div>
+              <span class="option-status status-niche">长尾共存</span>
+            </div>
+            <div class="option-body">
+              <div class="option-tech">超大规模AI集群核心用CPO，但中等规模企业DC、边缘推理、城域DCI等场景仍保持可插拔。可插拔市场规模缩减但不消亡，高端产品ASP提升。</div>
+              <div class="companies-row">
+                <span class="company-tag tag-main">Innolight（企业级模块）</span>
+                <span class="company-tag tag-main">COHR（高端可插拔）</span>
+                <span class="company-tag tag-follower">Eoptolink、Accelink</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="impact-row">
+          <div class="impact-box impact-win">
+            <div class="impact-title">受益方</div>
+            <div class="impact-items">NVIDIA/Broadcom：CPO使交换带宽密度大幅提升，巩固平台地位；LITE：UHP激光器成为CPO光源核心（垄断内核，即使不做模块也锁定价值）；OCS系统新收入线（$100M/Q目标）</div>
+          </div>
+          <div class="impact-box impact-lose">
+            <div class="impact-title">被替代 / 受损</div>
+            <div class="impact-items">大体量可插拔模块组装商（Innolight/Eoptolink）在AI超大规模场景份额萎缩；DSP芯片商（Marvell/Broadcom PAM4 DSP）部分需求被CPO光引擎融合替代；传统光学系统集成商（Ciena等）在AI DC场景无位置</div>
+          </div>
+        </div>
+        <div class="parallel-note">
+          <strong>LITE在CPO时代的战略位置：</strong>即使可插拔市场被CPO侵蚀，LITE凭借UHP（超高功率）泵浦激光器成为CPO光引擎的核心组件供应商——CPO系统仍需要外部激光器作为CW光源，LITE的激光器制造能力使其在CPO时代仍保有核心价值锁定点。OCS（光路交换）是LITE2026-2028年最重要的新增收入来源，与CPO趋势协同而非对抗。
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       COMPANY MATRIX
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section-title">核心企业竞争地位矩阵</div>
+  <div class="matrix-section">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>公司</th>
+          <th>10G/40G<br>（~2015）</th>
+          <th>100G<br>（2013-19）</th>
+          <th>400G PAM4<br>（2019-22）</th>
+          <th>800G<br>（2022-24）</th>
+          <th>1.6T<br>（2024-26）</th>
+          <th>3.2T<br>（2026-28）</th>
+          <th>CPO时代<br>（2028+）</th>
+          <th>核心资产</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LITE（Lumentum）</td>
+          <td class="cell-good">EML芯片</td>
+          <td class="cell-strong">EML垄断</td>
+          <td class="cell-strong">100G EML主导</td>
+          <td class="cell-strong">稀缺瓶颈</td>
+          <td class="cell-strong">200G EML垄断</td>
+          <td class="cell-good">400G EML+OCS</td>
+          <td class="cell-good">UHP激光+OCS</td>
+          <td>InP EML芯片制造 / OCS系统 / UHP激光</td>
+        </tr>
+        <tr>
+          <td>COHR（Coherent）</td>
+          <td class="cell-good">VCSEL+EML</td>
+          <td class="cell-strong">Finisar收购</td>
+          <td class="cell-strong">VCSEL+InP垂直</td>
+          <td class="cell-strong">双线受益</td>
+          <td class="cell-strong">VCSEL+EML双线</td>
+          <td class="cell-good">SiPho+EML</td>
+          <td class="cell-good">CPO光引擎</td>
+          <td>唯一垂直整合（VCSEL+InP+SiPho）</td>
+        </tr>
+        <tr>
+          <td>Innolight</td>
+          <td class="cell-mid">早期</td>
+          <td class="cell-good">SR4爆发</td>
+          <td class="cell-strong">SR8量产第一</td>
+          <td class="cell-strong">出货绝对第一</td>
+          <td class="cell-good">受EML供给约束</td>
+          <td class="cell-mid">SiPho过渡评估</td>
+          <td class="cell-weak">可插拔萎缩</td>
+          <td>量产规模 / 低成本组装</td>
+        </tr>
+        <tr>
+          <td>Eoptolink</td>
+          <td class="cell-mid">早期</td>
+          <td class="cell-good">SR4跟随</td>
+          <td class="cell-good">SR8第二</td>
+          <td class="cell-good">第二组装商</td>
+          <td class="cell-mid">EML依赖受限</td>
+          <td class="cell-mid">多方案对冲</td>
+          <td class="cell-weak">边缘共存</td>
+          <td>性价比规模制造</td>
+        </tr>
+        <tr>
+          <td>Marvell</td>
+          <td class="cell-none">—</td>
+          <td class="cell-mid">早期DSP</td>
+          <td class="cell-good">PAM4 DSP主要</td>
+          <td class="cell-strong">DSP芯片主导</td>
+          <td class="cell-strong">SiPho+DSP</td>
+          <td class="cell-strong">SiPho PIC+Celestial</td>
+          <td class="cell-strong">CPO光引擎</td>
+          <td>SiPho PIC / PAM4 DSP / CPO架构</td>
+        </tr>
+        <tr>
+          <td>Broadcom</td>
+          <td class="cell-mid">早期VCSEL</td>
+          <td class="cell-good">VCSEL/DSP</td>
+          <td class="cell-good">Taurus DSP</td>
+          <td class="cell-good">400G DSP</td>
+          <td class="cell-good">Taurus 400G DSP</td>
+          <td class="cell-strong">Bailly CPO首发</td>
+          <td class="cell-strong">CPO交换平台</td>
+          <td>Bailly CPO交换机（首款量产）/ ASIC</td>
+        </tr>
+        <tr>
+          <td>NVIDIA</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-strong">AI需求核心</td>
+          <td class="cell-strong">产能锁定LITE</td>
+          <td class="cell-strong">Quantum-X800</td>
+          <td class="cell-strong">COUPE CPO平台</td>
+          <td>AI GPU集群需求驱动者 / CPO平台</td>
+        </tr>
+        <tr>
+          <td>CRDO（Credo）</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-mid">SerDes芯片</td>
+          <td class="cell-strong">AEC爆发+LPO</td>
+          <td class="cell-mid">AEC距离受限</td>
+          <td class="cell-weak">3.2T退出</td>
+          <td class="cell-mid">SerDes+互连</td>
+          <td>AEC铜缆IC（短距GPU互连） / Microsoft主供</td>
+        </tr>
+        <tr>
+          <td>OpenLight</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-none">—</td>
+          <td class="cell-startup">SiPho研发</td>
+          <td class="cell-startup">3.2T Alpha发布</td>
+          <td class="cell-startup">SiPho规模化</td>
+          <td>异质集成SiPho PIC（最激进EML替代方案）</td>
+        </tr>
+        <tr>
+          <td>Ciena（CIEN）</td>
+          <td class="cell-good">DCI相干</td>
+          <td class="cell-strong">100G相干主导</td>
+          <td class="cell-good">400G ZR相干</td>
+          <td class="cell-mid">DCI场景</td>
+          <td class="cell-mid">长距DCI</td>
+          <td class="cell-mid">骨干网</td>
+          <td class="cell-mid">骨干共存</td>
+          <td>相干光传输系统（DCI长距场景）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       LEGEND
+  ══════════════════════════════════════════════════════════ -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#0d3d2a; border: 1px solid #2dce89;"></div>
+      <span>绿色 = 强势主导 / 护城河最深</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#0a1a2a; border: 1px solid #4a9eff;"></div>
+      <span>蓝色 = 重要参与者 / 稳定受益</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a1a1a; border: 1px solid #5a5a5a;"></div>
+      <span>灰色 = 普通参与 / 边际地位</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a0a0a; border: 1px solid #e35d6a;"></div>
+      <span>红色 = 竞争劣势 / 市场萎缩</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#2a1a3d; border: 1px solid #c07aff;"></div>
+      <span>紫色 = 创业阶段 / 验证中</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a1a1a; border: 1px solid #333;"></div>
+      <span>— = 尚未参与该市场</span>
+    </div>
+    <div style="margin-left: auto; font-size: 11px; color: var(--text3); align-self: center;">
+      公司标签：<span style="color:#4a9eff; font-weight:600;">蓝色=主导者</span> &nbsp;
+      <span style="color:#8a9eff;">浅蓝=重要参与</span> &nbsp;
+      <span style="color:var(--text2);">灰色=跟随者</span> &nbsp;
+      <span style="color:#c07aff;">紫色=创业公司</span>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<div class="footer">
+  光模块技术演进全景图 | 数据截至 2026-04-10 | 分析基于公开资料及行业研究 | 仅供投资研究参考，不构成投资建议
+</div>
+
+</body>
+</html>

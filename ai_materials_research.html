@@ -808,31 +808,94 @@ new Chart(C('marketSizeChart'), {
   }
 });
 
-// ── China matrix scatter ──
+// ── China matrix: quadrant background + inline labels ──
+const matrixData = [
+  { label: 'ABF薄膜',      x: 1.0, y: 9.5, r: 14, color: 'rgba(248,113,113,0.85)' },
+  { label: 'EUV光刻胶',    x: 1.8, y: 10.2,r: 12, color: 'rgba(248,113,113,0.85)' },
+  { label: '液态金属TIM',  x: 0.9, y: 8.2, r: 10, color: 'rgba(248,113,113,0.75)' },
+  { label: '铍铜合金',     x: 2.0, y: 7.0, r: 9,  color: 'rgba(248,113,113,0.70)' },
+  { label: 'Rogers PTFE',  x: 3.2, y: 8.8, r: 12, color: 'rgba(251,191,36,0.80)'  },
+  { label: 'T玻纤布',      x: 4.0, y: 7.5, r: 10, color: 'rgba(251,191,36,0.75)'  },
+  { label: 'InP晶圆',      x: 3.5, y: 9.5, r: 10, color: 'rgba(251,191,36,0.80)'  },
+  { label: '软磁粉末',     x: 7.5, y: 5.5, r: 11, color: 'rgba(74,222,128,0.75)'  },
+  { label: '光纤',         x: 9.0, y: 4.2, r: 10, color: 'rgba(74,222,128,0.75)'  },
+];
+
+// plugin: draw quadrant background zones + material name labels
+const matrixPlugin = {
+  id: 'matrixBg',
+  beforeDatasetsDraw(chart) {
+    const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
+    const midX = x.getPixelForValue(5.5);
+    const midY = y.getPixelForValue(6);
+    // top-left: hard to substitute, high importance → red zone
+    ctx.fillStyle = 'rgba(248,113,113,0.07)';
+    ctx.fillRect(left, top, midX - left, midY - top);
+    // top-right: easy to substitute, high importance → yellow
+    ctx.fillStyle = 'rgba(251,191,36,0.05)';
+    ctx.fillRect(midX, top, right - midX, midY - top);
+    // bottom half: lower importance → green
+    ctx.fillStyle = 'rgba(74,222,128,0.04)';
+    ctx.fillRect(left, midY, right - left, bottom - midY);
+    // quadrant zone labels
+    ctx.font = 'bold 11px "Segoe UI", sans-serif';
+    ctx.fillStyle = 'rgba(248,113,113,0.5)';
+    ctx.fillText('高战略重要性 · 极难替代 → 关键风险', left + 8, top + 16);
+    ctx.fillStyle = 'rgba(251,191,36,0.45)';
+    ctx.fillText('高战略重要性 · 尚可替代', midX + 8, top + 16);
+    ctx.fillStyle = 'rgba(74,222,128,0.45)';
+    ctx.fillText('战略重要性较低 · 可替代', left + 8, midY + 16);
+  },
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { x, y } } = chart;
+    ctx.save();
+    chart.data.datasets.forEach((ds, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (!meta.data.length) return;
+      const pt = meta.data[0];
+      const px = pt.x, py = pt.y;
+      const r = pt.options.radius || 8;
+      ctx.font = '11px "Segoe UI", sans-serif';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'left';
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 4;
+      ctx.fillText(ds.label, px + r + 5, py + 4);
+      ctx.shadowBlur = 0;
+    });
+    ctx.restore();
+  }
+};
+
 new Chart(C('chinaMatrix'), {
   type: 'bubble',
+  plugins: [matrixPlugin],
   data: {
-    datasets: [
-      { label: 'ABF薄膜', data: [{ x: 1, y: 9, r: 14 }], backgroundColor: 'rgba(248,113,113,0.7)' },
-      { label: 'EUV光刻胶', data: [{ x: 1, y: 10, r: 12 }], backgroundColor: 'rgba(248,113,113,0.7)' },
-      { label: '液态金属TIM', data: [{ x: 1, y: 8, r: 10 }], backgroundColor: 'rgba(248,113,113,0.6)' },
-      { label: 'Rogers PTFE', data: [{ x: 2, y: 8, r: 12 }], backgroundColor: 'rgba(251,191,36,0.7)' },
-      { label: 'T玻纤布', data: [{ x: 3, y: 7, r: 10 }], backgroundColor: 'rgba(251,191,36,0.6)' },
-      { label: 'InP晶圆', data: [{ x: 3, y: 8, r: 10 }], backgroundColor: 'rgba(251,191,36,0.7)' },
-      { label: '铍铜合金', data: [{ x: 1, y: 7, r: 9 }], backgroundColor: 'rgba(248,113,113,0.6)' },
-      { label: '软磁粉末', data: [{ x: 8, y: 6, r: 11 }], backgroundColor: 'rgba(74,222,128,0.7)' },
-      { label: '光纤', data: [{ x: 9, y: 5, r: 10 }], backgroundColor: 'rgba(74,222,128,0.7)' },
-    ]
+    datasets: matrixData.map(d => ({
+      label: d.label,
+      data: [{ x: d.x, y: d.y, r: d.r }],
+      backgroundColor: d.color,
+      borderColor: d.color.replace(/[\d.]+\)$/, '1)'),
+      borderWidth: 1
+    }))
   },
   options: {
     responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label } }
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}  替代难度:${ctx.raw.x}  重要性:${ctx.raw.y}` } }
     },
     scales: {
-      x: { grid: GRID, min: 0, max: 10, ticks: { ...TICK, callback: v => v <= 2 ? '极难' : v <= 5 ? '中等' : '较易' }, title: { display: true, text: '中国替代难度（左=极难替代）', color: '#64748b', font: { size: 11 } } },
-      y: { grid: GRID, min: 0, max: 11, ticks: { ...TICK, callback: v => v >= 8 ? '极高' : v >= 6 ? '高' : '中等' }, title: { display: true, text: 'AI基建战略重要性', color: '#64748b', font: { size: 11 } } }
+      x: {
+        grid: GRID, min: 0, max: 11,
+        ticks: { ...TICK, maxTicksLimit: 3, callback: v => ({ 1:'← 极难替代', 5.5:'中等', 10:'容易替代 →' })[v] ?? '' },
+        title: { display: true, text: '中国替代难度', color: '#64748b', font: { size: 11 } }
+      },
+      y: {
+        grid: GRID, min: 2, max: 12,
+        ticks: { ...TICK, maxTicksLimit: 3, callback: v => ({ 4:'战略重要性低', 7:'重要', 10:'极高重要性' })[v] ?? '' },
+        title: { display: true, text: 'AI基建战略重要性 ↑', color: '#64748b', font: { size: 11 } }
+      }
     }
   }
 });

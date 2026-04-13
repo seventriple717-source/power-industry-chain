@@ -744,8 +744,9 @@
     </div>
     <div style="margin-top:20px;">
       <div class="chart-wrap">
-        <h3>美股可投标的：营收规模与市值对比（注：部分为近似值）</h3>
-        <div class="chart-box" style="padding-bottom:24%;"><canvas id="stockCompare"></canvas></div>
+        <h3>估值 vs 成长矩阵（X轴=P/S估值倍数·对数刻度，Y轴=FY2026E营收增速，泡泡大小=市值规模）</h3>
+        <p style="font-size:11px;color:#475569;margin-bottom:12px;">左上角=低估值+高增速→最佳价值区；右下角=贵+慢增速→估值风险区。颜色：绿=买入 黄=持有 红=卖出。数据截至2026年4月，均为近似值。</p>
+        <div class="chart-box" style="padding-bottom:48%;"><canvas id="stockCompare"></canvas></div>
       </div>
     </div>
   </div>
@@ -979,29 +980,99 @@ new Chart(C('chinaMatrix'), {
   }
 });
 
-// ── Stock compare ──
+// ── Stock valuation matrix (scatter) ──
+// X = P/S ratio (log scale), Y = FY2026E revenue growth %, bubble size = market cap
+const stockMatrix = [
+  { label: 'CC',   x: 0.7,  y: -8,  r: 10, color: 'rgba(251,191,36,0.85)',  mcap:'$24亿', ps:'0.7x', g:'-8%',  tip:'Hold · 3M退出结构受益但PFAS诉讼拖累，增速负值' },
+  { label: 'MTRN', x: 1.2,  y: 9,   r: 10, color: 'rgba(74,222,128,0.85)',  mcap:'$22亿', ps:'1.2x', g:'+9%',  tip:'Buy · 铍铜北美80%垄断，国防$6500万扩产，Q4电子+20%' },
+  { label: 'ENTG', x: 2.5,  y: 13,  r: 13, color: 'rgba(74,222,128,0.85)',  mcap:'$87亿', ps:'2.5x', g:'+13%', tip:'Buy · CMP抛光液AI芯片必需耗材，Q4超预期+10.2%' },
+  { label: 'ROG',  x: 2.7,  y: 5,   r: 10, color: 'rgba(74,222,128,0.85)',  mcap:'$21亿', ps:'2.7x', g:'+5%',  tip:'Buy · PTFE基板800G+唯一材料，2026年重大设计定点待发布' },
+  { label: 'APD',  x: 3.5,  y: 4,   r: 14, color: 'rgba(251,191,36,0.85)',  mcap:'$420亿',ps:'3.5x', g:'+4%',  tip:'Hold · 防御性特气垄断，增速偏缓，稳定性强' },
+  { label: 'AXTI', x: 35.0, y: 50,  r: 9,  color: 'rgba(248,113,113,0.85)', mcap:'$29亿', ps:'35x',  g:'+50%', tip:'Sell · P/S泡沫，当前价超所有分析师目标，合理价$15-20' },
+];
+
+const stockZonePlugin = {
+  id: 'stockZone',
+  beforeDatasetsDraw(chart) {
+    const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
+    // vertical divider at P/S = 5x
+    const midX = x.getPixelForValue(5);
+    const midY = y.getPixelForValue(10);
+    // top-left: cheap + fast growing → best value (green tint)
+    ctx.fillStyle = 'rgba(74,222,128,0.05)';
+    ctx.fillRect(left, top, midX - left, midY - top);
+    // bottom-right: expensive + slow → risk zone (red tint)
+    ctx.fillStyle = 'rgba(248,113,113,0.05)';
+    ctx.fillRect(midX, midY, right - midX, bottom - midY);
+    // zone labels
+    ctx.font = 'bold 11px "Segoe UI",sans-serif';
+    ctx.fillStyle = 'rgba(74,222,128,0.4)';
+    ctx.fillText('最佳价值区（低估值+高增速）', left + 8, top + 16);
+    ctx.fillStyle = 'rgba(248,113,113,0.4)';
+    ctx.textAlign = 'right';
+    ctx.fillText('估值风险区（贵+慢增速）', right - 8, bottom - 10);
+    ctx.textAlign = 'left';
+  },
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { x, y } } = chart;
+    ctx.save();
+    chart.data.datasets.forEach((ds, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (!meta.data.length) return;
+      const pt = meta.data[0];
+      const r = pt.options.radius || 8;
+      // ticker label
+      ctx.font = 'bold 12px "Segoe UI",sans-serif';
+      ctx.fillStyle = '#f1f5f9';
+      ctx.textAlign = 'center';
+      ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 5;
+      ctx.fillText(ds.label, pt.x, pt.y - r - 5);
+      // P/S and growth sub-label
+      ctx.font = '10px "Segoe UI",sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.shadowBlur = 3;
+      ctx.fillText(`P/S ${ds.custom.ps}  增速${ds.custom.g}`, pt.x, pt.y - r - 16);
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'left';
+    });
+    ctx.restore();
+  }
+};
+
 new Chart(C('stockCompare'), {
-  type: 'bar',
+  type: 'bubble',
+  plugins: [stockZonePlugin],
   data: {
-    labels: ['ROG', 'ENTG', 'MTRN', 'AXTI', 'APD', 'CC'],
-    datasets: [{
-      label: '年营收（$亿）',
-      data: [8, 35, 18, 1.2, 120, 60],
-      backgroundColor: 'rgba(56,189,248,0.7)',
-      borderRadius: 4
-    },{
-      label: '市值（$亿，概估）',
-      data: [21, 200, 22, 4, 420, 45],
-      backgroundColor: 'rgba(251,191,36,0.6)',
-      borderRadius: 4
-    }]
+    datasets: stockMatrix.map(d => ({
+      label: d.label,
+      custom: { ps: d.ps, g: d.g, tip: d.tip },
+      data: [{ x: d.x, y: d.y, r: d.r }],
+      backgroundColor: d.color,
+      borderColor: d.color.replace(/[\d.]+\)$/, '1)'),
+      borderWidth: 1
+    }))
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const d = stockMatrix.find(s => s.label === ctx.dataset.label);
+        return [`${ctx.dataset.label} | 市值${d.mcap}`, `P/S ${d.ps} | 增速 ${d.g}`, d.tip];
+      }}}
+    },
     scales: {
-      x: { grid: GRID, ticks: TICK },
-      y: { grid: GRID, ticks: { ...TICK, callback: v => '$' + v + 'B' } }
+      x: {
+        type: 'logarithmic', min: 0.4, max: 80,
+        grid: GRID,
+        ticks: { ...TICK, callback: v => [0.5,1,2,3,5,10,20,50].includes(v) ? v+'x' : '' },
+        title: { display: true, text: 'P/S 估值倍数（对数刻度，越低越便宜）', color: '#64748b', font: { size: 11 } }
+      },
+      y: {
+        grid: GRID, min: -20, max: 65,
+        ticks: { ...TICK, callback: v => v + '%' },
+        title: { display: true, text: 'FY2026E 营收增速 ↑（越高增长越快）', color: '#64748b', font: { size: 11 } }
+      }
     }
   }
 });

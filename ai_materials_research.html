@@ -104,6 +104,13 @@
   .stock-thesis { font-size: 12px; color: #94a3b8; line-height: 1.6; border-top: 1px solid #1e2a3a; padding-top: 10px; margin-top: 4px; }
   .stock-thesis strong { color: #fbbf24; }
 
+  /* ── Stock action buttons ── */
+  .stock-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e2a3a; flex-wrap: wrap; }
+  .btn-report { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-decoration: none; }
+  .btn-report.active { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35); }
+  .btn-report.active:hover { background: rgba(56,189,248,0.22); border-color: #38bdf8; }
+  .btn-report.pending { background: rgba(100,116,139,0.08); color: #475569; border: 1px solid rgba(100,116,139,0.2); cursor: default; pointer-events: none; }
+
   /* ── Risk table ── */
   .risk-list { display: grid; gap: 10px; }
   .risk-item { background: #0f1521; border-left: 3px solid; border-radius: 0 8px 8px 0; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
@@ -539,7 +546,7 @@
 <!-- ═══════════════════════ 美股标的 ═══════════════════════ -->
 <section>
   <div class="container">
-    <div class="sec-title">美股可投标的：精选7只</div>
+    <div class="sec-title">美股可投标的：精选6只</div>
     <p class="sec-desc">日本垄断材料（味之素/JSR/TOK/Nittobo）无美股入口；以下为美股可直接投资的核心材料标的，数据截至2026年4月</p>
     <div class="stock-grid">
       <!-- ROG -->
@@ -561,6 +568,10 @@
           <strong>核心逻辑：</strong>PTFE高频基板在800G+场景是唯一可用材料（FR-4完全失效）。AI数据中心网络交换机全部采用Rogers材料。<strong>2026年内有重大数据中心设计定点待公告</strong>（Q4 2025财报原话）。Q1 2026指引$193-208M，当前估值尚未反映AI数据中心红利。<br><br>
           <strong>风险：</strong>核心市场仍是5G/汽车雷达，数据中心收入占比尚小；设计定点落地时间有不确定性。
         </div>
+        <div class="stock-actions">
+          <span class="btn-report pending">深度研报（研究中）</span>
+          <span class="btn-report pending">估值模型（研究中）</span>
+        </div>
       </div>
       <!-- ENTG -->
       <div class="stock-card">
@@ -580,6 +591,10 @@
         <div class="stock-thesis">
           <strong>核心逻辑：</strong>每颗AI芯片制造必用Entegris的CMP抛光液、超纯化学品、过滤系统——是AI芯片制造的"水和电"级别耗材。Q4 2025业绩超预期后股价单日+10.2%，管理层强调<strong>先进逻辑和HBM需求强劲，AI应用驱动明显</strong>。全球约30%CMP市占，并购CMC Materials后规模进一步扩大。<br><br>
           <strong>风险：</strong>非AI fab活动仍疲软，高杠杆（收购CMC带来债务），对TSMC台积电集中度风险。
+        </div>
+        <div class="stock-actions">
+          <span class="btn-report pending">深度研报（研究中）</span>
+          <span class="btn-report pending">估值模型（研究中）</span>
         </div>
       </div>
       <!-- MTRN -->
@@ -601,6 +616,10 @@
           <strong>核心逻辑：</strong>铍铜合金北美约80%产能，铍是战略管控金属构成天然壁垒。Q4 2025电子材料业务（半导体相关）环比<strong>+20%</strong>，创近三年最强季度，管理层明确表示AI技术快速扩张驱动半导体需求。2026年获<strong>$6500万国防扩产投资</strong>，展示双驱动（半导体+国防）。<br><br>
           <strong>风险：</strong>铍的战略监管风险；汽车/航空市场疲软拖累整体；规模较小（$18亿营收）。
         </div>
+        <div class="stock-actions">
+          <span class="btn-report pending">深度研报（研究中）</span>
+          <span class="btn-report pending">估值模型（研究中）</span>
+        </div>
       </div>
       <!-- AXTI -->
       <div class="stock-card">
@@ -620,6 +639,10 @@
         <div class="stock-thesis">
           <strong>核心逻辑：</strong>唯一美股InP/GaAs衬底纯标的。800G/1.6T光收发器爆发直接拉动InP晶圆需求，2025年供需缺口达70%（需求200万片 vs 产能60万片），价格上行明确。800G→1.6T升级将使InP需求翻倍。<br><br>
           <strong>风险：</strong>体量极小（$1.2亿营收），流动性差，业绩波动大；中国营收占比高（约40-50%），受出口管制影响。
+        </div>
+        <div class="stock-actions">
+          <a href="https://seventriple717-source.github.io/power-industry-chain/AXTI_analysis.html" target="_blank" class="btn-report active">深度研报</a>
+          <span class="btn-report pending">估值模型（研究中）</span>
         </div>
       </div>
       <!-- APD -->
@@ -641,6 +664,10 @@
           <strong>核心逻辑：</strong>NF₃/WF₆等电子特气是芯片制造的必需消耗品，与晶圆产量高度正相关。APD与LIN、Air Liquide合计控制约80%全球份额，寡头垄断结构稳定。AI芯片先进制程带动特气用量提升（NF₃清洗频次增加，WF₆多层互联消耗增加）。防御性强，波动性低。<br><br>
           <strong>风险：</strong>增速较慢（~5%），特气只是APD业务的一部分；工业气体受宏观周期影响。
         </div>
+        <div class="stock-actions">
+          <span class="btn-report pending">深度研报（研究中）</span>
+          <span class="btn-report pending">估值模型（研究中）</span>
+        </div>
       </div>
       <!-- CC -->
       <div class="stock-card">
@@ -660,6 +687,10 @@
         <div class="stock-thesis">
           <strong>核心逻辑：</strong>3M于2025年全面停产Novec氟化冷却液，市场份额拱手相让。Chemours的Opteon系列和含氟溶剂是最直接的受益者。AI服务器液冷渗透率从30%→47%（2026E TrendForce），$32亿市场→$72亿（2030 Dell'Oro），Chemours获得结构性供给优势。<br><br>
           <strong>风险：</strong>Chemours业务分散，氟化液只是一部分；公司有法律负债（PFAS诉讼）；3M份额转移速度有不确定性。
+        </div>
+        <div class="stock-actions">
+          <span class="btn-report pending">深度研报（研究中）</span>
+          <span class="btn-report pending">估值模型（研究中）</span>
         </div>
       </div>
     </div>

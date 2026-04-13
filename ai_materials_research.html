@@ -65,6 +65,9 @@
   .mat-table th { background: #0f1521; color: #64748b; font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 2px solid #1e2a3a; font-size: 12px; }
   .mat-table td { padding: 12px 14px; border-bottom: 1px solid #131c2a; vertical-align: top; }
   .mat-table tr:hover td { background: rgba(56,189,248,0.04); }
+  /* category boundary: thick accent line + subtle tint on separator rows */
+  .mat-table .cat-start td { border-top: 2px solid rgba(56,189,248,0.35); }
+  .mat-table .cat-start .cat-label { background: rgba(56,189,248,0.06); border-left: 3px solid #38bdf8; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
   .badge-red { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
   .badge-yellow { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
@@ -302,7 +305,7 @@
       <tbody>
         <!-- 类别① -->
         <tr>
-          <td rowspan="3" style="font-weight:700;color:#38bdf8;vertical-align:middle">①<br>晶圆加工<br>与封装</td>
+          <td rowspan="4" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">①<br>晶圆加工<br>与封装</td>
           <td><strong>光刻胶</strong><br><span style="color:#64748b;font-size:11px">（ArFi/EUV）</span></td>
           <td>芯片制造的"感光底片"。ArFi用于7-45nm制程，EUV用于7nm以下。AI芯片（H100/B200）制程3-4nm，全程依赖EUV光刻胶。每片300mm晶圆消耗约50-100ml，为一次性耗材。</td>
           <td><strong>$29-35亿</strong></td>
@@ -329,9 +332,18 @@
           <td><strong style="color:#f87171">味之素（日本）95%+</strong><br>无第二替代供应商<br>玻璃基板（Intel主导）最早2028商业化</td>
           <td><span class="badge badge-red">极低</span><br>中国无ABF制造能力<br>100%进口</td>
         </tr>
-        <!-- 类别② -->
         <tr>
-          <td rowspan="3" style="font-weight:700;color:#38bdf8;vertical-align:middle">②<br>覆铜板<br>材料</td>
+          <td><strong>CMP抛光液</strong><br><span style="color:#64748b;font-size:11px">（化学机械抛光液）</span></td>
+          <td>芯片制造平坦化关键耗材。每颗AI芯片制程中使用约20-30次CMP，每次磨平一层金属/介电层，确保多层铜互联结构平整。每片300mm晶圆全程消耗抛光液约10-20升，先进制程（3-4nm）因层数更多消耗量更大，是不可跳过的必须工序。</td>
+          <td><strong>~$30亿</strong><br><span style="color:#64748b;font-size:11px">CMP耗材全球2025<br>Technavio</span></td>
+          <td><span class="badge badge-blue">9-11% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>Mordor Intelligence</span></td>
+          <td><span class="badge badge-red">必须</span><br><span style="font-size:11px;color:#64748b">无平坦化则多层互联失效</span></td>
+          <td><strong>Entegris/ENTG（美）</strong>（收购CMC后~40%）；Fujifilm（日，~20%）；DuPont（美，~15%）；<strong>安集科技（A股，先进节点正在突破）</strong></td>
+          <td><span class="badge badge-yellow">中低</span><br>常规浆料有国产<br>先进节点仍进口</td>
+        </tr>
+        <!-- 类别② -->
+        <tr class="cat-start">
+          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">②<br>覆铜板<br>材料</td>
           <td><strong>高频树脂</strong><br><span style="color:#64748b;font-size:11px">（PTFE/PPE/碳氢）</span></td>
           <td>AI服务器/交换机PCB的信号绝缘层。信号速率决定材料选择：标准FR-4（Df=0.020）在800G速率下信号全部失真；Rogers PTFE（Df=0.001-0.003）是唯一可行选项，性能差距10倍以上。</td>
           <td><strong>$41亿</strong>（高频高速CCL）<br><strong>$4.3亿</strong>（AI服务器专用）</td>
@@ -358,8 +370,8 @@
           <td><span class="badge badge-yellow">中低</span><br>E玻纤中国自给<br>T玻纤依赖Nittobo</td>
         </tr>
         <!-- 类别③ -->
-        <tr>
-          <td rowspan="2" style="font-weight:700;color:#38bdf8;vertical-align:middle">③<br>高速连接<br>界面</td>
+        <tr class="cat-start">
+          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">③<br>高速连接<br>界面</td>
           <td><strong>铍铜合金</strong></td>
           <td>Amphenol/TE Connectivity连接器弹性接触簧片的核心材料。铍铜兼具高导电性和高弹性，弹性模量是纯铜3倍，普通铜做不到高可靠性接触。</td>
           <td><strong>$5.1亿</strong><br><span style="color:#64748b;font-size:11px">Fortune BI 2025</span></td>
@@ -377,9 +389,18 @@
           <td><strong>Celanese/CE（美）</strong>全球领先；Polyplastics（日）、住友化学（日）；三家合计<strong>63%+</strong>全球产能</td>
           <td><span class="badge badge-red">低</span><br>高端LCP国内未突破</td>
         </tr>
-        <!-- 类别④ -->
         <tr>
-          <td rowspan="2" style="font-weight:700;color:#38bdf8;vertical-align:middle">④<br>光学<br>材料</td>
+          <td><strong>贵金属触点镀层</strong><br><span style="color:#64748b;font-size:11px">（金/钯金/银）</span></td>
+          <td>高速连接器接触面的耐腐蚀导电镀层。AI服务器连接器触点通常镀金0.1-0.5μm或钯金合金，防止氧化导致接触电阻上升（氧化后电阻可从毫欧级上升至欧级，高速信号失真）。单台AI服务器含600-1000个连接器接触点，寿命要求>1000次热插拔。</td>
+          <td><strong>~$10亿</strong><br><span style="color:#64748b;font-size:11px">连接器贵金属镀层<br>含在连接器$1500亿市场中</span></td>
+          <td><span class="badge badge-blue">~6% CAGR</span><br><span style="color:#64748b;font-size:11px">随连接器市场增长<br>2025-2030</span></td>
+          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">氧化触点导致信号失真</span></td>
+          <td>Umicore（比利时，全球最大贵金属回收+电镀材料）；Heraeus（德）；田中贵金属/TANAKA（日）；<strong style="color:#fbbf24">三家合计约60%高端电镀材料市场</strong></td>
+          <td><span class="badge badge-yellow">中</span><br>贵金属加工有国产<br>高纯电镀材料依赖进口</td>
+        </tr>
+        <!-- 类别④ -->
+        <tr class="cat-start">
+          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">④<br>光学<br>材料</td>
           <td><strong>InP晶圆</strong><br><span style="color:#64748b;font-size:11px">（磷化铟）</span></td>
           <td>800G/1.6T光收发器中激光器芯片的生长衬底。硅无法直接发光（间接带隙），InP是1550nm波段高速激光器的唯一衬底材料。光子学和光收发器用途占2025年InP需求的<strong>58.9%</strong>。</td>
           <td><strong>$1.98亿</strong><br><span style="color:#64748b;font-size:11px">Mordor Intelligence 2025</span></td>
@@ -397,9 +418,18 @@
           <td><strong>Corning/GLW（美）</strong>约30%；Prysmian（意）约20%；<strong>长飞（中）</strong>约15%；Meta $60亿长期协议锁定GLW供应</td>
           <td><span class="badge badge-green">中高</span><br>长飞跻身全球前三<br>中国基本自给</td>
         </tr>
-        <!-- 类别⑤ -->
         <tr>
-          <td rowspan="2" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑤<br>供配电<br>材料</td>
+          <td><strong>GaAs晶圆</strong><br><span style="color:#64748b;font-size:11px">（砷化镓）</span></td>
+          <td>射频前端PA（功率放大器）和高频开关器件衬底。GaAs电子迁移率比硅高5-7倍，是AI服务器内置Wi-Fi 7/以太网卡、交换机射频前端必用材料。同时用于VCSEL激光器（短距离光互连），每台AI服务器含数十颗VCSEL器件。</td>
+          <td><strong>~$5.2亿</strong><br><span style="color:#64748b;font-size:11px">GaAs晶圆全球2025<br>Mordor Intelligence</span></td>
+          <td><span class="badge badge-blue">8.4% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>Mordor Intelligence</span></td>
+          <td><span class="badge badge-yellow">必须（RF/VCSEL）</span><br><span style="font-size:11px;color:#64748b">硅无法替代射频性能</span></td>
+          <td>住友电工（日，~35%）；<strong>AXT/AXTI（美，~20%）</strong>；Freiberger（德，~15%）；中国先进半导体（A股，追赶中）</td>
+          <td><span class="badge badge-yellow">中低</span><br>有少量国产产能<br>高品质仍进口</td>
+        </tr>
+        <!-- 类别⑤ -->
+        <tr class="cat-start">
+          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑤<br>供配电<br>材料</td>
           <td><strong>金属软磁粉末</strong></td>
           <td>服务器VRM（电压调节模块）中功率电感的磁芯材料。VRM是给CPU/GPU精准稳压的核心模块，每台AI服务器含数十个功率电感，每个需0.5-2g软磁粉末。</td>
           <td>AI服务器需求<br><strong>7,853吨</strong>（2026E）</td>
@@ -417,9 +447,18 @@
           <td>STMicro（意法，<strong>35%</strong>）、onsemi（美，<strong>25%</strong>）、Infineon（德，15%）；Wolfspeed/WOLF（美）SiC晶圆约50%但器件排名第4</td>
           <td><span class="badge badge-yellow">低-中</span><br>天科合达追赶中<br>品质落后1-2代</td>
         </tr>
-        <!-- 类别⑥ -->
         <tr>
-          <td rowspan="2" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑥<br>导热散热<br>材料</td>
+          <td><strong>电子浆料</strong><br><span style="color:#64748b;font-size:11px">（银浆/焊锡膏/铜浆）</span></td>
+          <td>芯片封装互联的导电粘结材料。FC-BGA封装中，芯片焊球通过焊锡膏与基板连接。每颗AI GPU含数万个微焊点（直径50-200μm），银浆用于大功率器件的die-attach（芯片粘结），导热+导电同时实现。先进封装（2.5D/3D）对浆料精度要求极高。</td>
+          <td><strong>~$38亿</strong><br><span style="color:#64748b;font-size:11px">电子浆料全球2025<br>Grand View Research</span></td>
+          <td><span class="badge badge-blue">7.2% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2032预测<br>Mordor Intelligence</span></td>
+          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">封装焊接不可绕过</span></td>
+          <td>Heraeus（德，~25%）；Indium Corp（美，~15%）；DOWA（日）；<strong style="color:#4ade80">有研亿金（中，A股）国产化已实现</strong>；Alpha Assembly（美）</td>
+          <td><span class="badge badge-green">中高</span><br>常规焊锡膏基本国产<br>高端银浆仍进口</td>
+        </tr>
+        <!-- 类别⑥ -->
+        <tr class="cat-start">
+          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑥<br>导热散热<br>材料</td>
           <td><strong>液态金属TIM</strong><br><span style="color:#64748b;font-size:11px">（铟镓合金）</span></td>
           <td>H100/B200芯片与散热器之间的导热层。导热系数74 W/mK（普通导热硅脂仅8-12 W/mK）。B200 GPU功耗1000W+，液态金属TIM已从可选变为强制规格。</td>
           <td>TIM市场含在热管理中，IDTechEx预测<strong>2026-2036持续高速扩张</strong></td>
@@ -436,6 +475,15 @@
           <td><span class="badge badge-red">700W+必须</span><br><span style="font-size:11px;color:#64748b">风冷上限~350W/服务器</span></td>
           <td><strong>Chemours/CC（美）</strong>、Solvay（比利时）接盘3M退出市场；供应格局重构中</td>
           <td><span class="badge badge-red">极低</span><br>中国无成熟供应商</td>
+        </tr>
+        <tr>
+          <td><strong>导热硅脂/相变TIM</strong><br><span style="color:#64748b;font-size:11px">（Thermal Grease/PCM）</span></td>
+          <td>GPU与散热器间、板卡与机箱间的常规导热填充材料。导热系数6-12 W/mK（低于液态金属TIM的74 W/mK，但成本仅1/10）。功耗&lt;400W的服务器使用导热硅脂，功耗400-700W使用相变TIM（加热后流动填充空隙），700W+才强制切换液态金属。AI服务器总装机量中仍有约60%使用高端硅脂/相变材料。</td>
+          <td><strong>~$18亿</strong><br><span style="color:#64748b;font-size:11px">TIM整体市场2025<br>MarketsandMarkets</span></td>
+          <td><span class="badge badge-blue">8-12% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>多机构共识</span></td>
+          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">芯片不可直接接触金属</span></td>
+          <td><strong>信越化学（日，~35%）</strong>；Dow陶氏（美，~20%）；Henkel（德）；深圳博罗德（中，常规硅脂）；<strong style="color:#4ade80">国内已有部分高端产品</strong></td>
+          <td><span class="badge badge-yellow">中</span><br>普通硅脂国产化<br>高端相变TIM仍信越主导</td>
         </tr>
       </tbody>
     </table>
@@ -641,8 +689,8 @@
           <strong>风险：</strong>体量极小（$1.2亿营收），流动性差，业绩波动大；中国营收占比高（约40-50%），受出口管制影响。
         </div>
         <div class="stock-actions">
-          <a href="https://seventriple717-source.github.io/power-industry-chain/AXTI_analysis.html" target="_blank" class="btn-report active">深度研报</a>
-          <span class="btn-report pending">估值模型（研究中）</span>
+          <a href="https://feishu.cn/docx/HxmvdohLvoUxhFxSLx6cAiu9nJg" target="_blank" class="btn-report active">深度研报</a>
+          <a href="https://feishu.cn/sheet/Puy1swVlChzNBVtx7OYcSAeDnqe" target="_blank" class="btn-report active">估值模型</a>
         </div>
       </div>
       <!-- APD -->

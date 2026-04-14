@@ -175,6 +175,105 @@
   .pie-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
   .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text2); }
   .pie-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Catalyst banner ── */
+  .catalyst-banner { padding: 32px 0; background: linear-gradient(180deg, rgba(10,14,26,0) 0%, rgba(16,30,50,0.6) 100%); border-bottom: 1px solid var(--border); }
+  .catalyst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .catalyst-grid { grid-template-columns: 1fr; } }
+  .catalyst-card { border-radius: 14px; padding: 20px 24px; }
+  .catalyst-bull { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.04)); border: 1px solid rgba(16,185,129,0.35); }
+  .catalyst-bear { background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(239,68,68,0.04)); border: 1px solid rgba(239,68,68,0.35); }
+  .catalyst-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .catalyst-bull .catalyst-title { color: #10b981; }
+  .catalyst-bear .catalyst-title { color: #ef4444; }
+  .catalyst-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .catalyst-item { display: flex; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .catalyst-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .catalyst-icon { font-size: 1.1rem; line-height: 1.4; flex-shrink: 0; width: 20px; }
+  .catalyst-body { flex: 1; }
+  .catalyst-body strong { font-size: 0.88rem; display: block; margin-bottom: 2px; }
+  .catalyst-bull .catalyst-body strong { color: #10b981; }
+  .catalyst-bear .catalyst-body strong { color: #ef4444; }
+  .catalyst-body span { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+  .accounting-note { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.03)); border: 1px solid rgba(59,130,246,0.3); border-radius: 14px; padding: 20px 24px; margin-top: 20px; }
+  .accounting-note h3 { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--accent2); margin-bottom: 14px; }
+  .acct-row { display: flex; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .acct-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .acct-item { min-width: 180px; flex: 1; }
+  .acct-label { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.4px; }
+  .acct-gaap { font-size: 0.92rem; font-weight: 700; color: #ef4444; }
+  .acct-adj  { font-size: 0.92rem; font-weight: 700; color: #10b981; }
+  .acct-note { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+
+  /* ── Risk heatmap ── */
+  .risk-heatmap { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 16px; }
+  .hm-cell { aspect-ratio: 1; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; text-align: center; cursor: default; transition: transform .15s; position: relative; }
+  .hm-cell:hover { transform: scale(1.05); z-index: 2; }
+  .hm-axis { display: flex; gap: 6px; margin-top: 6px; }
+  .hm-yaxis { display: flex; flex-direction: column; gap: 6px; margin-right: 6px; justify-content: space-between; }
+  .hm-axis-label { font-size: 0.65rem; color: var(--text3); text-align: center; }
+  .hm-label { font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .hm-val { font-size: 0.55rem; color: rgba(255,255,255,0.6); margin-top: 1px; }
+  .hm-lvl1 { background: rgba(16,185,129,0.25); border: 1px solid rgba(16,185,129,0.3); }
+  .hm-lvl2 { background: rgba(245,158,11,0.25); border: 1px solid rgba(245,158,11,0.3); }
+  .hm-lvl3 { background: rgba(249,115,22,0.35); border: 1px solid rgba(249,115,22,0.4); }
+  .hm-lvl4 { background: rgba(239,68,68,0.45); border: 1px solid rgba(239,68,68,0.5); }
+  .hm-lvl5 { background: rgba(185,28,28,0.6); border: 1px solid rgba(185,28,28,0.7); }
+  .hm-active { outline: 2px solid #fff; outline-offset: 1px; }
+  .risk-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 700px) { .risk-detail-grid { grid-template-columns: 1fr; } }
+  .risk-detail-card { background: var(--bg3); border-radius: 10px; padding: 16px; border-left: 3px solid; }
+  .rdc-critical { border-color: #b91c1c; }
+  .rdc-high     { border-color: #ef4444; }
+  .rdc-med      { border-color: #f59e0b; }
+  .rdc-low      { border-color: #10b981; }
+
+  /* ── 16 Investors ── */
+  .investors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .inv-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 18px; transition: border-color .2s; }
+  .inv-card:hover { border-color: rgba(59,130,246,0.4); }
+  .inv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .inv-name { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .inv-method { font-size: 0.72rem; color: var(--text3); margin-top: 2px; }
+  .inv-verdict { padding: 3px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+  .inv-bull  { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+  .inv-hold  { background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .inv-bear  { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+  .inv-row { font-size: 0.8rem; margin-bottom: 5px; line-height: 1.55; }
+  .inv-row-label { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 2px; }
+  .g { color: #10b981; }
+  .r { color: #ef4444; }
+  .inv-target { font-size: 0.78rem; color: var(--accent2); margin-top: 8px; font-weight: 600; }
+
+  /* ── Signal gauge ── */
+  .signal-gauge { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+  .gauge-outer { width: 180px; height: 90px; position: relative; overflow: hidden; }
+  .gauge-score-label { font-size: 2rem; font-weight: 800; margin-top: -10px; text-align: center; }
+  .signal-bar-wrap { display: flex; border-radius: 8px; overflow: hidden; height: 28px; margin: 16px 0 8px; }
+  .signal-bar-bull  { background: rgba(16,185,129,0.8); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: #fff; }
+  .signal-bar-hold  { background: rgba(245,158,11,0.7); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: #fff; }
+  .signal-bar-bear  { background: rgba(239,68,68,0.8); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: #fff; }
+
+  /* ── Position management ── */
+  .pos-mgmt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .pos-mgmt-grid { grid-template-columns: 1fr; } }
+  .pos-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .pos-card h4 { font-size: 0.85rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .entry-timeline { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 20px; }
+  .entry-timeline::before { content:''; position:absolute; left:6px; top:0; bottom:0; width:2px; background: linear-gradient(180deg, var(--green), var(--accent), var(--yellow)); border-radius:2px; }
+  .entry-item { position: relative; margin-bottom: 16px; }
+  .entry-item::before { content:''; position:absolute; left:-17px; top:4px; width:10px; height:10px; border-radius:50%; border:2px solid var(--accent); background: var(--bg3); }
+  .entry-label { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; }
+  .entry-price { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .entry-pct { font-size: 0.75rem; color: var(--text2); }
+  .entry-cond { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+  .ev-calc { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.03)); border: 1px solid rgba(59,130,246,0.25); border-radius: 12px; padding: 18px; margin-top: 16px; }
+  .ev-row { display: flex; justify-content: space-between; font-size: 0.83rem; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .ev-row:last-child { border-bottom: none; font-weight: 700; font-size: 0.9rem; }
+  .pos-summary-card { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.03)); border: 1px solid rgba(59,130,246,0.3); border-radius: 14px; padding: 24px; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .psm-item { text-align: center; }
+  .psm-label { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .psm-value { font-size: 1.3rem; font-weight: 800; }
 </style>
 </head>
 <body>
@@ -199,6 +298,95 @@
         <div class="hero-target">12个月目标价: <strong>$18–21</strong> &nbsp;|&nbsp; 分析师共识 $18.44</div>
         <div class="hero-target">理想买入区间: <strong style="color:var(--green);">$14–16</strong> （PFAS风险已定价）</div>
         <div class="hero-date">分析日期: 2026年4月13日 &nbsp;|&nbsp; 数据截至 2026年4月</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CATALYST BANNER ═══ -->
+<section class="catalyst-banner">
+  <div class="container">
+    <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:14px;">对冲基金关注 — 双重催化事件 & 重要会计说明</div>
+    <div class="catalyst-grid">
+      <!-- Positive catalysts -->
+      <div class="catalyst-card catalyst-bull">
+        <div class="catalyst-title"><div class="catalyst-dot" style="background:#10b981;"></div>正面催化剂 / Bullish Catalysts</div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#10b981;">+</div>
+          <div class="catalyst-body">
+            <strong>PFAS NJ $875M 和解落地 — 尾部风险量化</strong>
+            <span>与 DuPont/Corteva 联合解决新泽西州全部环境索赔，$875M 分摊 25 年（CC 年付约 $35M），占 FY2026E FCF &lt;18%，远低于市场最坏预期，证明 PFAS 负债可控化。这一和解消除了最大的已知负债，是评级上调的先决条件。</span>
+          </div>
+        </div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#10b981;">+</div>
+          <div class="catalyst-body">
+            <strong>Opteon / TSS Q4 FY2025 创纪录 +37% YoY 增长</strong>
+            <span>TSS 分部 Q4 FY2025 同比增长 37%，创历史最高单季增速。AIM Act 2025 年正式生效（40% HFC 强制减量）驱动制冷剂替代需求加速，本质是监管法规强制催生的刚性需求，而非经济周期性需求。Samsung 两相数据中心液冷认证目标 Q3 2026，代表新增长曲线。</span>
+          </div>
+        </div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#10b981;">+</div>
+          <div class="catalyst-body">
+            <strong>Kuanyan 资产出售 $300M — 债务快速去杠杆</strong>
+            <span>Kuanyan 厂房出售预计 H1 2026 完成，净收益 $300M 将直接降债，净杠杆从 3.39B 降至约 3.1B，D/E 从 6.91x 改善至约 6.2x。去杠杆进程加速将提升信用评级展望并降低再融资风险。</span>
+          </div>
+        </div>
+      </div>
+      <!-- Negative catalysts -->
+      <div class="catalyst-card catalyst-bear">
+        <div class="catalyst-title"><div class="catalyst-dot" style="background:#ef4444;"></div>风险催化剂 / Bearish Catalysts</div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#ef4444;">−</div>
+          <div class="catalyst-body">
+            <strong>PFAS RICO 消防员装备案 — 三倍赔偿尾部风险</strong>
+            <span>2026 年 1 月蒙大拿联邦法院拒绝驳回 RICO 索赔，涉及全美逾百万消防员装备更换费用，理论上三倍赔偿可超越公司当前股权总价值（$2.67B）。与 NJ 环境和解性质不同，这是刑事性质的欺诈索赔，任何和解都可能要求认罪性协议，重大负面影响。</span>
+          </div>
+        </div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#ef4444;">−</div>
+          <div class="catalyst-body">
+            <strong>Q4 FY2025 EPS $0.05 连续低于预期 — 管理层信誉损伤</strong>
+            <span>Q4 Adj.EPS $0.05 低于共识 $0.07，股价单日暴跌 16.5%。连续多季度指引落空叠加 Newman 前 CEO 操纵指标丑闻，管理层公信力已严重受损。市场正以折价倍数反映执行风险。</span>
+          </div>
+        </div>
+        <div class="catalyst-item">
+          <div class="catalyst-icon" style="color:#ef4444;">−</div>
+          <div class="catalyst-body">
+            <strong>AIM Act 监管回滚风险 — 核心护城河来源受威胁</strong>
+            <span>特朗普政府对环保监管的重新评估可能延迟 AIM Act 执行时间表。若 HFC 强制替代节奏放缓，Opteon 需求增速将从 15-37% 骤降，TSS 整个估值逻辑依赖法规执行的确定性。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Accounting note -->
+    <div class="accounting-note">
+      <h3>★ 重要会计说明：GAAP vs 调整后数据 — 读懂这张表再看利润率</h3>
+      <div class="acct-row">
+        <div class="acct-item">
+          <div class="acct-label">Q2 FY2025 净利润</div>
+          <div class="acct-gaap">GAAP: –$381M（巨亏）</div>
+          <div class="acct-adj">Non-GAAP: ~+$80M（正常盈利）</div>
+          <div class="acct-note">差异项: $381M PFAS 一次性费用，非经营性现金支出；剔除后反映正常盈利能力</div>
+        </div>
+        <div class="acct-item">
+          <div class="acct-label">FY2025 全年 EPS</div>
+          <div class="acct-gaap">GAAP: –$2.57/股（亏损）</div>
+          <div class="acct-adj">Non-GAAP FWD: $1.77/股（盈利）</div>
+          <div class="acct-note">传统 PE 估值对 CC 完全失效，必须使用 Non-GAAP EPS 或 EV/EBITDA 定价</div>
+        </div>
+        <div class="acct-item">
+          <div class="acct-label">Adj. EBITDA vs GAAP 营业利润</div>
+          <div class="acct-gaap">GAAP 营业利润: ~$480M</div>
+          <div class="acct-adj">Adj. EBITDA: $742M（+$262M）</div>
+          <div class="acct-note">调整项含：D&A $180M、SBC $45M、重组/其他 $37M；EBITDA 更能反映现金创造能力</div>
+        </div>
+        <div class="acct-item">
+          <div class="acct-label">PFAS 负债会计处理</div>
+          <div class="acct-gaap">GAAP: 按揭出现计入损益（大幅波动）</div>
+          <div class="acct-adj">Non-GAAP: 剔除（视为非经常性项目）</div>
+          <div class="acct-note">卖方分析师普遍采用 Non-GAAP 定价；GAAP 亏损不代表经营恶化，但 PFAS 现金支出是真实的</div>
+        </div>
       </div>
     </div>
   </div>
@@ -661,6 +849,147 @@
   </div>
 </section>
 
+<!-- ═══ RISK MATRIX HEATMAP ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">风险矩阵热力图</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="chart-grid">
+      <!-- Heatmap -->
+      <div>
+        <div style="font-size:0.82rem;color:var(--text2);margin-bottom:12px;">概率（横轴）× 影响（纵轴）热力图 — 已标注 CC 主要风险位置</div>
+        <div style="display:flex;gap:8px;">
+          <!-- Y-axis label -->
+          <div style="display:flex;flex-direction:column;justify-content:space-between;padding:4px 0;min-width:52px;">
+            <div style="font-size:0.65rem;color:var(--text3);text-align:right;">极高<br>影响</div>
+            <div style="font-size:0.65rem;color:var(--text3);text-align:right;">高</div>
+            <div style="font-size:0.65rem;color:var(--text3);text-align:right;">中</div>
+            <div style="font-size:0.65rem;color:var(--text3);text-align:right;">低</div>
+            <div style="font-size:0.65rem;color:var(--text3);text-align:right;">极低<br>影响</div>
+          </div>
+          <!-- Grid -->
+          <div style="flex:1;">
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;">
+              <!-- Row 5 (highest impact) -->
+              <div class="hm-cell hm-lvl3"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl4"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl5 hm-active"><div class="hm-label" style="font-size:0.58rem;">PFAS<br>RICO</div><div class="hm-val">R1</div></div>
+              <div class="hm-cell hm-lvl5"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl5"><div class="hm-label">—</div></div>
+              <!-- Row 4 -->
+              <div class="hm-cell hm-lvl2"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl3 hm-active"><div class="hm-label" style="font-size:0.58rem;">AIM<br>回滚</div><div class="hm-val">R2</div></div>
+              <div class="hm-cell hm-lvl4"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl4"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl5"><div class="hm-label">—</div></div>
+              <!-- Row 3 -->
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl2 hm-active"><div class="hm-label" style="font-size:0.58rem;">HFO<br>竞争</div><div class="hm-val">R5</div></div>
+              <div class="hm-cell hm-lvl3 hm-active"><div class="hm-label" style="font-size:0.58rem;">再融资<br>风险</div><div class="hm-val">R4</div></div>
+              <div class="hm-cell hm-lvl3"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl4"><div class="hm-label">—</div></div>
+              <!-- Row 2 -->
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl2 hm-active"><div class="hm-label" style="font-size:0.58rem;">TiO2<br>低迷</div><div class="hm-val">R3</div></div>
+              <div class="hm-cell hm-lvl2"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl3"><div class="hm-label">—</div></div>
+              <!-- Row 1 (lowest impact) -->
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl1"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl2"><div class="hm-label">—</div></div>
+              <div class="hm-cell hm-lvl2"><div class="hm-label">—</div></div>
+            </div>
+            <!-- X-axis labels -->
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:6px;">
+              <div style="font-size:0.6rem;color:var(--text3);text-align:center;">极低<br>概率</div>
+              <div style="font-size:0.6rem;color:var(--text3);text-align:center;">低</div>
+              <div style="font-size:0.6rem;color:var(--text3);text-align:center;">中</div>
+              <div style="font-size:0.6rem;color:var(--text3);text-align:center;">高</div>
+              <div style="font-size:0.6rem;color:var(--text3);text-align:center;">极高<br>概率</div>
+            </div>
+          </div>
+        </div>
+        <!-- Legend -->
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text3);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(16,185,129,0.25);"></div>低风险
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text3);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(245,158,11,0.25);"></div>中风险
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text3);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(249,115,22,0.35);"></div>高风险
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text3);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(239,68,68,0.45);"></div>极高风险
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--text3);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(185,28,28,0.6);"></div>临界风险
+          </div>
+        </div>
+        <!-- Risk score -->
+        <div style="margin-top:16px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:0.72rem;color:var(--text3);">整体风险等级评分</div>
+            <div style="font-size:0.8rem;color:var(--text2);margin-top:2px;">综合 5 项风险加权概率-影响积分</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:2rem;font-weight:800;color:#ef4444;">68 <span style="font-size:0.9rem;color:var(--text2);">/ 100</span></div>
+            <div style="font-size:0.75rem;color:#ef4444;font-weight:600;">高风险</div>
+          </div>
+        </div>
+      </div>
+      <!-- Risk detail cards -->
+      <div>
+        <div style="font-size:0.82rem;color:var(--text2);margin-bottom:12px;">各风险详情 — 概率 × 影响 × 触发条件 × 对冲建议</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="risk-detail-card rdc-critical">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <strong style="font-size:0.88rem;color:#fca5a5;">R1 PFAS RICO 三倍赔偿</strong>
+              <span style="font-size:0.75rem;color:#ef4444;font-weight:700;">概率25% × 影响90%</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: 庭审开始 + 陪审团裁定欺诈 → 三倍赔偿</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">对冲: 持仓 &lt;3%; 出现庭审日期立即减仓</div>
+          </div>
+          <div class="risk-detail-card rdc-high">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <strong style="font-size:0.88rem;color:#fca5a5;">R2 AIM Act 监管回滚</strong>
+              <span style="font-size:0.75rem;color:#f97316;font-weight:700;">概率20% × 影响55%</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: EPA 公告修订 HFC 相变时间表</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">对冲: 监控 EPA 公告; 欧洲 F-Gas 法规提供保险</div>
+          </div>
+          <div class="risk-detail-card rdc-med">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <strong style="font-size:0.88rem;color:#fcd34d;">R3 TiO2 周期持续低迷</strong>
+              <span style="font-size:0.75rem;color:#f59e0b;font-weight:700;">概率35% × 影响25%</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: 中国产能再扩张 + 欧洲需求继续萎缩</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">对冲: TT 分部是已知弱点，估值中已部分折价</div>
+          </div>
+          <div class="risk-detail-card rdc-med">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <strong style="font-size:0.88rem;color:#fcd34d;">R4 高杠杆再融资风险</strong>
+              <span style="font-size:0.75rem;color:#f59e0b;font-weight:700;">概率25% × 影响30%</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: 利率上升 + 债务到期 + Moody's 下调至 B1</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">对冲: Kuanyan 出售 $300M 主动降债</div>
+          </div>
+          <div class="risk-detail-card rdc-low">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+              <strong style="font-size:0.88rem;color:#6ee7b7;">R5 中国 HFO 竞争进入</strong>
+              <span style="font-size:0.75rem;color:#10b981;font-weight:700;">概率15% × 影响35%</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: 巨化/中化蓝天 HFO-1234yf 量产突破</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">对冲: 专利壁垒至 2040 年代; 2-3 年内概率低</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ THREE-FRAMEWORK VALUATION ═══ -->
 <section class="section">
   <div class="container">
@@ -836,6 +1165,319 @@
       <div style="margin-top:12px;font-size:0.83rem;color:var(--text2);">止损条件: PFAS RICO 进入庭审阶段 + 和解金额 > $2B → 股权价值接近零</div>
     </div>
 
+  </div>
+</section>
+
+<!-- ═══ 16 LEGENDARY INVESTORS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">16位传奇投资者深度分析 — CC 视角</div>
+    <div class="investors-grid">
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">本杰明·格雷厄姆</div><div class="inv-method">安全边际 / 净净值量化选股</div></div>
+          <span class="inv-verdict inv-bear">卖出</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">P/S 0.46x 接近资产清算价值；EV/EBITDA 8.9x 低于历史中位</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">全部 6 项安全检验失败；GAAP EPS 为负；D/E 6.91x 严重超标；Graham Number $12.37 低于当前价 $17.57</span></div>
+        <div class="inv-target">目标价: $12（Graham Number）| 操作: 在 $12 以下考虑少量建仓</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">沃伦·巴菲特</div><div class="inv-method">护城河 / 消费垄断 / 永久持有</div></div>
+          <span class="inv-verdict inv-hold">观望</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">TSS/Opteon 拥有真实的监管驱动护城河；AIM Act 是"被立法保障"的竞争壁垒；Opteon 类似"消费者品牌"</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS 负债不可预测，违背"确定性优先"原则；D/E 6.91x 巴菲特厌恶高杠杆；管理层信誉受损（Newman 丑闻）</span></div>
+        <div class="inv-target">目标价: $25–28（PFAS 解决后）| 操作: 等待 PFAS 明确化解后以 $18–20 建仓</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">查理·芒格</div><div class="inv-method">精神模型 / 优质企业合理价格</div></div>
+          <span class="inv-verdict inv-bear">回避</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">Opteon 具备真实的行业地位；HFO 法规壁垒是芒格喜欢的"无形护城河"</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS 诉讼是"反向复利"——每年消耗现金流+管理注意力；TiO2 是无护城河商品生意；"在好生意和坏生意中选好生意"——Chemours 两者都有</span></div>
+        <div class="inv-target">操作: 回避，直至 TSS 可以从 TT 独立拆分估值</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">彼得·林奇</div><div class="inv-method">PEG / 十倍股 / 行业生活化洞察</div></div>
+          <span class="inv-verdict inv-hold">关注</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">TSS 是典型的"林奇成长股"——普通消费者（空调、汽车）每天都在使用 Opteon，AIM Act 是监管强制的市场扩张；Non-GAAP PEG 约 0.8x（9.9x PE ÷ ~12% 增速）极具吸引力</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS 是"跟着公司入股的噩梦"；TiO2 是林奇最厌恶的大宗商品生意；连续业绩 miss 是"翻牌"信号</span></div>
+        <div class="inv-target">目标价: $24（TSS 增速维持 15% 的合理估值）| 操作: $15 以下小仓位博弈 TSS 独立价值</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">霍华德·马克斯</div><div class="inv-method">二阶思维 / 周期 / 风险控制</div></div>
+          <span class="inv-verdict inv-bull">谨慎买入</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">市场对 CC 的悲观情绪已极度化——Q4 miss + PFAS RICO + 管理层危机，三重利空叠加正是马克斯的逆向买入窗口；EV/EBITDA 8.9x 处于历史 25th 百分位；"别人恐惧时贪婪"</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS RICO 是真实的"价值陷阱"风险——不是普通的悲观情绪，是结构性风险</span></div>
+        <div class="inv-target">目标价: $21（12 个月）| 操作: $14–16 分批建仓，仓位 5%</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">乔治·索罗斯</div><div class="inv-method">反身性 / 市场错误预期自我强化</div></div>
+          <span class="inv-verdict inv-bear">看空</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">若 PFAS RICO 突然和解，反射性买盘将放大上行——情绪修复快于基本面修复</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">负向反身性循环：PFAS 负面情绪 → 股价下跌 → 机构减仓 → 信用评级下调 → 融资成本上升 → 偿债压力加大 → 更多负面消息；当前动量向下</span></div>
+        <div class="inv-target">操作: 做空或空仓，等待反身性底部出现的确认信号</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">瑞·达利欧</div><div class="inv-method">全天候组合 / 宏观杠杆周期</div></div>
+          <span class="inv-verdict inv-hold">低配</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">化工行业在通胀周期中具备商品属性对冲价值；TSS 的法规壁垒类似"监管许可"资产</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">D/E 6.91x 在利率收紧周期中是致命负债；PFAS 负债与宏观变量无关，是公司特有风险，无法通过组合对冲；不符合全天候组合的"确定性"要求</span></div>
+        <div class="inv-target">操作: 全天候组合权重 &lt;0.5%（纯多元化考虑）</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">塞斯·卡拉曼</div><div class="inv-method">绝对安全边际 / 不对称风险收益</div></div>
+          <span class="inv-verdict inv-bear">回避</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">P/S 0.46x 接近卡拉曼喜欢的"困境资产"价格；若 PFAS 解决，上行空间 60%+，不对称性存在</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">下行风险包括"归零"选项——这是卡拉曼绝对禁忌；PFAS RICO 敞口无法量化，违反"永远不亏损"的核心原则；卡拉曼要求至少 30-40% 的已知安全边际</span></div>
+        <div class="inv-target">操作: 等待 PFAS 负债完全量化（或买入 CC 发行的债券而非股票）</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">乔尔·格林布拉特</div><div class="inv-method">神奇公式 / ROIC + 盈利收益率双因子</div></div>
+          <span class="inv-verdict inv-bull">条件买入</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">Non-GAAP 盈利收益率 ~10%（1/PE = 1/9.9x）处于神奇公式高分区；TSS 分部估算 ROIC ~18-22%，远高于资本成本；按神奇公式排名，CC 在化工行业前 20%</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">GAAP ROIC 受 PFAS 费用严重扭曲；神奇公式假设正常化盈利，但 PFAS 现金支出将持续拖累 FCF</span></div>
+        <div class="inv-target">目标价: $22（Non-GAAP 正常化后的神奇公式估值）| 操作: PFAS 解决后满足神奇公式标准</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">斯坦利·德鲁肯米勒</div><div class="inv-method">宏观趋势 / 动量 + 基本面结合</div></div>
+          <span class="inv-verdict inv-bull">战术买入</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">TSS Q4 +37% 是德鲁肯米勒需要的"加速动量信号"；AIM Act 执法是政策层面的确定性催化；$17.57 可能是情绪底部</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS RICO 是无法用动量框架量化的不连续风险事件；整体股价动量仍向下（近 60 日均线下方）</span></div>
+        <div class="inv-target">目标价: $22（6 个月）| 操作: $14–16 买入，止损 $12，满仓 5%</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">大卫·艾因霍恩</div><div class="inv-method">基本面空头 / 会计质量审查</div></div>
+          <span class="inv-verdict inv-bear">审计警告</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">若认为 GAAP 亏损完全是一次性，Non-GAAP 存在低估可能</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">GAAP vs Non-GAAP 差异达 $3.34/股 EPS 是重大红旗；前 CFO 被指控"操纵付款时点触发绩效奖金"，管理层道德问题已记录在案；PFAS 负债过去几年系统性低估，现在是否仍在低估？会计质量不达标</span></div>
+        <div class="inv-target">操作: 保持高度怀疑；若做多需深度审计 PFAS 准备金充分性</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">比尔·阿克曼</div><div class="inv-method">激进主义 / 集中持仓 / 催化剂推动</div></div>
+          <span class="inv-verdict inv-hold">研究中</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">拆分 TSS（Opteon）与 TT（TiO2）可解锁 $28+ 价值——两者差异化的护城河和估值倍数被迫合并折价；阿克曼的激进主义剧本：推动拆分 + PFAS 快速和解</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS 负债拆分前无法解决（TT 和 TSS 需共同承担）；激进主义需要大量时间和法律资源；当前市值 $2.67B 规模对阿克曼偏小</span></div>
+        <div class="inv-target">操作: 关注是否有激进投资者入场（持仓 >5%）作为信号</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">约翰·邓普顿</div><div class="inv-method">极度悲观时买入 / 全球逆向投资</div></div>
+          <span class="inv-verdict inv-bull">买入</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">"在最悲观点买入"——PFAS RICO + Q4 miss + 股价 -16.5% = 邓普顿标准的"maximum pessimism"时刻；TSS 业务仍在增长 +37%，恐惧与现实背离；历史上邓普顿在负面新闻最密集时建仓往往获最大回报</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS 是真实的、未量化的存在性风险，不同于普通的市场悲观情绪；邓普顿会要求确认底部</span></div>
+        <div class="inv-target">目标价: $25（18 个月）| 操作: 当前价 $17.57 小仓位买入 3%</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">约翰·聂夫</div><div class="inv-method">低PE + 股息 + 适度增长的聂夫公式</div></div>
+          <span class="inv-verdict inv-hold">低配</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">Non-GAAP PE 9.9x 满足聂夫"低PE"标准；EV/EBITDA 8.9x 低于行业均值；估值便宜是聂夫的核心选股条件</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">无股息（聂夫公式要求股息收益率）；GAAP EPS 为负（聂夫公式需要正盈利）；增长不稳定（TiO2 拖累）；聂夫公式：低PE + 股息 + 稳定增长三项 CC 只满足一项</span></div>
+        <div class="inv-target">操作: 不符合聂夫标准，低配或回避</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">菲利普·费舍</div><div class="inv-method">闲聊法 / 长期成长 / 管理层深度调研</div></div>
+          <span class="inv-verdict inv-hold">持有观察</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">Opteon 的技术领导力和与 OEM/HVAC 厂商的深度合作关系满足费舍的"行业内口碑优秀"标准；AIM Act 法规推动是费舍喜欢的"宏观顺风"</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">费舍最看重管理层诚信，Newman 被迫辞职事件是永久性的管理层信用污点；"闲聊法"调研 PFAS 的下游工厂、消防员工会、环保律师，结果大概率是负面的</span></div>
+        <div class="inv-target">操作: 等待新任 CEO Dignam 证明管理层文化重塑（至少 2 年观察期）</div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-header">
+          <div><div class="inv-name">迈克尔·伯里</div><div class="inv-method">深度价值 / 逆向 / 市场忽视资产</div></div>
+          <span class="inv-verdict inv-bull">买入</span>
+        </div>
+        <div class="inv-row-label">买入理由</div>
+        <div class="inv-row"><span class="g">P/S 0.46x + EV/EBITDA 8.9x 是伯里式的"深度折价"；TSS/Opteon 是被 TiO2 和 PFAS 情绪压制的被低估的优质资产；PFAS 是"已知风险"（不是伯里发现的隐藏风险），市场已经定价，伯里认为过度定价</span></div>
+        <div class="inv-row-label">拒绝理由</div>
+        <div class="inv-row"><span class="r">PFAS RICO 三倍赔偿是伯里也无法精确量化的尾部风险；D/E 6.91x 在利率上行中是隐患</span></div>
+        <div class="inv-target">目标价: $26（TSS 独立价值重估）| 操作: $14–16 买入，持有 18–24 个月</div>
+      </div>
+
+    </div>
+
+    <!-- Signal Distribution Visualization -->
+    <div style="margin-top:36px;">
+      <div style="font-size:1rem;font-weight:700;color:var(--accent2);margin-bottom:20px;padding-left:12px;border-left:3px solid var(--accent);">传奇投资者信号分布可视化</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="chart-grid">
+        <div class="chart-card">
+          <h3>多维度综合评分雷达 (1–10分)</h3>
+          <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>16位投资者信号分布</h3>
+          <div class="chart-wrap"><canvas id="signalBar"></canvas></div>
+          <!-- Signal bar strip -->
+          <div style="margin-top:14px;">
+            <div style="font-size:0.75rem;color:var(--text3);margin-bottom:6px;">信号强度分布 (16位)</div>
+            <div class="signal-bar-wrap">
+              <div class="signal-bar-bull" style="width:31.25%;">看多 5</div>
+              <div class="signal-bar-hold" style="width:31.25%;">中性 5</div>
+              <div class="signal-bar-bear" style="width:37.5%;">看空 6</div>
+            </div>
+            <div style="display:flex;justify-content:center;margin-top:14px;flex-direction:column;align-items:center;">
+              <div style="font-size:0.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">综合多空信号强度</div>
+              <div style="font-size:3rem;font-weight:800;color:#f59e0b;">45 <span style="font-size:1rem;color:var(--text2);">/ 100</span></div>
+              <div style="font-size:0.8rem;color:#f59e0b;font-weight:600;">中性偏空 — 等待 PFAS 催化剂</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POSITION MANAGEMENT ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">仓位管理策略</div>
+    <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:14px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:0.85rem;color:var(--text2);">整体风险等级: <strong style="color:#ef4444;">高风险 (68/100)</strong></div>
+      <div style="font-size:0.85rem;color:var(--text2);">建议最大仓位: <strong style="color:#f59e0b;">3–5% 组合权重</strong>（高风险股票上限）</div>
+      <div style="font-size:0.85rem;color:var(--text2);">当前操作: <strong style="color:#10b981;">可小仓位分批建仓</strong>（$14–16 区间）</div>
+    </div>
+
+    <div class="pos-mgmt-grid">
+      <!-- Entry timeline -->
+      <div class="pos-card">
+        <h4>分批建仓时间轴</h4>
+        <div class="entry-timeline">
+          <div class="entry-item">
+            <div class="entry-label">第一批 — 30% 仓位</div>
+            <div class="entry-price" style="color:#10b981;">$14.50 – $16.00</div>
+            <div class="entry-pct">建仓 1.0–1.5% 组合权重</div>
+            <div class="entry-cond">条件: 当前市场情绪极度悲观，估值处于历史低位，可立即执行；PFAS 风险已知但未恶化</div>
+          </div>
+          <div class="entry-item">
+            <div class="entry-label">第二批 — 30% 仓位</div>
+            <div class="entry-price" style="color:#3b82f6;">$16.00 – $18.00（企稳确认）</div>
+            <div class="entry-pct">增加至 2.0–3.0% 组合权重</div>
+            <div class="entry-cond">条件: Q1 FY2026 Adj.EPS ≥ $0.40 证实复苏 + 无新增 PFAS 重大诉讼进展</div>
+          </div>
+          <div class="entry-item">
+            <div class="entry-label">第三批 — 40% 仓位</div>
+            <div class="entry-price" style="color:#f59e0b;">$18.00 – $22.00（催化剂兑现）</div>
+            <div class="entry-pct">增至满仓 3–5% 组合权重</div>
+            <div class="entry-cond">条件: PFAS RICO 明确和解/被驳回 + Q2 FY2026 EBITDA ≥ $230M 加速复苏</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stop loss & targets -->
+      <div class="pos-card">
+        <h4>止损设置 & 退出策略</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px;">
+            <div style="font-size:0.72rem;color:var(--text3);text-transform:uppercase;">硬性止损价</div>
+            <div style="font-size:1.3rem;font-weight:800;color:#ef4444;">$11.50</div>
+            <div style="font-size:0.78rem;color:var(--text2);">触发: 52 周低点下方 20%; PFAS RICO 进入庭审阶段任意节点立即执行</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:12px;">
+            <div style="font-size:0.72rem;color:var(--text3);text-transform:uppercase;">动态止损条件</div>
+            <div style="font-size:0.9rem;font-weight:700;color:#f59e0b;">基本面恶化触发</div>
+            <div style="font-size:0.78rem;color:var(--text2);">① FY2026 EBITDA 指引下修 &gt;15% ② Moody's 评级降至 B1 ③ D/E 超过 8x ④ PFAS 新增和解金额 &gt;$1B 单次</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:12px;">
+            <div style="font-size:0.72rem;color:var(--text3);text-transform:uppercase;">减仓/获利离场</div>
+            <div style="font-size:0.9rem;font-weight:700;color:#10b981;">$21 (基准) / $28 (牛市)</div>
+            <div style="font-size:0.78rem;color:var(--text2);">到达基准目标 $21 时减仓 50%；到达牛市目标 $28（PFAS 明确）后清仓获利</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expected value calculation -->
+    <div class="ev-calc" style="margin-top:20px;">
+      <div style="font-size:0.85rem;font-weight:700;color:var(--accent2);margin-bottom:12px;">期望值计算 (基于 $16 入场价)</div>
+      <div class="ev-row"><span style="color:var(--text2);">基准目标 $21.00 (+31.3%)</span><span style="color:var(--green);">× 概率 50% = +15.6%</span></div>
+      <div class="ev-row"><span style="color:var(--text2);">牛市目标 $28.00 (+75.0%，PFAS 解决)</span><span style="color:var(--green);">× 概率 25% = +18.8%</span></div>
+      <div class="ev-row"><span style="color:var(--text2);">止损触发 $11.50 (–28.1%，PFAS 恶化)</span><span style="color:var(--red);">× 概率 25% = –7.0%</span></div>
+      <div class="ev-row"><span style="color:var(--text);">加权期望收益</span><span style="color:#10b981;">+27.4%（风险回报比约 3.0x）</span></div>
+    </div>
+
+    <!-- Summary card -->
+    <div class="pos-summary-card">
+      <div class="psm-item"><div class="psm-label">建议仓位</div><div class="psm-value" style="color:#f59e0b;">3–5%</div></div>
+      <div class="psm-item"><div class="psm-label">初次入场价</div><div class="psm-value" style="color:#10b981;">$14–16</div></div>
+      <div class="psm-item"><div class="psm-label">硬性止损</div><div class="psm-value" style="color:#ef4444;">$11.50</div></div>
+      <div class="psm-item"><div class="psm-label">基准目标</div><div class="psm-value" style="color:#3b82f6;">$21</div></div>
+      <div class="psm-item"><div class="psm-label">牛市目标</div><div class="psm-value" style="color:#10b981;">$28</div></div>
+      <div class="psm-item"><div class="psm-label">期望收益</div><div class="psm-value" style="color:#10b981;">+27.4%</div></div>
+      <div class="psm-item"><div class="psm-label">风险回报比</div><div class="psm-value" style="color:#a78bfa;">3.0x</div></div>
+      <div class="psm-item"><div class="psm-label">整体风险</div><div class="psm-value" style="color:#ef4444;">高 68/100</div></div>
+    </div>
   </div>
 </section>
 
@@ -1072,6 +1714,70 @@ new Chart(document.getElementById('evChart'), {
            max: 25, min: 0 },
       x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
     }
+  }
+});
+
+// ── 11. Radar Chart (8 dimensions) ──
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['估值吸引力','成长性','护城河','风险控制','管理层','周期位置','催化剂','资产负债表'],
+    datasets: [{
+      label: 'CC 综合评分',
+      data: [7.5, 5.0, 5.0, 2.5, 3.5, 5.5, 6.0, 2.0],
+      backgroundColor: 'rgba(59,130,246,0.2)',
+      borderColor: '#3b82f6',
+      pointBackgroundColor: '#60a5fa',
+      pointRadius: 4,
+      borderWidth: 2
+    }, {
+      label: '化工行业基准',
+      data: [5, 5, 5, 5, 5, 5, 5, 5],
+      backgroundColor: 'rgba(100,116,139,0.08)',
+      borderColor: 'rgba(100,116,139,0.4)',
+      borderDash: [4,3],
+      pointRadius: 2,
+      borderWidth: 1
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      r: {
+        min: 0, max: 10,
+        grid: { color: 'rgba(255,255,255,0.08)' },
+        angleLines: { color: 'rgba(255,255,255,0.08)' },
+        pointLabels: { color: '#94a3b8', font: { size: 10 } },
+        ticks: { display: false }
+      }
+    }
+  }
+});
+
+// ── 12. Signal Bar Chart (16 investors) ──
+new Chart(document.getElementById('signalBar'), {
+  type: 'bar',
+  data: {
+    labels: ['格雷厄姆','巴菲特','芒格','林奇','马克斯','索罗斯','达利欧','卡拉曼','格林布拉特','德鲁肯米勒','艾因霍恩','阿克曼','邓普顿','聂夫','费舍','伯里'],
+    datasets: [{
+      label: '信号 (2=买入, 1=中性, 0=卖出)',
+      data: [0,1,0,1,2,0,1,0,2,2,0,1,2,1,1,2],
+      backgroundColor: [
+        '#ef4444','#f59e0b','#ef4444','#f59e0b','#10b981',
+        '#ef4444','#f59e0b','#ef4444','#10b981','#10b981',
+        '#ef4444','#f59e0b','#10b981','#f59e0b','#f59e0b','#10b981'
+      ],
+      borderRadius: 4,
+      borderWidth: 0
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { display: false, min: 0, max: 2.5 },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 8 }, maxRotation: 45 } }
+    },
+    plugins: { ...chartDefaults.plugins, legend: { display: false } }
   }
 });
 </script>

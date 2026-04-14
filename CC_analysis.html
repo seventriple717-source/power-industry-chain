@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC - The Chemours Company | Deep Value Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0e1a; --bg2: #111827; --bg3: #1a2236; --bg4: #1e2a40;
+    --accent: #3b82f6; --accent2: #60a5fa; --gold: #f59e0b; --green: #10b981;
+    --red: #ef4444; --yellow: #f59e0b; --purple: #8b5cf6; --cyan: #06b6d4;
+    --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
+    --border: rgba(255,255,255,0.08);
+    --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Hero ── */
+  .hero { background: linear-gradient(135deg, #0d1b35 0%, #1a0d35 50%, #0d1b35 100%); padding: 48px 0 40px; border-bottom: 1px solid var(--border); }
+  .hero-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .hero-left h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; color: #fff; }
+  .hero-left h1 span { color: var(--accent2); }
+  .hero-left .company-name { font-size: 1.1rem; color: var(--text2); margin-top: 4px; }
+  .hero-meta { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .tag { padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; }
+  .tag-hold { background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid rgba(245,158,11,0.4); }
+  .tag-sell { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
+  .tag-buy { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.4); }
+  .tag-sector { background: rgba(139,92,246,0.2); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+  .tag-pfas { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+  .hero-right { text-align: right; }
+  .hero-price { font-size: 3.2rem; font-weight: 800; color: #fff; }
+  .hero-price-sub { color: var(--red); font-size: 0.95rem; }
+  .hero-target { color: var(--text2); font-size: 0.95rem; margin-top: 8px; }
+  .hero-target strong { color: var(--gold); font-size: 1.2rem; }
+  .hero-date { color: var(--text3); font-size: 0.8rem; margin-top: 6px; }
+
+  /* ── Section titles ── */
+  .section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .section-title { font-size: 1.25rem; font-weight: 700; color: var(--accent2); margin-bottom: 24px; padding-left: 12px; border-left: 3px solid var(--accent); }
+
+  /* ── KPI grid ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .kpi-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color .2s; }
+  .kpi-card:hover { border-color: var(--accent); }
+  .kpi-label { font-size: 0.75rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 1.6rem; font-weight: 700; color: #fff; margin: 6px 0 4px; }
+  .kpi-sub { font-size: 0.8rem; color: var(--text2); }
+  .kpi-good { color: var(--green) !important; }
+  .kpi-warn { color: var(--yellow) !important; }
+  .kpi-bad { color: var(--red) !important; }
+
+  /* ── Charts ── */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  @media (max-width: 900px) { .chart-grid, .chart-grid-3 { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .chart-card h3 { font-size: 0.95rem; color: var(--text2); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 240px; }
+
+  /* ── Segment table ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .data-table th { background: var(--bg4); color: var(--text2); padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .data-table .pos { color: var(--green); }
+  .data-table .neg { color: var(--red); }
+  .data-table .warn { color: var(--yellow); }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+
+  /* ── Moat scorecard ── */
+  .moat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .moat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .moat-card h4 { color: var(--text2); font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .stars { color: var(--gold); font-size: 1.2rem; letter-spacing: 2px; }
+  .stars-empty { color: var(--text3); }
+  .moat-bar-wrap { background: var(--bg4); border-radius: 4px; height: 6px; margin-top: 8px; }
+  .moat-bar { height: 6px; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--cyan)); }
+  .moat-verdict { display: inline-block; padding: 3px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-top: 10px; }
+  .moat-wide { background: rgba(16,185,129,0.2); color: var(--green); }
+  .moat-narrow { background: rgba(245,158,11,0.2); color: var(--yellow); }
+  .moat-none { background: rgba(239,68,68,0.2); color: var(--red); }
+
+  /* ── Risk matrix ── */
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .risk-grid { grid-template-columns: 1fr; } }
+  .risk-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .risk-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .risk-header h4 { color: var(--text); font-size: 0.95rem; }
+  .risk-prob { padding: 2px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; }
+  .risk-high { background: rgba(239,68,68,0.2); color: var(--red); }
+  .risk-med { background: rgba(245,158,11,0.2); color: var(--yellow); }
+  .risk-low { background: rgba(16,185,129,0.2); color: var(--green); }
+  .risk-desc { font-size: 0.83rem; color: var(--text2); }
+  .risk-impact { font-size: 0.8rem; color: var(--text3); margin-top: 6px; }
+  .risk-impact span { color: var(--red); }
+
+  /* ── Framework boxes ── */
+  .framework-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media (max-width: 1000px) { .framework-grid { grid-template-columns: 1fr; } }
+  .framework-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+  .framework-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; }
+  .f-graham { border-color: rgba(239,68,68,0.4); }
+  .f-buffett { border-color: rgba(245,158,11,0.4); }
+  .f-marks { border-color: rgba(139,92,246,0.4); }
+  .f-title-graham { color: #ef4444; }
+  .f-title-buffett { color: #f59e0b; }
+  .f-title-marks { color: #a78bfa; }
+  .check-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+  .check-item:last-child { border-bottom: none; }
+  .check-pass { color: var(--green); font-weight: 700; }
+  .check-fail { color: var(--red); font-weight: 700; }
+  .check-label { color: var(--text2); flex: 1; }
+  .check-value { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  /* ── Verdict card ── */
+  .verdict-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+  @media (max-width: 900px) { .verdict-grid { grid-template-columns: 1fr; } }
+  .verdict-card { border-radius: 14px; padding: 20px; text-align: center; }
+  .v-graham { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05)); border: 1px solid rgba(239,68,68,0.3); }
+  .v-buffett { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.3); }
+  .v-marks { background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05)); border: 1px solid rgba(139,92,246,0.3); }
+  .verdict-framework { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .verdict-label { font-size: 1.3rem; font-weight: 800; }
+  .verdict-detail { font-size: 0.8rem; color: var(--text2); margin-top: 6px; }
+  .v-graham .verdict-framework, .v-graham .verdict-label { color: var(--red); }
+  .v-buffett .verdict-framework, .v-buffett .verdict-label { color: var(--gold); }
+  .v-marks .verdict-framework, .v-marks .verdict-label { color: #a78bfa; }
+
+  /* ── Buy range ── */
+  .buy-range-banner { background: linear-gradient(135deg, #1a2a1a, #0d1a0d); border: 1px solid rgba(16,185,129,0.3); border-radius: 16px; padding: 28px; text-align: center; margin-top: 24px; }
+  .buy-range-label { font-size: 0.85rem; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+  .buy-range-value { font-size: 2.6rem; font-weight: 800; color: var(--green); margin: 8px 0; }
+  .buy-range-note { font-size: 0.85rem; color: var(--text2); }
+
+  /* ── DCF bar ── */
+  .dcf-scenarios { margin-top: 16px; }
+  .dcf-row { margin-bottom: 12px; }
+  .dcf-row-header { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text2); margin-bottom: 4px; }
+  .dcf-bar-track { background: var(--bg4); border-radius: 4px; height: 20px; position: relative; }
+  .dcf-bar-fill { height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.75rem; font-weight: 700; color: #fff; transition: width .8s ease; }
+  .dcf-bar-current { position: absolute; top: 0; height: 20px; width: 2px; background: var(--gold); }
+
+  /* ── Competitive comparison ── */
+  .comp-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  .comp-highlight { background: rgba(59,130,246,0.12) !important; }
+
+  /* ── Cycle gauge ── */
+  .cycle-stages { display: flex; gap: 0; border-radius: 8px; overflow: hidden; margin-top: 12px; }
+  .cycle-stage { flex: 1; padding: 10px 8px; text-align: center; font-size: 0.75rem; font-weight: 600; }
+  .cycle-active { outline: 2px solid var(--accent2); outline-offset: -2px; }
+  .stage-early { background: rgba(16,185,129,0.2); color: var(--green); }
+  .stage-growth { background: rgba(59,130,246,0.2); color: var(--accent2); }
+  .stage-peak { background: rgba(245,158,11,0.2); color: var(--yellow); }
+  .stage-decline { background: rgba(239,68,68,0.2); color: var(--red); }
+
+  /* ── Source list ── */
+  .source-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .source-list li a { color: var(--accent2); text-decoration: none; font-size: 0.8rem; padding: 4px 10px; background: var(--bg3); border-radius: 6px; border: 1px solid var(--border); display: block; }
+  .source-list li a:hover { border-color: var(--accent); }
+
+  /* ── KPI checklist ── */
+  .kpi-checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .kpi-checklist { grid-template-columns: 1fr; } }
+  .kpi-check-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .kpi-check-label { font-size: 0.8rem; color: var(--text2); }
+  .kpi-check-value { font-size: 1rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+  .kpi-check-target { font-size: 0.75rem; color: var(--text3); }
+
+  /* ── Segment pie placeholder ── */
+  .pie-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text2); }
+  .pie-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <h1>CC <span>Chemours</span></h1>
+        <div class="company-name">The Chemours Company &nbsp;|&nbsp; NYSE: CC &nbsp;|&nbsp; Specialty Chemicals</div>
+        <div class="hero-meta">
+          <span class="tag tag-hold">综合评级: 谨慎持有</span>
+          <span class="tag tag-sector">专业化工 / 氟化学品</span>
+          <span class="tag tag-pfas">PFAS RICO 尾部风险</span>
+          <span class="tag tag-buy">TSS / Opteon HFO 核心护城河</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-price">$17.57</div>
+        <div class="hero-price-sub">↓16.5% (Q4 FY2025 业绩后) &nbsp;|&nbsp; 市值 $2.67B</div>
+        <div class="hero-target">12个月目标价: <strong>$18–21</strong> &nbsp;|&nbsp; 分析师共识 $18.44</div>
+        <div class="hero-target">理想买入区间: <strong style="color:var(--green);">$14–16</strong> （PFAS风险已定价）</div>
+        <div class="hero-date">分析日期: 2026年4月13日 &nbsp;|&nbsp; 数据截至 2026年4月</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ KPI GRID ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">核心财务指标</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">FY2025 营收</div>
+        <div class="kpi-value">$5.81B</div>
+        <div class="kpi-sub kpi-warn">同比 +0.4% (近停滞)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">毛利率</div>
+        <div class="kpi-value kpi-warn">15.5%</div>
+        <div class="kpi-sub">历史峰值 21% (FY2021)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Adj. EBITDA (FY2025)</div>
+        <div class="kpi-value">$742M</div>
+        <div class="kpi-sub">EBITDA 利润率 12.8%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">自由现金流 FY2025</div>
+        <div class="kpi-value kpi-warn">$110M</div>
+        <div class="kpi-sub">FCF 利润率 ~1.9% (低)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">GAAP 净利润</div>
+        <div class="kpi-value kpi-bad">–$386M</div>
+        <div class="kpi-sub">含 PFAS 费用 $381M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Non-GAAP FWD EPS</div>
+        <div class="kpi-value">$1.77</div>
+        <div class="kpi-sub">共识 $1.43 / FY2026E</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">净负债</div>
+        <div class="kpi-value kpi-bad">$3.39B</div>
+        <div class="kpi-sub">D/E 6.91x (高杠杆)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">每股账面价值</div>
+        <div class="kpi-value">$3.84</div>
+        <div class="kpi-sub">P/B = 4.57x</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">P/S 倍数</div>
+        <div class="kpi-value kpi-good">0.46x</div>
+        <div class="kpi-sub">历史低位 (极度压缩)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Non-GAAP Forward P/E</div>
+        <div class="kpi-value kpi-good">9.9x</div>
+        <div class="kpi-sub">$17.57 / $1.77 EPS</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">EV/EBITDA (当前)</div>
+        <div class="kpi-value">8.9x</div>
+        <div class="kpi-sub">历史中位 11.24x</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Beta</div>
+        <div class="kpi-value kpi-warn">1.40</div>
+        <div class="kpi-sub">高于市场波动</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BUSINESS MODEL ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">商业模式分析</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>收入分部结构 (FY2025 估计)</h3>
+        <div class="chart-wrap">
+          <canvas id="segmentPie"></canvas>
+        </div>
+        <div class="pie-legend">
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#3b82f6;"></div> TSS (Opteon HFO 制冷剂): ~40% / $2.32B — 核心护城河, 高毛利</div>
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#f59e0b;"></div> TT (TiO2 钛白粉): ~35% / $2.03B — 大宗商品, 周期性弱, 无护城河</div>
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#8b5cf6;"></div> APM (含氟聚合物): ~25% / $1.45B — 特种化学品, 中等护城河</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>商业模式评分</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.83rem;color:var(--text2);margin-bottom:4px;"><span>可重复收入占比</span><span style="color:var(--red);">~10% (合同/长期供应协议)</span></div>
+            <div style="background:var(--bg4);border-radius:4px;height:8px;"><div style="width:10%;background:var(--red);height:8px;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.83rem;color:var(--text2);margin-bottom:4px;"><span>TSS/Opteon 定价权</span><span style="color:var(--green);">高 (AIM Act 推动替代)</span></div>
+            <div style="background:var(--bg4);border-radius:4px;height:8px;"><div style="width:75%;background:var(--green);height:8px;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.83rem;color:var(--text2);margin-bottom:4px;"><span>TT TiO2 定价权</span><span style="color:var(--red);">低 (中国出口压力)</span></div>
+            <div style="background:var(--bg4);border-radius:4px;height:8px;"><div style="width:20%;background:var(--red);height:8px;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.83rem;color:var(--text2);margin-bottom:4px;"><span>客户集中度风险</span><span style="color:var(--yellow);">中 (前5客户 &lt;30%)</span></div>
+            <div style="background:var(--bg4);border-radius:4px;height:8px;"><div style="width:40%;background:var(--yellow);height:8px;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.83rem;color:var(--text2);margin-bottom:4px;"><span>业务多元化程度</span><span style="color:var(--accent2);">中 (三分部各有周期)</span></div>
+            <div style="background:var(--bg4);border-radius:4px;height:8px;"><div style="width:55%;background:var(--accent);height:8px;border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--bg4);border-radius:8px;padding:14px;margin-top:8px;">
+            <div style="font-size:0.8rem;color:var(--text3);">核心脆弱性</div>
+            <div style="font-size:0.85rem;color:var(--text);margin-top:4px;">PFAS RICO 三倍赔偿潜在威胁理论上超过当前股权总价值；TiO2 占收入 35% 完全暴露于中国竞争压力；公司 D/E 6.91x，高杠杆限制抗风险能力</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINANCIAL ANALYSIS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">财务趋势分析</div>
+    <div class="chart-grid" style="margin-bottom:24px;">
+      <div class="chart-card">
+        <h3>季度营收趋势 (亿美元) + YoY 增速</h3>
+        <div class="chart-wrap">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Adj. EBITDA 利润率趋势 (%)</h3>
+        <div class="chart-wrap">
+          <canvas id="marginChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>历史自由现金流 (亿美元)</h3>
+        <div class="chart-wrap">
+          <canvas id="fcfChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>分部营收对比 (亿美元, FY2024 vs FY2025)</h3>
+        <div class="chart-wrap">
+          <canvas id="segmentBar"></canvas>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px;">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>季度</th><th class="num">营收 ($M)</th><th class="num">YoY</th>
+              <th class="num">Adj.EBITDA ($M)</th><th class="num">EBITDA 利润率</th>
+              <th class="num">Adj. EPS</th><th class="num">FCF ($M)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1 FY2025</td><td class="num">1,423</td><td class="num pos">+2.1%</td><td class="num">192</td><td class="num">13.5%</td><td class="num">0.31</td><td class="num warn">22</td></tr>
+            <tr><td>Q2 FY2025</td><td class="num">1,474</td><td class="num pos">+1.3%</td><td class="num">178</td><td class="num warn">12.1%</td><td class="num warn">-0.72*</td><td class="num neg">-60</td></tr>
+            <tr><td>Q3 FY2025</td><td class="num">1,582</td><td class="num pos">+3.8%</td><td class="num">215</td><td class="num pos">13.6%</td><td class="num">0.46</td><td class="num pos">56</td></tr>
+            <tr><td>Q4 FY2025</td><td class="num">1,334</td><td class="num neg">–2.2%</td><td class="num">157</td><td class="num warn">11.8%</td><td class="num warn">0.05**</td><td class="num pos">92</td></tr>
+            <tr style="background:rgba(59,130,246,0.07);font-weight:600;"><td>FY2025 全年</td><td class="num">5,813</td><td class="num warn">+0.4%</td><td class="num">742</td><td class="num">12.8%</td><td class="num">1.10</td><td class="num warn">110</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;">* Q2 含 PFAS 费用 $381M 致 GAAP 巨亏；** Q4 低于共识 $0.07，是股价 -16.5% 暴跌的触发点</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GROWTH DRIVERS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">增长驱动与关键追踪指标</div>
+    <div class="chart-grid" style="margin-bottom:24px;">
+      <div class="chart-card">
+        <h3>HFO 全球市场规模预测 (亿美元)</h3>
+        <div class="chart-wrap">
+          <canvas id="hfoMarket"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>TSS (Opteon) vs TT (TiO2) 增速对比 (YoY%)</h3>
+        <div class="chart-wrap">
+          <canvas id="segGrowth"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="kpi-checklist">
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">TSS Q4 FY2025 Opteon 增速</div>
+        <div class="kpi-check-value kpi-good">+37% YoY (创纪录)</div>
+        <div class="kpi-check-target">目标: 维持 >15% 至 2027</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">HFO 市场 CAGR (2026–2035)</div>
+        <div class="kpi-check-value kpi-good">18.2%</div>
+        <div class="kpi-check-target">市场规模: $6.3B (2025) → $33B (2035)</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">AIM Act 40% HFC 减量</div>
+        <div class="kpi-check-value kpi-good">已于 Jan 2025 生效</div>
+        <div class="kpi-check-target">85% 减量目标: 2035</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">数据中心液冷 (两相冷却)</div>
+        <div class="kpi-check-value kpi-warn">Samsung 认证 Q3 2026 目标</div>
+        <div class="kpi-check-target">新兴市场; 目前贡献有限</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">TiO2 价格走势</div>
+        <div class="kpi-check-value kpi-warn">企稳中 (中国出口压力)</div>
+        <div class="kpi-check-target">关注: 反倾销保护效果</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">PFAS RICO 风险</div>
+        <div class="kpi-check-value kpi-bad">Jan 2026 获准推进</div>
+        <div class="kpi-check-target">三倍惩罚赔偿; 敞口未量化</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">Kuanyan 资产出售</div>
+        <div class="kpi-check-value kpi-good">净收益 $300M (降债)</div>
+        <div class="kpi-check-target">预计 H1 2026 完成</div>
+      </div>
+      <div class="kpi-check-item">
+        <div class="kpi-check-label">FY2026E Adj. EBITDA 指引</div>
+        <div class="kpi-check-value kpi-good">$800–900M</div>
+        <div class="kpi-check-target">同比 +8–21%; CapEx $275–325M</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPETITIVE LANDSCAPE ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">竞争格局</div>
+    <div class="chart-grid" style="margin-bottom:24px;">
+      <div class="chart-card">
+        <h3>HFO 市场份额 (2025 估计)</h3>
+        <div class="chart-wrap">
+          <canvas id="mktSharePie"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>同业估值对比 (EV/EBITDA vs EBITDA 利润率)</h3>
+        <div class="chart-wrap">
+          <canvas id="peerScatter"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="comp-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>公司</th><th class="num">营收</th><th class="num">毛利率</th>
+            <th class="num">EBITDA 率</th><th class="num">P/S</th>
+            <th class="num">EV/EBITDA</th><th class="num">HFO 份额</th><th>核心优劣</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="comp-highlight">
+            <td><strong>CC (Chemours)</strong></td><td class="num">$5.81B</td><td class="num warn">15.5%</td>
+            <td class="num warn">12.8%</td><td class="num pos">0.46x</td>
+            <td class="num">8.9x</td><td class="num pos">~35%</td>
+            <td>Opteon 护城河; 高杠杆; PFAS 风险</td>
+          </tr>
+          <tr>
+            <td>Honeywell (HON)</td><td class="num">$35.5B</td><td class="num pos">33.5%</td>
+            <td class="num pos">23.0%</td><td class="num">3.2x</td>
+            <td class="num">18.0x</td><td class="num">~35%</td>
+            <td>Solstice 品牌; 规模+多元化优势</td>
+          </tr>
+          <tr>
+            <td>Arkema (AKE.PA)</td><td class="num">~$8.5B</td><td class="num pos">24.0%</td>
+            <td class="num">15.0%</td><td class="num">0.9x</td>
+            <td class="num">8.0x</td><td class="num neg">~5%</td>
+            <td>特种材料多元化; HFO 布局有限</td>
+          </tr>
+          <tr>
+            <td>Daikin (6367.T)</td><td class="num">~$22.3B</td><td class="num pos">36.0%</td>
+            <td class="num pos">17.0%</td><td class="num">1.5x</td>
+            <td class="num">10.0x</td><td class="num">~10%</td>
+            <td>垂直整合 (空调+制冷剂); 日本基地</td>
+          </tr>
+          <tr>
+            <td>Solstice/SOLS (HON 拆分)</td><td class="num">N/A</td><td class="num">N/A</td>
+            <td class="num">N/A</td><td class="num">N/A</td>
+            <td class="num">N/A</td><td class="num">~35%</td>
+            <td>2025年10月 IPO; 与 CC 形成 HFO 双寡头</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px;background:var(--bg3);border-radius:12px;padding:20px;border:1px solid var(--border);">
+      <div style="font-size:0.9rem;font-weight:600;color:var(--text2);margin-bottom:8px;">竞争格局关键观察</div>
+      <div style="font-size:0.85rem;color:var(--text);line-height:1.7;">
+        HFO-1234yf 市场由 Chemours (Opteon) + Honeywell (Solstice) 形成双寡头，合计控制约 70% 全球供应，对汽车 OEM 及 HVAC 行业具有强定价权。
+        Solstice 2025年10月从 Honeywell 独立上市后，市场透明度提升，双方专利壁垒至 2040 年代仍有效。
+        主要潜在威胁来自中国企业（巨化股份、中化蓝天等），其 HFO 技术能力仍落后 2–3 年。
+        CC 相对 HON 估值折价极大（P/S 0.46x vs 3.2x），折价因子包括：PFAS 尾部风险、高杠杆、单一化学品暴露。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MOAT SCORECARD ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">巴菲特护城河评分卡</div>
+    <div class="moat-grid">
+      <div class="moat-card">
+        <h4>品牌护城河</h4>
+        <div class="stars">★★★<span class="stars-empty">★★</span></div>
+        <div class="moat-bar-wrap"><div class="moat-bar" style="width:60%;"></div></div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;">Opteon 品牌在 HVAC/汽车制冷剂领域高度认可；TiO2 完全无品牌溢价</div>
+        <span class="moat-verdict moat-narrow">窄护城河 (仅 TSS)</span>
+      </div>
+      <div class="moat-card">
+        <h4>转换成本</h4>
+        <div class="stars">★★★<span class="stars-empty">★★</span></div>
+        <div class="moat-bar-wrap"><div class="moat-bar" style="width:60%;"></div></div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;">一旦 HVAC 系统认证某种制冷剂，更换成本高（设备重认证+配件更换）；APM 特种应用也有一定切换壁垒</div>
+        <span class="moat-verdict moat-narrow">中等</span>
+      </div>
+      <div class="moat-card">
+        <h4>网络效应</h4>
+        <div class="stars">★<span class="stars-empty">★★★★</span></div>
+        <div class="moat-bar-wrap"><div class="moat-bar" style="width:15%;"></div></div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;">化学品领域无典型网络效应；生态系统价值来自技术认证体系而非用户网络</div>
+        <span class="moat-verdict moat-none">无</span>
+      </div>
+      <div class="moat-card">
+        <h4>成本优势</h4>
+        <div class="stars">★★★<span class="stars-empty">★★</span></div>
+        <div class="moat-bar-wrap"><div class="moat-bar" style="width:55%;"></div></div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;">全球最大 HFO 生产商之一，规模优势；但 TiO2 面临中国低成本产能竞争，成本劣势明显</div>
+        <span class="moat-verdict moat-narrow">窄 (TSS 有, TT 无)</span>
+      </div>
+      <div class="moat-card">
+        <h4>无形资产 (专利/监管)</h4>
+        <div class="stars">★★★★<span class="stars-empty">★</span></div>
+        <div class="moat-bar-wrap"><div class="moat-bar" style="width:80%;"></div></div>
+        <div style="font-size:0.8rem;color:var(--text2);margin-top:8px;">HFO 专利壁垒至 2040 年代；AIM Act 法规强制替代为最强护城河；APM 特种 PFA/PTFE 技术壁垒</div>
+        <span class="moat-verdict moat-wide">宽 (监管驱动)</span>
+      </div>
+      <div class="moat-card" style="border-color:rgba(245,158,11,0.3);background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.03));">
+        <h4>综合护城河评级</h4>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--yellow);margin:8px 0;">窄护城河</div>
+        <div style="font-size:0.82rem;color:var(--text2);line-height:1.6;">TSS/Opteon 分部拥有实质性护城河（监管驱动 + 技术壁垒 + 转换成本），但占总营收仅 40%；其余 60% 营收无明显护城河。整体评级: <strong style="color:var(--yellow);">Narrow Moat</strong></div>
+        <div style="margin-top:12px;font-size:0.8rem;color:var(--text3);">巴菲特视角: 高杠杆 (D/E 6.91x) + PFAS 诉讼 = 不符合 "确定性" 标准；但 Opteon 业务若单独剥离，具有宽护城河特征</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CYCLE & MACRO ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">霍华德·马克斯周期与宏观分析</div>
+    <div class="chart-grid" style="margin-bottom:24px;">
+      <div class="chart-card">
+        <h3>历史 EV/EBITDA 区间 (CC)</h3>
+        <div class="chart-wrap">
+          <canvas id="evChart"></canvas>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text3);margin-top:8px;">当前 8.9x 低于 10 年中位数 11.24x；处于约 25th 百分位</div>
+      </div>
+      <div class="chart-card">
+        <h3>周期阶段定位</h3>
+        <div style="margin-top:8px;">
+          <div style="font-size:0.85rem;color:var(--text2);margin-bottom:12px;">TSS/HFO 业务周期</div>
+          <div class="cycle-stages">
+            <div class="cycle-stage cycle-active stage-early">早期增长<br><span style="font-size:0.65rem;">当前位置</span></div>
+            <div class="cycle-stage stage-growth">成长期</div>
+            <div class="cycle-stage stage-peak">过热期</div>
+            <div class="cycle-stage stage-decline">衰退期</div>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text2);margin-top:12px;line-height:1.6;">HFO 市场处于法规强制推广的早期增长阶段，AIM Act 2025 年正式生效，85% HFC 减量目标在 2035 年，增长跑道约 10–15 年。TSS 分部 Q4 FY2025 增速 +37% 为加速信号。</div>
+          <div style="margin-top:12px;font-size:0.85rem;color:var(--text2);">TT/TiO2 业务周期</div>
+          <div class="cycle-stages" style="margin-top:6px;">
+            <div class="cycle-stage stage-early">早期增长</div>
+            <div class="cycle-stage stage-growth">成长期</div>
+            <div class="cycle-stage stage-peak">过热期</div>
+            <div class="cycle-stage cycle-active stage-decline">周期低谷<br><span style="font-size:0.65rem;">当前位置</span></div>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text2);margin-top:8px;">TiO2 处于多年周期低谷，中国 2024 出口激增导致全球价格承压，2026年底可能出现价格修复</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:24px;background:var(--bg3);border-radius:12px;padding:20px;border:1px solid var(--border);">
+      <div style="font-size:0.95rem;font-weight:600;color:var(--text2);margin-bottom:12px;">市场情绪与周期信号</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;">
+        <div>
+          <div style="font-size:0.75rem;color:var(--text3);">分析师评级分布</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--text);">5 买入 / 4 持有 / 0 卖出</div>
+          <div style="font-size:0.78rem;color:var(--text3);">共识偏多; 目标价 $18.44</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--text3);">机构持仓</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--text);">96.4%</div>
+          <div style="font-size:0.78rem;color:var(--text3);">机构主导; 散户占比极低</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--text3);">当前估值分位</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--green);">25th 百分位</div>
+          <div style="font-size:0.78rem;color:var(--text3);">EV/EBITDA 历史低位区</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--text3);">近期情绪触发</div>
+          <div style="font-size:0.95rem;font-weight:700;color:var(--red);">极度悲观</div>
+          <div style="font-size:0.78rem;color:var(--text3);">Q4 miss + PFAS RICO 双杀</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:1rem;font-weight:600;color:var(--text2);margin-bottom:16px;">5 大尾部风险矩阵</div>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-header"><h4>PFAS RICO 三倍惩罚赔偿</h4><span class="risk-prob risk-high">概率 25%</span></div>
+        <div class="risk-desc">2026年1月蒙大拿联邦法院允许 RICO 索赔推进（消防员装备案），三倍赔偿理论上可超过当前股权总价值（$2.67B）。MDL 15,200 件个人健康案件仍未解决。</div>
+        <div class="risk-impact">影响: <span>股价归零至 -90% (最坏情形)</span></div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header"><h4>AIM Act 监管回滚风险</h4><span class="risk-prob risk-med">概率 20%</span></div>
+        <div class="risk-desc">特朗普政府对化学品监管的潜在重审。若 EPA 延迟或推迟 AIM Act 执行时间表，Opteon/HFO 强制替代进程减缓，TSS 增速大幅承压。</div>
+        <div class="risk-impact">影响: <span>TSS 估值缩水 40–60%; 股价 -30% 至 -50%</span></div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header"><h4>TiO2 周期持续低迷</h4><span class="risk-prob risk-med">概率 35%</span></div>
+        <div class="risk-desc">中国 TiO2 产能扩张持续压制全球价格，欧洲建筑/涂料需求疲软。若价格复苏延迟至 2027 年，TT 分部将继续拖累整体利润率。</div>
+        <div class="risk-impact">影响: <span>EPS 影响 -$0.3 至 -$0.5; 股价 -15% 至 -20%</span></div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header"><h4>高杠杆再融资风险</h4><span class="risk-prob risk-med">概率 25%</span></div>
+        <div class="risk-desc">净债务 $3.39B，D/E 6.91x，在利率高企环境下，债务到期再融资成本上升将直接侵蚀 FCF。Moody's Ba3 负面展望，评级下调将触发更高借贷成本。</div>
+        <div class="risk-impact">影响: <span>FCF 减少 $50–80M/年; EPS 影响 -$0.3</span></div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header"><h4>HFO 双寡头格局被打破</h4><span class="risk-prob risk-low">概率 15%</span></div>
+        <div class="risk-desc">中国氟化工企业（巨化、中化蓝天）加速 HFO-1234yf 技术突破，若 2–3 年内商业化，将打破 CC+Honeywell 的定价权，TSS 利润率系统性下移。</div>
+        <div class="risk-impact">影响: <span>TSS 利润率 -3–5ppt; 股价 -20% 至 -35%</span></div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-header"><h4>管理层信誉持续损害</h4><span class="risk-prob risk-low">概率 30%</span></div>
+        <div class="risk-desc">前 CEO Newman 因操纵付款时点被迫辞职，现任 CEO Dignam 是内部升任，但公司连续多季度调低指引。Q4 EPS $0.05 vs 共识 $0.07 为最新例证。</div>
+        <div class="risk-impact">影响: <span>估值倍数折价持续; 股价较内在价值折价 20–30%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREE-FRAMEWORK VALUATION ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">三大框架深度估值</div>
+
+    <!-- Graham -->
+    <div class="framework-grid" style="margin-bottom:28px;">
+      <div class="framework-card f-graham">
+        <h3 class="f-title-graham">格雷厄姆安全边际分析</h3>
+
+        <div style="margin-bottom:16px;padding:14px;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.2);">
+          <div style="font-size:0.75rem;color:var(--text3);">Graham Number (Non-GAAP EPS $1.77 × BV $3.84)</div>
+          <div style="font-size:1.8rem;font-weight:800;color:var(--red);margin:4px 0;">$12.37</div>
+          <div style="font-size:0.8rem;color:var(--text2);">当前价 $17.57 较 Graham Number 溢价 <strong style="color:var(--red);">+42%</strong>（GAAP EPS 为负，正式 Graham Number 无法计算）</div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">格雷厄姆安全检验清单</div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">P/E ≤ 15x</span><span class="check-value kpi-bad">N/A (GAAP亏损) / 9.9x Non-GAAP</span></div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">P/B ≤ 1.5x</span><span class="check-value kpi-bad">4.57x</span></div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">P/E × P/B ≤ 22.5</span><span class="check-value kpi-bad">N/A (亏损)</span></div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">流动比率 ≥ 2x</span><span class="check-value kpi-bad">~1.3x (高杠杆)</span></div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">负债/权益 ≤ 1x</span><span class="check-value kpi-bad">6.91x</span></div>
+          <div class="check-item"><span class="check-fail">FAIL</span><span class="check-label">资产/负债 ≥ 2x</span><span class="check-value kpi-bad">~1.2x</span></div>
+        </div>
+
+        <div>
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:10px;">DCF 三情景分析 (基准 FCF $110M, DR 10%)</div>
+          <div class="dcf-scenarios">
+            <div class="dcf-row">
+              <div class="dcf-row-header"><span>保守 (15%→8%→3%, 权重30%)</span><span style="color:var(--red);">$0 (EV低于净债务)</span></div>
+              <div class="dcf-bar-track">
+                <div class="dcf-bar-fill" style="width:0%;background:linear-gradient(90deg,#ef4444,#dc2626);">–</div>
+              </div>
+            </div>
+            <div class="dcf-row">
+              <div class="dcf-row-header"><span>中性 (25%→12%→3%, 权重45%)</span><span style="color:var(--yellow);">$12.54</span></div>
+              <div class="dcf-bar-track">
+                <div class="dcf-bar-fill" style="width:32%;background:linear-gradient(90deg,#f59e0b,#d97706);">$12.54</div>
+                <div class="dcf-bar-current" style="left:45%;"></div>
+              </div>
+            </div>
+            <div class="dcf-row">
+              <div class="dcf-row-header"><span>乐观 (35%→15%→4%, 权重25%)</span><span style="color:var(--green);">$40.35</span></div>
+              <div class="dcf-bar-track">
+                <div class="dcf-bar-fill" style="width:100%;background:linear-gradient(90deg,#10b981,#059669);">$40.35</div>
+                <div class="dcf-bar-current" style="left:45%;"></div>
+              </div>
+            </div>
+            <div class="dcf-row" style="margin-top:8px;">
+              <div style="background:rgba(59,130,246,0.1);border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.83rem;color:var(--text2);">加权综合内在价值</span>
+                <span style="font-size:1.3rem;font-weight:800;color:var(--accent2);">$15.73</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding:10px;background:rgba(239,68,68,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);">
+          <strong style="color:var(--red);">格雷厄姆结论: 减持/卖出</strong> — 全部6项安全检验失败；Graham Number $12.37 vs 当前价 $17.57 溢价 42%；DCF保守情景显示股权价值为零；高杠杆下极不符合格雷厄姆安全边际标准
+        </div>
+      </div>
+
+      <!-- Buffett -->
+      <div class="framework-card f-buffett">
+        <h3 class="f-title-buffett">巴菲特护城河估值</h3>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">ROE 持续性评估</div>
+          <div class="check-item"><span class="check-fail">问题</span><span class="check-label">FY2025 GAAP ROE</span><span class="check-value kpi-bad">-66.5%</span></div>
+          <div class="check-item"><span class="check-fail">问题</span><span class="check-label">FY2025 Non-GAAP ROE (估)</span><span class="check-value kpi-warn">~18-22%</span></div>
+          <div class="check-item"><span class="check-pass">OK</span><span class="check-label">TSS 分部 ROE (估)</span><span class="check-value kpi-good">~35-45%</span></div>
+          <div class="check-item"><span class="check-fail">差</span><span class="check-label">5年平均 GAAP ROE</span><span class="check-value kpi-bad">~-15%</span></div>
+          <div class="check-item"><span class="check-fail">差</span><span class="check-label">ROIC</span><span class="check-value kpi-warn">~7-9% (高债务拖累)</span></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">内在价值估算 (正常化 FCF 基础)</div>
+          <div style="background:var(--bg4);border-radius:8px;padding:14px;font-size:0.83rem;color:var(--text2);line-height:1.7;">
+            <div>FY2027E 正常化 FCF (PFAS 已解决 + TiO2 复苏): ~$400–500M</div>
+            <div>10x FCF 倍数 (化学品行业) × 正常化 FCF: $4,000–5,000M EV</div>
+            <div>减净债务 $3,390M: 股权价值 $610–1,610M</div>
+            <div>÷ 150M 股: <strong style="color:var(--gold);">$4.07–$10.73/股 (PFAS 积极解决场景)</strong></div>
+            <hr style="border-color:var(--border);margin:8px 0;">
+            <div>PFAS 积极解决 + TSS 高速增长场景:</div>
+            <div>FY2028E FCF $600M × 12x = EV $7,200M</div>
+            <div>减净债 $3,000M = 股权 $4,200M ÷ 150M = <strong style="color:var(--green);">$28/股</strong></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">合理买入区间 (含 20% 安全边际)</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:120px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-size:0.75rem;color:var(--text3);">基准场景</div>
+              <div style="font-size:1.2rem;font-weight:700;color:var(--yellow);">$16–20</div>
+              <div style="font-size:0.7rem;color:var(--text3);">PFAS 部分解决</div>
+            </div>
+            <div style="flex:1;min-width:120px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-size:0.75rem;color:var(--text3);">乐观场景</div>
+              <div style="font-size:1.2rem;font-weight:700;color:var(--green);">$22–28</div>
+              <div style="font-size:0.7rem;color:var(--text3);">PFAS 完全化解</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:10px;background:rgba(245,158,11,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);">
+          <strong style="color:var(--yellow);">巴菲特结论: 谨慎持有</strong> — TSS/Opteon 分部具有真正的护城河和高 ROE，但整体公司不符合巴菲特标准：PFAS 不确定性使未来现金流不可预测；D/E 6.91x 超高杠杆；管理层信誉受损。只有 PFAS 风险明确量化后才考虑建仓
+        </div>
+      </div>
+
+      <!-- Marks -->
+      <div class="framework-card f-marks">
+        <h3 class="f-title-marks">霍华德·马克斯周期判断</h3>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">估值分位评估</div>
+          <div class="check-item"><span class="check-pass">低位</span><span class="check-label">EV/EBITDA 分位</span><span class="check-value kpi-good">25th 百分位 (8.9x vs 历史中位 11.24x)</span></div>
+          <div class="check-item"><span class="check-pass">低位</span><span class="check-label">P/S 分位</span><span class="check-value kpi-good">0.46x (历史极低位)</span></div>
+          <div class="check-item"><span class="check-fail">差</span><span class="check-label">杠杆分位</span><span class="check-value kpi-bad">历史高位 (D/E 6.91x)</span></div>
+          <div class="check-item"><span class="check-pass">低位</span><span class="check-label">市值/营收</span><span class="check-value kpi-good">0.46x 极便宜</span></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">CapEx 周期信号</div>
+          <div style="background:var(--bg4);border-radius:8px;padding:12px;font-size:0.83rem;color:var(--text2);line-height:1.6;">
+            <div>FY2026E CapEx: $275–325M (降至正常化水平，FCF 正转)</div>
+            <div>FY2025 CapEx 已从峰值收缩，FCF $110M 为 FY2023 -$993M 后的关键转折</div>
+            <div>Kuanyan 资产出售 $300M → 净债务降至 ~$3.1B → 财务灵活性改善</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.85rem;font-weight:600;color:var(--text2);margin-bottom:8px;">马克斯周期框架判断</div>
+          <div style="background:var(--bg4);border-radius:8px;padding:12px;font-size:0.83rem;color:var(--text2);line-height:1.7;">
+            <div><strong>情绪层面:</strong> 市场对 CC 极度悲观——Q4 大跌 -16.5% + PFAS RICO 恐慌 = 典型的马克斯"恐惧高峰"状态</div>
+            <div style="margin-top:6px;"><strong>基本面层面:</strong> TSS/Opteon 是真实增长（+37% Q4），被 TiO2 拖累和 PFAS 情绪掩盖；2026 指引 EBITDA +8–21% 代表实质性复苏</div>
+            <div style="margin-top:6px;"><strong>周期层面:</strong> TiO2 处于底部（容量削减 + 需求回暖），HFO 处于法规驱动早期加速阶段</div>
+            <div style="margin-top:6px;"><strong>估值层面:</strong> EV/EBITDA 8.9x 低于历史中位 (11.24x)，P/S 0.46x 极便宜，但 PFAS RICO 量化前为"价值陷阱"风险</div>
+          </div>
+        </div>
+
+        <div style="padding:10px;background:rgba(139,92,246,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);">
+          <strong style="color:#a78bfa;">马克斯结论: 谨慎买入</strong> — 估值处于历史低位，市场情绪极度悲观，具备"逆向机会"特征。但 PFAS RICO 风险未量化是价值陷阱风险。建议分批建仓 ($14–16 区间)，仓位不超过 5%，等待 PFAS 进展催化剂
+        </div>
+      </div>
+    </div>
+
+    <!-- Three-framework verdict -->
+    <div class="verdict-grid">
+      <div class="verdict-card v-graham">
+        <div class="verdict-framework">Graham 格雷厄姆</div>
+        <div class="verdict-label">减持 / 卖出</div>
+        <div class="verdict-detail">全部 6 项安全检验失败; Graham Number $12.37 vs 当前 $17.57; DCF 保守情景股权价值为零</div>
+      </div>
+      <div class="verdict-card v-buffett">
+        <div class="verdict-framework">Buffett 巴菲特</div>
+        <div class="verdict-label">谨慎持有</div>
+        <div class="verdict-detail">TSS/Opteon 窄护城河真实存在; PFAS 不确定性 + D/E 6.91x 不满足 "确定性" 标准; PFAS 解决后 $28 上行空间</div>
+      </div>
+      <div class="verdict-card v-marks">
+        <div class="verdict-framework">Marks 马克斯</div>
+        <div class="verdict-label">谨慎买入</div>
+        <div class="verdict-detail">估值历史低位 (EV/EBITDA 25th 百分位); 市场情绪极度悲观; $14–16 分批建仓, 仓位 &lt;5%</div>
+      </div>
+    </div>
+
+    <!-- Buy range -->
+    <div class="buy-range-banner">
+      <div class="buy-range-label">理想建仓区间 (含 PFAS 风险折价 + 20% 安全边际)</div>
+      <div class="buy-range-value">$14 – $16</div>
+      <div class="buy-range-note">加仓触发条件: ① PFAS RICO 被驳回 / 明确和解 → 目标价上调至 $25–28 &nbsp;|&nbsp; ② Q2 FY2026 Adj.EBITDA ≥ $230M 证实复苏加速</div>
+      <div style="margin-top:12px;font-size:0.83rem;color:var(--text2);">止损条件: PFAS RICO 进入庭审阶段 + 和解金额 > $2B → 股权价值接近零</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ DATA SOURCES ═══ -->
+<section class="section" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-title">数据来源 & 分析时间戳</div>
+    <div style="font-size:0.85rem;color:var(--text2);margin-bottom:12px;">分析完成时间: 2026年4月13日 &nbsp;|&nbsp; 所有数据来自公开资料，不构成投资建议</div>
+    <ul class="source-list">
+      <li><a href="https://www.chemours.com/en/news-media-center/all-news/press-releases/2026/the-chemours-company-reports-fourth-quarter-and-full-year-2025-results" target="_blank">Chemours Q4 & FY2025 Press Release</a></li>
+      <li><a href="https://stockanalysis.com/stocks/cc/" target="_blank">StockAnalysis - CC Statistics</a></li>
+      <li><a href="https://www.marketbeat.com/stocks/NYSE/CC/forecast/" target="_blank">MarketBeat - CC Analyst Forecast</a></li>
+      <li><a href="https://macrotrends.net/stocks/charts/CC/chemours/pe-ratio" target="_blank">MacroTrends - CC PE History</a></li>
+      <li><a href="https://www.gurufocus.com/term/enterprise-value-to-ebitda/NYSE:CC" target="_blank">GuruFocus - CC EV/EBITDA</a></li>
+      <li><a href="https://simplywall.st/stocks/us/materials/nyse-cc/chemours/news/chemours-cc-faces-expanded-pfas-rico-suit-in-firefighter-gea" target="_blank">SimplyWallSt - PFAS RICO 2026</a></li>
+      <li><a href="https://www.omrglobal.com/industry-reports/hfo-refrigerant-market" target="_blank">OMR - HFO Refrigerant Market</a></li>
+      <li><a href="https://investors.chemours.com/" target="_blank">Chemours Investor Relations</a></li>
+      <li><a href="https://www.dupont.com/news/chemours-dupont-and-corteva-reach-agreement-with-the-state-of-new-jersey" target="_blank">NJ PFAS Settlement $875M</a></li>
+      <li><a href="https://finance.yahoo.com/news/chemours-co-cc-q4-2025-190047095.html" target="_blank">Yahoo Finance - Q4 2025 Earnings Highlights</a></li>
+    </ul>
+    <div style="margin-top:16px;padding:16px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);font-size:0.78rem;color:var(--text3);line-height:1.6;">
+      免责声明: 本报告仅供参考，不构成投资建议。投资决策请咨询专业顾问。PFAS 诉讼风险具有高度不确定性，实际损失可能大幅超出预期。过往表现不代表未来结果。
+    </div>
+  </div>
+</section>
+
+<script>
+const chartDefaults = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
+             tooltip: { backgroundColor: '#1e2a40', borderColor: '#3b82f6', borderWidth: 1 } }
+};
+
+// ── 1. Segment Pie ──
+new Chart(document.getElementById('segmentPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['TSS (Opteon HFO)', 'TT (TiO2)', 'APM (氟聚合物)'],
+    datasets: [{ data: [40, 35, 25],
+      backgroundColor: ['rgba(59,130,246,0.8)','rgba(245,158,11,0.8)','rgba(139,92,246,0.8)'],
+      borderColor: '#111827', borderWidth: 2 }]
+  },
+  options: { ...chartDefaults, cutout: '60%',
+    plugins: { ...chartDefaults.plugins,
+      legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 10 }, padding: 12 } } } }
+});
+
+// ── 2. Revenue Chart ──
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1 FY24','Q2 FY24','Q3 FY24','Q4 FY24','Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25'],
+    datasets: [
+      { type: 'bar', label: '营收 ($M)', data: [1450,1500,1520,1350,1423,1474,1582,1334],
+        backgroundColor: 'rgba(59,130,246,0.7)', yAxisID: 'y' },
+      { type: 'line', label: 'YoY %', data: [1.2, 0.8, 0.5, -1.5, 2.1, 1.3, 3.8, -2.2],
+        borderColor: '#f59e0b', pointBackgroundColor: '#f59e0b', borderWidth: 2,
+        pointRadius: 4, fill: false, yAxisID: 'y2' }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      y2: { position: 'right', grid: { display: false }, ticks: { color: '#f59e0b', font: { size: 10 } },
+             title: { display: true, text: 'YoY %', color: '#f59e0b', font: { size: 10 } } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 3. Margin Chart ──
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 FY24','Q2 FY24','Q3 FY24','Q4 FY24','Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25'],
+    datasets: [
+      { label: 'Adj.EBITDA 利润率', data: [14.5, 13.8, 14.2, 13.1, 13.5, 12.1, 13.6, 11.8],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.15)', fill: true,
+        borderWidth: 2, pointRadius: 4 },
+      { label: '毛利率', data: [16.0, 15.8, 16.1, 15.2, 15.8, 15.0, 15.9, 15.2],
+        borderColor: '#10b981', borderDash: [5,3], fill: false, borderWidth: 2, pointRadius: 3 }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => v+'%' } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 4. FCF Chart ──
+new Chart(document.getElementById('fcfChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY2020','FY2021','FY2022','FY2023','FY2024','FY2025'],
+    datasets: [{
+      label: '自由现金流 ($M)',
+      data: [480, 620, 700, -993, -50, 110],
+      backgroundColor: [
+        'rgba(16,185,129,0.7)','rgba(16,185,129,0.7)','rgba(16,185,129,0.7)',
+        'rgba(239,68,68,0.7)','rgba(239,68,68,0.7)','rgba(59,130,246,0.7)'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 5. Segment Bar ──
+new Chart(document.getElementById('segmentBar'), {
+  type: 'bar',
+  data: {
+    labels: ['TSS (Opteon)', 'TT (TiO2)', 'APM (氟聚合物)'],
+    datasets: [
+      { label: 'FY2024 ($M)', data: [2090, 2090, 1430], backgroundColor: 'rgba(100,116,139,0.7)', borderRadius: 4 },
+      { label: 'FY2025 ($M)', data: [2323, 2034, 1456], backgroundColor: 'rgba(59,130,246,0.8)', borderRadius: 4 }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 6. HFO Market ──
+new Chart(document.getElementById('hfoMarket'), {
+  type: 'bar',
+  data: {
+    labels: ['2023','2024','2025','2026E','2027E','2028E','2030E','2035E'],
+    datasets: [{
+      label: 'HFO 市场规模 ($亿)',
+      data: [42, 52, 63, 74, 89, 107, 156, 331],
+      backgroundColor: 'rgba(16,185,129,0.7)', borderRadius: 4,
+      borderColor: '#10b981', borderWidth: 1
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 7. Segment Growth ──
+new Chart(document.getElementById('segGrowth'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26E'],
+    datasets: [
+      { label: 'TSS YoY %', data: [12, 10, 15, 37, 18],
+        backgroundColor: 'rgba(59,130,246,0.8)', borderRadius: 4 },
+      { label: 'TT YoY %', data: [-3, -5, 1, 0, 2],
+        backgroundColor: 'rgba(245,158,11,0.7)', borderRadius: 4 },
+      { label: 'APM YoY %', data: [2, 1, 3, 2, 4],
+        backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 4 }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => v+'%' } },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 8. HFO Market Share ──
+new Chart(document.getElementById('mktSharePie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Chemours (Opteon)', 'Honeywell (Solstice)', 'Daikin', '其他'],
+    datasets: [{ data: [35, 35, 10, 20],
+      backgroundColor: ['rgba(59,130,246,0.85)','rgba(245,158,11,0.8)','rgba(139,92,246,0.7)','rgba(100,116,139,0.6)'],
+      borderColor: '#111827', borderWidth: 2 }]
+  },
+  options: { ...chartDefaults, cutout: '55%',
+    plugins: { ...chartDefaults.plugins,
+      legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 10 }, padding: 10 } } } }
+});
+
+// ── 9. Peer Scatter ──
+new Chart(document.getElementById('peerScatter'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label: 'CC', data: [{x: 15.5, y: 8.9}], backgroundColor: '#3b82f6', pointRadius: 10 },
+      { label: 'HON', data: [{x: 23.0, y: 18.0}], backgroundColor: '#f59e0b', pointRadius: 8 },
+      { label: 'Arkema', data: [{x: 15.0, y: 8.0}], backgroundColor: '#8b5cf6', pointRadius: 7 },
+      { label: 'Daikin', data: [{x: 17.0, y: 10.0}], backgroundColor: '#10b981', pointRadius: 7 }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      x: { title: { display: true, text: 'EBITDA 利润率 (%)', color: '#94a3b8', font: { size: 10 } },
+           grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      y: { title: { display: true, text: 'EV/EBITDA (x)', color: '#94a3b8', font: { size: 10 } },
+           grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+
+// ── 10. EV/EBITDA History ──
+new Chart(document.getElementById('evChart'), {
+  type: 'line',
+  data: {
+    labels: ['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026 当前'],
+    datasets: [
+      { label: 'EV/EBITDA', data: [12.1, 11.5, 9.8, 11.2, 13.4, 14.2, 7.8, 66.1, 9.5, 8.9, 8.9],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.15)', fill: true,
+        borderWidth: 2, pointRadius: 3 },
+      { label: '历史中位 (11.24x)', data: Array(11).fill(11.24),
+        borderColor: '#f59e0b', borderDash: [6,3], fill: false, borderWidth: 1.5, pointRadius: 0 }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } },
+           max: 25, min: 0 },
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

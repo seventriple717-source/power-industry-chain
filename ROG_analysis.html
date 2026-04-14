@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROG — Rogers Corporation 深度价值投资分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2236;--bg4:#1e2d3d;
+  --border:#2d3748;--border2:#374151;
+  --text1:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
+  --green:#10b981;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#8b5cf6;
+  --accent1:#38bdf8;--accent2:#67e8f9;
+  --card-shadow:0 4px 24px rgba(0,0,0,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text1);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6}
+a{color:var(--blue);text-decoration:none}
+
+/* Layout */
+.container{max-width:1400px;margin:0 auto;padding:0 20px}
+section{padding:40px 0}
+.section-title{font-size:1.4rem;font-weight:700;color:var(--text1);margin-bottom:24px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0a1628 0%,#0d1f3c 50%,#0a1628 100%);padding:48px 0 36px;border-bottom:1px solid var(--border)}
+.hero-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px}
+.hero-left h1{font-size:3rem;font-weight:800;color:#fff;letter-spacing:-1px}
+.hero-left .company-name{font-size:1.2rem;color:var(--text2);margin:4px 0 12px}
+.hero-price{font-size:2.2rem;font-weight:700;color:var(--accent1)}
+.hero-meta{font-size:0.85rem;color:var(--text3);margin-top:4px}
+.rating-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-weight:700;font-size:0.9rem;margin-top:10px}
+.rating-cautious-buy{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid var(--green)}
+.hero-right{text-align:right}
+.hero-right .target-price{font-size:1.6rem;font-weight:700;color:var(--green)}
+.hero-right .upside{font-size:0.95rem;color:var(--green);margin-top:4px}
+.hero-right .analyst-tp{font-size:0.85rem;color:var(--text2);margin-top:4px}
+
+/* Banners */
+.dual-catalyst-banner{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px}
+.banner-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.catalyst-col h3{font-size:0.95rem;font-weight:700;margin-bottom:12px}
+.catalyst-positive{color:var(--green)}
+.catalyst-negative{color:var(--red)}
+.catalyst-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:0.85rem}
+.catalyst-item:last-child{border-bottom:none}
+
+.accounting-banner{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:20px;margin-bottom:24px}
+.accounting-banner h3{color:var(--yellow);font-size:0.95rem;font-weight:700;margin-bottom:12px}
+.accounting-items{display:flex;flex-wrap:wrap;gap:12px}
+.accounting-item{background:rgba(245,158,11,0.1);border-radius:8px;padding:8px 14px;font-size:0.82rem}
+.accounting-item .label{color:var(--yellow);font-weight:600}
+.accounting-item .val{color:var(--text2)}
+
+/* KPI Cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.kpi-card .kpi-label{font-size:0.78rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px}
+.kpi-card .kpi-value{font-size:1.6rem;font-weight:700;margin:4px 0 2px}
+.kpi-card .kpi-sub{font-size:0.78rem;color:var(--text2)}
+.kpi-green .kpi-value{color:var(--green)}
+.kpi-red .kpi-value{color:var(--red)}
+.kpi-yellow .kpi-value{color:var(--yellow)}
+.kpi-blue .kpi-value{color:var(--blue)}
+
+/* Charts */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
+.chart-card h3{font-size:0.95rem;font-weight:600;color:var(--text2);margin-bottom:16px}
+.chart-container{position:relative;height:220px}
+
+/* Data Tables */
+.data-table{width:100%;border-collapse:collapse;font-size:0.84rem}
+.data-table th{background:var(--bg3);color:var(--text2);text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.data-table tr:hover td{background:rgba(255,255,255,0.02)}
+.data-table tr:last-child td{border-bottom:none}
+
+/* Moat */
+.moat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.moat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.moat-card h4{font-size:0.85rem;color:var(--text2);margin-bottom:10px}
+.moat-stars{color:var(--yellow);font-size:1.1rem;margin-bottom:6px}
+.progress-bar{background:var(--border);border-radius:4px;height:6px;margin:6px 0}
+.progress-fill{height:6px;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--accent1))}
+.moat-badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:0.78rem;font-weight:600;margin-top:8px}
+.narrow-moat{background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid rgba(245,158,11,0.3)}
+
+/* Risk Matrix */
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.risk-card{border-radius:12px;padding:18px;border-left:4px solid}
+.risk-high{background:rgba(239,68,68,0.08);border-color:var(--red)}
+.risk-med{background:rgba(245,158,11,0.08);border-color:var(--yellow)}
+.risk-card h4{font-size:0.9rem;font-weight:700;margin-bottom:8px}
+.risk-card .risk-meta{display:flex;gap:12px;margin-bottom:8px;font-size:0.8rem}
+.risk-card p{font-size:0.82rem;color:var(--text2)}
+
+/* Valuation */
+.val-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px}
+.val-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
+.val-card h3{font-size:1rem;font-weight:700;color:var(--accent1);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.val-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.84rem}
+.val-item:last-child{border-bottom:none}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.84rem}
+.check-pass{color:var(--green)}
+.check-fail{color:var(--red)}
+
+/* DCF Bar */
+.dcf-bar-container{margin:16px 0}
+.dcf-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;position:relative}
+.dcf-seg-bear{background:#ef4444;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;color:#fff}
+.dcf-seg-base{background:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;color:#fff}
+.dcf-seg-bull{background:#10b981;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;color:#fff}
+.dcf-current-line{position:absolute;top:0;bottom:0;width:2px;background:#f59e0b;z-index:10}
+.dcf-bar-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text3);margin-top:4px}
+
+/* Investor Table */
+.inv-verdict{display:inline-block;padding:3px 10px;border-radius:10px;font-size:0.78rem;font-weight:600}
+.inv-bull{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3)}
+.inv-hold{background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid rgba(245,158,11,0.3)}
+.inv-bear{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+
+/* Signal Dashboard */
+.signal-dashboard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin:24px 0;text-align:center}
+.signal-score{font-size:4rem;font-weight:800;color:var(--yellow);line-height:1}
+.signal-label{font-size:0.9rem;color:var(--text2);margin-top:6px}
+.signal-bar{display:flex;height:20px;border-radius:10px;overflow:hidden;margin:20px auto;max-width:600px}
+.signal-bull{background:var(--green)}
+.signal-neut{background:var(--yellow)}
+.signal-bear{background:var(--red)}
+.signal-counts{display:flex;justify-content:center;gap:32px;margin-top:12px;font-size:0.9rem}
+.sc-bull{color:var(--green);font-weight:700}
+.sc-neut{color:var(--yellow);font-weight:700}
+.sc-bear{color:var(--red);font-weight:700}
+
+/* Position Management */
+.pm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.pm-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.pm-card .pm-label{font-size:0.78rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.pm-card .pm-value{font-size:1.5rem;font-weight:700}
+.pm-card .pm-sub{font-size:0.78rem;color:var(--text2);margin-top:4px}
+
+.timeline{display:flex;gap:0;margin:20px 0;overflow-x:auto}
+.timeline-step{flex:1;min-width:160px;padding:16px;border-left:3px solid var(--border);position:relative}
+.timeline-step:first-child{border-left:3px solid var(--blue)}
+.timeline-step .step-label{font-size:0.75rem;color:var(--text3);text-transform:uppercase;margin-bottom:6px}
+.timeline-step .step-pct{font-size:1.1rem;font-weight:700;color:var(--blue)}
+.timeline-step .step-price{font-size:0.85rem;color:var(--text2);margin-top:4px}
+.timeline-step .step-cond{font-size:0.78rem;color:var(--text3);margin-top:4px}
+
+/* Summary card */
+.conclusion-card{background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(59,130,246,0.08));border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:28px;margin:24px 0}
+.conclusion-card h3{color:var(--green);font-size:1.1rem;margin-bottom:16px}
+
+/* Responsive */
+@media(max-width:768px){
+  .banner-grid,.chart-grid,.val-grid{grid-template-columns:1fr}
+  .hero-left h1{font-size:2rem}
+  .hero-price{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<div class="hero">
+<div class="container">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <h1>ROG</h1>
+      <div class="company-name">Rogers Corporation — 特种先进材料</div>
+      <div class="hero-price">$98.58</div>
+      <div class="hero-meta">NYSE · 市值 $1.76B · 分析日期 2026-04-14</div>
+      <span class="rating-badge rating-cautious-buy">谨慎买入（Cautious Buy）</span>
+    </div>
+    <div class="hero-right">
+      <div style="font-size:0.85rem;color:var(--text3);margin-bottom:4px">12个月目标价</div>
+      <div class="target-price">$120</div>
+      <div class="upside">上行空间 +21.7%</div>
+      <div class="analyst-tp">分析师均值 $124.33（$109–$133）</div>
+      <div style="margin-top:12px;font-size:0.82rem;color:var(--text2)">AES + EMS 双分部 · 零债务</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════ DUAL CATALYST BANNER ═══════════════════ -->
+<section style="padding-top:32px;padding-bottom:0">
+<div class="dual-catalyst-banner">
+  <h2 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent1)">对冲基金关注的双重催化事件</h2>
+  <div class="banner-grid">
+    <div>
+      <h3 class="catalyst-positive">正面催化剂（上行驱动）</h3>
+      <div class="catalyst-item" style="color:var(--green)">永久CEO任命 — 移除管理层折价，倍数修复+15-20%</div>
+      <div class="catalyst-item" style="color:var(--green)">Q1 FY2026财报（2026年5月）— EPS vs $0.65指引中值，验证利润复苏</div>
+      <div class="catalyst-item" style="color:var(--green)">数据中心EMS大型订单公告 — $30-50M年化新市场，估值重构</div>
+      <div class="catalyst-item" style="color:var(--green)">ADAS雷达设计胜利（77/79GHz RO4000认证窗口）— FY2027锁定收入</div>
+      <div class="catalyst-item" style="color:var(--green)">卫星通信/5G毫米波大规模采购 — 高频层压板量价双升</div>
+    </div>
+    <div>
+      <h3 class="catalyst-negative">负面风险（下行触发）</h3>
+      <div class="catalyst-item" style="color:var(--red)">curamik德国工厂二次减值（概率35%）— $30-50M非现金计提，再压GAAP EPS</div>
+      <div class="catalyst-item" style="color:var(--red)">永久CEO任命延迟超12个月 — 管理层折价持续扩大，股价维持$80-90</div>
+      <div class="catalyst-item" style="color:var(--red)">欧洲EV需求再次下修 — curamik IGBT基板量预测失准</div>
+      <div class="catalyst-item" style="color:var(--red)">ADAS设计周期3-5年锁定 — 错过窗口致FY2027-2028 AES永久下修</div>
+      <div class="catalyst-item" style="color:var(--red)">Starboard Value清仓出局 — 激活主义保护彻底消除，股价压制</div>
+    </div>
+  </div>
+</div>
+
+<div class="accounting-banner">
+  <h3>重要会计说明：GAAP vs 调整后数据差异（FY2025）</h3>
+  <div class="accounting-items">
+    <div class="accounting-item"><span class="label">FY2025 GAAP EPS</span><span class="val"> -$3.47（含$71.8M非现金商誉减值）</span></div>
+    <div class="accounting-item"><span class="label">FY2025 Non-GAAP Adj.EPS</span><span class="val"> ~$2.40（剔除商誉减值+摊销）</span></div>
+    <div class="accounting-item"><span class="label">FY2026E Non-GAAP FWD EPS</span><span class="val"> $3.57（共识，用于PE定价）</span></div>
+    <div class="accounting-item"><span class="label">商誉减值调整项</span><span class="val"> -$71.8M（curamik德国，Q2 FY2025，一次性非现金）</span></div>
+    <div class="accounting-item"><span class="label">市场定价惯例</span><span class="val"> Non-GAAP EPS（剔除无现金项），分析师共识基于调整后</span></div>
+    <div class="accounting-item"><span class="label">FCF（现金流真实性）</span><span class="val"> $71.1M（FY2025）≠ GAAP净亏损，现金流健康</span></div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ KPI CARDS ═══════════════════════════ -->
+<section>
+<div class="section-title">核心KPI指标</div>
+<div class="kpi-grid">
+  <div class="kpi-card kpi-yellow">
+    <div class="kpi-label">FY2025 营收</div>
+    <div class="kpi-value">$811M</div>
+    <div class="kpi-sub" style="color:var(--red)">YoY -2.3%</div>
+  </div>
+  <div class="kpi-card kpi-red">
+    <div class="kpi-label">GAAP 净亏损</div>
+    <div class="kpi-value">-$62M</div>
+    <div class="kpi-sub">商誉减值所致</div>
+  </div>
+  <div class="kpi-card kpi-green">
+    <div class="kpi-label">自由现金流</div>
+    <div class="kpi-value">$71M</div>
+    <div class="kpi-sub">FCF Margin 8.8%</div>
+  </div>
+  <div class="kpi-card kpi-green">
+    <div class="kpi-label">净现金</div>
+    <div class="kpi-value">$197M</div>
+    <div class="kpi-sub">零有息负债</div>
+  </div>
+  <div class="kpi-card kpi-yellow">
+    <div class="kpi-label">FWD P/E</div>
+    <div class="kpi-value">27.6x</div>
+    <div class="kpi-sub">vs 分析师共识$3.57E</div>
+  </div>
+  <div class="kpi-card kpi-blue">
+    <div class="kpi-label">P/B</div>
+    <div class="kpi-value">1.47x</div>
+    <div class="kpi-sub">账面$67.17/股</div>
+  </div>
+  <div class="kpi-card kpi-blue">
+    <div class="kpi-label">P/S</div>
+    <div class="kpi-value">2.17x</div>
+    <div class="kpi-sub">FY2025E营收</div>
+  </div>
+  <div class="kpi-card kpi-yellow">
+    <div class="kpi-label">EV/EBITDA</div>
+    <div class="kpi-value">11.6x</div>
+    <div class="kpi-sub">LTM EBITDA</div>
+  </div>
+  <div class="kpi-card kpi-green">
+    <div class="kpi-label">Q4 FY2025 Adj.EBITDA率</div>
+    <div class="kpi-value">17.1%</div>
+    <div class="kpi-sub">Q4实际$34.4M</div>
+  </div>
+  <div class="kpi-card kpi-green">
+    <div class="kpi-label">Q4 Adj.EPS</div>
+    <div class="kpi-value">$0.89</div>
+    <div class="kpi-sub">FY2026E $3.57</div>
+  </div>
+  <div class="kpi-card kpi-yellow">
+    <div class="kpi-label">Q1 FY2026E指引</div>
+    <div class="kpi-value">$200.5M</div>
+    <div class="kpi-sub">$193-208M区间</div>
+  </div>
+  <div class="kpi-card kpi-blue">
+    <div class="kpi-label">流通股</div>
+    <div class="kpi-value">17.84M</div>
+    <div class="kpi-sub">52周: $84–$133</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ BUSINESS MODEL ═══════════════════════════ -->
+<section>
+<div class="section-title">商业模式分析</div>
+<div class="chart-grid">
+  <div class="chart-card">
+    <h3>收入结构（FY2025 分部）</h3>
+    <div class="chart-container">
+      <canvas id="segmentPie"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h3>终端市场分布（估计）</h3>
+    <div class="chart-container">
+      <canvas id="endMarketPie"></canvas>
+    </div>
+  </div>
+</div>
+<div class="chart-grid">
+  <div class="chart-card" style="grid-column:1/-1">
+    <h3>收入可持续性评分</h3>
+    <table class="data-table">
+      <thead><tr><th>维度</th><th>评估</th><th>得分</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>重复性收入</td><td>中等</td><td style="color:var(--yellow)">6/10</td><td>项目制为主，客户粘性高但非订阅制</td></tr>
+        <tr><td>客户集中度</td><td>低风险</td><td style="color:var(--green)">8/10</td><td>前10大客户合计&lt;30%，多元化</td></tr>
+        <tr><td>定价权</td><td>强</td><td style="color:var(--green)">8/10</td><td>RO4000系列技术独特性支撑溢价</td></tr>
+        <tr><td>合同保障度</td><td>中等</td><td style="color:var(--yellow)">6/10</td><td>无多年签约，但设计锁定3-5年</td></tr>
+        <tr><td>地理多元化</td><td>良好</td><td style="color:var(--green)">7/10</td><td>北美/欧洲/亚太均衡分布</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ FINANCIAL ANALYSIS ═══════════════════════════ -->
+<section>
+<div class="section-title">财务分析</div>
+<div class="chart-grid">
+  <div class="chart-card">
+    <h3>季度营收趋势（$M）</h3>
+    <div class="chart-container">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h3>利润率趋势</h3>
+    <div class="chart-container">
+      <canvas id="marginChart"></canvas>
+    </div>
+  </div>
+</div>
+<div class="chart-card" style="margin-bottom:24px">
+  <h3>最近财季数据汇总</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>季度</th><th>营收($M)</th><th>YoY</th><th>毛利率</th><th>Adj.EPS</th><th>GAAP EPS</th><th>Adj.EBITDA率</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Q1 FY2025</td><td>$190.0</td><td style="color:var(--yellow)">-3.5%</td><td>33.2%</td><td>$0.72</td><td>$0.30</td><td>14.8%</td></tr>
+      <tr><td>Q2 FY2025</td><td>$203.0</td><td style="color:var(--yellow)">-2.1%</td><td>33.8%</td><td>$0.74</td><td style="color:var(--red)">-$3.41*</td><td>15.6%</td></tr>
+      <tr><td>Q3 FY2025</td><td>$216.0</td><td style="color:var(--green)">+2.7%</td><td>33.5%</td><td>$0.90</td><td>$0.48</td><td>16.8%</td></tr>
+      <tr><td>Q4 FY2025</td><td>$202.0</td><td style="color:var(--green)">+4.8%</td><td>32.9%</td><td>$0.89</td><td>$0.55</td><td>17.1%</td></tr>
+      <tr style="background:rgba(59,130,246,0.05)"><td><strong>Q1 FY2026E</strong></td><td><strong>$200.5E</strong></td><td style="color:var(--green)">~+5%</td><td>~33%E</td><td>$0.65E</td><td>N/A</td><td>~16%E</td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:0.78rem;color:var(--text3);margin-top:8px">*Q2 FY2025 GAAP EPS含$71.8M curamik商誉减值（非现金，一次性）</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ GROWTH DRIVERS ═══════════════════════════ -->
+<section>
+<div class="section-title">增长驱动与关键追踪指标</div>
+<div class="kpi-grid" style="margin-bottom:24px">
+  <div class="kpi-card">
+    <div class="kpi-label">高频电路材料TAM</div>
+    <div class="kpi-value" style="color:var(--blue);font-size:1.2rem">$3.2B</div>
+    <div class="kpi-sub">5G+卫星+雷达，CAGR 8%</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">EV/HEV功率模块TAM</div>
+    <div class="kpi-value" style="color:var(--blue);font-size:1.2rem">$1.8B</div>
+    <div class="kpi-sub">curamik AlN/Al₂O₃基板</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">数据中心EMS机会</div>
+    <div class="kpi-value" style="color:var(--blue);font-size:1.2rem">$30-50M</div>
+    <div class="kpi-sub">年化新增（待公告）</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">AES分部占比</div>
+    <div class="kpi-value" style="color:var(--blue);font-size:1.2rem">~55%</div>
+    <div class="kpi-sub">高利润率核心业务</div>
+  </div>
+</div>
+<table class="data-table" style="margin-bottom:24px">
+  <thead><tr><th>KPI指标</th><th>当前数值</th><th>目标/基准</th><th>趋势</th><th>监控优先级</th></tr></thead>
+  <tbody>
+    <tr><td>AES分部营收 YoY</td><td>+2–5%</td><td>&gt;8%（高增速阶段）</td><td style="color:var(--yellow)">→ 逐步加速</td><td style="color:var(--red)">极高</td></tr>
+    <tr><td>Adj.EBITDA率</td><td>17.1% (Q4 FY25)</td><td>18-20%（FY2026目标）</td><td style="color:var(--green)">↑ 扩张中</td><td style="color:var(--red)">极高</td></tr>
+    <tr><td>Q1 FY2026 Adj.EPS</td><td>$0.65E（指引中值）</td><td>≥$0.65（复苏确认）</td><td>—</td><td style="color:var(--red)">极高</td></tr>
+    <tr><td>curamik德国营收</td><td>轻微复苏</td><td>持平/正增长（无减值）</td><td style="color:var(--yellow)">→ 不确定</td><td style="color:var(--yellow)">高</td></tr>
+    <tr><td>永久CEO任命</td><td>临时CEO中</td><td>任命确认（预期H1 2026）</td><td>—</td><td style="color:var(--red)">极高</td></tr>
+    <tr><td>Starboard持仓</td><td>3.3%（持续减少）</td><td>稳定/不再减少</td><td style="color:var(--red)">↓ 减少中</td><td style="color:var(--yellow)">中</td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ═══════════════════════════ COMPETITIVE LANDSCAPE ═══════════════════════════ -->
+<section>
+<div class="section-title">竞争格局</div>
+<table class="data-table" style="margin-bottom:24px">
+  <thead>
+    <tr><th>公司</th><th>营收规模</th><th>细分市场</th><th>毛利率</th><th>P/S</th><th>ROG相对优劣</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Rogers (ROG)</strong></td>
+      <td>$811M</td>
+      <td>高频层压板/先进陶瓷/弹性体</td>
+      <td style="color:var(--green)">33%</td>
+      <td>2.17x</td>
+      <td style="color:var(--blue)">基准</td>
+    </tr>
+    <tr>
+      <td>Isola Group（私）</td>
+      <td>~$500M</td>
+      <td>高频层压板（FR4/高速）</td>
+      <td>~28%</td>
+      <td>N/A</td>
+      <td style="color:var(--green)">ROG在高端5G/卫星材料领先</td>
+    </tr>
+    <tr>
+      <td>Taconic（私）</td>
+      <td>~$150M</td>
+      <td>PTFE高频层压板</td>
+      <td>~35%</td>
+      <td>N/A</td>
+      <td style="color:var(--yellow)">利基重叠，ROG规模更大</td>
+    </tr>
+    <tr>
+      <td>Heraeus Electronics</td>
+      <td>&gt;$1B</td>
+      <td>功率模块基板（AlN/DCB）</td>
+      <td>~30%</td>
+      <td>N/A</td>
+      <td style="color:var(--red)">curamik面临直接竞争</td>
+    </tr>
+    <tr>
+      <td>Parker Hannifin（EMG）</td>
+      <td>相关业务~$2B</td>
+      <td>工程弹性体/密封件</td>
+      <td>~45%</td>
+      <td>规模优势</td>
+      <td style="color:var(--yellow)">EMS特定应用领域不重叠</td>
+    </tr>
+  </tbody>
+</table>
+<div class="chart-card">
+  <h3>护城河维度对比矩阵</h3>
+  <table class="data-table">
+    <thead><tr><th>护城河维度</th><th>Rogers ROG</th><th>主要竞争对手</th><th>ROG优势</th></tr></thead>
+    <tbody>
+      <tr><td>产品认证壁垒</td><td style="color:var(--green)">极高（3-5年OEM认证）</td><td>中等</td><td style="color:var(--green)">领先</td></tr>
+      <tr><td>技术规格独占性</td><td style="color:var(--green)">RO4000系列行业标准</td><td>仿制品存在</td><td style="color:var(--green)">领先</td></tr>
+      <tr><td>客户设计嵌入</td><td style="color:var(--green)">高（设计即锁定）</td><td>中等</td><td style="color:var(--green)">领先</td></tr>
+      <tr><td>生产规模/成本</td><td style="color:var(--yellow)">中等</td><td>部分更大</td><td style="color:var(--yellow)">持平</td></tr>
+      <tr><td>德国陶瓷基板</td><td style="color:var(--red)">重组中，弱化</td><td>Heraeus较强</td><td style="color:var(--red)">劣势</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+
+<!-- ═══════════════════════════ MOAT SCORECARD ═══════════════════════════ -->
+<section>
+<div class="section-title">护城河评分卡</div>
+<div class="moat-grid">
+  <div class="moat-card">
+    <h4>品牌护城河</h4>
+    <div class="moat-stars">★★★☆☆</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+    <div style="font-size:0.82rem;color:var(--text2)">RO4000在高频基材领域是行业标准名称，但工业B2B品牌溢价有限</div>
+    <span class="moat-badge narrow-moat">窄护城河</span>
+  </div>
+  <div class="moat-card">
+    <h4>转换成本</h4>
+    <div class="moat-stars">★★★★★</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    <div style="font-size:0.82rem;color:var(--text2)">PCB设计一旦使用特定材料参数，更换需重新认证（12-18个月+），实际锁定周期3-5年</div>
+    <span class="moat-badge narrow-moat">宽护城河</span>
+  </div>
+  <div class="moat-card">
+    <h4>网络效应</h4>
+    <div class="moat-stars">★☆☆☆☆</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+    <div style="font-size:0.82rem;color:var(--text2)">材料供应商无网络效应，用户增长不使产品更好</div>
+    <span class="moat-badge" style="background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.3)">无护城河</span>
+  </div>
+  <div class="moat-card">
+    <h4>成本优势</h4>
+    <div class="moat-stars">★★☆☆☆</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+    <div style="font-size:0.82rem;color:var(--text2)">规模有限，curamik德国生产成本高；EMS弹性体有一定工艺专有性</div>
+    <span class="moat-badge narrow-moat">窄护城河</span>
+  </div>
+  <div class="moat-card">
+    <h4>无形资产</h4>
+    <div class="moat-stars">★★★★☆</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+    <div style="font-size:0.82rem;color:var(--text2)">60年+高频材料配方专有技术；OEM认证数据库；先进制造工艺know-how</div>
+    <span class="moat-badge narrow-moat">宽护城河</span>
+  </div>
+</div>
+<div style="margin-top:20px;text-align:center">
+  <span style="font-size:1.1rem;font-weight:700;color:var(--yellow)">综合护城河评级：</span>
+  <span class="moat-badge narrow-moat" style="font-size:1rem;padding:8px 20px">窄护城河（Narrow Moat）— 15/25分</span>
+  <p style="font-size:0.82rem;color:var(--text2);margin-top:10px;max-width:600px;margin-left:auto;margin-right:auto">核心依托转换成本（5/5）和无形资产（4/5）；缺乏网络效应和规模成本优势。curamik德国业务削弱整体护城河评级。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════ CYCLE & MACRO ═══════════════════════════ -->
+<section>
+<div class="section-title">周期定位与宏观分析</div>
+<div class="chart-grid">
+  <div class="chart-card">
+    <h3>估值历史分位（相对5年均值）</h3>
+    <div class="chart-container">
+      <canvas id="valHistChart"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h3>行业周期阶段</h3>
+    <div style="padding:16px 0">
+      <div style="display:flex;gap:0;margin-bottom:20px">
+        <div style="flex:1;padding:10px;text-align:center;background:rgba(16,185,129,0.1);border-radius:6px 0 0 6px;border:1px solid rgba(16,185,129,0.3)"><div style="font-size:0.75rem;color:var(--text3)">早期复苏</div></div>
+        <div style="flex:1;padding:10px;text-align:center;background:rgba(59,130,246,0.25);border:2px solid var(--blue)"><div style="font-size:0.75rem;color:var(--blue);font-weight:700">中期复苏 ← 当前</div></div>
+        <div style="flex:1;padding:10px;text-align:center;background:rgba(245,158,11,0.05);border:1px solid var(--border)"><div style="font-size:0.75rem;color:var(--text3)">成长期</div></div>
+        <div style="flex:1;padding:10px;text-align:center;background:rgba(239,68,68,0.05);border-radius:0 6px 6px 0;border:1px solid var(--border)"><div style="font-size:0.75rem;color:var(--text3)">过热/衰退</div></div>
+      </div>
+      <table class="data-table">
+        <tbody>
+          <tr><td>行业CapEx周期</td><td style="color:var(--yellow)">中低位（半导体下行周期末端）</td></tr>
+          <tr><td>5G基站资本支出</td><td style="color:var(--green)">全球重启迹象，高频材料受益</td></tr>
+          <tr><td>EV/HEV渗透率</td><td style="color:var(--yellow)">欧洲放缓，中美持续增长</td></tr>
+          <tr><td>数据中心需求</td><td style="color:var(--green)">AI驱动，EMS机会初现</td></tr>
+          <tr><td>分析师评级分布</td><td>买入0家 / 持有2家 / 目标价$109-133</td></tr>
+          <tr><td>空头比例</td><td>~8-10%（中等）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ RISK MATRIX ═══════════════════════════ -->
+<section>
+<div class="section-title">风险矩阵热力图</div>
+<div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+  <span style="font-size:0.85rem;color:var(--text2)">整体风险等级：</span>
+  <span style="font-size:1.4rem;font-weight:800;color:var(--yellow)">58 / 100</span>
+  <span style="font-size:0.82rem;color:var(--text2)">（高风险区，主要来自管理层真空+减值风险）</span>
+</div>
+<div class="risk-grid">
+  <div class="risk-card risk-high">
+    <h4 style="color:var(--red)">管理层真空风险</h4>
+    <div class="risk-meta">
+      <span style="color:var(--red)">概率 45%</span>
+      <span style="color:var(--red)">影响 -20% ~ -25%</span>
+    </div>
+    <p>临时CEO Ali El-Haj无材料背景，Starboard已从9.3%减至3.3%。永久CEO延迟超9个月，倍数持续折价，目标股价$80-85。</p>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--text3)">对冲：永久CEO任命时分批建仓，否则轻仓候场</div>
+  </div>
+  <div class="risk-card risk-high">
+    <h4 style="color:var(--red)">curamik二次减值</h4>
+    <div class="risk-meta">
+      <span style="color:var(--red)">概率 35%</span>
+      <span style="color:var(--red)">影响 -15% ~ -20%</span>
+    </div>
+    <p>德国工厂重组完成约27-45%，若欧洲EV需求低于预期，H1 2026存在$30-50M非现金减值，再压GAAP EPS并损害管理层信誉。</p>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--text3)">对冲：持续监控欧洲EV OEM产量修订数据</div>
+  </div>
+  <div class="risk-card risk-high">
+    <h4 style="color:var(--red)">ADAS设计窗口丢失</h4>
+    <div class="risk-meta">
+      <span style="color:var(--red)">概率 40%</span>
+      <span style="color:var(--red)">影响 永久性</span>
+    </div>
+    <p>2025-2026年为77/79GHz下一代ADAS雷达平台认证关键期，若ROG因内部分散错过OEM设计胜利，依据3-5年锁定惯例，损失不可逆，系统性下修FY2027-2028 AES估值。</p>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--text3)">监控：主要汽车客户RFQ进展</div>
+  </div>
+  <div class="risk-card risk-med">
+    <h4 style="color:var(--yellow)">估值偏高vs DCF内在价值</h4>
+    <div class="risk-meta">
+      <span style="color:var(--yellow)">概率 60%</span>
+      <span style="color:var(--yellow)">影响 -30% ~ -40%</span>
+    </div>
+    <p>DCF基案$57.17，当前$98.58较DCF溢价72%。若利润复苏不及预期（Q1-Q2 EPS持续低于$0.65），股价向DCF区间回归风险$55-70。</p>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--text3)">对冲：设$72硬性止损，动态监控季报</div>
+  </div>
+  <div class="risk-card risk-med">
+    <h4 style="color:var(--yellow)">半导体下行周期延续</h4>
+    <div class="risk-meta">
+      <span style="color:var(--yellow)">概率 25%</span>
+      <span style="color:var(--yellow)">影响 -15%</span>
+    </div>
+    <p>AES分部约55%营收来自半导体/电子应用。若AI驱动的库存周期不如预期，Q3-Q4 FY2026可能出现需求再走弱，AES营收增速回落至0-2%。</p>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--text3)">领先指标：TSMC/ASML月度出货数据</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ THREE-FRAMEWORK VALUATION ═══════════════════════════ -->
+<section>
+<div class="section-title">三大框架深度估值</div>
+<div class="val-grid">
+  <!-- Graham -->
+  <div class="val-card">
+    <h3>格雷厄姆安全边际框架</h3>
+    <div class="checklist-item"><span class="check-fail">✗</span> P/E ≤ 15x（实际 27.6x）</div>
+    <div class="checklist-item"><span class="check-pass">✓</span> P/B ≤ 1.5x（实际 1.47x）</div>
+    <div class="checklist-item"><span class="check-fail">✗</span> P/E × P/B ≤ 22.5（27.6×1.47=40.6）</div>
+    <div class="checklist-item"><span class="check-pass">✓</span> 流动比率 ≥ 2x（实际 ~2.8x）</div>
+    <div class="checklist-item"><span class="check-pass">✓</span> 负债/权益 ≤ 1x（实际 ~0.4x，零有息负债）</div>
+    <div class="checklist-item"><span class="check-fail">✗</span> 连续10年盈利（FY2025 GAAP亏损）</div>
+    <div class="checklist-item"><span class="check-fail">✗</span> 格雷厄姆数 ≥ 当前价（$73.45 &lt; $98.58）</div>
+    <div style="margin:16px 0;padding:12px;background:rgba(239,68,68,0.08);border-radius:8px;border-left:3px solid var(--red)">
+      <div style="font-size:0.85rem;color:var(--red);font-weight:700">格雷厄姆结论：减持/卖出</div>
+      <div style="font-size:0.8rem;color:var(--text2);margin-top:4px">7项检验仅3项通过（P/B、流动比、负债比）；Graham Number $73.45，当前价溢价+34.3%；无安全边际</div>
+    </div>
+    <div class="val-item"><span>Graham Number</span><span style="color:var(--yellow)">$73.45</span></div>
+    <div class="val-item"><span>安全边际</span><span style="color:var(--red)">-34.3%（溢价）</span></div>
+  </div>
+
+  <!-- Buffett -->
+  <div class="val-card">
+    <h3>巴菲特护城河估值框架</h3>
+    <div style="margin-bottom:12px">
+      <div style="font-size:0.82rem;color:var(--text2);margin-bottom:6px">ROE近3年均值（调整后）</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--yellow)">~8-12%</div>
+      <div style="font-size:0.78rem;color:var(--text3)">低于巴菲特偏好的&gt;15%阈值</div>
+    </div>
+    <div class="val-item"><span>合理PE区间（基于ROE+护城河）</span><span style="color:var(--yellow)">18-22x</span></div>
+    <div class="val-item"><span>巴菲特合理价值估算</span><span style="color:var(--yellow)">$64–$78</span></div>
+    <div class="val-item"><span>理想买入区间（含20%安全边际）</span><span style="color:var(--green)">$51–$62</span></div>
+    <div class="val-item"><span>当前价较理想区间</span><span style="color:var(--red)">溢价59-93%</span></div>
+    <div style="margin:12px 0;padding:12px;background:rgba(245,158,11,0.08);border-radius:8px;border-left:3px solid var(--yellow)">
+      <div style="font-size:0.85rem;color:var(--yellow);font-weight:700">巴菲特结论：持有，不适合加仓</div>
+      <div style="font-size:0.8rem;color:var(--text2);margin-top:4px">转换成本护城河真实，但ROE&lt;15%、管理层真空、减值风险三项均不符合巴菲特标准；等待$65以下安全边际买点</div>
+    </div>
+  </div>
+
+  <!-- Marks -->
+  <div class="val-card">
+    <h3>霍华德·马克斯周期分析</h3>
+    <div style="margin-bottom:12px">
+      <div style="font-size:0.82rem;color:var(--text2);margin-bottom:6px">市场情绪指数（0=极度悲观，100=极度乐观）</div>
+      <div style="font-size:1.3rem;font-weight:700;color:var(--yellow)">42 / 100</div>
+      <div style="font-size:0.78rem;color:var(--text3)">偏悲观区域，但未达极度恐慌</div>
+    </div>
+    <div class="val-item"><span>P/S 5年历史分位</span><span style="color:var(--yellow)">~35th百分位</span></div>
+    <div class="val-item"><span>EV/EBITDA 5年分位</span><span style="color:var(--yellow)">~40th百分位</span></div>
+    <div class="val-item"><span>风险回报比（当前$98.58）</span><span style="color:var(--red)">0.8:1（不足）</span></div>
+    <div class="val-item"><span>马克斯目标价</span><span style="color:var(--yellow)">$110</span></div>
+    <div style="margin:12px 0;padding:12px;background:rgba(245,158,11,0.08);border-radius:8px;border-left:3px solid var(--yellow)">
+      <div style="font-size:0.85rem;color:var(--yellow);font-weight:700">马克斯结论：谨慎买入</div>
+      <div style="font-size:0.8rem;color:var(--text2);margin-top:4px">行业周期中期复苏，情绪偏悲观（42/100）提供逆向机会；但R:R=0.8不够充裕，需等待$90-95更好入场点</div>
+    </div>
+  </div>
+</div>
+
+<!-- DCF Visualization -->
+<div class="chart-card" style="margin-bottom:24px">
+  <h3>DCF三情景估值（WACC 9.12%，10年期）</h3>
+  <div class="dcf-bar-container">
+    <div style="position:relative">
+      <div class="dcf-bar">
+        <div class="dcf-seg-bear" style="width:27.5%">熊 $45.57</div>
+        <div class="dcf-seg-base" style="width:19.3%">基案 $57.17</div>
+        <div class="dcf-seg-bull" style="width:12.9%">牛 $78.64</div>
+        <div style="flex:1;background:rgba(255,255,255,0.03)"></div>
+      </div>
+      <!-- Current price marker at ~59.4% of a 0-166 scale = 98.58/166 -->
+      <div style="position:absolute;top:0;bottom:0;left:59.4%;width:3px;background:var(--yellow);z-index:10"></div>
+      <div style="position:absolute;top:-18px;left:56%;font-size:0.75rem;color:var(--yellow);font-weight:700">当前 $98.58</div>
+    </div>
+    <div class="dcf-bar-labels">
+      <span>$0</span><span>$45.57（熊）</span><span>$57.17（基案）</span><span>$78.64（牛）</span><span>$98.58（当前）</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:16px">
+    <div style="text-align:center;padding:12px;background:rgba(239,68,68,0.08);border-radius:8px">
+      <div style="font-size:0.78rem;color:var(--text3)">悲观情景 (30%)</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--red)">$45.57</div>
+      <div style="font-size:0.75rem;color:var(--text3)">-53.8% 下行</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(59,130,246,0.08);border-radius:8px">
+      <div style="font-size:0.78rem;color:var(--text3)">基准情景 (45%)</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--blue)">$57.17</div>
+      <div style="font-size:0.75rem;color:var(--text3)">-42.0% 下行</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(16,185,129,0.08);border-radius:8px">
+      <div style="font-size:0.78rem;color:var(--text3)">乐观情景 (25%)</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--green)">$78.64</div>
+      <div style="font-size:0.75rem;color:var(--text3)">-20.2% 下行</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(245,158,11,0.08);border-radius:8px">
+      <div style="font-size:0.78rem;color:var(--text3)">加权综合</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--yellow)">$59.06</div>
+      <div style="font-size:0.75rem;color:var(--text3)">-40.1% 下行</div>
+    </div>
+  </div>
+  <div style="margin-top:12px;padding:10px;background:rgba(245,158,11,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2)">
+    <strong style="color:var(--yellow)">注：</strong>DCF基案$57.17较当前$98.58折价42%。由于FY2025 GAAP EPS为负（商誉减值），Excel模型将ROG分类为"扭亏/困境期"并以DCF为主方法。但市场以Non-GAAP定价（分析师共识$124.33），实际目标价锚定P/S $118.94（2.5x×$855M/17.84M）与分析师均值（各40%/25%权重）。
+  </div>
+</div>
+
+<!-- Three Framework Conclusion -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px">
+  <div style="padding:16px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:10px;text-align:center">
+    <div style="font-size:0.85rem;color:var(--text2);margin-bottom:6px">格雷厄姆</div>
+    <div class="rating-badge" style="background:rgba(239,68,68,0.15);color:var(--red);border:1px solid var(--red)">减持/卖出</div>
+    <div style="font-size:0.78rem;color:var(--text3);margin-top:8px">7项仅通过3项；Graham数$73.45 &lt; $98.58</div>
+  </div>
+  <div style="padding:16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);border-radius:10px;text-align:center">
+    <div style="font-size:0.85rem;color:var(--text2);margin-bottom:6px">巴菲特</div>
+    <div class="rating-badge" style="background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid var(--yellow)">持有不加仓</div>
+    <div style="font-size:0.78rem;color:var(--text3);margin-top:8px">护城河真实，ROE&lt;15%，管理层风险大</div>
+  </div>
+  <div style="padding:16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);border-radius:10px;text-align:center">
+    <div style="font-size:0.85rem;color:var(--text2);margin-bottom:6px">霍华德·马克斯</div>
+    <div class="rating-badge" style="background:rgba(245,158,11,0.15);color:var(--yellow);border:1px solid var(--yellow)">谨慎买入</div>
+    <div style="font-size:0.78rem;color:var(--text3);margin-top:8px">情绪偏悲观，但R:R=0.8不够充裕</div>
+  </div>
+</div>
+
+<div style="text-align:center;margin:24px 0;padding:24px;background:var(--bg2);border:2px solid var(--green);border-radius:16px">
+  <div style="font-size:0.9rem;color:var(--text2);margin-bottom:8px">综合理想买入区间</div>
+  <div style="font-size:2.5rem;font-weight:800;color:var(--green)">$90 – $100</div>
+  <div style="font-size:0.85rem;color:var(--text2);margin-top:6px">当前$98.58处于区间上端；充分安全边际买入点在$85-90（永久CEO任命前）</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ 16 INVESTORS ═══════════════════════════ -->
+<section>
+<div class="section-title">16位传奇投资者深度分析</div>
+<div style="overflow-x:auto">
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>投资者</th>
+      <th>流派</th>
+      <th>信号</th>
+      <th>置信度</th>
+      <th>核心评估要点（框架专项）</th>
+      <th>目标价 / 操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>本杰明·格雷厄姆</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">安全边际 / 清算价值</td>
+      <td><span class="inv-verdict inv-bear">估值偏高缺乏安全边际</span></td>
+      <td style="color:var(--red);font-weight:700">72%</td>
+      <td>
+        <span style="color:var(--red)">- [7项清单 3/7通过] P/E 27.6x失败、P/E×P/B=40.6失败、Graham数$73.45低于$98.58</span><br>
+        <span style="color:var(--green)">+ [资产负债表质量] P/B=1.47x通过、零债务、流动比2.8x — 清算价值$67/股有底</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$68.12<br>减持，等待&lt;$70</td>
+    </tr>
+    <tr>
+      <td><strong>沃伦·巴菲特</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">护城河 / 长期持有 / 能力圈</td>
+      <td><span class="inv-verdict inv-hold">护城河真实但管理层风险</span></td>
+      <td style="color:var(--yellow);font-weight:700">45%</td>
+      <td>
+        <span style="color:var(--green)">+ [护城河 13/20分] 转换成本5/5（OEM重新认证3-5年），无形资产4/5（RO4000行业标准配方）</span><br>
+        <span style="color:var(--red)">- [能力圈] 工业特种材料在圈外；临时CEO无材料背景；ROE 8-12%低于15%阈值，不予买入</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$53–71（合理区间）<br>等待$65以下买入</td>
+    </tr>
+    <tr>
+      <td><strong>查理·芒格</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">心理逆向 / 质量优先 / 长期思维</td>
+      <td><span class="inv-verdict inv-hold">逆向三层检验后中性偏谨慎</span></td>
+      <td style="color:var(--yellow);font-weight:700">50%</td>
+      <td>
+        <span style="color:var(--green)">+ [逆向1-可反驳] "临时CEO=买入信号"：Starboard减仓非真正减持，仅套现；管理层换血可能是正面结构性变革信号</span><br>
+        <span style="color:var(--red)">- [逆向3-难反驳] ROG的护城河属"历史惯性"而非"动态扩张"——RO4000配方60年未改进，竞争对手吃掉新材料市场</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$65–80<br>观察CEO任命</td>
+    </tr>
+    <tr>
+      <td><strong>彼得·林奇</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">GARP / PEG / 增长分类</td>
+      <td><span class="inv-verdict inv-bull">周期复苏型+PEG 0.61</span></td>
+      <td style="color:var(--green);font-weight:700">58%</td>
+      <td>
+        <span style="color:var(--green)">+ [GARP分析] FY2026E EPS增速+48.8%（$2.40→$3.57），PEG=27.6÷48.8=0.565，&lt;1.0强烈信号；分类为"周期复苏型"最佳买入区域</span><br>
+        <span style="color:var(--red)">- [增速可持续] Q1-Q2 FY2026 EPS指引弱于预期（Q1 $0.65），增速是否持续需季报验证</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$124–133<br>持续买入直至EPS确认</td>
+    </tr>
+    <tr>
+      <td><strong>霍华德·马克斯</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">周期定位 / 风险控制 / 逆向</td>
+      <td><span class="inv-verdict inv-hold">情绪42/100，R:R 0.8:1不足</span></td>
+      <td style="color:var(--yellow);font-weight:700">52%</td>
+      <td>
+        <span style="color:var(--green)">+ [情绪逆向] 情绪分42/100处于偏悲观区，分析师覆盖仅1-2家（共识稀薄=市场忽视），提供逆向布局窗口</span><br>
+        <span style="color:var(--red)">- [R:R分析] 上行至$124=+25.8%，下行至DCF基案$57=-42%，R:R=25.8/42=0.61:1；$90以下才够充裕</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$110<br>谨慎买入，等$90更好</td>
+    </tr>
+    <tr>
+      <td><strong>乔治·索罗斯</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">反身性 / 宏观情景 / 趋势跟随</td>
+      <td><span class="inv-verdict inv-bull">负向反身性衰竭，正向雏形</span></td>
+      <td style="color:var(--green);font-weight:700">61%</td>
+      <td>
+        <span style="color:var(--green)">+ [反身性转折点] FY2025 Q3/Q4连续YoY转正（+2.7%/+4.8%）="负向反身性衰竭"信号；Starboard介入→管理层换血→改善预期开始形成正向循环</span><br>
+        <span style="color:var(--red)">- [触发条件] 趋势尚未完全形成，永久CEO公告才是反身性加速确认信号；若继续拖延则正向循环受阻</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$125<br>等CEO公告后趋势跟随</td>
+    </tr>
+    <tr>
+      <td><strong>瑞·达利欧</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">全天候 / 风险平价 / 宏观分散</td>
+      <td><span class="inv-verdict inv-hold">零债务全天候优势</span></td>
+      <td style="color:var(--yellow);font-weight:700">48%</td>
+      <td>
+        <span style="color:var(--green)">+ [全天候资产特征] Beta=0.348极低，零有息负债+$197M净现金=经济衰退抗压，在风险平价组合中作防御配置价值高</span><br>
+        <span style="color:var(--red)">- [增长敏感性] AES 55%收入依赖半导体/5G/EV资本支出，如宏观下行则需求骤降；全天候的"稳定"特征弱于预期</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$105<br>组合中3%防御配置</td>
+    </tr>
+    <tr>
+      <td><strong>塞思·卡拉曼</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">安全边际 / 资产价值 / 催化剂</td>
+      <td><span class="inv-verdict inv-bear">DCF$57.17 vs $98.58，安全边际负</span></td>
+      <td style="color:var(--red);font-weight:700">71%</td>
+      <td>
+        <span style="color:var(--red)">- [安全边际情景] 卡拉曼要求30-40%安全边际：$57.17×1.4=$80才是最低买入价，当前$98.58无安全边际</span><br>
+        <span style="color:var(--green)">+ [资产底线] 账面$67.17/股+$11.04/股净现金=$78.21实质净资产，流动性清算价值提供有限下行保护</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$68–75入场<br>当前不介入</td>
+    </tr>
+    <tr>
+      <td><strong>乔尔·格林布拉特</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">神奇公式 / ROIC / 盈利收益率</td>
+      <td><span class="inv-verdict inv-bull">ROIC 17.9%，EY 6.1%</span></td>
+      <td style="color:var(--green);font-weight:700">62%</td>
+      <td>
+        <span style="color:var(--green)">+ [神奇公式计算] ROIC=17.9%（基于调整后收益），盈利收益率EY=6.07%（1/FWD PE 16.5x）；两项合计较高，神奇公式排名靠前</span><br>
+        <span style="color:var(--red)">- [ROIC质量] 分母含$197M闲置现金（降低有效ROIC），若剔除现金则有形ROIC更高；但管理层配置效率低（现金未被部署）</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$78–82（MF理想）<br>当前仍可介入</td>
+    </tr>
+    <tr>
+      <td><strong>斯坦利·德鲁肯米勒</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">宏观驱动 / 不对称押注 / 动量确认</td>
+      <td><span class="inv-verdict inv-hold">动量减弱，R:R 0.62:1</span></td>
+      <td style="color:var(--yellow);font-weight:700">45%</td>
+      <td>
+        <span style="color:var(--green)">+ [宏观催化剂] 5G毫米波基站全球部署加速=AES高频材料直接受益；AI数据中心散热材料新市场=EMS潜在催化</span><br>
+        <span style="color:var(--red)">- [不对称分析] 上行（至$124）=+25.8% vs 下行（至DCF基案$57）=-42.2%；R:R=0.62，不符合德鲁肯米勒"至少2:1"要求</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$124<br>等$85以下再介入</td>
+    </tr>
+    <tr>
+      <td><strong>大卫·艾因霍恩</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">价值/空头 / 会计质量 / GAAP信徒</td>
+      <td><span class="inv-verdict inv-hold">GAAP vs NonGAAP $6.54差异</span></td>
+      <td style="color:var(--yellow);font-weight:700">55%</td>
+      <td>
+        <span style="color:var(--red)">- [GAAP会计分析] FY2025 GAAP EPS -$3.47 vs 市场用Non-GAAP ~$2.40；差距$5.87/股。艾因霍恩质疑：商誉减值虽非现金，但代表真实经济损失——curamik收购溢价$70M已确认失败</span><br>
+        <span style="color:var(--green)">+ [FCF验证] FY2025 FCF $71M（8.8%）与Non-GAAP利润相符，证明调整项确为非现金；FCF质量真实</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$85<br>等更多GAAP改善</td>
+    </tr>
+    <tr>
+      <td><strong>比尔·阿克曼</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">激活主义 / SOTP / 催化剂驱动</td>
+      <td><span class="inv-verdict inv-bull">SOTP AES $45+EMS $13.6/sh</span></td>
+      <td style="color:var(--green);font-weight:700">58%</td>
+      <td>
+        <span style="color:var(--green)">+ [SOTP拆分价值] AES（高频+5G，P/S 2.5x）×$445M营收÷17.84M股=$62.3/sh；EMS（弹性体，P/S 1.0x）×$366M÷17.84M=$20.5/sh；净现金$11/sh → SOTP=$93.8（最低估）</span><br>
+        <span style="color:var(--red)">- [激活主义风险] Starboard已大幅减仓（9.3%→3.3%），激活主义保护减弱；永久CEO搜索拖延可能削弱变革动力</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$130<br>参与激活主义押注</td>
+    </tr>
+    <tr>
+      <td><strong>约翰·邓普顿</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">全球逆向 / 极度悲观底部 / 低PE价值</td>
+      <td><span class="inv-verdict inv-bull">悲观分数71/100</span></td>
+      <td style="color:var(--green);font-weight:700">62%</td>
+      <td>
+        <span style="color:var(--green)">+ [极度悲观指数] 悲观分数71/100（高分=好买点）：GAAP亏损+管理层真空+分析师覆盖仅1-2家+Starboard减仓=多重坏消息集中=邓普顿最爱"最悲观时"</span><br>
+        <span style="color:var(--red)">- [全球竞争] 中国PCB材料厂商（生益科技/南亚科技）持续低价渗透中低端市场，邓普顿的"全球化竞争"视角是额外风险</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$124<br>逆向买入，分批</td>
+    </tr>
+    <tr>
+      <td><strong>约翰·聂夫</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">低PE+高股息+稳定增长</td>
+      <td><span class="inv-verdict inv-hold">支付率0.94&lt;2.0，无股息</span></td>
+      <td style="color:var(--yellow);font-weight:700">35%</td>
+      <td>
+        <span style="color:var(--red)">- [聂夫检验] 不支付股息=直接不满足聂夫核心标准；TTM收益率=0%；低PE工厂不可用（ROG无稳定股息历史）</span><br>
+        <span style="color:var(--green)">+ [低PE潜力] FWD PE 27.6x偏高，但若EPS恢复至$4-5，PE将降至20-25x进入聂夫关注区间；需等待</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">N/A<br>不符合聂夫标准</td>
+    </tr>
+    <tr>
+      <td><strong>菲利普·费舍</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">成长型 / 管理层质量 / 长期持有</td>
+      <td><span class="inv-verdict inv-bull">RO4000口碑极强，管理层6/10</span></td>
+      <td style="color:var(--green);font-weight:700">68%</td>
+      <td>
+        <span style="color:var(--green)">+ [15项要素评分] 产品技术领先（RO4000行业标准）8/10；研发投入持续充足；客户口碑极强（OEM主动规格化为"Rogers材料"）；长期增长路径清晰（5G+EV+AI）</span><br>
+        <span style="color:var(--red)">- [管理层要素 6/10] 临时CEO降低管理层分；Starboard离场削弱问责机制；无明确股东回报计划（$197M现金未分配）</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$130<br>长期买入持有</td>
+    </tr>
+    <tr>
+      <td><strong>迈克尔·伯里</strong></td>
+      <td style="color:var(--text3);font-size:0.77rem">深度价值/逆向 / 定量驱动</td>
+      <td><span class="inv-verdict inv-hold">DCF折价但非深度低估</span></td>
+      <td style="color:var(--yellow);font-weight:700">45%</td>
+      <td>
+        <span style="color:var(--red)">- [市场盲点&amp;P/S真相] P/S 2.17x看似合理，但FCF$71M÷市值$1.76B=FCF收益率4.0%，低于无风险利率4.5%；FCF回收期25年——不是伯里的深度价值</span><br>
+        <span style="color:var(--green)">+ [催化剂入场策略] DCF熊案$45.57=真正安全边际买入点；$75-80区间提供3:1不对称押注；等待curamik减值或CEO不确定性推低至$75</span>
+      </td>
+      <td style="color:var(--accent2);font-size:0.78rem">$75入场→$120目标<br>等待更好价格</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- Signal Distribution -->
+<div class="signal-dashboard">
+  <div class="signal-score">63</div>
+  <div class="signal-label">综合多空强度评分（0–100）</div>
+  <div class="signal-bar">
+    <div class="signal-bull" style="width:37.5%"></div>
+    <div class="signal-neut" style="width:50%"></div>
+    <div class="signal-bear" style="width:12.5%"></div>
+  </div>
+  <div class="signal-counts">
+    <span class="sc-bull">看多 6人（37.5%）</span>
+    <span class="sc-neut">中性 8人（50%）</span>
+    <span class="sc-bear">看空 2人（12.5%）</span>
+  </div>
+  <div style="font-size:0.8rem;color:var(--text3);margin-top:12px">
+    分数公式：(6×100 + 8×50 + 2×0) / 16 = 1000/16 = 62.5 ≈ 63
+  </div>
+</div>
+
+<div class="chart-grid" style="margin-top:24px">
+  <div class="chart-card">
+    <h3>传奇投资者综合评分雷达图（1–10）</h3>
+    <div class="chart-container">
+      <canvas id="radarChart"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h3>16位投资者信号分布</h3>
+    <div class="chart-container">
+      <canvas id="signalBar"></canvas>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ POSITION MANAGEMENT ═══════════════════════════ -->
+<section>
+<div class="section-title">仓位管理策略</div>
+<div class="pm-grid">
+  <div class="pm-card">
+    <div class="pm-label">建议仓位</div>
+    <div class="pm-value" style="color:var(--yellow)">5–8%</div>
+    <div class="pm-sub">风险评分58/100（高风险区）</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">初次建仓价</div>
+    <div class="pm-value" style="color:var(--blue)">$95–100</div>
+    <div class="pm-sub">30%仓位，含安全边际</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">第二批加仓价</div>
+    <div class="pm-value" style="color:var(--blue)">$85–90</div>
+    <div class="pm-sub">30%仓位，企稳确认</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">硬性止损</div>
+    <div class="pm-value" style="color:var(--red)">$72</div>
+    <div class="pm-sub">破位账面价值支撑</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">基准目标（50%）</div>
+    <div class="pm-value" style="color:var(--green)">$110</div>
+    <div class="pm-sub">+11.6% 上行空间</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">乐观目标（25%）</div>
+    <div class="pm-value" style="color:var(--green)">$140</div>
+    <div class="pm-sub">CEO+催化剂兑现</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">止损目标（25%）</div>
+    <div class="pm-value" style="color:var(--red)">$68</div>
+    <div class="pm-sub">DCF悲观情景</div>
+  </div>
+  <div class="pm-card">
+    <div class="pm-label">期望收益（EV）</div>
+    <div class="pm-value" style="color:var(--yellow)">+8.55%</div>
+    <div class="pm-sub">50%×11.6% + 25%×42% - 25%×31%</div>
+  </div>
+</div>
+
+<div style="margin:20px 0">
+  <h3 style="font-size:0.95rem;color:var(--text2);margin-bottom:12px">分批建仓时间轴</h3>
+  <div class="timeline">
+    <div class="timeline-step" style="border-left-color:var(--blue)">
+      <div class="step-label">第一批（立即）</div>
+      <div class="step-pct" style="color:var(--blue)">30% 仓位</div>
+      <div class="step-price">$95–100</div>
+      <div class="step-cond">当前价格区间，谨慎初始仓位</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-label">第二批（条件性）</div>
+      <div class="step-pct" style="color:var(--yellow)">30% 仓位</div>
+      <div class="step-price">$85–90</div>
+      <div class="step-cond">股价回调或Q1财报低于预期</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-label">第三批（催化剂）</div>
+      <div class="step-pct" style="color:var(--green)">40% 仓位</div>
+      <div class="step-price">市价（催化后）</div>
+      <div class="step-cond">永久CEO公告 + Q1 EPS≥$0.65双条件满足</div>
+    </div>
+    <div class="timeline-step">
+      <div class="step-label">止损（止损线）</div>
+      <div class="step-pct" style="color:var(--red)">全部退出</div>
+      <div class="step-price">$72</div>
+      <div class="step-cond">curamik二次减值&gt;$30M 或 CEO延迟12个月</div>
+    </div>
+  </div>
+</div>
+
+<div class="conclusion-card">
+  <h3>综合投资结论</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div>
+      <h4 style="color:var(--green);font-size:0.9rem;margin-bottom:8px">核心看多逻辑</h4>
+      <ul style="font-size:0.84rem;color:var(--text2);padding-left:16px">
+        <li>营收触底：Q3/Q4 FY2025连续YoY正增长确认</li>
+        <li>零债务+$197M净现金，下行保护充足</li>
+        <li>转换成本护城河（OEM认证壁垒3-5年锁定）</li>
+        <li>PEG=0.56&lt;1.0，增速复苏阶段性被低估</li>
+        <li>管理层换血+激活主义遗留结构性改善</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--red);font-size:0.9rem;margin-bottom:8px">主要风险警示</h4>
+      <ul style="font-size:0.84rem;color:var(--text2);padding-left:16px">
+        <li>永久CEO任命延迟=管理层折价持续</li>
+        <li>curamik二次减值（概率35%）</li>
+        <li>DCF基案$57.17，当前溢价72%无安全边际</li>
+        <li>ADAS设计窗口期若错过=不可逆</li>
+        <li>Starboard减仓至3.3%，激活主义动力弱化</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:16px;padding:12px;background:rgba(0,0,0,0.2);border-radius:8px;text-align:center">
+    <span style="font-size:1rem;font-weight:700;color:var(--green)">评级：谨慎买入（Cautious Buy）</span>
+    <span style="color:var(--text3);margin:0 12px">|</span>
+    <span style="font-size:1rem;font-weight:700;color:var(--green)">12个月目标价：$120</span>
+    <span style="color:var(--text3);margin:0 12px">|</span>
+    <span style="font-size:0.9rem;color:var(--yellow)">上行空间：+21.7%</span>
+    <span style="color:var(--text3);margin:0 12px">|</span>
+    <span style="font-size:0.9rem;color:var(--yellow)">建议仓位：5-8%</span>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════ DATA SOURCES ═══════════════════════════ -->
+<section style="padding-bottom:60px">
+<div class="section-title">数据来源与时间戳</div>
+<div style="font-size:0.82rem;color:var(--text2);line-height:2">
+  <strong style="color:var(--text1)">分析完成时间：</strong>2026-04-14<br>
+  <strong style="color:var(--text1)">财务数据来源：</strong>Rogers Corporation FY2025年报、Q4 FY2025财报发布（2026年2月）、SEC EDGAR、Alpha Vantage API<br>
+  <strong style="color:var(--text1)">估值模型：</strong>内部DCF（WACC 9.12%）、Excel多方法估值模型（valuation_result.json）<br>
+  <strong style="color:var(--text1)">分析师数据：</strong>Bloomberg/FactSet共识，分析师目标价区间$109-$133（均值$124.33，约1-2家机构覆盖）<br>
+  <strong style="color:var(--text1)">补充来源：</strong>ROG Q4 FY2025 Earnings Call Transcript、Starboard Value 13F/13G披露、SEC EDGAR DEF 14A（管理层薪酬/持仓）<br>
+  <strong style="color:var(--text1)">免责声明：</strong>本报告仅供研究参考，不构成投资建议。所有估值数据基于公开信息，实际结果可能有重大差异。
+</div>
+</section>
+
+</div><!-- /container -->
+
+<script>
+// ─── Segment Pie ───────────────────────────────────────────────────────────
+new Chart(document.getElementById('segmentPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['AES (先进电子)', 'EMS (弹性体材料)'],
+    datasets: [{
+      data: [55, 45],
+      backgroundColor: ['#3b82f6','#10b981'],
+      borderColor: '#0a0e1a', borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
+    }
+  }
+});
+
+// ─── End Market Pie ────────────────────────────────────────────────────────
+new Chart(document.getElementById('endMarketPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['5G/通信基础设施', '汽车 (ADAS/EV/HEV)', '工业/国防', '消费电子', '其他'],
+    datasets: [{
+      data: [30, 28, 22, 12, 8],
+      backgroundColor: ['#3b82f6','#10b981','#f59e0b','#8b5cf6','#64748b'],
+      borderColor: '#0a0e1a', borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
+    }
+  }
+});
+
+// ─── Revenue Chart ─────────────────────────────────────────────────────────
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26E'],
+    datasets: [
+      {
+        label: '营收 ($M)',
+        data: [190, 203, 216, 202, 200.5],
+        backgroundColor: ['#3b82f688','#3b82f688','#3b82f688','#3b82f688','#10b98144'],
+        borderColor: ['#3b82f6','#3b82f6','#3b82f6','#3b82f6','#10b981'],
+        borderWidth: 2, yAxisID: 'y'
+      },
+      {
+        label: 'YoY%',
+        data: [-3.5, -2.1, 2.7, 4.8, 5.0],
+        type: 'line',
+        borderColor: '#f59e0b',
+        backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 4, yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } },
+      y1: { position: 'right', ticks: { color: '#f59e0b' }, grid: { display: false } }
+    },
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } }
+  }
+});
+
+// ─── Margin Chart ──────────────────────────────────────────────────────────
+new Chart(document.getElementById('marginChart'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25'],
+    datasets: [
+      {
+        label: '毛利率',
+        data: [33.2, 33.8, 33.5, 32.9],
+        borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)',
+        borderWidth: 2, fill: true
+      },
+      {
+        label: 'Adj.EBITDA率',
+        data: [14.8, 15.6, 16.8, 17.1],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)',
+        borderWidth: 2, fill: true
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { ticks: { color: '#94a3b8', callback: v => v+'%' }, grid: { color: '#2d3748' } },
+      x: { ticks: { color: '#94a3b8' } }
+    },
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } }
+  }
+});
+
+// ─── Valuation History ─────────────────────────────────────────────────────
+new Chart(document.getElementById('valHistChart'), {
+  type: 'bar',
+  data: {
+    labels: ['P/E (FWD)', 'P/B', 'P/S', 'EV/EBITDA'],
+    datasets: [
+      { label: '5年均值', data: [24, 2.1, 2.8, 14], backgroundColor: '#3b82f666', borderColor: '#3b82f6', borderWidth: 1 },
+      { label: '当前', data: [27.6, 1.47, 2.17, 11.6], backgroundColor: '#f59e0b88', borderColor: '#f59e0b', borderWidth: 1 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } },
+      x: { ticks: { color: '#94a3b8' } }
+    },
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } }
+  }
+});
+
+// ─── Radar Chart ───────────────────────────────────────────────────────────
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['估值', '成长', '护城河', '风险', '管理层', '周期', '催化剂', '资产负债表'],
+    datasets: [{
+      label: 'ROG综合评分',
+      data: [4, 6, 7, 4, 4, 6, 7, 9],
+      borderColor: '#3b82f6',
+      backgroundColor: 'rgba(59,130,246,0.15)',
+      pointBackgroundColor: '#3b82f6',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      r: {
+        min: 0, max: 10,
+        ticks: { color: '#64748b', stepSize: 2 },
+        grid: { color: '#2d3748' },
+        pointLabels: { color: '#94a3b8', font: { size: 11 } }
+      }
+    },
+    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } }
+  }
+});
+
+// ─── Signal Bar Chart ──────────────────────────────────────────────────────
+new Chart(document.getElementById('signalBar'), {
+  type: 'bar',
+  data: {
+    labels: ['格雷厄姆','巴菲特','芒格','林奇','马克斯','索罗斯','达利欧','卡拉曼','格林布拉特','德鲁肯米勒','艾因霍恩','阿克曼','邓普顿','聂夫','费舍','伯里'],
+    datasets: [{
+      label: '信号 (0=看空,1=中性,2=看多)',
+      data: [0, 1, 1, 2, 1, 2, 1, 0, 2, 1, 1, 2, 2, 1, 2, 1],
+      backgroundColor: [
+        '#ef4444','#f59e0b','#f59e0b','#10b981',
+        '#f59e0b','#10b981','#f59e0b','#ef4444',
+        '#10b981','#f59e0b','#f59e0b','#10b981',
+        '#10b981','#f59e0b','#10b981','#f59e0b'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    scales: {
+      x: { min: 0, max: 2, ticks: { color: '#94a3b8', callback: v => ['看空','中性','看多'][v] }, grid: { color: '#2d3748' } },
+      y: { ticks: { color: '#94a3b8', font: { size: 10 } } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+</body>
+</html>

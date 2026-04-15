@@ -3,1091 +3,902 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI基建材料产业链深度研究报告</title>
+<title>AI服务器材料产业链深度研究 · 修订版 2026-04</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #070b14; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; }
-  a { color: #38bdf8; }
+:root{
+  --bg:#070b14;--bg2:#0f1521;--bg3:#141e2e;--bg4:#1a2640;
+  --border:#1e2a3a;--border2:#253548;
+  --text1:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --cyan:#38bdf8;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--purple:#a78bfa;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text1);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6}
+a{color:var(--cyan)}
+.container{max-width:1320px;margin:0 auto;padding:0 24px}
+section{padding:44px 0;border-bottom:1px solid var(--border)}
 
-  /* ── Layout ── */
-  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-  section { padding: 48px 0; border-bottom: 1px solid #1e2a3a; }
+/* Hero */
+.hero{background:linear-gradient(135deg,#070b14,#0c1a30,#070b14);padding:56px 0 44px;border-bottom:2px solid rgba(56,189,248,0.3)}
+.hero-badge{display:inline-block;background:rgba(56,189,248,0.1);border:1px solid var(--cyan);color:var(--cyan);padding:4px 14px;border-radius:20px;font-size:12px;letter-spacing:1px;margin-bottom:16px}
+.hero h1{font-size:28px;font-weight:800;color:#fff;margin-bottom:6px}
+.hero-sub{color:var(--text3);font-size:13px;margin-bottom:28px}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:22px;font-weight:700;color:var(--cyan)}
+.kpi .l{font-size:11px;color:var(--text3);margin-top:3px}
+.kpi .c{font-size:11px;color:var(--green);margin-top:2px}
 
-  /* ── Hero ── */
-  .hero { background: linear-gradient(135deg, #0a0e1a 0%, #0f1e38 50%, #0a1628 100%); padding: 60px 0 48px; border-bottom: 1px solid #1e3a5f; }
-  .hero-badge { display: inline-block; background: rgba(56,189,248,0.15); border: 1px solid #38bdf8; color: #38bdf8; padding: 4px 14px; border-radius: 20px; font-size: 12px; letter-spacing: 1px; margin-bottom: 16px; }
-  .hero h1 { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #e2e8f0, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-  .hero-sub { color: #64748b; font-size: 13px; margin-bottom: 32px; }
-  .hero-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .hero-kpi { background: rgba(255,255,255,0.04); border: 1px solid #1e2a3a; border-radius: 10px; padding: 16px 20px; }
-  .hero-kpi .val { font-size: 26px; font-weight: 700; color: #38bdf8; }
-  .hero-kpi .lbl { font-size: 11px; color: #64748b; margin-top: 4px; }
-  .hero-kpi .chg { font-size: 12px; color: #4ade80; margin-top: 2px; }
+/* Section titles */
+.stitle{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.stitle::before{content:'';display:inline-block;width:4px;height:18px;background:var(--cyan);border-radius:2px}
+.sdesc{color:var(--text3);font-size:13px;margin-bottom:24px}
 
-  /* ── Section title ── */
-  .sec-title { font-size: 20px; font-weight: 700; color: #e2e8f0; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
-  .sec-title::before { content: ''; display: inline-block; width: 4px; height: 20px; background: #38bdf8; border-radius: 2px; }
-  .sec-desc { color: #64748b; font-size: 13px; margin-bottom: 28px; }
+/* Chain diagram */
+.chain{display:flex;align-items:stretch;gap:0;overflow-x:auto;margin:16px 0;padding-bottom:4px}
+.chain-node{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;position:relative}
+.chain-node.highlight{border-color:var(--yellow);background:rgba(251,191,36,0.06)}
+.chain-node.key{border-color:var(--red);background:rgba(248,113,113,0.06)}
+.chain-node.ok{border-color:var(--green);background:rgba(74,222,128,0.06)}
+.chain-node h4{font-size:12px;font-weight:700;color:var(--text1);margin-bottom:6px}
+.chain-node .cn{font-size:11px;color:var(--cyan);font-weight:600;margin-bottom:3px}
+.chain-node .co{font-size:10px;color:var(--text3);line-height:1.4}
+.chain-node .badge-sm{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;margin-top:4px}
+.chain-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:18px;font-weight:700}
 
-  /* ── Cards ── */
-  .cards { display: grid; gap: 16px; }
-  .cards-3 { grid-template-columns: repeat(3, 1fr); }
-  .cards-2 { grid-template-columns: repeat(2, 1fr); }
-  .card { background: #0f1521; border: 1px solid #1e2a3a; border-radius: 12px; padding: 24px; transition: border-color .2s; }
-  .card:hover { border-color: #38bdf8; }
-  .card-icon { font-size: 22px; margin-bottom: 10px; }
-  .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #e2e8f0; }
-  .card p { font-size: 13px; color: #94a3b8; line-height: 1.6; }
-  .card .highlight { color: #fbbf24; font-weight: 600; }
-  .card .green { color: #4ade80; font-weight: 600; }
-  .card .red { color: #f87171; font-weight: 600; }
-  .card .blue { color: #38bdf8; font-weight: 600; }
+/* Tables */
+.dt{width:100%;border-collapse:collapse;font-size:13px}
+.dt th{background:var(--bg3);color:var(--text3);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.dt td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.dt tr:hover td{background:rgba(56,189,248,0.03)}
+.dt .sep td{border-top:2px solid rgba(56,189,248,0.25);background:rgba(56,189,248,0.04)}
+.dt .sep .cl{border-left:3px solid var(--cyan);padding-left:11px}
 
-  /* ── Chart wrapper ── */
-  .chart-wrap { background: #0f1521; border: 1px solid #1e2a3a; border-radius: 12px; padding: 24px; min-width: 0; overflow: hidden; }
-  .chart-wrap h3 { font-size: 14px; font-weight: 600; color: #94a3b8; margin-bottom: 16px; }
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  /* aspect-ratio box: height driven by padding-bottom, never by content → breaks ResizeObserver loop */
-  .chart-box { position: relative; width: 100%; height: 0; overflow: hidden; }
-  .chart-box canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+/* Badges */
+.b{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.b-r{background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.3)}
+.b-y{background:rgba(251,191,36,0.15);color:var(--yellow);border:1px solid rgba(251,191,36,0.3)}
+.b-g{background:rgba(74,222,128,0.15);color:var(--green);border:1px solid rgba(74,222,128,0.3)}
+.b-c{background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3)}
+.b-p{background:rgba(167,139,250,0.15);color:var(--purple);border:1px solid rgba(167,139,250,0.3)}
 
-  /* ── Supply chain flow ── */
-  .flow { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 20px 0; }
-  .flow-item { flex: 1; min-width: 130px; background: #0f1521; border: 1px solid #1e2a3a; border-radius: 10px; padding: 16px 12px; text-align: center; }
-  .flow-item .num { width: 24px; height: 24px; border-radius: 50%; background: #38bdf8; color: #070b14; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
-  .flow-item h4 { font-size: 12px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
-  .flow-item p { font-size: 11px; color: #64748b; }
-  .flow-arrow { flex: 0 0 28px; text-align: center; color: #38bdf8; font-size: 20px; }
+/* Cards */
+.card-grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
 
-  /* ── Material table ── */
-  .mat-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .mat-table th { background: #0f1521; color: #64748b; font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 2px solid #1e2a3a; font-size: 12px; }
-  .mat-table td { padding: 12px 14px; border-bottom: 1px solid #131c2a; vertical-align: top; }
-  .mat-table tr:hover td { background: rgba(56,189,248,0.04); }
-  /* category boundary: thick accent line + subtle tint on separator rows */
-  .mat-table .cat-start td { border-top: 2px solid rgba(56,189,248,0.35); }
-  .mat-table .cat-start .cat-label { background: rgba(56,189,248,0.06); border-left: 3px solid #38bdf8; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .badge-red { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
-  .badge-yellow { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
-  .badge-green { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
-  .badge-blue { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+/* Stock cards */
+.scard{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
+.scard.direct{border-color:rgba(74,222,128,0.4)}
+.scard.indirect{border-color:rgba(251,191,36,0.3)}
+.scard.speculative{border-color:rgba(248,113,113,0.3)}
+.stk{font-size:20px;font-weight:800;color:var(--cyan)}
+.sname{font-size:12px;color:var(--text3);margin:2px 0 8px}
+.smeta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.smet{background:rgba(255,255,255,0.03);border-radius:6px;padding:8px}
+.smet .mv{font-size:14px;font-weight:700}
+.smet .mk{font-size:10px;color:var(--text3);margin-top:2px}
+.sthesis{font-size:12px;color:var(--text2);border-top:1px solid var(--border);padding-top:10px;line-height:1.7}
+.schain{font-size:11px;color:var(--text3);margin-top:8px;padding:8px;background:rgba(56,189,248,0.04);border-radius:6px;border-left:2px solid var(--cyan)}
 
-  /* ── Bottleneck matrix ── */
-  .matrix-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .matrix-item { border-radius: 10px; padding: 16px; border: 1px solid; }
-  .matrix-item h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-  .matrix-item p { font-size: 12px; line-height: 1.5; }
-  .matrix-item ul { font-size: 12px; padding-left: 14px; color: #94a3b8; }
-  .matrix-item li { margin-bottom: 3px; }
-  .m-critical { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.4); }
-  .m-critical h4 { color: #f87171; }
-  .m-high { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
-  .m-high h4 { color: #fbbf24; }
-  .m-mid { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.3); }
-  .m-mid h4 { color: #38bdf8; }
-  .m-low { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.3); }
-  .m-low h4 { color: #4ade80; }
+/* Nvidia platform table */
+.nv-table{width:100%;border-collapse:collapse;font-size:12px}
+.nv-table th{padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);background:var(--bg3)}
+.nv-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.nv-table .gen{font-weight:700;color:var(--cyan)}
 
-  /* ── Stock cards ── */
-  .stock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .stock-card { background: #0f1521; border: 1px solid #1e2a3a; border-radius: 12px; padding: 20px; }
-  .stock-card:hover { border-color: #38bdf8; }
-  .stock-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .stock-ticker { font-size: 18px; font-weight: 700; color: #38bdf8; }
-  .stock-rating { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
-  .rating-buy { background: rgba(74,222,128,0.15); color: #4ade80; }
-  .rating-hold { background: rgba(251,191,36,0.15); color: #fbbf24; }
-  .stock-name { font-size: 12px; color: #64748b; margin-bottom: 10px; }
-  .stock-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .stock-metric { background: rgba(255,255,255,0.03); border-radius: 6px; padding: 8px; }
-  .stock-metric .m-val { font-size: 14px; font-weight: 700; color: #e2e8f0; }
-  .stock-metric .m-key { font-size: 10px; color: #64748b; margin-top: 2px; }
-  .stock-thesis { font-size: 12px; color: #94a3b8; line-height: 1.6; border-top: 1px solid #1e2a3a; padding-top: 10px; margin-top: 4px; }
-  .stock-thesis strong { color: #fbbf24; }
+/* Clarity meter */
+.clarity-row{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.clarity-item{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid}
+.c-direct{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.3);color:var(--green)}
+.c-indirect{background:rgba(251,191,36,0.06);border-color:rgba(251,191,36,0.3);color:var(--yellow)}
+.c-cond{background:rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.3);color:var(--cyan)}
+.c-spec{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.3);color:var(--red)}
 
-  /* ── Stock action buttons ── */
-  .stock-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #1e2a3a; flex-wrap: wrap; }
-  .btn-report { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-decoration: none; }
-  .btn-report.active { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35); }
-  .btn-report.active:hover { background: rgba(56,189,248,0.22); border-color: #38bdf8; }
-  .btn-report.pending { background: rgba(100,116,139,0.08); color: #475569; border: 1px solid rgba(100,116,139,0.2); cursor: default; pointer-events: none; }
+/* Alert box */
+.alert{border-radius:10px;padding:16px 20px;margin:16px 0;border-left:4px solid}
+.alert-r{background:rgba(248,113,113,0.08);border-color:var(--red)}
+.alert-y{background:rgba(251,191,36,0.08);border-color:var(--yellow)}
+.alert-g{background:rgba(74,222,128,0.08);border-color:var(--green)}
+.alert h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.alert-r h4{color:var(--red)}
+.alert-y h4{color:var(--yellow)}
+.alert-g h4{color:var(--green)}
 
-  /* ── Risk table ── */
-  .risk-list { display: grid; gap: 10px; }
-  .risk-item { background: #0f1521; border-left: 3px solid; border-radius: 0 8px 8px 0; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
-  .risk-item.r-high { border-color: #f87171; }
-  .risk-item.r-mid { border-color: #fbbf24; }
-  .risk-item h4 { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
-  .risk-item p { font-size: 12px; color: #94a3b8; }
-  .risk-prob { text-align: center; }
-  .risk-prob .pct { font-size: 18px; font-weight: 700; }
-  .risk-prob .lbl { font-size: 10px; color: #64748b; }
+/* Spec comparison */
+.spec-bar{display:flex;align-items:center;gap:10px;margin:4px 0}
+.spec-bar .label{width:80px;font-size:11px;color:var(--text3);text-align:right}
+.spec-bar .bar{flex:1;height:12px;border-radius:6px;background:rgba(255,255,255,0.06);position:relative}
+.spec-bar .fill{height:12px;border-radius:6px}
+.spec-bar .val{width:70px;font-size:11px;font-weight:600;text-align:left}
 
-  /* ── Stat highlight ── */
-  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
-  .stat-box { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 14px; text-align: center; }
-  .stat-box .sv { font-size: 22px; font-weight: 700; color: #38bdf8; }
-  .stat-box .sk { font-size: 11px; color: #64748b; margin-top: 4px; }
-
-  /* ── Price signal ── */
-  .signal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .signal-box { background: #0f1521; border: 1px solid #1e2a3a; border-radius: 10px; padding: 16px; }
-  .signal-box .material { font-size: 11px; color: #64748b; margin-bottom: 4px; }
-  .signal-box .signal-val { font-size: 20px; font-weight: 700; color: #f87171; margin-bottom: 4px; }
-  .signal-box .signal-desc { font-size: 12px; color: #94a3b8; }
-
-  /* ── Footer ── */
-  .footer { padding: 32px 0; text-align: center; color: #334155; font-size: 12px; }
-
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .hero-kpis, .cards-3, .stock-grid, .matrix-grid { grid-template-columns: 1fr 1fr; }
-    .charts-row, .cards-2 { grid-template-columns: 1fr; }
-    .stat-row { grid-template-columns: 1fr 1fr; }
-    .signal-grid { grid-template-columns: 1fr; }
-  }
+@media(max-width:900px){
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .g3,.card-grid.g3{grid-template-columns:1fr}
+  .g2{grid-template-columns:1fr}
+  .chain{flex-direction:column}
+  .chain-arrow{transform:rotate(90deg)}
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<!-- HERO -->
 <div class="hero">
-  <div class="container">
-    <div class="hero-badge">深度研究 · 2026年4月</div>
-    <h1>AI基建材料产业链深度研究报告</h1>
-    <p class="hero-sub">覆盖晶圆加工、覆铜板、连接界面、光学、供配电、导热散热六大材料类别 · 聚焦投资机会与核心壁垒</p>
-    <div class="hero-kpis">
-      <div class="hero-kpi">
-        <div class="val">$6000亿+</div>
-        <div class="lbl">五大超大规模云厂商2026年Capex（已公告）</div>
-        <div class="chg">YoY +36%</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="val">+28%</div>
-        <div class="lbl">2026年全球AI服务器出货量增速（TrendForce预测）</div>
-        <div class="chg">AI机柜数量2025→2026翻倍</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="val">6大类</div>
-        <div class="lbl">AI服务器完整材料产业链覆盖</div>
-        <div class="chg">从芯片制造到运行散热</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="val">70%</div>
-        <div class="lbl">InP光学晶圆2025年供需缺口</div>
-        <div class="chg">需求200万片 vs 产能60万片</div>
-      </div>
-    </div>
+<div class="container">
+  <div class="hero-badge">深度研究 修订版 · 2026年4月</div>
+  <h1>AI服务器材料产业链深度研究报告</h1>
+  <p class="hero-sub">完整链路追踪：芯片制造→PCB树脂→CCL→PCB制造→光学互联→液冷→供电 · 修正ROG定位误解 · 揭示东材科技M9独家地位</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="v">$6000亿+</div><div class="l">五大云厂商2026年Capex（已公告）</div><div class="c">YoY +36%</div></div>
+    <div class="kpi"><div class="v">+28%</div><div class="l">2026年AI服务器出货增速（TrendForce）</div><div class="c">AI机柜数量翻倍</div></div>
+    <div class="kpi"><div class="v">Df=0.0007</div><div class="l">NVIDIA M9材料规格（Rubin平台）</div><div class="c">东材科技全球独家</div></div>
+    <div class="kpi"><div class="v">43.2%</div><div class="l">胜宏科技AI/HPC PCB营收占比（2025）</div><div class="c">净利润+324%</div></div>
+    <div class="kpi"><div class="v">33% CAGR</div><div class="l">CDU液冷分配单元市场增速</div><div class="c">$1B→$7.7B（2024→2029）</div></div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- ═══ 关键纠正 ═══ -->
+<section>
+<div class="stitle">首先：三个必须纠正的认知误区</div>
+<div class="sdesc">在深入产业链之前，这三个误解会导致投资方向全部偏离</div>
+<div class="card-grid g3">
+  <div class="alert alert-r">
+    <h4>误区1：ROG是AI服务器PCB主要受益方</h4>
+    <p style="font-size:12px;color:var(--text2);margin-top:4px">
+    ROG的主力产品RO4000系列PTFE基材是<strong style="color:var(--red)">射频微波材料</strong>，主要用于5G毫米波基站天线（28/39GHz）、ADAS雷达（77GHz）、卫星通信。AI服务器PCB使用的是<strong>低损耗高速数字CCL</strong>（MEGTRON/S9/M9等）——完全不同的材料体系和客户群。<br><br>
+    ROG管理层确认2026年内有"数据中心重大设计定点待公告"，但这属于<strong style="color:var(--yellow)">投机性期权，不是已确认的AI主题</strong>。ROG当前业务：5G/雷达>80%。
+    </p>
+  </div>
+  <div class="alert alert-y">
+    <h4>误区2：AI服务器PCB用PTFE（高频RF材料）</h4>
+    <p style="font-size:12px;color:var(--text2);margin-top:4px">
+    AI服务器主板/背板PCB的信号类型是<strong>高速数字SerDes（50-224Gbps PAM4）</strong>，不是射频模拟信号。这类信号需要低Df的<strong>高速数字CCL</strong>（东材科技M9树脂/松下MEGTRON/生益S9），而非PTFE。<br><br>
+    二者都要求低介电损耗，但在工艺兼容性、厚度控制、层压方式上完全不同。<strong style="color:var(--yellow)">真正的受益方是东材科技（树脂）→生益科技（CCL）→胜宏/沪电（PCB制造）这条A股链路</strong>，不是美股ROG。
+    </p>
+  </div>
+  <div class="alert alert-g">
+    <h4>修正：东材科技是被严重低估的核心标的</h4>
+    <p style="font-size:12px;color:var(--text2);margin-top:4px">
+    东材科技（601208）是<strong style="color:var(--green)">全球唯一M9级碳氢树脂量产供应商</strong>。NVIDIA GB300全系采用其M9树脂，年化订单规模&gt;36亿人民币（GB300单平台）；M10测试已与微软Azure联合推进（2026年Q1），预计H2 2027量产。<br><br>
+    眉山新基地（2026年6月投产）满产后年收入目标200亿/净利润60亿。这是与ABF薄膜之于味之素同等级的<strong style="color:var(--green)">垄断性地位</strong>。
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ═══ AI服务器物理架构×材料地图 ═══ -->
+<section>
+<div class="stitle">AI服务器物理架构 × 材料精确定位</div>
+<div class="sdesc">每一个物理部件对应的关键材料及其供应商——这是理解所有产业链的基础</div>
+<div style="overflow-x:auto">
+<table class="dt">
+  <thead>
+    <tr><th>物理位置</th><th>关键材料/部件</th><th>材料规格要求</th><th>直接供应商</th><th>中国可投入口</th><th>AI受益确定性</th></tr>
+  </thead>
+  <tbody>
+    <tr class="sep"><td class="cl" rowspan="3"><strong>GPU芯片<br>（制造端）</strong></td>
+      <td>ABF封装薄膜<br><span style="color:var(--text3);font-size:11px">FC-BGA基板绝缘层</span></td>
+      <td>极低CTE，H100/B200基板12-16层，每层15-20μm</td>
+      <td><strong style="color:var(--red)">味之素（日）95%全球垄断</strong><br>无替代来源，玻璃基板≥2028</td>
+      <td>无A股入口</td>
+      <td><span class="b b-r">唯一·确定</span></td>
+    </tr>
+    <tr>
+      <td>CMP抛光液<br><span style="color:var(--text3);font-size:11px">芯片制造平坦化</span></td>
+      <td>3-4nm制程，每片晶圆消耗20-30次CMP，10-20L浆料</td>
+      <td><strong>Entegris/ENTG（美）</strong>收购CMC后~40%市占<br>DuPont ~15%，Fujifilm ~20%</td>
+      <td>安集科技（A股，先进节点突破中）</td>
+      <td><span class="b b-r">直链·确定</span></td>
+    </tr>
+    <tr>
+      <td>电子特气<br><span style="color:var(--text3);font-size:11px">NF₃/WF₆/H₂等</span></td>
+      <td>NF₃腔室清洗，先进制程清洗频率更高</td>
+      <td><strong>APD/Linde/Air Liquide</strong>四家合计80%<br>超高纯等级寡头垄断</td>
+      <td>无高端A股替代</td>
+      <td><span class="b b-y">间接·确定</span></td>
+    </tr>
+    <tr class="sep"><td class="cl" rowspan="4"><strong>AI服务器<br>PCB板</strong><br><span style="color:var(--text3);font-size:11px">（主板/背板/</span><br><span style="color:var(--text3);font-size:11px">交换机线卡）</span></td>
+      <td><strong style="color:var(--yellow)">★ M9/M10超低损耗树脂</strong><br><span style="color:var(--text3);font-size:11px">Rubin平台CCL核心材料</span></td>
+      <td>M9: Dk≤3.0，Df≤0.0007<br>M10: Df≈0.000035（测试中）<br>112G/224G PAM4信号完整性</td>
+      <td><strong style="color:var(--yellow)">东材科技（A股601208）全球独家M9量产</strong><br>M10联合微软Azure测试中</td>
+      <td><strong style="color:var(--yellow)">东材科技（首选）</strong></td>
+      <td><span class="b b-r">独家·极确定</span></td>
+    </tr>
+    <tr>
+      <td>高速CCL（覆铜板）<br><span style="color:var(--text3);font-size:11px">S8/S9/MEGTRON 6-7</span></td>
+      <td>Df=0.003-0.004（常规400G场景）<br>购入东材M9树脂后层压为高规格CCL</td>
+      <td>松下MEGTRON 6/7（日）标准<br><strong>生益科技（A股600183）S8/S9，NVIDIA认证</strong><br>Isola I-Tera（美）</td>
+      <td><strong>生益科技（核心）</strong><br>东材科技（树脂→提供给CCL厂）</td>
+      <td><span class="b b-r">直链·确定</span></td>
+    </tr>
+    <tr>
+      <td>T/NE玻纤布<br><span style="color:var(--text3);font-size:11px">PCB骨架+低Dk控制</span></td>
+      <td>T玻纤Dk=4.2（vs E玻纤Dk=6.8）<br>AI服务器高端板正从E→T切换</td>
+      <td><strong style="color:var(--red)">Nittobo（日）T玻纤准垄断</strong><br>2025年8月宣布提价20%，投资¥1500亿扩产<br>泰山玻纤（A股）：E玻纤主导，T玻纤追赶中</td>
+      <td>泰山玻纤（A股605006，E玻纤）<br>T玻纤目前无中国替代</td>
+      <td><span class="b b-y">间接·中等</span></td>
+    </tr>
+    <tr>
+      <td>PCB制造<br><span style="color:var(--text3);font-size:11px">多层HDI加工</span></td>
+      <td>AI服务器PCB：20-30层HDI，单价3-5万/㎡（普通PCB的30倍）</td>
+      <td><strong>胜宏科技（A股300476）</strong>：全球AI/HPC PCB Q1 2025 #1<br><strong>沪电股份（A股002463）</strong>：800G交换机PCB领导者<br>深南电路（A股002916）</td>
+      <td><strong>胜宏+沪电（双核心）</strong></td>
+      <td><span class="b b-r">直链·极确定</span></td>
+    </tr>
+    <tr class="sep"><td class="cl" rowspan="2"><strong>光学互联</strong><br><span style="color:var(--text3);font-size:11px">（机柜内/架间）</span></td>
+      <td>InP晶圆<br><span style="color:var(--text3);font-size:11px">800G/1.6T收发器激光器</span></td>
+      <td>1550nm波段唯一衬底，800G→1.6T需求翻倍<br>2025年供需缺口70%（需求200万片vs产能60万片）</td>
+      <td><strong>AXTI（美）、IQE（英）</strong><br>→激光器芯片（II-VI/InPhenix）→光模块（Coherent/Lumentum）→网卡</td>
+      <td>无高端A股入口</td>
+      <td><span class="b b-r">直链·确定</span></td>
+    </tr>
+    <tr>
+      <td>石英/熔融硅器件<br><span style="color:var(--text3);font-size:11px">光纤制造设备部件</span></td>
+      <td>半导体设备石英炉管/坩埚；光纤预制棒芯棒<br>高纯石英：SiO₂&gt;99.99%</td>
+      <td><strong>菲利华（A股300395）</strong>：石英纤维布+设备石英部件<br>2024产能100万米→2030目标2000万米</td>
+      <td>菲利华（石英纤维电子布）</td>
+      <td><span class="b b-c">条件性·中等</span></td>
+    </tr>
+    <tr class="sep"><td class="cl" rowspan="3"><strong>供配电系统</strong></td>
+      <td>SiC功率器件<br><span style="color:var(--text3);font-size:11px">PSU高效整流开关</span></td>
+      <td>PSU效率97-99%，Blackwell 1200W/GPU<br>SiC vs 硅：效率+6ppt，100MW数据中心节省$2600万/年</td>
+      <td>SiC衬底：Wolfspeed→器件：Infineon/STM/onsemi<br>→PSU：Delta/FSP/Murata Power</td>
+      <td>无直接A股高端SiC入口</td>
+      <td><span class="b b-y">间接·中等</span></td>
+    </tr>
+    <tr>
+      <td><strong style="color:var(--yellow)">★ 金属软磁粉</strong><br><span style="color:var(--text3);font-size:11px">VRM电感磁芯</span></td>
+      <td>VRM将12V→1V给GPU供电，每台AI服务器含数十个功率电感<br>每个电感含0.5-2g软磁粉</td>
+      <td><strong>铂科新材（A股300811）</strong>全球#1，24%市占，NVIDIA认证<br>产能：500万→1500万套/月（扩产中）<br>→TDK/Murata/顺络制成电感→MPWR做VRM</td>
+      <td><strong>铂科新材（直链）</strong></td>
+      <td><span class="b b-r">直链·确定</span></td>
+    </tr>
+    <tr>
+      <td>VRM电压调节模块<br><span style="color:var(--text3);font-size:11px">GPU精准供电核心</span></td>
+      <td>GB200独家：Monolithic Power（MPWR），取代Vicor<br>PDB电源分配板：Renesas独家（~$250/模块）</td>
+      <td><strong>MPWR（美股）</strong>：GB200 VRM独家<br><strong>Renesas（日）</strong>：PDB独家<br>→整合入GPU HGX底板→数据中心</td>
+      <td>无高端A股入口</td>
+      <td><span class="b b-r">直链·确定（美股MPWR）</span></td>
+    </tr>
+    <tr class="sep"><td class="cl" rowspan="2"><strong>散热冷却</strong></td>
+      <td><strong style="color:var(--yellow)">★ 氟化液冷工质</strong><br><span style="color:var(--text3);font-size:11px">两相浸没/直接液冷</span></td>
+      <td>700W+GPU强制液冷，2026E液冷渗透率~20-25%<br>3M退出Novec（PFAS合规），市场重构</td>
+      <td><strong>Chemours/CC（美）</strong>Opteon系列<br><strong>Solvay（比利时）</strong>Galden PFPE系列<br>→CDU系统→冷板→OEM集成→数据中心</td>
+      <td>无成熟A股入口</td>
+      <td><span class="b b-c">条件性·高</span></td>
+    </tr>
+    <tr>
+      <td>液态金属TIM<br><span style="color:var(--text3);font-size:11px">GPU与散热器界面</span></td>
+      <td>导热系数74W/mK（普通硅脂仅8-12W/mK）<br>B200（1000W+）已强制使用</td>
+      <td><strong>Indium Corp（美，私有）</strong>铟镓合金主导<br>信越化学（日）导热硅脂（&lt;700W场景）</td>
+      <td>无A股入口</td>
+      <td><span class="b b-c">条件性·高</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<!-- ═══ NVIDIA平台代际 ═══ -->
+<section>
+<div class="stitle">NVIDIA GPU平台代际迭代 → PCB材料规格升级路径</div>
+<div class="sdesc">每一代GPU对PCB材料提出更严苛要求，M9/M10是Rubin时代的核心分水岭</div>
+
+<div style="overflow-x:auto;margin-bottom:24px">
+<table class="nv-table">
+  <thead>
+    <tr><th>GPU平台</th><th>上市时间</th><th>PCB信号速率</th><th>PCB材料规格</th><th>代表CCL</th><th>M9/M10关系</th><th>谁受益</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="gen">Hopper<br>H100/H800</td>
+      <td>2022-2023</td>
+      <td>112Gbps SerDes<br>（PAM4 56G）</td>
+      <td>Df≈0.003-0.004<br>中等低损耗</td>
+      <td>松下MEGTRON 6<br>Isola I-Tera MT</td>
+      <td>M6级，无M9需求</td>
+      <td>松下、生益（S7136）</td>
+    </tr>
+    <tr>
+      <td class="gen">Blackwell<br>B100/B200/GB200</td>
+      <td>2024-2025</td>
+      <td>224Gbps SerDes<br>（PAM4 112G）</td>
+      <td>Df≈0.001-0.002<br>需要低损耗</td>
+      <td>松下MEGTRON 7<br>生益S8/S9</td>
+      <td>M7-M8级过渡</td>
+      <td>生益科技、胜宏、沪电</td>
+    </tr>
+    <tr style="background:rgba(251,191,36,0.05)">
+      <td class="gen" style="color:var(--yellow)">GB300<br>Blackwell Ultra</td>
+      <td>2025-2026<br>（量产中）</td>
+      <td>224Gbps+<br>背板26层→78层</td>
+      <td><strong style="color:var(--yellow)">M9: Dk≤3.0，Df≤0.0007</strong><br>传统MEGTRON不够用</td>
+      <td><strong style="color:var(--yellow)">东材科技M9树脂独家</strong><br>→生益/胜宏制造</td>
+      <td><strong style="color:var(--yellow)">M9为核心规格</strong><br>东材科技量产中</td>
+      <td><strong style="color:var(--yellow)">东材科技（树脂）<br>生益科技（CCL）<br>胜宏/沪电（PCB）</strong></td>
+    </tr>
+    <tr style="background:rgba(248,113,113,0.04)">
+      <td class="gen" style="color:var(--red)">Rubin Ultra<br>R100</td>
+      <td>2026-2027<br>（测试中）</td>
+      <td>224G→下一代<br>NVLink 6<br>正交背板78层</td>
+      <td><strong style="color:var(--red)">M10: Df≈0.000035</strong><br>（M9的20倍更低损耗）<br>Elite Material已通过M9认证<br>M10：三家供应商测试中</td>
+      <td>东材科技M10（测试）<br>联合微软Azure验证</td>
+      <td><strong style="color:var(--red)">M10量产目标H2 2027</strong><br>最终产品：Rubin Ultra HGX板卡</td>
+      <td>东材科技（M10独家候选）<br>Elite Material（台湾，M9已认证）</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- M9/M10 Df可视化 -->
+<div class="card" style="margin-bottom:16px">
+  <h3 style="font-size:13px;color:var(--text2);margin-bottom:16px">介电损耗（Df）对比：为什么M9/M10如此关键</h3>
+  <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Df越低 = 高频信号衰减越少 = 可支持更高SerDes速率。从H100到Rubin，Df要求压缩了约100倍。</p>
+  <div class="spec-bar"><div class="label">标准FR-4</div><div class="bar"><div class="fill" style="width:100%;background:#ef4444"></div></div><div class="val" style="color:var(--red)">Df=0.020</div></div>
+  <div class="spec-bar"><div class="label">MEGTRON 6</div><div class="bar"><div class="fill" style="width:50%;background:#f59e0b"></div></div><div class="val" style="color:var(--yellow)">Df=0.002</div></div>
+  <div class="spec-bar"><div class="label">MEGTRON 7</div><div class="bar"><div class="fill" style="width:35%;background:#f59e0b"></div></div><div class="val" style="color:var(--yellow)">Df=0.0014</div></div>
+  <div class="spec-bar"><div class="label" style="color:var(--yellow)">M9（GB300）</div><div class="bar"><div class="fill" style="width:14%;background:#fbbf24"></div></div><div class="val" style="color:var(--yellow)">Df≤0.0007</div></div>
+  <div class="spec-bar"><div class="label" style="color:var(--red)">M10（Rubin）</div><div class="bar"><div class="fill" style="width:1.4%;background:#38bdf8"></div></div><div class="val" style="color:var(--cyan)">Df=0.000035</div></div>
+  <div class="spec-bar"><div class="label">Rogers PTFE</div><div class="bar"><div class="fill" style="width:10%;background:#8b5cf6"></div></div><div class="val" style="color:var(--purple)">Df=0.001（RF用）</div></div>
+  <div style="margin-top:12px;font-size:11px;color:var(--text3)">注：Rogers PTFE的Df与M9相近，但它是<strong>射频微波材料</strong>（用于GHz频率模拟信号），工艺兼容性、层压方式与高速数字CCL完全不同，不能用于AI服务器主板PCB。</div>
+</div>
+</section>
+
+<!-- ═══ 五条完整供应链追踪 ═══ -->
+<section>
+<div class="stitle">五条供应链完整追踪：从原材料到最终产品</div>
+<div class="sdesc">每条链路展示：原料 → 中间体 → 关键部件 → 系统集成 → 最终产品 → 采购方，以及各环节商业模式</div>
+
+<!-- Chain A: 芯片制造 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:20px 0 8px">链路A：GPU芯片制造材料链</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:12px">材料→台积电晶圆代工→NVIDIA封测（CoWoS）→GPU芯片→OEM服务器</p>
+<div class="chain">
+  <div class="chain-node key">
+    <h4>EUV光刻胶</h4>
+    <div class="cn">日本垄断</div>
+    <div class="co">JSR 20% · TOK 15%<br>信越 15% · Fujifilm 12%<br>前4家&gt;70%高端市场</div>
+    <div class="badge-sm b-r">无美股/A股入口</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node key">
+    <h4>ABF封装薄膜</h4>
+    <div class="cn">日本垄断</div>
+    <div class="co">味之素（日）95%+<br>H100：12层FC-BGA<br>B200：16层FC-BGA</div>
+    <div class="badge-sm b-r">无替代来源</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node ok">
+    <h4>CMP抛光液</h4>
+    <div class="cn">ENTG美股可买</div>
+    <div class="co">Entegris ~40%<br>DuPont ~15%<br>安集科技（A股追赶）</div>
+    <div class="badge-sm b-g">ENTG直链</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node ok">
+    <h4>电子特气NF₃/WF₆</h4>
+    <div class="cn">APD美股可买</div>
+    <div class="co">APD+Linde+Air Liquide<br>合计80%全球份额<br>超高纯寡头垄断</div>
+    <div class="badge-sm b-y">间接受益（AI占17%）</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>台积电晶圆代工</h4>
+    <div class="cn">3-4nm先进制程</div>
+    <div class="co">CoWoS-L封装<br>H100: 1.2万颗/月<br>B200: 扩产中</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>GPU/AI芯片</h4>
+    <div class="cn">最终产品</div>
+    <div class="co">H100/B200/GB200<br>→ 组装入HGX板卡<br>→ 超大规模云厂商</div>
   </div>
 </div>
 
-<!-- ═══════════════════════ 核心逻辑 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">核心投资逻辑</div>
-    <p class="sec-desc">三条相互强化的主线，构成AI材料投资的完整逻辑框架</p>
-    <div class="cards cards-3">
-      <div class="card">
-        <div class="card-icon">🔒</div>
-        <h3>需求确定性：Capex已锁定</h3>
-        <p>五大云厂商2026年Capex合计<span class="highlight">$6000亿+</span>，其中约75%（<span class="highlight">$4500亿</span>）直接用于AI基础设施。这不是市场预测，而是已公告的资本支出计划。AI服务器出货量预计<span class="green">YoY +28%</span>（TrendForce 2026年1月数据），NVIDIA AI机柜从2025年约28,000套→2026年<span class="green">60,000套+</span>（翻倍），Capex公告即材料订单先行指标，传导滞后约2-3个季度。</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🏰</div>
-        <h3>垄断结构：定价权充分释放</h3>
-        <p>关键材料被少数企业控制，需求增长<span class="highlight">直接转化为利润</span>，无竞争者分食。<br><br>
-        ABF薄膜：<span class="highlight">味之素95%+</span>市占，均价2024→2025已提价<span class="red">+26%</span>。<br>
-        EUV光刻胶：<span class="highlight">日本控制95%</span>，中国替代率几乎为零。<br>
-        T玻纤布：Nittobo宣布<span class="red">提价20%</span>并加速扩产。<br>
-        InP晶圆：供需缺口<span class="red">70%</span>，价格上行明确。</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>技术升级：强制材料切换</h3>
-        <p>每代技术升级创造<span class="highlight">独立新需求周期</span>，叠加于数量增长之上：<br><br>
-        100G→800G交换机：Rogers PTFE基板从可选→<span class="highlight">唯一可用</span>（FR-4完全失效）。<br>
-        700W→1000W GPU（B200）：液态金属TIM从可选→<span class="highlight">强制</span>。<br>
-        液冷渗透率：<span class="highlight">30%→47%</span>（2026E，TrendForce），氟化冷却液需求随之翻倍。<br>
-        800G→1.6T：InP晶圆需求预计<span class="highlight">翻倍</span>。</p>
-      </div>
-    </div>
+<!-- Chain B: PCB链 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--yellow);margin:28px 0 8px">链路B：AI服务器PCB材料链（最重要，原报告严重缺失）</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:4px">商业模式：东材科技卖树脂给CCL厂商 → CCL厂压制覆铜板卖给PCB厂 → PCB厂按订单定制板卖给OEM → OEM集成进服务器卖给云厂商</p>
+<p style="font-size:12px;color:var(--yellow);margin-bottom:12px">★ 这条链路的受益方全部是中国A股公司，原报告完全缺失</p>
+<div class="chain">
+  <div class="chain-node highlight">
+    <h4>M9/M10超低损耗树脂</h4>
+    <div class="cn">东材科技 A601208</div>
+    <div class="co">全球M9独家量产<br>M10测试中（微软Azure）<br>年化订单&gt;36亿人民币</div>
+    <div class="badge-sm b-y">全球唯一·极确定</div>
   </div>
-</section>
-
-<!-- ═══════════════════════ 需求端 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">需求端分析：已公告Capex驱动材料订单</div>
-    <p class="sec-desc">超大规模云厂商资本支出是材料需求的根本来源，以下数据均为各公司官方指引或财报披露</p>
-    <div class="stat-row">
-      <div class="stat-box"><div class="sv">$2000亿</div><div class="sk">Amazon AWS 2026年Capex</div></div>
-      <div class="stat-box"><div class="sv">$1800亿</div><div class="sk">Alphabet/Google 2026年Capex</div></div>
-      <div class="stat-box"><div class="sv">$1200亿+</div><div class="sk">Microsoft 2026财年Capex</div></div>
-      <div class="stat-box"><div class="sv">$1250亿</div><div class="sk">Meta 2026年Capex（中值）</div></div>
-    </div>
-    <div class="charts-row" style="margin-top:16px;">
-      <div class="chart-wrap">
-        <h3>五大超大规模云厂商2026年Capex（$十亿）</h3>
-        <div class="chart-box" style="padding-bottom:46%;"><canvas id="capexChart"></canvas></div>
-      </div>
-      <div class="chart-wrap">
-        <h3>AI服务器与材料需求传导量化</h3>
-        <div class="chart-box" style="padding-bottom:46%;"><canvas id="serverChart"></canvas></div>
-      </div>
-    </div>
-    <div class="cards cards-2" style="margin-top:16px;">
-      <div class="card">
-        <h3>📦 每增加1万颗H100/B200 GPU对应的材料消耗</h3>
-        <p style="margin-top:10px;">
-          · ABF封装薄膜：约 <span class="highlight">720平方米</span>（每颗60cm² × 12层 × 10,000）<br>
-          · Rogers PTFE基板：约 <span class="highlight">5,000平方英尺</span>（服务器+交换机PCB）<br>
-          · InP晶圆：约 <span class="highlight">4万片</span>（每台服务器4个800G收发器，每收发器10片InP）<br>
-          · 液态金属TIM：约 <span class="highlight">20-30千克</span>（每颗GPU 2-3g × 10,000）<br>
-          · 软磁粉末：约 <span class="highlight">500-800千克</span>（每台服务器数十个电感）
-        </p>
-      </div>
-      <div class="card">
-        <h3>📈 关键增速数据（来源标注）</h3>
-        <p style="margin-top:10px;">
-          · 全球数据中心Capex：<span class="green">YoY +59%</span>（2025年Q3实际，IoT Analytics）<br>
-          · AI服务器出货量：<span class="green">YoY +28%</span>（2026E，TrendForce 2026年1月）<br>
-          · 云基础设施支出：<span class="green">YoY +25%</span>连续5季（Q3 2025，$1026亿/季）<br>
-          · NVIDIA AI机柜：28,000套→<span class="green">60,000套+</span>（2025→2026，Morgan Stanley）<br>
-          · ASIC服务器占比：从2023年历史低位提升至<span class="highlight">27.8%</span>（2026E，TrendForce）
-        </p>
-      </div>
-    </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node highlight">
+    <h4>T/NE玻纤布</h4>
+    <div class="cn">泰山玻纤 A605006</div>
+    <div class="co">E玻纤中国龙头<br>T玻纤Nittobo（日）垄断<br>泰山追赶T玻纤中</div>
+    <div class="badge-sm b-y">E玻纤主力·T玻纤追赶</div>
   </div>
-</section>
-
-<!-- ═══════════════════════ 产业链全景 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">产业链全景：六大材料类别</div>
-    <p class="sec-desc">按AI服务器物理建设时间轴排序：从制造芯片→组装连接→数据传输→供电→散热</p>
-    <div class="flow">
-      <div class="flow-item"><div class="num">①</div><h4>晶圆加工<br>与封装</h4><p>光刻胶<br>电子特气<br>ABF薄膜</p></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-item"><div class="num">②</div><h4>覆铜板<br>材料</h4><p>高频树脂<br>VLP铜箔<br>T玻纤布</p></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-item"><div class="num">③</div><h4>高速连接<br>界面</h4><p>铍铜合金<br>LCP聚合物<br>贵金属镀层</p></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-item"><div class="num">④</div><h4>光学<br>材料</h4><p>InP晶圆<br>GaAs晶圆<br>光纤预制棒</p></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-item"><div class="num">⑤</div><h4>供配电<br>材料</h4><p>软磁粉末<br>SiC衬底<br>电子浆料</p></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-item"><div class="num">⑥</div><h4>导热散热<br>材料</h4><p>液态金属TIM<br>氟化冷却液<br>导热硅脂</p></div>
-    </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node highlight">
+    <h4>高速CCL覆铜板</h4>
+    <div class="cn">生益科技 A600183</div>
+    <div class="co">全球CCL #2（14%市占）<br>S8/S9 NVIDIA认证<br>+松下MEGTRON（日）</div>
+    <div class="badge-sm b-r">直链核心·确定</div>
   </div>
-</section>
-
-<!-- ═══════════════════════ 材料详表 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">六大类材料核心指标一览</div>
-    <p class="sec-desc">增速栏格式：数值（起止年份，数据来源）；历史数据与预测数据分别标注</p>
-    <div style="overflow-x:auto;">
-    <table class="mat-table">
-      <thead>
-        <tr>
-          <th style="width:80px">类别</th>
-          <th style="width:110px">具体材料</th>
-          <th>核心用途</th>
-          <th style="width:110px">2025年市场规模</th>
-          <th style="width:160px">增速（时间段·来源）</th>
-          <th style="width:90px">必要性</th>
-          <th>核心供应商及份额</th>
-          <th style="width:100px">中国替代度</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 类别① -->
-        <tr>
-          <td rowspan="4" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">①<br>晶圆加工<br>与封装</td>
-          <td><strong>光刻胶</strong><br><span style="color:#64748b;font-size:11px">（ArFi/EUV）</span></td>
-          <td>芯片制造的"感光底片"。ArFi用于7-45nm制程，EUV用于7nm以下。AI芯片（H100/B200）制程3-4nm，全程依赖EUV光刻胶。每片300mm晶圆消耗约50-100ml，为一次性耗材。</td>
-          <td><strong>$29-35亿</strong></td>
-          <td><span class="badge badge-blue">11.3% CAGR</span><br><span style="color:#64748b;font-size:11px">2026-2031预测<br>Fortune BI</span></td>
-          <td><span class="badge badge-red">唯一必须</span><br><span style="font-size:11px;color:#64748b">无替代工艺</span></td>
-          <td>JSR（日，~20%）、TOK/东京应化（日，~15%）、信越化学（日，~15%）、Fujifilm（日，~12%）、东进世美肯（韩）。<br><strong style="color:#f87171">日本前4家合计控制高端ArFi/EUV市场70%+</strong></td>
-          <td><span class="badge badge-red">极低</span><br>ArFi &lt;1%<br>EUV≈0%<br>旧制程~20%</td>
-        </tr>
-        <tr>
-          <td><strong>电子特气</strong><br><span style="color:#64748b;font-size:11px">（NF₃/WF₆等）</span></td>
-          <td>NF₃（三氟化氮）用于CVD腔室清洗，每次消耗2-5kg/台，AI芯片制程越先进清洗频率越高。WF₆（六氟化钨）用于沉积钨金属导线，12层互联结构每层都需消耗。</td>
-          <td><strong>$63亿</strong></td>
-          <td><span class="badge badge-blue">+4.8% YoY</span><br><span style="color:#64748b;font-size:11px">2025年实际增速<br>TECHCET</span><br><span style="color:#94a3b8;font-size:11px">NF₃+5%，WF₆+12%</span></td>
-          <td><span class="badge badge-red">必须</span><br><span style="font-size:11px;color:#64748b">腔室不清洗良率归零</span></td>
-          <td>Air Products/APD（美）、Linde/LIN（英德）、Air Liquide（法）、大阳日酸（日）。<br><strong style="color:#fbbf24">四家合计约80%全球份额</strong></td>
-          <td><span class="badge badge-yellow">中低</span><br>NF₃有国产<br>超高纯仍进口</td>
-        </tr>
-        <tr>
-          <td><strong>ABF封装薄膜</strong></td>
-          <td>FC-BGA封装基板每层铜线路间的绝缘介质。H100/B200 GPU基板约12层ABF，每层15-20微米厚（头发丝1/30）。2025年120万颗AI加速器安装，每颗需4-6块FC-BGA基板，每块12层ABF。</td>
-          <td><strong>$49亿</strong><br><span style="color:#64748b;font-size:11px">ABF基板含薄膜+加工</span></td>
-          <td><span class="badge badge-blue">10.6% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2033预测<br>Verified MR</span><br><span style="color:#f87171;font-size:11px">均价实际+26%<br>$65→$82（2024→2025）</span></td>
-          <td><span class="badge badge-red">唯一垄断</span><br><span style="font-size:11px;color:#64748b">玻璃替代≥2028年</span></td>
-          <td><strong style="color:#f87171">味之素（日本）95%+</strong><br>无第二替代供应商<br>玻璃基板（Intel主导）最早2028商业化</td>
-          <td><span class="badge badge-red">极低</span><br>中国无ABF制造能力<br>100%进口</td>
-        </tr>
-        <tr>
-          <td><strong>CMP抛光液</strong><br><span style="color:#64748b;font-size:11px">（化学机械抛光液）</span></td>
-          <td>芯片制造平坦化关键耗材。每颗AI芯片制程中使用约20-30次CMP，每次磨平一层金属/介电层，确保多层铜互联结构平整。每片300mm晶圆全程消耗抛光液约10-20升，先进制程（3-4nm）因层数更多消耗量更大，是不可跳过的必须工序。</td>
-          <td><strong>~$30亿</strong><br><span style="color:#64748b;font-size:11px">CMP耗材全球2025<br>Technavio</span></td>
-          <td><span class="badge badge-blue">9-11% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>Mordor Intelligence</span></td>
-          <td><span class="badge badge-red">必须</span><br><span style="font-size:11px;color:#64748b">无平坦化则多层互联失效</span></td>
-          <td><strong>Entegris/ENTG（美）</strong>（收购CMC后~40%）；Fujifilm（日，~20%）；DuPont（美，~15%）；<strong>安集科技（A股，先进节点正在突破）</strong></td>
-          <td><span class="badge badge-yellow">中低</span><br>常规浆料有国产<br>先进节点仍进口</td>
-        </tr>
-        <!-- 类别② -->
-        <tr class="cat-start">
-          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">②<br>覆铜板<br>材料</td>
-          <td><strong>高频树脂</strong><br><span style="color:#64748b;font-size:11px">（PTFE/PPE/碳氢）</span></td>
-          <td>AI服务器/交换机PCB的信号绝缘层。信号速率决定材料选择：标准FR-4（Df=0.020）在800G速率下信号全部失真；Rogers PTFE（Df=0.001-0.003）是唯一可行选项，性能差距10倍以上。</td>
-          <td><strong>$41亿</strong>（高频高速CCL）<br><strong>$4.3亿</strong>（AI服务器专用）</td>
-          <td><span class="badge badge-blue">20.7% CAGR</span><br><span style="color:#64748b;font-size:11px">AI服务器CCL<br>2025-2032预测 OpenPR</span><br><span style="color:#94a3b8;font-size:11px">高频CCL整体<br>10.3%（2025-2035 FMI）</span></td>
-          <td><span class="badge badge-red">800G+唯一选择</span><br><span style="font-size:11px;color:#64748b">无降级选项</span></td>
-          <td><strong>Rogers/ROG（美）</strong>主导PTFE，TTM收入$8亿；Panasonic（日）做PPE系列；Isola（私有）；生益科技（中）做改性环氧中端。<br><span style="color:#fbbf24">NVIDIA已启动下一代Rubin平台M10材料测试（2026年3月）</span></td>
-          <td><span class="badge badge-red">低</span><br>高端PTFE/PPE<br>基本空白</td>
-        </tr>
-        <tr>
-          <td><strong>VLP超低轮廓铜箔</strong></td>
-          <td>PCB信号层导体。粗糙铜箔（3-5μm）在高频下产生额外20-30%信号损耗，AI高速PCB必须使用VLP铜箔（粗糙度&lt;0.5μm）。</td>
-          <td colspan="2">含在CCL总市场<strong>$145亿</strong>中<br><span style="color:#64748b;font-size:11px">CCL整体10.05% CAGR（2025-2032，Yahoo Finance）</span><br>2025年铜市缺口<strong style="color:#f87171">30万吨</strong>，成本承压</td>
-          <td><span class="badge badge-yellow">必须</span></td>
-          <td>三井金属（日，~15%）、古河电工（日，~12%）主导VLP；嘉元科技（A股）做标准铜箔</td>
-          <td><span class="badge badge-yellow">中</span><br>普通铜箔可供<br>VLP铜箔日本主导</td>
-        </tr>
-        <tr>
-          <td><strong>T玻纤布</strong><br><span style="color:#64748b;font-size:11px">（低Dk玻纤）</span></td>
-          <td>PCB结构骨架+介电常数控制。AI服务器PCB正从E玻纤（Dk=6.8）切换至T玻纤（Dk=4.2），Dk降低使信号传播更快、损耗更低。</td>
-          <td>含在CCL成本中</td>
-          <td><span class="badge badge-red">供给瓶颈</span><br><span style="color:#f87171;font-size:11px">Nittobo 2025年8月<br>宣布提价20%</span><br><span style="color:#94a3b8;font-size:11px">投资¥1500亿扩产<br>2026年底产能×3</span></td>
-          <td><span class="badge badge-yellow">必须（高速PCB）</span></td>
-          <td><strong>Nittobo（日本）</strong>T玻纤准垄断；泰山玻纤（中）主导E玻纤</td>
-          <td><span class="badge badge-yellow">中低</span><br>E玻纤中国自给<br>T玻纤依赖Nittobo</td>
-        </tr>
-        <!-- 类别③ -->
-        <tr class="cat-start">
-          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">③<br>高速连接<br>界面</td>
-          <td><strong>铍铜合金</strong></td>
-          <td>Amphenol/TE Connectivity连接器弹性接触簧片的核心材料。铍铜兼具高导电性和高弹性，弹性模量是纯铜3倍，普通铜做不到高可靠性接触。</td>
-          <td><strong>$5.1亿</strong><br><span style="color:#64748b;font-size:11px">Fortune BI 2025</span></td>
-          <td><span class="badge badge-blue">7.85% CAGR</span><br><span style="color:#64748b;font-size:11px">2026-2034预测<br>Fortune BI</span></td>
-          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">高性能连接器无替代</span></td>
-          <td><strong>Materion/MTRN（美）</strong>北美约80%产能，全球约18%市占；NGK Insulators（日）；铍为战略管控金属，原材料形成天然壁垒</td>
-          <td><span class="badge badge-red">极低</span><br>铍战略管控<br>Materion近垄断</td>
-        </tr>
-        <tr>
-          <td><strong>LCP液晶聚合物</strong></td>
-          <td>连接器绝缘体骨架材料。LCP吸湿率&lt;0.02%（普通尼龙为2.5%），潮湿环境下介电常数稳定，高速信号不失真，是高频连接器绝缘体首选材料。</td>
-          <td><strong>$6.3亿</strong><br><span style="color:#64748b;font-size:11px">Grand View 2025</span></td>
-          <td><span class="badge badge-blue">8.31% CAGR</span><br><span style="color:#64748b;font-size:11px">2026-2031预测<br>Mordor Intelligence</span></td>
-          <td><span class="badge badge-yellow">中等</span><br><span style="font-size:11px;color:#64748b">PEEK可替代但成本高</span></td>
-          <td><strong>Celanese/CE（美）</strong>全球领先；Polyplastics（日）、住友化学（日）；三家合计<strong>63%+</strong>全球产能</td>
-          <td><span class="badge badge-red">低</span><br>高端LCP国内未突破</td>
-        </tr>
-        <tr>
-          <td><strong>贵金属触点镀层</strong><br><span style="color:#64748b;font-size:11px">（金/钯金/银）</span></td>
-          <td>高速连接器接触面的耐腐蚀导电镀层。AI服务器连接器触点通常镀金0.1-0.5μm或钯金合金，防止氧化导致接触电阻上升（氧化后电阻可从毫欧级上升至欧级，高速信号失真）。单台AI服务器含600-1000个连接器接触点，寿命要求>1000次热插拔。</td>
-          <td><strong>~$10亿</strong><br><span style="color:#64748b;font-size:11px">连接器贵金属镀层<br>含在连接器$1500亿市场中</span></td>
-          <td><span class="badge badge-blue">~6% CAGR</span><br><span style="color:#64748b;font-size:11px">随连接器市场增长<br>2025-2030</span></td>
-          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">氧化触点导致信号失真</span></td>
-          <td>Umicore（比利时，全球最大贵金属回收+电镀材料）；Heraeus（德）；田中贵金属/TANAKA（日）；<strong style="color:#fbbf24">三家合计约60%高端电镀材料市场</strong></td>
-          <td><span class="badge badge-yellow">中</span><br>贵金属加工有国产<br>高纯电镀材料依赖进口</td>
-        </tr>
-        <!-- 类别④ -->
-        <tr class="cat-start">
-          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">④<br>光学<br>材料</td>
-          <td><strong>InP晶圆</strong><br><span style="color:#64748b;font-size:11px">（磷化铟）</span></td>
-          <td>800G/1.6T光收发器中激光器芯片的生长衬底。硅无法直接发光（间接带隙），InP是1550nm波段高速激光器的唯一衬底材料。光子学和光收发器用途占2025年InP需求的<strong>58.9%</strong>。</td>
-          <td><strong>$1.98亿</strong><br><span style="color:#64748b;font-size:11px">Mordor Intelligence 2025</span></td>
-          <td><span class="badge badge-blue">11.7% CAGR</span><br><span style="color:#64748b;font-size:11px">2026-2031预测<br>Mordor Intelligence</span><br><span style="color:#f87171;font-size:11px">另一来源预测<br>27.8% CAGR（2024-2032）</span><br><span style="color:#f87171;font-size:12px;font-weight:700">供需缺口70%<br>（需求200万片 vs 产能60万片）</span></td>
-          <td><span class="badge badge-red">唯一必须</span><br><span style="font-size:11px;color:#64748b">无替代材料</span></td>
-          <td>AXT/AXTI（美）、IQE（英）、Wafer Technology（英）、住友电工（日）</td>
-          <td><span class="badge badge-yellow">中低</span><br>有少量产能<br>高品质仍进口</td>
-        </tr>
-        <tr>
-          <td><strong>光纤预制棒<br>/高纯石英</strong></td>
-          <td>光纤传光介质的原材料。数据中心楼层/机柜间光缆全部依赖光纤。高纯石英掺锗调节折射率，构成单模光纤芯层。</td>
-          <td>含在GLW<br>$140亿总收入中</td>
-          <td><span class="badge badge-blue">5-7% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>行业共识</span></td>
-          <td><span class="badge badge-yellow">必须</span></td>
-          <td><strong>Corning/GLW（美）</strong>约30%；Prysmian（意）约20%；<strong>长飞（中）</strong>约15%；Meta $60亿长期协议锁定GLW供应</td>
-          <td><span class="badge badge-green">中高</span><br>长飞跻身全球前三<br>中国基本自给</td>
-        </tr>
-        <tr>
-          <td><strong>GaAs晶圆</strong><br><span style="color:#64748b;font-size:11px">（砷化镓）</span></td>
-          <td>射频前端PA（功率放大器）和高频开关器件衬底。GaAs电子迁移率比硅高5-7倍，是AI服务器内置Wi-Fi 7/以太网卡、交换机射频前端必用材料。同时用于VCSEL激光器（短距离光互连），每台AI服务器含数十颗VCSEL器件。</td>
-          <td><strong>~$5.2亿</strong><br><span style="color:#64748b;font-size:11px">GaAs晶圆全球2025<br>Mordor Intelligence</span></td>
-          <td><span class="badge badge-blue">8.4% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>Mordor Intelligence</span></td>
-          <td><span class="badge badge-yellow">必须（RF/VCSEL）</span><br><span style="font-size:11px;color:#64748b">硅无法替代射频性能</span></td>
-          <td>住友电工（日，~35%）；<strong>AXT/AXTI（美，~20%）</strong>；Freiberger（德，~15%）；中国先进半导体（A股，追赶中）</td>
-          <td><span class="badge badge-yellow">中低</span><br>有少量国产产能<br>高品质仍进口</td>
-        </tr>
-        <!-- 类别⑤ -->
-        <tr class="cat-start">
-          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑤<br>供配电<br>材料</td>
-          <td><strong>金属软磁粉末</strong></td>
-          <td>服务器VRM（电压调节模块）中功率电感的磁芯材料。VRM是给CPU/GPU精准稳压的核心模块，每台AI服务器含数十个功率电感，每个需0.5-2g软磁粉末。</td>
-          <td>AI服务器需求<br><strong>7,853吨</strong>（2026E）</td>
-          <td><span class="badge badge-red">56% CAGR</span><br><span style="color:#f87171;font-size:11px">2023-2026<br>历史+当期实际<br>36Kr/铂科新材数据</span><br><span style="color:#64748b;font-size:11px">注：此为短期高速增长<br>非长期可持续</span></td>
-          <td><span class="badge badge-yellow">必须</span></td>
-          <td><strong>铂科新材（A股300811）</strong>全球金属软磁粉约20%+；TDK（日）；横店东磁（A股）</td>
-          <td><span class="badge badge-green">中高</span><br>铂科新材是细分龙头<br>中国竞争力强</td>
-        </tr>
-        <tr>
-          <td><strong>SiC衬底</strong><br><span style="color:#64748b;font-size:11px">（碳化硅）</span></td>
-          <td>服务器PSU（电源模块）高效开关器件材料。SiC效率97-99%对比硅的92-94%，100MW数据中心使用SiC每年节省电费约$2,600万。渗透率2026E达17%，2030E超30%。</td>
-          <td><strong>$25-38亿</strong><br><span style="color:#64748b;font-size:11px">机构预测差异较大</span></td>
-          <td><span class="badge badge-blue">19-26% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>R&M/Fortune BI</span><br><span style="color:#fbbf24;font-size:11px">注：当前EV需求不及预期<br>行业产能过剩至2027-2028<br>（Yole 2025年12月）</span></td>
-          <td><span class="badge badge-yellow">非唯一</span><br><span style="font-size:11px;color:#64748b">硅可替代，效率差6ppt</span></td>
-          <td>STMicro（意法，<strong>35%</strong>）、onsemi（美，<strong>25%</strong>）、Infineon（德，15%）；Wolfspeed/WOLF（美）SiC晶圆约50%但器件排名第4</td>
-          <td><span class="badge badge-yellow">低-中</span><br>天科合达追赶中<br>品质落后1-2代</td>
-        </tr>
-        <tr>
-          <td><strong>电子浆料</strong><br><span style="color:#64748b;font-size:11px">（银浆/焊锡膏/铜浆）</span></td>
-          <td>芯片封装互联的导电粘结材料。FC-BGA封装中，芯片焊球通过焊锡膏与基板连接。每颗AI GPU含数万个微焊点（直径50-200μm），银浆用于大功率器件的die-attach（芯片粘结），导热+导电同时实现。先进封装（2.5D/3D）对浆料精度要求极高。</td>
-          <td><strong>~$38亿</strong><br><span style="color:#64748b;font-size:11px">电子浆料全球2025<br>Grand View Research</span></td>
-          <td><span class="badge badge-blue">7.2% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2032预测<br>Mordor Intelligence</span></td>
-          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">封装焊接不可绕过</span></td>
-          <td>Heraeus（德，~25%）；Indium Corp（美，~15%）；DOWA（日）；<strong style="color:#4ade80">有研亿金（中，A股）国产化已实现</strong>；Alpha Assembly（美）</td>
-          <td><span class="badge badge-green">中高</span><br>常规焊锡膏基本国产<br>高端银浆仍进口</td>
-        </tr>
-        <!-- 类别⑥ -->
-        <tr class="cat-start">
-          <td rowspan="3" class="cat-label" style="font-weight:700;color:#38bdf8;vertical-align:middle">⑥<br>导热散热<br>材料</td>
-          <td><strong>液态金属TIM</strong><br><span style="color:#64748b;font-size:11px">（铟镓合金）</span></td>
-          <td>H100/B200芯片与散热器之间的导热层。导热系数74 W/mK（普通导热硅脂仅8-12 W/mK）。B200 GPU功耗1000W+，液态金属TIM已从可选变为强制规格。</td>
-          <td>TIM市场含在热管理中，IDTechEx预测<strong>2026-2036持续高速扩张</strong></td>
-          <td><span style="color:#64748b;font-size:12px">IDTechEx：数据中心TIM专项2026-2036高速增长（具体数字未公开）</span></td>
-          <td><span class="badge badge-red">B200+强制</span></td>
-          <td>Indium Corp（美，私有，铟材料主导）；信越化学（日，导热硅脂）</td>
-          <td><span class="badge badge-red">极低</span><br>中国无商业化供应商</td>
-        </tr>
-        <tr>
-          <td><strong>氟化液冷工质</strong></td>
-          <td>浸没式/直接液冷的工作液体。不导电、不燃、热容高。液冷机架渗透率2026E将达47%（TrendForce）。3M已于2025年全面退出Novec系列，市场重构中。</td>
-          <td><strong>$32亿</strong><br><span style="color:#64748b;font-size:11px">AI数据中心液冷市场<br>Grand View 2025</span></td>
-          <td><span class="badge badge-blue">18-20% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>Dell'Oro：2029年$70亿<br>Grand View：2033年$295亿<br>（差异因渗透率假设不同）</span></td>
-          <td><span class="badge badge-red">700W+必须</span><br><span style="font-size:11px;color:#64748b">风冷上限~350W/服务器</span></td>
-          <td><strong>Chemours/CC（美）</strong>、Solvay（比利时）接盘3M退出市场；供应格局重构中</td>
-          <td><span class="badge badge-red">极低</span><br>中国无成熟供应商</td>
-        </tr>
-        <tr>
-          <td><strong>导热硅脂/相变TIM</strong><br><span style="color:#64748b;font-size:11px">（Thermal Grease/PCM）</span></td>
-          <td>GPU与散热器间、板卡与机箱间的常规导热填充材料。导热系数6-12 W/mK（低于液态金属TIM的74 W/mK，但成本仅1/10）。功耗&lt;400W的服务器使用导热硅脂，功耗400-700W使用相变TIM（加热后流动填充空隙），700W+才强制切换液态金属。AI服务器总装机量中仍有约60%使用高端硅脂/相变材料。</td>
-          <td><strong>~$18亿</strong><br><span style="color:#64748b;font-size:11px">TIM整体市场2025<br>MarketsandMarkets</span></td>
-          <td><span class="badge badge-blue">8-12% CAGR</span><br><span style="color:#64748b;font-size:11px">2025-2030预测<br>多机构共识</span></td>
-          <td><span class="badge badge-yellow">必须</span><br><span style="font-size:11px;color:#64748b">芯片不可直接接触金属</span></td>
-          <td><strong>信越化学（日，~35%）</strong>；Dow陶氏（美，~20%）；Henkel（德）；深圳博罗德（中，常规硅脂）；<strong style="color:#4ade80">国内已有部分高端产品</strong></td>
-          <td><span class="badge badge-yellow">中</span><br>普通硅脂国产化<br>高端相变TIM仍信越主导</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node highlight">
+    <h4>AI服务器PCB制造</h4>
+    <div class="cn">胜宏A300476 + 沪电A002463</div>
+    <div class="co">胜宏：AI PCB全球#1 Q1'25<br>净利润+324% · 单价3-5万/㎡<br>沪电：800G交换机PCB领导者</div>
+    <div class="badge-sm b-r">直链终端·极确定</div>
   </div>
-</section>
-
-<!-- ═══════════════════════ 瓶颈信号 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">瓶颈材料：价格上涨信号已在现实中出现</div>
-    <p class="sec-desc">这是验证垄断者定价权真实性的关键证据——供给扩张速度远慢于需求增长，涨价已在发生</p>
-    <div class="signal-grid">
-      <div class="signal-box">
-        <div class="material">ABF封装薄膜（味之素）</div>
-        <div class="signal-val">+26% YoY</div>
-        <div class="signal-desc">均价 $65（2024年）→ <strong>$82（2025年）</strong>。2025年全球安装超120万颗AI加速器，ABF产能扩张跟不上需求，涨价无阻力。味之素计划2030年前产能提升50%，但增速仍低于需求增速。</div>
-      </div>
-      <div class="signal-box">
-        <div class="material">T玻纤布（Nittobo）</div>
-        <div class="signal-val">+20% 提价</div>
-        <div class="signal-desc">Nittobo于<strong>2025年8月1日</strong>宣布T玻纤布全品类提价20%。同期投资¥1500亿扩产，预计2026年底产能翻3倍，提价与扩产同步进行，说明需求旺盛且议价权充足。</div>
-      </div>
-      <div class="signal-box">
-        <div class="material">InP晶圆（全行业）</div>
-        <div class="signal-val">缺口70%</div>
-        <div class="signal-desc">2025年全球InP晶圆<strong>需求200万片 vs 产能60万片</strong>，供需缺口达70%。驱动因素：800G数据中心部署加速，每个收发器需InP激光芯片，需求爆发速度远超InP产能扩张周期（新产能建设通常需2-3年）。</div>
-      </div>
-      <div class="signal-box">
-        <div class="material">铜市场（全球）</div>
-        <div class="signal-val">缺口30万吨</div>
-        <div class="signal-desc">2025年全球精炼铜市场预计缺口<strong>30万吨</strong>，AI数据中心建设、电网扩张、EV同步拉动铜需求。铜是所有PCB铜箔、连接器、导线的基础原材料，价格上涨向CCL等下游传导。</div>
-      </div>
-      <div class="signal-box">
-        <div class="material">Rogers PTFE基板（ROG）</div>
-        <div class="signal-val">设计定点待发布</div>
-        <div class="signal-desc">Rogers Q4 2025财报确认已在数据中心业务取得<strong>初步设计定点</strong>，预计<strong>2026年内有一个重大项目决策</strong>（公司原话：at least one major design award decision later in 2026）。一旦落地，将是Rogers历史上最大AI数据中心订单。</div>
-      </div>
-      <div class="signal-box">
-        <div class="material">氟化冷却液（Chemours接盘）</div>
-        <div class="signal-val">市场重构</div>
-        <div class="signal-desc">3M于2025年全面停止Novec系列氟化冷却液的生产和销售，<strong>Chemours（CC）</strong>和Solvay接盘。液冷机架渗透率从当前~30%升至2026E 47%，市场规模$32亿→$72亿（2025-2030），Chemours获得结构性供给优势。</div>
-      </div>
-    </div>
-    <div class="charts-row" style="margin-top:24px;">
-      <div class="chart-wrap">
-        <h3>核心瓶颈材料市场规模对比（2025年，$亿）</h3>
-        <div class="chart-box" style="padding-bottom:65%;"><canvas id="marketSizeChart"></canvas></div>
-      </div>
-      <div class="chart-wrap">
-        <h3>中国替代能力矩阵：难度 vs 战略影响</h3>
-        <div class="chart-box" style="padding-bottom:55%;"><canvas id="chinaMatrix"></canvas></div>
-      </div>
-    </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>HGX板卡/服务器</h4>
+    <div class="cn">OEM集成</div>
+    <div class="co">HPE Proliant · Dell PowerEdge<br>Supermicro · Inspur浪潮<br>→ 超大规模云厂商购买</div>
   </div>
-</section>
-
-<!-- ═══════════════════════ 中国替代壁垒 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">中国替代壁垒分层</div>
-    <p class="sec-desc">壁垒越高的材料，对应供应商护城河越持久，投资确定性越强</p>
-    <div class="matrix-grid">
-      <div class="matrix-item m-critical">
-        <h4>第一层：5年以上无法突破（最强护城河）</h4>
-        <ul>
-          <li><strong>EUV光刻胶</strong>：仍在实验室阶段，商业化遥遥无期</li>
-          <li><strong>ArFi光刻胶</strong>：国产化率&lt;1%，Xuzhou B&C目标5年内量产KrF/ArF</li>
-          <li><strong>ABF薄膜</strong>：中国无制造能力，玻璃基板替代最早2028年</li>
-          <li><strong>液态金属TIM</strong>：无商业化供应商，技术+原材料双重壁垒</li>
-          <li><strong>氟化冷却液</strong>：无成熟供应商，含氟化工技术差距大</li>
-        </ul>
-      </div>
-      <div class="matrix-item m-high">
-        <h4>第二层：3-5年部分替代（护城河收窄但仍在）</h4>
-        <ul>
-          <li><strong>KrF光刻胶</strong>：追赶中，预计2026-2028年部分实现</li>
-          <li><strong>T玻纤布</strong>：国内起步中，Nittobo已提前扩产加固壁垒</li>
-          <li><strong>VLP铜箔</strong>：日本主导，国内品质差距明显</li>
-          <li><strong>InP晶圆</strong>：有少量产能，高品质仍依赖进口</li>
-          <li><strong>高端导热硅脂</strong>：信越化学仍主导高性能市场</li>
-        </ul>
-      </div>
-      <div class="matrix-item m-mid">
-        <h4>第三层：中国有竞争力但非主导（护城河较弱）</h4>
-        <ul>
-          <li><strong>GaAs晶圆</strong>：中国有一定自给能力</li>
-          <li><strong>普通电子浆料</strong>：银浆基本可国产</li>
-          <li><strong>SiC衬底</strong>：天科合达等追赶中，品质落后1-2代</li>
-          <li><strong>超高纯铝箔</strong>：有一定产能但落后东洋铝业</li>
-          <li><strong>普通铜箔</strong>：嘉元科技等基本可供</li>
-        </ul>
-      </div>
-      <div class="matrix-item m-low">
-        <h4>第四层：中国已是全球竞争者（无护城河）</h4>
-        <ul>
-          <li><strong>光纤/预制棒</strong>：长飞跻身全球前三，~15%份额</li>
-          <li><strong>软磁粉末</strong>：铂科新材是全球细分龙头，~20%+份额</li>
-          <li><strong>旧制程光刻胶（G/I线）</strong>：约20%自给率，持续提升</li>
-          <li><strong>标准E玻纤布</strong>：泰山玻纤完全可供</li>
-          <li><strong>CCL普通基材</strong>：生益科技国内龙头</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════ 美股标的 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">美股可投标的：精选6只</div>
-    <p class="sec-desc">日本垄断材料（味之素/JSR/TOK/Nittobo）无美股入口；以下为美股可直接投资的核心材料标的，深度研报均已完成，数据截至2026年4月14日</p>
-    <div class="stock-grid">
-      <!-- ROG -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">ROG</div>
-            <div class="stock-name">Rogers Corporation | 高频PCB基板</div>
-          </div>
-          <div class="stock-rating rating-hold">谨慎买入 / $120目标</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">$98.58</div><div class="m-key">股价（2026年4月）</div></div>
-          <div class="stock-metric"><div class="m-val">$21亿</div><div class="m-key">市值</div></div>
-          <div class="stock-metric"><div class="m-val">$8.1亿</div><div class="m-key">FY2025营收</div></div>
-          <div class="stock-metric"><div class="m-val">$124</div><div class="m-key">分析师平均目标价</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>PTFE高频基板在800G+场景是唯一可用材料（FR-4完全失效），AI数据中心网络交换机全部采用Rogers材料。Q4 FY2025营收同比+4.8%，管理层确认<strong>2026年内有重大数据中心设计定点待公告</strong>。Q1 FY2026指引$193–208M（中值$201M）。<br><br>
-          <strong>估值模型（2026年4月14日更新）：</strong>
-          P/S 2.5x × FY2026E营收$855M → <strong>$118.94</strong>；
-          Forward PE 32x × Non-GAAP EPS $3.07 → <strong>$98.24</strong>（悲观$66.80 / 乐观$135.57）；
-          EV/EBITDA 14x → <strong>$62.22</strong>；
-          DCF（WACC 9.1%，终端增速2.5%）→ <strong>$57.17</strong>（悲观$45.57 / 乐观$78.64）；
-          分析师共识 <strong>$124.33</strong>。加权目标价 <strong>$120</strong>（P/S+共识为主锚）。<br><br>
-          <strong>风险：</strong>临时CEO（Starboard维权后Gouveia 2025年7月离职），无专业材料背景；德国curamik业务二次减值风险（概率35%）；ADAS设计定点窗口期遭遇管理层真空。买入触发条件：永久CEO任命+Q1 FY2026 Non-GAAP EPS≥$0.60双确认。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/HSdvd9dHQo7DjOxXOVpco6gwn5g" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/HYW1sb5HCh3qdTtg1FncXDvfnag" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-      <!-- ENTG -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">ENTG</div>
-            <div class="stock-name">Entegris | 半导体制程材料</div>
-          </div>
-          <div class="stock-rating rating-hold">Hold / $136目标</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">$135.32</div><div class="m-key">股价（2026年4月）</div></div>
-          <div class="stock-metric"><div class="m-val">$206亿</div><div class="m-key">市值</div></div>
-          <div class="stock-metric"><div class="m-val">$32亿</div><div class="m-key">TTM营收</div></div>
-          <div class="stock-metric"><div class="m-val">$141</div><div class="m-key">分析师平均目标价</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>每颗AI芯片制造必用Entegris的CMP抛光液、超纯化学品、过滤系统——是AI芯片制造"水和电"级耗材。Q4 2025营收$824M超预期，股价单日+10.2%，先进逻辑+HBM需求强劲。P/S 6.4x × FY2026E $34亿 = <strong>目标价$136</strong>；GAAP方法（EV/EBITDA、DCF）因$33亿净债务大幅压缩，市场以Non-GAAP定价。<br><br>
-          <strong>风险：</strong>净债务$33亿（CMC收购），高利息支出压缩GAAP利润；Non-GAAP与GAAP差距$200M+/年摊销；台积电集中度风险；当前股价已接近共识目标$141，上行空间有限。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/An0pdVUnjoSdV9xD8cHcB9r5nMg" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/IwgUsnykqh8naytqJUGcQvxUnrc" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-      <!-- MTRN -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">MTRN</div>
-            <div class="stock-name">Materion | 铍铜合金+靶材</div>
-          </div>
-          <div class="stock-rating rating-hold">谨慎买入 / $170目标</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">$163.34</div><div class="m-key">股价（2026年4月）</div></div>
-          <div class="stock-metric"><div class="m-val">$34亿</div><div class="m-key">市值</div></div>
-          <div class="stock-metric"><div class="m-val">$17.9亿</div><div class="m-key">FY2025营收</div></div>
-          <div class="stock-metric"><div class="m-val">$6.00-6.50</div><div class="m-key">FY2026E EPS指引</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>北美约80%铍产能（唯一商业铍矿Delta Mine），铍是战略管控金属构成天然壁垒。Q4 FY2025 Precision Clad Strip质量事件（-32% YoY）已确认修复，FY2026 EPS指引$6.00-6.50恢复性增长+15%。<strong>$6500万国防扩产投资</strong>+AI半导体材料双引擎驱动。<br><br>
-          <strong>风险：⚠️ 红旗：CEO/CFO/多名董事在Q4业绩公布后两周内合计减持$100M+，内部人信心信号极弱。</strong>买入触发条件：Q1 FY2026季报验证Clad Strip完全恢复（营收同比+6%+）。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/WiJpdFGALoHwKzxe9QWcsr1bnUd" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/Hk1hsMAObhsnJit8OFlcRQynnuH" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-      <!-- AXTI -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">AXTI</div>
-            <div class="stock-name">AXT Inc | InP/GaAs晶圆</div>
-          </div>
-          <div class="stock-rating rating-hold">高弹性 / 高风险</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">~$1.2亿</div><div class="m-key">TTM营收</div></div>
-          <div class="stock-metric"><div class="m-val">$198M</div><div class="m-key">全球InP市场（2025）</div></div>
-          <div class="stock-metric"><div class="m-val">70%</div><div class="m-key">InP晶圆全球供需缺口</div></div>
-          <div class="stock-metric"><div class="m-val">11-28%</div><div class="m-key">InP市场CAGR预测区间</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>唯一美股InP/GaAs衬底纯标的。800G/1.6T光收发器爆发直接拉动InP晶圆需求，2025年供需缺口达70%（需求200万片 vs 产能60万片），价格上行明确。800G→1.6T升级将使InP需求翻倍。<br><br>
-          <strong>风险：</strong>体量极小（$1.2亿营收），流动性差，业绩波动大；中国营收占比高（约40-50%），受出口管制影响。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/HxmvdohLvoUxhFxSLx6cAiu9nJg" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/Puy1swVlChzNBVtx7OYcSAeDnqe" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-      <!-- APD -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">APD</div>
-            <div class="stock-name">Air Products | 电子特气</div>
-          </div>
-          <div class="stock-rating rating-hold">Hold / $310目标</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">$298.71</div><div class="m-key">股价（2026年4月）</div></div>
-          <div class="stock-metric"><div class="m-val">$665亿</div><div class="m-key">市值</div></div>
-          <div class="stock-metric"><div class="m-val">$122亿</div><div class="m-key">FY2025营收</div></div>
-          <div class="stock-metric"><div class="m-val">$307.67</div><div class="m-key">分析师平均目标价</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>NF₃/WF₆等电子特气（~17%营收）连续多季双位数增长，直接受益AI先进制程扩产。APD+LIN+Air Liquide合计控制~80%全球特气市场，寡头垄断防御性强。新CEO Eduardo Menezes推进<strong>3600人裁员（$250M节省）</strong>，FY2026 EPS指引$12.85-13.15同比+7-9%。<br><br>
-          <strong>风险：</strong>FY2025 NEOM项目$1.7B减值，FCF暂为负（Capex $70亿 >> OCF $33亿）；Capex正常化至$35-45亿需市场验证；管理层交接期执行风险。买入触发：股价回调至$270-280，Capex指引明确下调。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/UmDpdjAZToYKmVx86F0cXKqBnwf" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/FbtGsKaYmhCOhstRjWvcRCFfnNe" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-      <!-- CC -->
-      <div class="stock-card">
-        <div class="stock-header">
-          <div>
-            <div class="stock-ticker">CC</div>
-            <div class="stock-name">Chemours | 氟化冷却液+HFO制冷剂</div>
-          </div>
-          <div class="stock-rating rating-hold">Hold / $22目标（PFAS风险调整）</div>
-        </div>
-        <div class="stock-metrics">
-          <div class="stock-metric"><div class="m-val">$22.71</div><div class="m-key">股价（2026年4月）</div></div>
-          <div class="stock-metric"><div class="m-val">$34亿</div><div class="m-key">市值</div></div>
-          <div class="stock-metric"><div class="m-val">$58亿</div><div class="m-key">FY2025营收</div></div>
-          <div class="stock-metric"><div class="m-val">$21.00</div><div class="m-key">分析师共识目标价（低于现价）</div></div>
-        </div>
-        <div class="stock-thesis">
-          <strong>核心逻辑：</strong>Opteon HFO制冷剂Q4 FY2025同比<strong>+37%</strong>（AIM Act强制HFC替换），数据中心两相液冷已获三星认证（Q3 2026目标商业化）。3M退出Novec冷却液市场后Chemours接盘。P/S仅0.6x（历史极低），PFAS风险消除后估值修复空间可达$40+。<br><br>
-          <strong>估值模型（2026年4月14日更新）：</strong>
-          P/S 0.70x × FY2026E营收$60.4亿 → <strong>$28.57</strong>；
-          Forward PE 16x × Non-GAAP EPS $1.77 → <strong>$28.32</strong>（悲观$19.26 / 乐观$39.08）；
-          EV/EBITDA 9.5x → <strong>$12.41</strong>（PFAS负债压缩）；
-          DCF（WACC 10.75%，终端增速2.5%）→ <strong>$10.65</strong>（悲观$7.41 / 乐观$15.94）；
-          分析师共识 <strong>$21.00</strong>。加权目标价 <strong>$22</strong>（PFAS风险调整后）。<br><br>
-          <strong>风险：⚠️ PFAS RICO诉讼（2026年1月法院允许推进），三倍惩罚赔偿极端情景可清零股权。</strong>当前股价$22.71高于分析师共识$21.00约8%，不宜追高。买入触发：$16-18或PFAS RICO被驳回。
-        </div>
-        <div class="stock-actions">
-          <a href="https://feishu.cn/docx/DPiidRrI2ol3U5xPG9zcpPPLnvc" target="_blank" class="btn-report active">深度研报</a>
-          <a href="https://feishu.cn/sheet/DvhssUHJFhjNJCt2uU8cLQHCntf" target="_blank" class="btn-report active">估值模型</a>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:20px;">
-      <div class="chart-wrap">
-        <h3>估值 vs 成长矩阵（X轴=P/S估值倍数·对数刻度，Y轴=FY2026E营收增速，泡泡大小=市值规模）</h3>
-        <p style="font-size:11px;color:#475569;margin-bottom:12px;">左上角=低估值+高增速→最佳价值区；右下角=贵+慢增速→估值风险区。颜色：绿=买入 黄=持有 红=卖出。数据截至2026年4月，均为近似值。</p>
-        <div class="chart-box" style="padding-bottom:48%;"><canvas id="stockCompare"></canvas></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════ 投资风险 ═══════════════════════ -->
-<section>
-  <div class="container">
-    <div class="sec-title">主要投资风险</div>
-    <p class="sec-desc">任何高增速赛道都存在系统性风险，以下风险需在仓位管理中充分考虑</p>
-    <div class="risk-list">
-      <div class="risk-item r-high">
-        <div>
-          <h4>AI Capex周期性收缩风险</h4>
-          <p>若超大规模云厂商因ROI不及预期、监管压力或宏观衰退而削减Capex，材料需求将骤降。历史上2022年云Capex收缩导致半导体材料库存过剩周期持续12-18个月。关注指标：AWS/Azure季度Capex增速是否出现连续两季下滑。</p>
-        </div>
-        <div class="risk-prob"><div class="pct" style="color:#f87171">25%</div><div class="lbl">发生概率</div></div>
-      </div>
-      <div class="risk-item r-high">
-        <div>
-          <h4>日本/荷兰出口管制升级风险（双刃剑）</h4>
-          <p>日本若进一步收紧对华光刻胶/特气出口，短期利空中国晶圆厂，但长期利好日本材料供应商（强化垄断）。反向风险：若中美关系缓和导致管制放松，中国企业获得更多外部供给，国产替代压力短期下降但长期竞争加剧。</p>
-        </div>
-        <div class="risk-prob"><div class="pct" style="color:#f87171">35%</div><div class="lbl">发生概率</div></div>
-      </div>
-      <div class="risk-item r-mid">
-        <div>
-          <h4>玻璃基板替代ABF的技术加速风险</h4>
-          <p>Intel主导的玻璃基板路线若提前至2027年商业化（当前预期2028年），将直接冲击味之素ABF的垄断地位。玻璃基板热膨胀系数更稳定、可更薄，理论上是更优方案。风险窗口：2027年Intel Panel Level Packaging量产进展。</p>
-        </div>
-        <div class="risk-prob"><div class="pct" style="color:#fbbf24">15%</div><div class="lbl">发生概率</div></div>
-      </div>
-      <div class="risk-item r-mid">
-        <div>
-          <h4>SiC产能过剩风险（已发生）</h4>
-          <p>Yole 2025年12月报告指出：SiC行业当前处于产能过剩周期，预计持续至2027-2028年，主因EV需求不及预期。Wolfspeed财务困难（接近破产边缘）即为直接体现。投资SiC材料标的需等待供需再平衡信号，数据中心SiC渗透加速是否能弥补EV端缺口是关键变量。</p>
-        </div>
-        <div class="risk-prob"><div class="pct" style="color:#fbbf24">已发生</div><div class="lbl">持续至2027-2028</div></div>
-      </div>
-      <div class="risk-item r-mid">
-        <div>
-          <h4>中国加速替代超预期风险</h4>
-          <p>在国家政策强力支持下，中国半导体材料国产化进度可能超预期。特别是光刻胶（国家大基金持续投入）、软磁粉末（铂科新材已是全球龙头）、SiC衬底（天科合达快速追赶）等领域。护城河收窄速度快于预期将压缩日本/美国供应商的超额利润空间。</p>
-        </div>
-        <div class="risk-prob"><div class="pct" style="color:#fbbf24">20%</div><div class="lbl">5年内超预期概率</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
-<div class="footer">
-  <div class="container">
-    <p>数据来源：TrendForce、Fortune Business Insights、Mordor Intelligence、Yole Développement、Dell'Oro Group、TECHCET、IoT Analytics、各公司财报及投资者关系材料</p>
-    <p style="margin-top:6px;">报告生成日期：2026年4月13日 | 本报告仅供研究参考，不构成投资建议</p>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>AI数据中心</h4>
+    <div class="cn">最终产品</div>
+    <div class="co">微软Azure/AWS<br>Google/Meta<br>字节/阿里/腾讯</div>
   </div>
 </div>
 
-<!-- ═══════════════════════ CHARTS ═══════════════════════ -->
+<!-- Chain C: 光学 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:28px 0 8px">链路C：光学互联材料链</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:12px">商业模式：晶圆厂卖InP晶圆给芯片厂 → 芯片厂制备激光器/探测器 → 光模块厂封装 → 光模块卖给服务器/交换机厂商</p>
+<div class="chain">
+  <div class="chain-node ok">
+    <h4>InP晶圆</h4>
+    <div class="cn">AXTI美股（但Sell评级）</div>
+    <div class="co">800G需求200万片/年<br>产能仅60万片（缺口70%）<br>800G→1.6T再翻倍</div>
+    <div class="badge-sm b-r">直链·确定（但估值超出）</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>激光器/探测器芯片</h4>
+    <div class="cn">Coherent · Lumentum · II-VI</div>
+    <div class="co">InP外延生长<br>EML/DFB激光器<br>800G单波112G</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>800G光模块封装</h4>
+    <div class="cn">Coherent · Innolight · 光迅</div>
+    <div class="co">QSFP-DD/OSFP规格<br>单价$700-1200/模块<br>数据中心用量爆增</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>交换机/NIC网卡</h4>
+    <div class="cn">Arista · Cisco · Nvidia Spectrum</div>
+    <div class="co">每台NVL72机柜<br>需800G光模块&gt;100个<br>→组成AI集群网络</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node ok">
+    <h4>光纤（馈线）</h4>
+    <div class="cn">GLW美股可买</div>
+    <div class="co">Corning 30%全球<br>长飞（中）15%<br>Meta $60亿长期协议</div>
+    <div class="badge-sm b-y">间接·稳健</div>
+  </div>
+</div>
+
+<!-- Chain D: 液冷 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:28px 0 8px">链路D：液冷散热完整供应链（附商业模式拆解）</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:4px">三种冷却方式，商业模式不同：①直接液冷（DLC）②两相浸没冷却③单相浸没冷却</p>
+<p style="font-size:12px;color:var(--yellow);margin-bottom:12px">★ 冷却液供应商<strong>不直接卖给</strong>数据中心！冷却液→设备厂商/系统集成商→打包进CDU/浸没槽→卖给数据中心运营商</p>
+<div class="chain">
+  <div class="chain-node ok">
+    <h4>氟化冷却液</h4>
+    <div class="cn">CC/Chemours 美股</div>
+    <div class="co"><strong>两相浸没：</strong>Opteon PFPE<br>沸点：55-60°C自然循环<br>Solvay Galden（Novec替代）<br>3M已全面退出</div>
+    <div class="badge-sm b-c">条件性（液冷渗透才受益）</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>CDU冷却液分配单元</h4>
+    <div class="cn">Vertiv · Modine · Schneider</div>
+    <div class="co">Vertiv：2024产能扩45倍<br>CDU市场$1B→$7.7B<br>33% CAGR（2024-2029）<br>交货周期12-18个月</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>冷板/歧管</h4>
+    <div class="cn">Boyd Corp · Aavid · Wakefield</div>
+    <div class="co">铜/铝微通道冷板<br>直接贴合GPU顶面<br>工序：冲压→钎焊→100%测漏</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>系统集成</h4>
+    <div class="cn">Vertiv · Asetek · GRC · Submer</div>
+    <div class="co">将CDU+冷板+管路+<br>浸没槽打包成完整<br>液冷解决方案</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>OEM服务器集成</h4>
+    <div class="cn">Supermicro · HPE · Dell</div>
+    <div class="co">将液冷系统嵌入<br>机架/机柜设计<br>NVIDIA NVL72认证</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>数据中心最终产品</h4>
+    <div class="cn">冷却后的AI集群机柜</div>
+    <div class="co">700W+必须液冷<br>B200：1000W/GPU<br>2026E渗透率~20-25%</div>
+  </div>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+  <div style="padding:12px;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.2);border-radius:8px">
+    <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:6px">方式①：直接液冷（DLC）</div>
+    <div style="font-size:11px;color:var(--text2)">冷板直接贴GPU。冷却液在密封回路循环，不接触电子元件。最成熟方案，Supermicro/HPE主推。<strong>Chemours的Opteon主要用于方式②③</strong>，DLC用普通去离子水/乙二醇</div>
+  </div>
+  <div style="padding:12px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:8px">
+    <div style="font-size:12px;font-weight:700;color:var(--yellow);margin-bottom:6px">方式②：两相浸没冷却</div>
+    <div style="font-size:11px;color:var(--text2)">服务器整体浸入氟化液（Opteon/Galden）。液体在芯片表面沸腾（55-60°C），气态上升冷凝后回流。能耗降低最多，散热最高效。<strong>Chemours直接受益最大</strong></div>
+  </div>
+  <div style="padding:12px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:8px">
+    <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px">方式③：单相浸没冷却</div>
+    <div style="font-size:11px;color:var(--text2)">服务器浸入不蒸发的介电液（矿物油/硅油）。3M Novec曾是主力但已退出。目前Solvay/GreenTech填补。<strong>Chemours不直接受益此方式</strong>，主要是Solvay</div>
+  </div>
+</div>
+
+<!-- Chain E: 供电 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:28px 0 8px">链路E：AI服务器供电材料链</h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:12px">NVIDIA 2027年将推800V HVDC架构（当前54V），效率提升+5%，彻底重塑PSU供应商格局</p>
+<div class="chain">
+  <div class="chain-node">
+    <h4>电网输入</h4>
+    <div class="co">13.8kV AC或480V三相<br>→UPS缓冲<br>→配电柜分发</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>SiC功率器件</h4>
+    <div class="co">Wolfspeed衬底→<br>Infineon/STM/onsemi器件<br>PSU效率97-99%<br>vs 硅92-94%</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>PSU电源模块</h4>
+    <div class="co">Delta/FSP/Murata Power<br>Blackwell：6-20kW/模块<br>GB200：3000W×4 PSU</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node highlight">
+    <h4>★ 功率电感磁芯</h4>
+    <div class="cn">铂科新材 A300811</div>
+    <div class="co">金属软磁粉→<br>TDK/Murata/顺络制成电感<br>→VRM板上电感</div>
+    <div class="badge-sm b-y">直链·确定</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node ok">
+    <h4>★★ VRM电压调节</h4>
+    <div class="cn">MPWR美股（GB200独家）</div>
+    <div class="co">12V→0.85V给GPU<br>Monolithic Power独家GB200<br>Renesas独家PDB（$250/模块）</div>
+    <div class="badge-sm b-r">直链极确定·美股MPWR</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>GPU供电轨道</h4>
+    <div class="co">GB200: 16x PCIe 2.0<br>总功率3000-3600W/GPU板卡<br>→HGX底板→数据中心</div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ 受益清晰度分级 ═══ -->
+<section>
+<div class="stitle">AI受益清晰度分级：哪些是真链路，哪些是叙事</div>
+<div class="sdesc">这是最重要的风险控制框架——许多标的"看起来"受益AI，但传导路径实际很弱</div>
+<div style="overflow-x:auto">
+<table class="dt">
+  <thead>
+    <tr><th>公司/材料</th><th>受益级别</th><th>传导路径</th><th>核心证据</th><th>风险点</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong style="color:var(--yellow)">东材科技（A601208）</strong></td><td><span class="b b-r">直链·独家·极确定</span></td><td>M9树脂→生益CCL→GB300 PCB</td><td>GB300全系M9独家，年化&gt;36亿人民币</td><td>M10扩散至多家供应商；产能爬坡周期</td></tr>
+    <tr><td><strong>胜宏科技（A300476）</strong></td><td><span class="b b-r">直链·极确定</span></td><td>AI PCB制造→OEM→NVIDIA数据中心</td><td>AI PCB 43.2%营收，净利+324%，全球#1</td><td>客户集中度（NVIDIA&gt;30%），关税风险</td></tr>
+    <tr><td><strong>沪电股份（A002463）</strong></td><td><span class="b b-r">直链·极确定</span></td><td>800G交换机PCB→Arista/Cisco→数据中心</td><td>NVIDIA/微软/Google认证，泰国产线Q2 2025</td><td>800G→1.6T切换期，认证周期</td></tr>
+    <tr><td><strong>生益科技（A600183）</strong></td><td><span class="b b-r">直链·确定</span></td><td>S8/S9 CCL→AI服务器PCB</td><td>全球CCL #2，NVIDIA认证；M9时代用东材树脂</td><td>M9树脂依赖东材；松下MEGTRON竞争</td></tr>
+    <tr><td><strong>铂科新材（A300811）</strong></td><td><span class="b b-r">直链·确定</span></td><td>软磁粉→电感→VRM→GPU供电</td><td>全球#1 24%市占，NVIDIA认证，扩产中</td><td>TDK/Murata中间商利润分配</td></tr>
+    <tr><td><strong>ENTG（美股）</strong></td><td><span class="b b-r">直链·确定</span></td><td>CMP浆料/超纯化学品→台积电晶圆→AI芯片</td><td>先进制程必用耗材，Q4'25超预期+10%</td><td>净债务$33亿，GAAP/NonGAAP差距大</td></tr>
+    <tr><td><strong>CC Chemours（美股）</strong></td><td><span class="b b-c">条件性·高确定</span></td><td>Opteon氟化液→CDU/浸没槽→液冷数据中心</td><td>液冷渗透率2026E~20-25%；3M退出后接盘</td><td>PFAS RICO诉讼（三倍惩罚极端情景），液冷渗透慢于预期</td></tr>
+    <tr><td><strong>APD（美股）</strong></td><td><span class="b b-y">间接·确定</span></td><td>特气→台积电→AI芯片（AI占~17%营收）</td><td>NF₃/WF₆寡头垄断，但APD是综合工业气体公司</td><td>主体是工业/能源气体，AI不是纯主题；NEOM减值</td></tr>
+    <tr><td><strong>AXTI（美股）</strong></td><td><span class="b b-r">直链·确定</span></td><td>InP晶圆→激光器→800G光模块→数据中心</td><td>供需缺口70%，800G需求爆发</td><td>当前股价$52已超全部分析师目标价$35（Sell），泡沫风险高</td></tr>
+    <tr><td><strong>菲利华（A300395）</strong></td><td><span class="b b-c">条件性·中等</span></td><td>石英纤维布→新型PCB增强/设备部件</td><td>电子级石英纤维布产能扩张中，蓝海市场</td><td>尚未规模化放量；是否进入AI服务器PCB还待验证</td></tr>
+    <tr><td><strong>泰山玻纤（A605006）</strong></td><td><span class="b b-y">间接·中等</span></td><td>E玻纤布→CCL→PCB（E玻纤适配常规AI PCB）</td><td>全球玻纤布#3，E玻纤AI服务器仍大量使用</td><td>T玻纤高端市场被Nittobo垄断；价格周期波动大</td></tr>
+    <tr style="background:rgba(248,113,113,0.05)"><td><strong>ROG（美股）</strong></td><td><span class="b b-p">叙事性·弱</span></td><td>PTFE高频板→数据中心交换机（未确认）</td><td>管理层称"2026年内有重大数据中心设计定点"</td><td>主业5G/雷达&gt;80%；AI数据中心是期权，非主题；临时CEO管理层真空</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<!-- ═══ 11个可投标的 ═══ -->
+<section>
+<div class="stitle">可投标的精选：A股+美股共11个，按直链度排序</div>
+<div class="sdesc">直链度越高排越前；绿色边框=直链；黄色=间接/条件；红色=叙事性</div>
+
+<div style="margin-bottom:12px">
+  <span class="clarity-item c-direct" style="font-size:12px;font-weight:600">直链 = GPU/服务器每台必用，无替代</span>
+  <span class="clarity-item c-indirect" style="font-size:12px;font-weight:600">间接 = AI是主驱动之一，非唯一</span>
+  <span class="clarity-item c-cond" style="font-size:12px;font-weight:600">条件性 = 依赖特定场景普及（如液冷渗透）</span>
+  <span class="clarity-item c-spec" style="font-size:12px;font-weight:600">叙事性 = AI角度尚未财务证明</span>
+</div>
+
+<div class="card-grid g3" style="margin-bottom:20px">
+
+  <!-- 东材科技 -->
+  <div class="scard direct">
+    <div class="stock-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div>
+        <div class="stk">东材科技</div>
+        <div class="sname">A股601208 · M9/M10树脂全球独家</div>
+      </div>
+      <span class="b b-r">直链·独家</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--yellow)">&gt;36亿</div><div class="mk">GB300 M9年化订单（人民币）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">全球唯一</div><div class="mk">M9碳氢树脂量产供应商</div></div>
+      <div class="smet"><div class="mv">M10</div><div class="mk">联合微软Azure测试中</div></div>
+      <div class="smet"><div class="mv" style="color:var(--cyan)">200亿</div><div class="mk">眉山基地满产目标年收入</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--yellow)">核心逻辑：</strong>东材科技提供NVIDIA M9级碳氢树脂（Dk≤3.0，Df≤0.0007），是GB300全系PCB的必用原材料，<strong>全球唯一量产来源</strong>，地位等同ABF薄膜之于味之素。M9树脂→生益科技/Elite Material压制成高速CCL→胜宏/沪电制成AI服务器PCB→NVIDIA OEM。<br><br>
+      M10（Df=0.000035）现已进入微软Azure验证阶段，量产目标H2 2027（Rubin Ultra平台）。眉山新产能（2026年6月）：3500吨/年碳氢树脂+4000吨/年PPE树脂。
+      <div class="schain">供应链位置：原材料（树脂）→ 东材科技 → CCL厂商（生益/Elite） → PCB厂商（胜宏/沪电） → OEM（Dell/HPE/Supermicro） → 数据中心</div>
+    </div>
+  </div>
+
+  <!-- 胜宏科技 -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">胜宏科技</div><div class="sname">A股300476 · AI服务器PCB全球#1</div></div>
+      <span class="b b-r">直链·极确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--green)">43.2%</div><div class="mk">AI/HPC PCB营收占比（2025）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">+324%</div><div class="mk">Q1-Q3 2025净利润增速</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">3-5万/㎡</div><div class="mk">AI PCB单价（普通PCB×30）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--cyan)">全球#1</div><div class="mk">AI/HPC PCB Q1 2025（Frost &amp; Sullivan）</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>NVIDIA GB200/GB300独家HDI供应商，AI/HPC PCB毛利率&gt;40%，远高于普通PCB（&lt;15%）。单价3-5万/㎡意味着同等产能下AI PCB创造30倍于普通PCB的收入。胜宏是将东材M9树脂/生益CCL转化为最终AI服务器PCB的终端制造商。<br><br>
+      主要客户：NVIDIA、Tesla、微软、亚马逊、谷歌。Q1 2025 AI营收19.11亿元（Q1 2024全年仅7.07亿）。
+    </div>
+  </div>
+
+  <!-- 沪电股份 -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">沪电股份</div><div class="sname">A股002463 · 800G交换机PCB领导者</div></div>
+      <span class="b b-r">直链·极确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">全球领导</div><div class="mk">800G交换机PCB市占</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">2025 Q2</div><div class="mk">泰国产线正式量产</div></div>
+      <div class="smet"><div class="mv">43亿</div><div class="mk">新AI PCB扩产投资（人民币）</div></div>
+      <div class="smet"><div class="mv">290k㎡/年</div><div class="mk">新产线年产能目标（H2 2026）</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>AI数据中心每个机柜内需要高密度800G交换机（Arista 7800/Cisco 400G+），沪电是这些交换机线卡PCB的全球主要供应商。泰国产线解决关税与供应链多元化问题（NVIDIA已2家正式认证，4家进行中）。<br><br>
+      区别于胜宏（聚焦服务器主板PCB），沪电聚焦网络交换机PCB，是AI集群网络互联的底层硬件供应商。
+    </div>
+  </div>
+
+  <!-- 生益科技 -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">生益科技</div><div class="sname">A股600183 · 全球CCL #2</div></div>
+      <span class="b b-r">直链·确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">14%</div><div class="mk">全球CCL市占（#2）</div></div>
+      <div class="smet"><div class="mv">S8/S9</div><div class="mk">NVIDIA认证高速AI CCL产品</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">2024盈利</div><div class="mk">自有PCB子公司（生益电子）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">M9时代</div><div class="mk">东材树脂+生益压制→生益CCL</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>S8/S9 CCL产品经NVIDIA正式认证，供应AI服务器PCB厂商（胜宏/沪电等）。M9树脂时代，生益采购东材M9树脂压制成高规格CCL，在产业链中处于树脂与PCB制造之间的关键中间环节。<br><br>
+      生益电子子公司2024年实现PCB盈利，向上下游一体化延伸，构建CCL→PCB完整产业链。
+    </div>
+  </div>
+
+  <!-- 铂科新材 -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">铂科新材</div><div class="sname">A股300811 · 全球软磁粉#1</div></div>
+      <span class="b b-r">直链·确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">24%</div><div class="mk">全球金属软磁粉市占#1</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">NVIDIA认证</div><div class="mk">AI服务器电感产品认证</div></div>
+      <div class="smet"><div class="mv">500万→</div><div class="mk">当前月产能（万套）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">1500万/月</div><div class="mk">扩产目标</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>每台AI服务器VRM（电压调节模块）含数十个功率电感，每个消耗0.5-2g金属软磁粉。链路：铂科新材软磁粉→TDK/Murata/顺络制成片式电感→Monolithic Power（MPWR）集成进VRM→安装在GB200主板→GPU精准供电。NVIDIA认证意味着直接进入AI服务器供应链。
+    </div>
+  </div>
+
+  <!-- ENTG -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">ENTG</div><div class="sname">Entegris · 半导体制程耗材</div></div>
+      <span class="b b-r">直链·确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">~40%</div><div class="mk">CMP浆料全球市占</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">$824M</div><div class="mk">Q4 2025营收（超预期+10.2%）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">$33亿</div><div class="mk">净债务（CMC收购）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--cyan)">$141</div><div class="mk">分析师均值目标价</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>AI芯片制造"水和电"级耗材。每颗H100/B200制造过程中，CMP抛光液（20-30次/芯片）、超纯化学品、过滤系统全程必用。先进逻辑+HBM需求强劲。<br>
+      <strong style="color:var(--yellow)">注意：</strong>$33亿净债务每年产生约$2亿利息；市场用Non-GAAP定价（剔除摊销），GAAP与NonGAAP差距&gt;$200M/年。
+    </div>
+  </div>
+
+  <!-- CC -->
+  <div class="scard indirect">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">CC</div><div class="sname">Chemours · 氟化冷却液</div></div>
+      <span class="b b-c">条件性·高</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--yellow)">$22.71</div><div class="mk">当前股价</div></div>
+      <div class="smet"><div class="mv">$34亿</div><div class="mk">市值</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">3M退出</div><div class="mk">接盘Novec系列市场空间</div></div>
+      <div class="smet"><div class="mv" style="color:var(--red)">PFAS诉讼</div><div class="mk">RICO三倍赔偿风险</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--cyan)">受益条件：</strong>液冷渗透率必须持续提升（当前~15-20%→需达30%+才显著提量）。Chemours的Opteon用于两相浸没冷却（方式②），不是最普遍的直接液冷（DLC）。Samsung已认证其两相冷却液（2026 Q3商业化目标）。<br>
+      <strong style="color:var(--red)">风险：</strong>PFAS RICO诉讼（三倍惩罚赔偿极端情景可清零股权）；分析师共识$21低于现价$22.71；Opteon HFO制冷剂业务（非液冷部分）才是当前主要增长驱动。
+      <div class="schain">供应链位置：氟化液原液 → CDU/浸没槽设备商（Vertiv/GRC） → 系统集成 → OEM服务器 → 数据中心（液冷机柜）</div>
+    </div>
+  </div>
+
+  <!-- APD -->
+  <div class="scard indirect">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">APD</div><div class="sname">Air Products · 电子特气</div></div>
+      <span class="b b-y">间接·确定</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--yellow)">17%</div><div class="mk">电子特气营收占比（AI链）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--cyan)">~80%</div><div class="mk">APD+Linde+Air Liquide合计特气市占</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">$12.85-13.15</div><div class="mk">FY2026E EPS指引</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">$1.7B</div><div class="mk">FY2025 NEOM项目减值</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--yellow)">定位说明：</strong>APD是综合工业/电子气体公司，AI只是其中一个受益方向（~17%营收）。电子特气部分双位数增长，但整体估值反映工业气体稳定溢价，不是纯AI主题股。<br>
+      新CEO推进3600人裁员+资产剥离，重心回归工业气体核心业务，NEOM氢能亏损项目已基本出清。
+    </div>
+  </div>
+
+  <!-- AXTI -->
+  <div class="scard indirect">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">AXTI</div><div class="sname">AXT Inc · InP/GaAs晶圆</div></div>
+      <span class="b b-r">直链·确定（估值超出）</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--red)">~$52</div><div class="mk">当前股价（超分析师目标$35）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">70%</div><div class="mk">全球InP供需缺口</div></div>
+      <div class="smet"><div class="mv" style="color:var(--cyan)">$1.2亿</div><div class="mk">TTM营收（体量极小）</div></div>
+      <div class="smet"><div class="mv">40-50%</div><div class="mk">中国营收占比（出口管制风险）</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--red)">当前风险：</strong>AI受益逻辑真实（InP晶圆→800G收发器直链），但当前股价$52已大幅超越所有分析师目标价（$35），存在严重泡沫。体量极小（$1.2亿营收），流动性差，业绩波动大；中国营收50%受出口管制冲击明显。本次修订评级：<strong style="color:var(--red)">Sell/减持</strong>，等回调至$30-35再评估。
+    </div>
+  </div>
+
+  <!-- ROG - 重新定位 -->
+  <div class="scard speculative">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">ROG</div><div class="sname">Rogers Corp · PTFE高频材料（主业5G/雷达）</div></div>
+      <span class="b b-p">AI叙事性·期权</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--text2)">$98.58</div><div class="mk">当前股价</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">&gt;80%</div><div class="mk">5G/雷达/ADAS营收占比（真实主业）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">$120</div><div class="mk">12个月目标价（+21.7%上行）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--red)">临时CEO</div><div class="mk">Starboard维权后管理层真空</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--purple)">正确定位：</strong>ROG是5G毫米波基站/ADAS雷达/卫星通信的<strong>RF材料优质公司</strong>，不是AI服务器PCB材料公司。其PTFE（Df=0.001）虽与M9（Df=0.0007）量级相近，但工艺体系完全不兼容AI服务器PCB制造。<br><br>
+      "AI数据中心设计定点"是管理层2026年内的<strong>未确认期权</strong>——若兑现（概率30-40%）可上调目标价至$135+。本质投资逻辑是：5G复苏+ADAS雷达增长+管理层改善催化（永久CEO），而非AI服务器。
+      <div class="schain">ROG真实链路：PTFE板→5G基站天线/ADAS雷达/卫星 — 与AI服务器PCB链路不重叠</div>
+    </div>
+  </div>
+
+  <!-- 泰山玻纤 -->
+  <div class="scard indirect">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">泰山玻纤</div><div class="sname">A股605006 · E玻纤/PCB玻纤布</div></div>
+      <span class="b b-y">间接·中等</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">80万吨/年</div><div class="mk">总产能（全球前3）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--text2)">E玻纤</div><div class="mk">主力（Dk=6.8），AI PCB常规用</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">追赶中</div><div class="mk">T玻纤（Dk=4.2，高端AI PCB）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--red)">Nittobo垄断</div><div class="mk">T玻纤日本主导，提价20%</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--yellow)">受益逻辑：</strong>E玻纤是CCL标准骨架材料，AI服务器大量普通PCB板仍使用E玻纤CCL（泰山直接受益）。高端AI PCB正切换T玻纤（Nittobo垄断），泰山在追赶T玻纤量产，若成功突破将获得额外增量。<br>
+      当前是间接受益（AI服务器扩张→CCL需求→E玻纤用量增加），T玻纤突破是期权。玻纤行业供给侧周期性波动是主要风险。
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══ ROG对比说明 ═══ -->
+<section>
+<div class="stitle">ROG vs 东材科技/生益/胜宏：为什么是完全不同的投资逻辑</div>
+<div class="sdesc">同样是"AI PCB材料"标签，实质受益完全不同</div>
+<div style="overflow-x:auto">
+<table class="dt">
+  <thead>
+    <tr><th>维度</th><th>ROG（Rogers）</th><th>东材科技（A股601208）</th><th>生益科技（A股600183）</th><th>胜宏科技（A股300476）</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>产业链位置</td><td>RF高频板材制造商</td><td><strong style="color:var(--yellow)">M9/M10树脂原材料</strong></td><td>CCL覆铜板制造商</td><td>AI服务器PCB制造商</td></tr>
+    <tr><td>AI服务器应用</td><td><span class="b b-p">叙事性（待确认）</span></td><td><span class="b b-r">独家量产中（GB300）</span></td><td><span class="b b-r">NVIDIA认证，批量供货</span></td><td><span class="b b-r">全球#1，43%营收来自AI</span></td></tr>
+    <tr><td>主要市场</td><td>5G毫米波&gt;80%、ADAS雷达</td><td>AI服务器PCB树脂（新主业）</td><td>AI服务器CCL+5G CCL</td><td>AI/HPC PCB为绝对主业</td></tr>
+    <tr><td>信号类型</td><td>GHz频段RF模拟信号</td><td>支持112G/224G PAM4数字信号</td><td>50G-224G高速数字信号</td><td>客户定制（NVIDIA规格）</td></tr>
+    <tr><td>护城河</td><td>PTFE配方（60年历史，5G/雷达）</td><td><strong style="color:var(--yellow)">M9专利+独家量产能力</strong></td><td>全球CCL #2，规模+认证</td><td>良率壁垒+NVIDIA深度合作</td></tr>
+    <tr><td>AI受益确认度</td><td>30-40%（管理层预期，未落地）</td><td><strong style="color:var(--green)">100%（已量产交货）</strong></td><td><strong style="color:var(--green)">90%+（NVIDIA认证中）</strong></td><td><strong style="color:var(--green)">100%（财务数据验证）</strong></td></tr>
+    <tr><td>核心风险</td><td>临时CEO+curamik减值</td><td>M10阶段多家竞争</td><td>松下竞争+东材树脂依赖</td><td>客户集中（NVIDIA&gt;30%）</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<!-- ═══ 风险 ═══ -->
+<section>
+<div class="stitle">主要系统性风险</div>
+<div class="card-grid g3">
+  <div class="alert alert-r">
+    <h4>风险1：M10阶段独家优势被稀释（东材科技核心风险）</h4>
+    <p style="font-size:12px;color:var(--text2)">M9测试时仅East Material（Elite）通过，NVIDIA将M10扩大至三家供应商（东材+另外两家）。若M10量产时台湾/日本供应商同步通过认证，东材独家溢价将降低。时间窗口：M10量产预计H2 2027，需在此前建立足够的产能和客户关系护城河。</p>
+  </div>
+  <div class="alert alert-r">
+    <h4>风险2：DeepSeek式AI效率突破降低算力需求</h4>
+    <p style="font-size:12px;color:var(--text2)">若下一代AI模型训练效率突破性提升（类似DeepSeek v3效果），云厂商可能在达到算力目标后削减Capex计划。整条AI服务器材料链均受冲击。2026年当前Capex可见度高（已公告），但2027年以后存在不确定性。胜宏/沪电的在手订单能见度约6-9个月。</p>
+  </div>
+  <div class="alert alert-y">
+    <h4>风险3：中美贸易摩擦 / 出口管制升级</h4>
+    <p style="font-size:12px;color:var(--text2)">AXTI中国营收占40-50%，ENTG在中国亦有大量销售。若出口管制进一步收紧（管制拓展至先进PCB材料或CMP浆料），中国AI服务器产业链可能被迫寻找国产替代。A股公司（胜宏/沪电）的客户以北美为主，关税风险需密切关注（胜宏泰国产线是对冲）。</p>
+  </div>
+  <div class="alert alert-y">
+    <h4>风险4：液冷渗透慢于预期（CC/Chemours条件性受益）</h4>
+    <p style="font-size:12px;color:var(--text2)">液冷（两相浸没）需要数据中心基础设施改造，采用周期慢。若2026年液冷渗透率停留在15-20%（而非30%+预期），Chemours的液冷工质业务量化增长有限。当前Chemours的AI受益主要是Opteon HFO制冷剂（AIM Act驱动的HFC替代），不是液冷工质。</p>
+  </div>
+  <div class="alert alert-r">
+    <h4>风险5：Nittobo T玻纤垄断 — 中国AI PCB高端化的结构性制约</h4>
+    <p style="font-size:12px;color:var(--text2)">AI服务器PCB从E玻纤向T/NE玻纤升级是不可逆趋势，而T玻纤Nittobo（日本）准垄断，已宣布提价20%（2025年8月）。这意味着生益/东材/胜宏的成本结构面临上游日本供应商涨价压力，泰山玻纤T玻纤突破是战略性需求，但时间窗口不确定。</p>
+  </div>
+  <div class="alert alert-y">
+    <h4>风险6：ABF薄膜瓶颈持续（不可投但影响全链节奏）</h4>
+    <p style="font-size:12px;color:var(--text2)">味之素ABF薄膜95%垄断，玻璃基板替代最早2028年。若ABF产能扩张慢于AI芯片需求（当前已有供需紧张信号），将制约GPU出货量，进而间接影响PCB材料需求节奏。这是上游瓶颈通过台积电/NVIDIA传导至本报告所有标的的系统性风险。</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══ 数据来源 ═══ -->
+<section style="padding-bottom:60px">
+<div class="stitle">数据来源</div>
+<div style="font-size:12px;color:var(--text3);line-height:2.2">
+<strong style="color:var(--text1)">报告时间：</strong>2026年4月（修订版，修正原版ROG AI定位误导及补充A股链路）<br>
+<strong style="color:var(--text1)">NVIDIA平台/材料规格：</strong>TrendForce、天风证券郭明琦Rubin平台分析、ugpcb.com AI服务器PCB材料深度分析<br>
+<strong style="color:var(--text1)">东材科技M9/M10：</strong>公司公告、东材科技601208研究报告、9fzt.com分析<br>
+<strong style="color:var(--text1)">胜宏科技：</strong>公司财报、Frost &amp; Sullivan Q1 2025 AI PCB市场排名、stcn.com<br>
+<strong style="color:var(--text1)">沪电股份：</strong>公司公告（泰国产线）、pjtime.com PCB行业跟踪<br>
+<strong style="color:var(--text1)">液冷供应链：</strong>Dell'Oro CDU市场预测、Vertiv公司报告、Chemours三星认证新闻稿<br>
+<strong style="color:var(--text1)">供电链：</strong>NVIDIA 800V HVDC官方博客、Electronic Design Infineon SiC分析、MPWR GB200分析<br>
+<strong style="color:var(--text1)">铂科新材：</strong>公司公告、futunn.com研报<br>
+<strong style="color:var(--text1)">Rogers ROG定位说明：</strong>Rogers公司官方产品手册（RO4000用途说明）、Rogers Q4 FY2025财报电话会议记录<br>
+<strong style="color:var(--text1)">泰山玻纤/Nittobo：</strong>TrendForce T玻纤深度分析（2025年11月）
+</div>
+</section>
+
+</div><!-- /container -->
+
 <script>
-const C = (id) => document.getElementById(id).getContext('2d');
-const GRID = { color: 'rgba(255,255,255,0.06)' };
-const TICK = { color: '#64748b', font: { size: 11 } };
-
-// ── Capex ──
-new Chart(C('capexChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Amazon', 'Alphabet', 'Microsoft', 'Meta', 'Oracle'],
-    datasets: [{
-      label: '2026E Capex（$十亿）',
-      data: [200, 180, 120, 125, 50],
-      backgroundColor: ['#38bdf8','#818cf8','#34d399','#fb923c','#a78bfa'],
-      borderRadius: 6
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: GRID, ticks: TICK },
-      y: { grid: GRID, ticks: { ...TICK, callback: v => '$' + v + 'B' } }
-    }
-  }
-});
-
-// ── Server demand ──
-new Chart(C('serverChart'), {
-  type: 'bar',
-  data: {
-    labels: ['2023', '2024', '2025E', '2026E'],
-    datasets: [{
-      label: 'AI服务器出货量增速（%）',
-      data: [40, 55, 24, 28],
-      backgroundColor: 'rgba(74,222,128,0.7)',
-      borderRadius: 6
-    },{
-      label: 'AI机柜数量（千套）',
-      data: [8, 16, 28, 60],
-      backgroundColor: 'rgba(56,189,248,0.7)',
-      borderRadius: 6,
-      yAxisID: 'y1'
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
-    scales: {
-      x: { grid: GRID, ticks: TICK },
-      y: { grid: GRID, ticks: { ...TICK, callback: v => v + '%' }, title: { display: true, text: '出货量YoY%', color: '#64748b', font: { size: 11 } } },
-      y1: { position: 'right', grid: { display: false }, ticks: { ...TICK, callback: v => v + 'K套' }, title: { display: true, text: 'AI机柜数量', color: '#64748b', font: { size: 11 } } }
-    }
-  }
-});
-
-// ── Market size ──
-new Chart(C('marketSizeChart'), {
-  type: 'bar',
-  data: {
-    labels: ['电子特气', 'CCL总市场', 'ABF基板', '高频CCL', 'AI DC液冷', 'LCP', '铍铜合金', 'InP晶圆'],
-    datasets: [{
-      label: '2025年市场规模（$亿）',
-      data: [63, 145, 49, 41, 32, 6.3, 5.1, 1.98],
-      backgroundColor: [
-        '#38bdf8','#818cf8','#f87171','#fb923c',
-        '#4ade80','#a78bfa','#fbbf24','#f472b6'
-      ],
-      borderRadius: 4
-    }]
-  },
-  options: {
-    indexAxis: 'y',
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: GRID, ticks: { ...TICK, callback: v => '$' + v + 'B' } },
-      y: { grid: GRID, ticks: TICK }
-    }
-  }
-});
-
-// ── China matrix: quadrant background + inline labels ──
-const matrixData = [
-  { label: 'ABF薄膜',      x: 1.0, y: 9.5, r: 14, color: 'rgba(248,113,113,0.85)' },
-  { label: 'EUV光刻胶',    x: 1.8, y: 10.2,r: 12, color: 'rgba(248,113,113,0.85)' },
-  { label: '液态金属TIM',  x: 0.9, y: 8.2, r: 10, color: 'rgba(248,113,113,0.75)' },
-  { label: '铍铜合金',     x: 2.0, y: 7.0, r: 9,  color: 'rgba(248,113,113,0.70)' },
-  { label: 'Rogers PTFE',  x: 3.2, y: 8.8, r: 12, color: 'rgba(251,191,36,0.80)'  },
-  { label: 'T玻纤布',      x: 4.0, y: 7.5, r: 10, color: 'rgba(251,191,36,0.75)'  },
-  { label: 'InP晶圆',      x: 3.5, y: 9.5, r: 10, color: 'rgba(251,191,36,0.80)'  },
-  { label: '软磁粉末',     x: 7.5, y: 5.5, r: 11, color: 'rgba(74,222,128,0.75)'  },
-  { label: '光纤',         x: 9.0, y: 4.2, r: 10, color: 'rgba(74,222,128,0.75)'  },
-];
-
-// plugin: draw quadrant background zones + material name labels
-const matrixPlugin = {
-  id: 'matrixBg',
-  beforeDatasetsDraw(chart) {
-    const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
-    const midX = x.getPixelForValue(5.5);
-    const midY = y.getPixelForValue(6);
-    // top-left: hard to substitute, high importance → red zone
-    ctx.fillStyle = 'rgba(248,113,113,0.07)';
-    ctx.fillRect(left, top, midX - left, midY - top);
-    // top-right: easy to substitute, high importance → yellow
-    ctx.fillStyle = 'rgba(251,191,36,0.05)';
-    ctx.fillRect(midX, top, right - midX, midY - top);
-    // bottom half: lower importance → green
-    ctx.fillStyle = 'rgba(74,222,128,0.04)';
-    ctx.fillRect(left, midY, right - left, bottom - midY);
-    // quadrant zone labels
-    ctx.font = 'bold 11px "Segoe UI", sans-serif';
-    ctx.fillStyle = 'rgba(248,113,113,0.5)';
-    ctx.fillText('高战略重要性 · 极难替代 → 关键风险', left + 8, top + 16);
-    ctx.fillStyle = 'rgba(251,191,36,0.45)';
-    ctx.fillText('高战略重要性 · 尚可替代', midX + 8, top + 16);
-    ctx.fillStyle = 'rgba(74,222,128,0.45)';
-    ctx.fillText('战略重要性较低 · 可替代', left + 8, midY + 16);
-  },
-  afterDatasetsDraw(chart) {
-    const { ctx, scales: { x, y } } = chart;
-    ctx.save();
-    chart.data.datasets.forEach((ds, i) => {
-      const meta = chart.getDatasetMeta(i);
-      if (!meta.data.length) return;
-      const pt = meta.data[0];
-      const px = pt.x, py = pt.y;
-      const r = pt.options.radius || 8;
-      ctx.font = '11px "Segoe UI", sans-serif';
-      ctx.fillStyle = '#e2e8f0';
-      ctx.textAlign = 'left';
-      ctx.shadowColor = 'rgba(0,0,0,0.8)';
-      ctx.shadowBlur = 4;
-      ctx.fillText(ds.label, px + r + 5, py + 4);
-      ctx.shadowBlur = 0;
-    });
-    ctx.restore();
-  }
-};
-
-new Chart(C('chinaMatrix'), {
-  type: 'bubble',
-  plugins: [matrixPlugin],
-  data: {
-    datasets: matrixData.map(d => ({
-      label: d.label,
-      data: [{ x: d.x, y: d.y, r: d.r }],
-      backgroundColor: d.color,
-      borderColor: d.color.replace(/[\d.]+\)$/, '1)'),
-      borderWidth: 1
-    }))
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}  替代难度:${ctx.raw.x}  重要性:${ctx.raw.y}` } }
-    },
-    scales: {
-      x: {
-        grid: GRID, min: 0, max: 11,
-        ticks: { ...TICK, maxTicksLimit: 3, callback: v => ({ 1:'← 极难替代', 5.5:'中等', 10:'容易替代 →' })[v] ?? '' },
-        title: { display: true, text: '中国替代难度', color: '#64748b', font: { size: 11 } }
-      },
-      y: {
-        grid: GRID, min: 2, max: 12,
-        ticks: { ...TICK, maxTicksLimit: 3, callback: v => ({ 4:'战略重要性低', 7:'重要', 10:'极高重要性' })[v] ?? '' },
-        title: { display: true, text: 'AI基建战略重要性 ↑', color: '#64748b', font: { size: 11 } }
-      }
-    }
-  }
-});
-
-// ── Stock valuation matrix (scatter) ──
-// X = P/S ratio (log scale), Y = FY2026E revenue growth %, bubble size = market cap
-const stockMatrix = [
-  { label: 'CC',   x: 0.59, y: 4,   r: 10, color: 'rgba(251,191,36,0.85)',  mcap:'$34亿', ps:'0.6x', g:'+4%',  tip:'Hold · Opteon HFO +37% YoY强劲，PFAS RICO尾部风险，股价高于共识$21' },
-  { label: 'MTRN', x: 1.90, y: 6,   r: 11, color: 'rgba(251,191,36,0.85)',  mcap:'$34亿', ps:'1.9x', g:'+6%',  tip:'谨慎买入 · 铍垄断+AI半导体，Clad Strip已修复，管理层减持$100M+红旗' },
-  { label: 'ROG',  x: 2.59, y: 5.5, r: 10, color: 'rgba(251,191,36,0.85)',  mcap:'$21亿', ps:'2.6x', g:'+5.5%',tip:'谨慎买入 · PTFE基板800G+唯一材料，管理层真空Starboard维权，设计定点待公告' },
-  { label: 'APD',  x: 5.45, y: 5,   r: 14, color: 'rgba(251,191,36,0.85)',  mcap:'$665亿',ps:'5.5x', g:'+5%',  tip:'Hold · NEOM后重组期，FCF暂负，Capex正常化路径清晰，电子特气双位数增长' },
-  { label: 'ENTG', x: 6.44, y: 7,   r: 13, color: 'rgba(251,191,36,0.85)',  mcap:'$206亿',ps:'6.4x', g:'+7%',  tip:'Hold · CMP耗材AI必需品，P/S法$136目标，净债务$33亿限制GAAP指标' },
-  { label: 'AXTI', x: 35.0, y: 50,  r: 9,  color: 'rgba(248,113,113,0.85)', mcap:'$29亿', ps:'35x',  g:'+50%', tip:'Sell · P/S泡沫，当前价超所有分析师目标，合理价$15-20' },
-];
-
-const stockZonePlugin = {
-  id: 'stockZone',
-  beforeDatasetsDraw(chart) {
-    const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
-    // vertical divider at P/S = 5x
-    const midX = x.getPixelForValue(5);
-    const midY = y.getPixelForValue(10);
-    // top-left: cheap + fast growing → best value (green tint)
-    ctx.fillStyle = 'rgba(74,222,128,0.05)';
-    ctx.fillRect(left, top, midX - left, midY - top);
-    // bottom-right: expensive + slow → risk zone (red tint)
-    ctx.fillStyle = 'rgba(248,113,113,0.05)';
-    ctx.fillRect(midX, midY, right - midX, bottom - midY);
-    // zone labels
-    ctx.font = 'bold 11px "Segoe UI",sans-serif';
-    ctx.fillStyle = 'rgba(74,222,128,0.4)';
-    ctx.fillText('最佳价值区（低估值+高增速）', left + 8, top + 16);
-    ctx.fillStyle = 'rgba(248,113,113,0.4)';
-    ctx.textAlign = 'right';
-    ctx.fillText('估值风险区（贵+慢增速）', right - 8, bottom - 10);
-    ctx.textAlign = 'left';
-  },
-  afterDatasetsDraw(chart) {
-    const { ctx, scales: { x, y } } = chart;
-    ctx.save();
-    chart.data.datasets.forEach((ds, i) => {
-      const meta = chart.getDatasetMeta(i);
-      if (!meta.data.length) return;
-      const pt = meta.data[0];
-      const r = pt.options.radius || 8;
-      // ticker label
-      ctx.font = 'bold 12px "Segoe UI",sans-serif';
-      ctx.fillStyle = '#f1f5f9';
-      ctx.textAlign = 'center';
-      ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 5;
-      ctx.fillText(ds.label, pt.x, pt.y - r - 5);
-      // P/S and growth sub-label
-      ctx.font = '10px "Segoe UI",sans-serif';
-      ctx.fillStyle = '#94a3b8';
-      ctx.shadowBlur = 3;
-      ctx.fillText(`P/S ${ds.custom.ps}  增速${ds.custom.g}`, pt.x, pt.y - r - 16);
-      ctx.shadowBlur = 0;
-      ctx.textAlign = 'left';
-    });
-    ctx.restore();
-  }
-};
-
-new Chart(C('stockCompare'), {
-  type: 'bubble',
-  plugins: [stockZonePlugin],
-  data: {
-    datasets: stockMatrix.map(d => ({
-      label: d.label,
-      custom: { ps: d.ps, g: d.g, tip: d.tip },
-      data: [{ x: d.x, y: d.y, r: d.r }],
-      backgroundColor: d.color,
-      borderColor: d.color.replace(/[\d.]+\)$/, '1)'),
-      borderWidth: 1
-    }))
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => {
-        const d = stockMatrix.find(s => s.label === ctx.dataset.label);
-        return [`${ctx.dataset.label} | 市值${d.mcap}`, `P/S ${d.ps} | 增速 ${d.g}`, d.tip];
-      }}}
-    },
-    scales: {
-      x: {
-        type: 'logarithmic', min: 0.4, max: 80,
-        grid: GRID,
-        ticks: { ...TICK, callback: v => [0.5,1,2,3,5,10,20,50].includes(v) ? v+'x' : '' },
-        title: { display: true, text: 'P/S 估值倍数（对数刻度，越低越便宜）', color: '#64748b', font: { size: 11 } }
-      },
-      y: {
-        grid: GRID, min: -20, max: 65,
-        ticks: { ...TICK, callback: v => v + '%' },
-        title: { display: true, text: 'FY2026E 营收增速 ↑（越高增长越快）', color: '#64748b', font: { size: 11 } }
-      }
-    }
-  }
-});
+// No charts needed in this version - all data is in tables and chain diagrams for clarity
 </script>
 </body>
 </html>

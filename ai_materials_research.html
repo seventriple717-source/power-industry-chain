@@ -142,35 +142,6 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 
 <div class="container">
 
-<!-- ═══ 关键纠正 ═══ -->
-<section>
-<div class="stitle">首先：三个必须纠正的认知误区</div>
-<div class="sdesc">在深入产业链之前，这三个误解会导致投资方向全部偏离</div>
-<div class="card-grid g3">
-  <div class="alert alert-r">
-    <h4>误区1：ROG是AI服务器PCB主要受益方</h4>
-    <p style="font-size:12px;color:var(--text2);margin-top:4px">
-    ROG的主力产品RO4000系列PTFE基材是<strong style="color:var(--red)">射频微波材料</strong>，主要用于5G毫米波基站天线（28/39GHz）、ADAS雷达（77GHz）、卫星通信。AI服务器PCB使用的是<strong>低损耗高速数字CCL</strong>（MEGTRON/S9/M9等）——完全不同的材料体系和客户群。<br><br>
-    ROG管理层确认2026年内有"数据中心重大设计定点待公告"，但这属于<strong style="color:var(--yellow)">投机性期权，不是已确认的AI主题</strong>。ROG当前业务：5G/雷达>80%。
-    </p>
-  </div>
-  <div class="alert alert-y">
-    <h4>误区2：AI服务器PCB用PTFE（高频RF材料）</h4>
-    <p style="font-size:12px;color:var(--text2);margin-top:4px">
-    AI服务器主板/背板PCB的信号类型是<strong>高速数字SerDes（50-224Gbps PAM4）</strong>，不是射频模拟信号。这类信号需要低Df的<strong>高速数字CCL</strong>（东材科技M9树脂/松下MEGTRON/生益S9），而非PTFE。<br><br>
-    二者都要求低介电损耗，但在工艺兼容性、厚度控制、层压方式上完全不同。<strong style="color:var(--yellow)">真正的受益方是东材科技（树脂）→生益科技（CCL）→胜宏/沪电（PCB制造）这条A股链路</strong>，不是美股ROG。
-    </p>
-  </div>
-  <div class="alert alert-g">
-    <h4>修正：东材科技是被严重低估的核心标的</h4>
-    <p style="font-size:12px;color:var(--text2);margin-top:4px">
-    东材科技（601208）是<strong style="color:var(--green)">全球唯一M9级碳氢树脂量产供应商</strong>。NVIDIA GB300全系采用其M9树脂，年化订单规模&gt;36亿人民币（GB300单平台）；M10测试已与微软Azure联合推进（2026年Q1），预计H2 2027量产。<br><br>
-    眉山新基地（2026年6月投产）满产后年收入目标200亿/净利润60亿。这是与ABF薄膜之于味之素同等级的<strong style="color:var(--green)">垄断性地位</strong>。
-    </p>
-  </div>
-</div>
-</section>
-
 <!-- ═══ AI服务器物理架构×材料地图 ═══ -->
 <section>
 <div class="stitle">AI服务器物理架构 × 材料精确定位</div>
@@ -181,12 +152,19 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <tr><th>物理位置</th><th>关键材料/部件</th><th>材料规格要求</th><th>直接供应商</th><th>中国可投入口</th><th>AI受益确定性</th></tr>
   </thead>
   <tbody>
-    <tr class="sep"><td class="cl" rowspan="3"><strong>GPU芯片<br>（制造端）</strong></td>
+    <tr class="sep"><td class="cl" rowspan="5"><strong>GPU芯片<br>（制造端）</strong></td>
       <td>ABF封装薄膜<br><span style="color:var(--text3);font-size:11px">FC-BGA基板绝缘层</span></td>
       <td>极低CTE，H100/B200基板12-16层，每层15-20μm</td>
       <td><strong style="color:var(--red)">味之素（日）95%全球垄断</strong><br>无替代来源，玻璃基板≥2028</td>
       <td>无A股入口</td>
       <td><span class="b b-r">唯一·确定</span></td>
+    </tr>
+    <tr>
+      <td>封装基板（ABF Substrate）<br><span style="color:var(--text3);font-size:11px">GPU与主板之间中间载板</span></td>
+      <td>FC-BGA结构，B200基板：76mm×76mm，16层，线宽2-5μm<br>比ABF薄膜更难制造，是AI芯片封装最稀缺零件之一</td>
+      <td><strong style="color:var(--red)">揖斐电（Ibiden，日）、新光电气（Shinko，日）</strong>合计60%+<br>南亚电路（台湾）15%；深南电路（A股）尝试高端</td>
+      <td>深南电路（A股002916，仍在中低端）</td>
+      <td><span class="b b-r">直链·确定（日台垄断）</span></td>
     </tr>
     <tr>
       <td>CMP抛光液<br><span style="color:var(--text3);font-size:11px">芯片制造平坦化</span></td>
@@ -202,16 +180,30 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       <td>无高端A股替代</td>
       <td><span class="b b-y">间接·确定</span></td>
     </tr>
-    <tr class="sep"><td class="cl" rowspan="4"><strong>AI服务器<br>PCB板</strong><br><span style="color:var(--text3);font-size:11px">（主板/背板/</span><br><span style="color:var(--text3);font-size:11px">交换机线卡）</span></td>
-      <td><strong style="color:var(--yellow)">★ M9/M10超低损耗树脂</strong><br><span style="color:var(--text3);font-size:11px">Rubin平台CCL核心材料</span></td>
+    <tr>
+      <td>HBM封装材料<br><span style="color:var(--text3);font-size:11px">高带宽内存堆叠互联</span></td>
+      <td>TSV硅通孔（直径5μm，Pitch 55μm）；底部填充胶<br>B200: 8层×HBM3e 16GB，CoWoS封装集成</td>
+      <td>HBM制造：SK Hynix（B200独家）、Micron、Samsung<br>底部填充胶：Namics/Henkel；TSV工艺：AMAT/Lam Research</td>
+      <td>无成熟A股入口（通富微电尝试先进封装）</td>
+      <td><span class="b b-y">间接·确定（HBM内存厂主导）</span></td>
+    </tr>
+    <tr class="sep"><td class="cl" rowspan="5"><strong>AI服务器<br>PCB板</strong><br><span style="color:var(--text3);font-size:11px">（主板/背板/</span><br><span style="color:var(--text3);font-size:11px">交换机线卡）</span></td>
+      <td><strong style="color:var(--yellow)">★ M9/M10超低损耗烃树脂</strong><br><span style="color:var(--text3);font-size:11px">Rubin平台CCL核心材料</span></td>
       <td>M9: Dk≤3.0，Df≤0.0007<br>M10: Df≈0.000035（测试中）<br>112G/224G PAM4信号完整性</td>
       <td><strong style="color:var(--yellow)">东材科技（A股601208）全球独家M9量产</strong><br>M10联合微软Azure测试中</td>
       <td><strong style="color:var(--yellow)">东材科技（首选）</strong></td>
       <td><span class="b b-r">独家·极确定</span></td>
     </tr>
     <tr>
+      <td>PPO/PPE改性树脂路线<br><span style="color:var(--text3);font-size:11px">主流400G/800G替代路线</span></td>
+      <td>Df≈0.002（比M9高3倍），适合400G/800G交换板<br>与M9路线并行：Rubin/高端背板走M9，普通级别走PPO</td>
+      <td><strong style="color:var(--red)">三菱瓦斯化学/MGC（日）</strong>：全球最大PPO/PPE树脂供应商<br>南亚塑胶（台湾）PPO改性CCL；信越化学（日）改性烃基</td>
+      <td>无成熟A股替代（PPO路线日本主导）</td>
+      <td><span class="b b-y">间接·确定（日本MGC垄断）</span></td>
+    </tr>
+    <tr>
       <td>高速CCL（覆铜板）<br><span style="color:var(--text3);font-size:11px">S8/S9/MEGTRON 6-7</span></td>
-      <td>Df=0.003-0.004（常规400G场景）<br>购入东材M9树脂后层压为高规格CCL</td>
+      <td>Df=0.002-0.004（取决于树脂路线）<br>购入东材M9或PPO树脂后层压为高规格CCL</td>
       <td>松下MEGTRON 6/7（日）标准<br><strong>生益科技（A股600183）S8/S9，NVIDIA认证</strong><br>Isola I-Tera（美）</td>
       <td><strong>生益科技（核心）</strong><br>东材科技（树脂→提供给CCL厂）</td>
       <td><span class="b b-r">直链·确定</span></td>
@@ -244,7 +236,7 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       <td>菲利华（石英纤维电子布）</td>
       <td><span class="b b-c">条件性·中等</span></td>
     </tr>
-    <tr class="sep"><td class="cl" rowspan="3"><strong>供配电系统</strong></td>
+    <tr class="sep"><td class="cl" rowspan="4"><strong>供配电系统</strong></td>
       <td>SiC功率器件<br><span style="color:var(--text3);font-size:11px">PSU高效整流开关</span></td>
       <td>PSU效率97-99%，Blackwell 1200W/GPU<br>SiC vs 硅：效率+6ppt，100MW数据中心节省$2600万/年</td>
       <td>SiC衬底：Wolfspeed→器件：Infineon/STM/onsemi<br>→PSU：Delta/FSP/Murata Power</td>
@@ -264,6 +256,13 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       <td><strong>MPWR（美股）</strong>：GB200 VRM独家<br><strong>Renesas（日）</strong>：PDB独家<br>→整合入GPU HGX底板→数据中心</td>
       <td>无高端A股入口</td>
       <td><span class="b b-r">直链·确定（美股MPWR）</span></td>
+    </tr>
+    <tr>
+      <td>铜母线/机架汇流排<br><span style="color:var(--text3);font-size:11px">机柜级大电流分配</span></td>
+      <td>NVL72整机柜总功率240kW，需1000A+铜母线<br>NVIDIA 2027年推800V HVDC架构，重塑配电格局</td>
+      <td>Amphenol（美）、TE Connectivity（美）：大电流连接器<br>铜加工：铜陵有色（A股）、精艺铜材；机柜：Vertiv/Schneider</td>
+      <td>铜陵有色（A股000630，间接）</td>
+      <td><span class="b b-y">间接·中等</span></td>
     </tr>
     <tr class="sep"><td class="cl" rowspan="2"><strong>散热冷却</strong></td>
       <td><strong style="color:var(--yellow)">★ 氟化液冷工质</strong><br><span style="color:var(--text3);font-size:11px">两相浸没/直接液冷</span></td>
@@ -351,8 +350,8 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 
 <!-- ═══ 五条完整供应链追踪 ═══ -->
 <section>
-<div class="stitle">五条供应链完整追踪：从原材料到最终产品</div>
-<div class="sdesc">每条链路展示：原料 → 中间体 → 关键部件 → 系统集成 → 最终产品 → 采购方，以及各环节商业模式</div>
+<div class="stitle">供应链商业流程追踪：谁卖什么给谁</div>
+<div class="sdesc">上方架构表回答"哪个物理位置用什么材料"；这里回答"材料如何在商业链条中流转"——谁是原料商、谁是中间加工商、谁是系统集成商、谁是最终买家，以及每个环节的商业模式和定价逻辑。两者结合才构成完整的投资视角。</div>
 
 <!-- Chain A: 芯片制造 -->
 <h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:20px 0 8px">链路A：GPU芯片制造材料链</h3>
@@ -400,9 +399,9 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 </div>
 
 <!-- Chain B: PCB链 -->
-<h3 style="font-size:15px;font-weight:700;color:var(--yellow);margin:28px 0 8px">链路B：AI服务器PCB材料链（最重要，原报告严重缺失）</h3>
+<h3 style="font-size:15px;font-weight:700;color:var(--yellow);margin:28px 0 8px">链路B：AI服务器PCB材料链</h3>
 <p style="font-size:12px;color:var(--text3);margin-bottom:4px">商业模式：东材科技卖树脂给CCL厂商 → CCL厂压制覆铜板卖给PCB厂 → PCB厂按订单定制板卖给OEM → OEM集成进服务器卖给云厂商</p>
-<p style="font-size:12px;color:var(--yellow);margin-bottom:12px">★ 这条链路的受益方全部是中国A股公司，原报告完全缺失</p>
+<p style="font-size:12px;color:var(--yellow);margin-bottom:12px">★ 这条链路的主要受益方集中于中国A股公司</p>
 <div class="chain">
   <div class="chain-node highlight">
     <h4>M9/M10超低损耗树脂</h4>

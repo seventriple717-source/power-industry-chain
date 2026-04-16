@@ -329,9 +329,16 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <canvas id="quadrantChart"></canvas>
   </div>
   <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;font-weight:600;padding:0 4px">
-    <div style="color:#94a3b8">◀ 弱受益（低增速·低毛利）</div>
+    <div style="color:#94a3b8">◀ 薄利低增（低增速·低毛利）</div>
     <div style="color:#f59e0b">量大利薄（高增速·低毛利）▶</div>
   </div>
+</div>
+<div style="margin:10px 0 4px;padding:10px 14px;background:rgba(255,255,255,0.04);border-left:3px solid rgba(148,163,184,0.4);border-radius:0 6px 6px 0;font-size:11px;color:var(--text3);line-height:1.7">
+  <strong style="color:var(--text2)">注：四象限 ≠ 表格"受益级别"</strong>　两个维度独立——<br>
+  <span style="color:#10b981">受益级别 A/B/C/D</span> = AI服务器需求拉动强度 + 是否有可投资中国标的；<br>
+  <span style="color:#3b82f6">四象限位置</span> = 供应商财务回报质量（CAGR × 代表供应商毛利率）<br>
+  例：高速CCL = B·直接受益（需求真实，NVIDIA认证），但落在薄利低增区（生益科技毛利22%，做CCL这门生意利润薄）。两者均正确，不矛盾。<br>
+  <span style="color:#f59e0b">M9树脂</span>：此处使用东材科技公司整体毛利率14%（光伏/PCB等业务拖累），非M9产品单独毛利率（>35%）。
 </div>
 
 <script>
@@ -347,7 +354,6 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
         {x:32, y:55, label:'VRM电源模块'},
         {x:35, y:55, label:'液态金属TIM'},
         {x:25, y:40, label:'SiC器件'},
-        {x:45, y:38, label:'M9树脂'},
         {x:25, y:35, label:'封装基板'}
       ]
     },
@@ -369,12 +375,13 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       borderColor: 'rgba(245,158,11,1)',
       data: [
         {x:50, y:20, label:'氟化液冷'},
-        {x:30, y:25, label:'PCB制造'},
-        {x:35, y:24, label:'InP晶圆'}
+        {x:30, y:28, label:'PCB制造'},
+        {x:35, y:24, label:'InP晶圆'},
+        {x:45, y:14, label:'M9树脂'}
       ]
     },
     {
-      label: '弱受益（低增速·低毛利）',
+      label: '薄利低增（低增速·低毛利）',
       backgroundColor: 'rgba(148,163,184,0.85)',
       borderColor: 'rgba(148,163,184,1)',
       data: [
@@ -425,7 +432,7 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       ctx.fillStyle = 'rgba(245,158,11,0.5)';
       ctx.fillText('量大利薄', cx + 8, ca.bottom - 8);
       ctx.fillStyle = 'rgba(148,163,184,0.5)';
-      ctx.fillText('弱受益', ca.left + 6, ca.bottom - 8);
+      ctx.fillText('薄利低增', ca.left + 6, ca.bottom - 8);
       ctx.restore();
     }
   };
@@ -433,7 +440,7 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
   var offsets = {
     'HBM封装':    [9, -12], 'ABF薄膜':   [-50, -12],
     'VRM电源模块':[9,  10], '液态金属TIM':[9, -12],
-    'SiC器件':    [9, -12], 'M9树脂':    [9,   10],
+    'SiC器件':    [9, -12], 'M9树脂':    [9,  -14],
     '封装基板':   [-52, 10],'CMP抛光':   [9,  -12],
     'EUV光刻胶':  [9,  10], '石英器件':  [-54, -12],
     '金属软磁粉': [9,  10], '光纤':      [-30, -12],

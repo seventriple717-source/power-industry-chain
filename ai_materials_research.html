@@ -315,6 +315,199 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 </div>
 </section>
 
+<!-- ═══ 四象限 CAGR × 毛利率 ═══ -->
+<section id="quadrant-chart">
+<div class="stitle">CAGR × 毛利率四象限分析</div>
+<div class="sdesc">横轴：AI驱动CAGR（%）；纵轴：代表供应商毛利率（%）。分界线：CAGR = 20%（纵向虚线）/ 毛利率 = 35%（横向虚线）。四个象限分别对应不同投资价值维度。</div>
+
+<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px 20px 16px;margin:16px 0">
+  <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;font-weight:600;padding:0 4px">
+    <div style="color:#3b82f6">◀ 稳定垄断（低增速·高毛利）</div>
+    <div style="color:#10b981">投资甜蜜点（高增速·高毛利）▶</div>
+  </div>
+  <div style="position:relative;height:500px">
+    <canvas id="quadrantChart"></canvas>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;font-weight:600;padding:0 4px">
+    <div style="color:#94a3b8">◀ 弱受益（低增速·低毛利）</div>
+    <div style="color:#f59e0b">量大利薄（高增速·低毛利）▶</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var datasets = [
+    {
+      label: '甜蜜点（高增速·高毛利）',
+      backgroundColor: 'rgba(16,185,129,0.85)',
+      borderColor: 'rgba(16,185,129,1)',
+      data: [
+        {x:40, y:60, label:'HBM封装'},
+        {x:22, y:65, label:'ABF薄膜'},
+        {x:32, y:55, label:'VRM电源模块'},
+        {x:35, y:55, label:'液态金属TIM'},
+        {x:25, y:40, label:'SiC器件'},
+        {x:45, y:38, label:'M9树脂'},
+        {x:25, y:35, label:'封装基板'}
+      ]
+    },
+    {
+      label: '稳定垄断（低增速·高毛利）',
+      backgroundColor: 'rgba(59,130,246,0.85)',
+      borderColor: 'rgba(59,130,246,1)',
+      data: [
+        {x:10, y:44, label:'CMP抛光'},
+        {x:12, y:40, label:'EUV光刻胶'},
+        {x:12, y:42, label:'石英器件'},
+        {x:20, y:41, label:'金属软磁粉'},
+        {x: 9, y:37, label:'光纤'}
+      ]
+    },
+    {
+      label: '量大利薄（高增速·低毛利）',
+      backgroundColor: 'rgba(245,158,11,0.85)',
+      borderColor: 'rgba(245,158,11,1)',
+      data: [
+        {x:50, y:20, label:'氟化液冷'},
+        {x:30, y:25, label:'PCB制造'},
+        {x:35, y:24, label:'InP晶圆'}
+      ]
+    },
+    {
+      label: '弱受益（低增速·低毛利）',
+      backgroundColor: 'rgba(148,163,184,0.85)',
+      borderColor: 'rgba(148,163,184,1)',
+      data: [
+        {x: 9, y:33, label:'电子特气'},
+        {x: 8, y:32, label:'T/NE玻纤'},
+        {x:15, y:25, label:'PPO/PPE'},
+        {x:16, y:24, label:'铜箔RTF'},
+        {x:12, y:10, label:'铜母线'},
+        {x:20, y:22, label:'高速CCL'}
+      ]
+    }
+  ];
+
+  var quadBgPlugin = {
+    id: 'quadBg',
+    beforeDraw: function(chart) {
+      var ca = chart.chartArea, sx = chart.scales.x, sy = chart.scales.y;
+      var ctx = chart.ctx;
+      var cx = sx.getPixelForValue(20);
+      var cy = sy.getPixelForValue(35);
+      // TR 甜蜜点
+      ctx.fillStyle = 'rgba(16,185,129,0.06)';
+      ctx.fillRect(cx, ca.top, ca.right - cx, cy - ca.top);
+      // TL 稳定垄断
+      ctx.fillStyle = 'rgba(59,130,246,0.06)';
+      ctx.fillRect(ca.left, ca.top, cx - ca.left, cy - ca.top);
+      // BR 量大利薄
+      ctx.fillStyle = 'rgba(245,158,11,0.06)';
+      ctx.fillRect(cx, cy, ca.right - cx, ca.bottom - cy);
+      // BL 弱受益
+      ctx.fillStyle = 'rgba(148,163,184,0.06)';
+      ctx.fillRect(ca.left, cy, cx - ca.left, ca.bottom - cy);
+      // Dividers
+      ctx.save();
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(cx, ca.top); ctx.lineTo(cx, ca.bottom); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ca.left, cy); ctx.lineTo(ca.right, cy); ctx.stroke();
+      ctx.restore();
+      // Quadrant corner labels
+      ctx.save();
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillStyle = 'rgba(16,185,129,0.5)';
+      ctx.fillText('甜蜜点', cx + 8, ca.top + 16);
+      ctx.fillStyle = 'rgba(59,130,246,0.5)';
+      ctx.fillText('稳定垄断', ca.left + 6, ca.top + 16);
+      ctx.fillStyle = 'rgba(245,158,11,0.5)';
+      ctx.fillText('量大利薄', cx + 8, ca.bottom - 8);
+      ctx.fillStyle = 'rgba(148,163,184,0.5)';
+      ctx.fillText('弱受益', ca.left + 6, ca.bottom - 8);
+      ctx.restore();
+    }
+  };
+
+  var offsets = {
+    'HBM封装':    [9, -12], 'ABF薄膜':   [-50, -12],
+    'VRM电源模块':[9,  10], '液态金属TIM':[9, -12],
+    'SiC器件':    [9, -12], 'M9树脂':    [9,   10],
+    '封装基板':   [-52, 10],'CMP抛光':   [9,  -12],
+    'EUV光刻胶':  [9,  10], '石英器件':  [-54, -12],
+    '金属软磁粉': [9,  10], '光纤':      [-30, -12],
+    '氟化液冷':   [9, -12], 'PCB制造':   [9,   10],
+    'InP晶圆':    [9, -12], '电子特气':  [9,   10],
+    'T/NE玻纤':   [-58, 10],'PPO/PPE':   [9,  -12],
+    '铜箔RTF':    [9,  10], '铜母线':    [9,  -12],
+    '高速CCL':    [-46, 10]
+  };
+
+  var ptLabelsPlugin = {
+    id: 'ptLabels',
+    afterDatasetsDraw: function(chart) {
+      var ctx = chart.ctx;
+      ctx.save();
+      ctx.font = '11px sans-serif';
+      chart.data.datasets.forEach(function(ds, di) {
+        var meta = chart.getDatasetMeta(di);
+        ds.data.forEach(function(pt, pi) {
+          var elem = meta.data[pi];
+          var pos = elem.getCenterPoint();
+          var off = offsets[pt.label] || [9, -12];
+          ctx.fillStyle = ds.borderColor;
+          ctx.fillText(pt.label, pos.x + off[0], pos.y + off[1]);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  var el = document.getElementById('quadrantChart');
+  new Chart(el.getContext('2d'), {
+    type: 'scatter',
+    data: {datasets: datasets},
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {color:'#94a3b8', font:{size:11}, padding:16, boxWidth:12}
+        },
+        tooltip: {
+          callbacks: {
+            label: function(c) {
+              return c.raw.label + '  CAGR ' + c.raw.x + '%  毛利率 ' + c.raw.y + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {display:true, text:'AI驱动 CAGR (%)', color:'#94a3b8', font:{size:12}},
+          ticks: {color:'#94a3b8'},
+          grid:  {color:'rgba(255,255,255,0.06)'},
+          min: 0, max: 60
+        },
+        y: {
+          title: {display:true, text:'代表供应商毛利率 (%)', color:'#94a3b8', font:{size:12}},
+          ticks: {color:'#94a3b8'},
+          grid:  {color:'rgba(255,255,255,0.06)'},
+          min: 0, max: 75
+        }
+      },
+      elements: {
+        point: {radius:7, hoverRadius:10, borderWidth:2}
+      }
+    },
+    plugins: [quadBgPlugin, ptLabelsPlugin]
+  });
+})();
+</script>
+</section>
+
 
 <!-- ═══ 五条完整供应链追踪 ═══ -->
 <section>

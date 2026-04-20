@@ -158,26 +158,21 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <tr><th>物理位置</th><th>关键材料/部件</th><th>核心壁垒 / 规格要求</th><th>直接供应商</th><th style="white-space:nowrap;min-width:110px">全球市场规模<br>（2025E估算）</th><th style="white-space:nowrap">AI驱动<br>CAGR</th><th style="min-width:90px">代表供应商毛利率<br><span style="color:var(--green);font-size:9px;font-weight:400">★年报实际</span><span style="color:var(--text3);font-size:9px;font-weight:400"> / 估算标注</span></th><th>中国替代进度</th><th>受益级别</th></tr>
   </thead>
   <tbody>
-    <!-- ── GPU芯片制造端 ── -->
-    <tr class="sep"><td class="cl" rowspan="8"><strong>GPU芯片<br>（制造端）</strong><br><span style="color:var(--text3);font-size:10px">晶圆代工+<br>先进封装</span></td>
+    <!-- ── GPU芯片制造端（三层分类）── -->
+    <!-- 1/3 晶圆基础材料·衬底 -->
+    <tr class="sep"><td class="cl" rowspan="1"><strong>晶圆基础材料</strong><br><span style="color:var(--text3);font-size:10px">衬底·AI芯片<br>物理起点</span></td>
+      <td>硅片（300mm prime wafer）<br><span style="color:var(--text3);font-size:11px">所有AI芯片的物理起点</span></td>
+      <td>CZ直拉单晶→切片→双面抛光（DSOP）→外延生长→prime wafer；3nm节点晶圆$200-300/片<br>每颗B200 GPU消耗约2-3片300mm晶圆（含良率损耗）；AI算力Capex扩张直接驱动wafer需求线性增长</td>
+      <td><strong style="color:var(--red)">信越化学（日）27%·SUMCO（日）23%·Siltronic（德）10%·SK Siltron（韩）8%</strong><br>中环股份（A601360）：中国300mm龙头，国产AI芯片（昇腾/寒武纪）wafer主要供应商</td>
+      <td style="font-size:11px;white-space:nowrap">$140亿<br><small style="color:var(--text3)">全球硅片市场，AI推动300mm占比持续提升</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+14%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">28–33%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SUMCO近年实际，周期性波动较大</span></td><td><span style="color:var(--yellow);font-weight:700">中</span><br>中环股份A股300mm扩产中；台积电主力仍采购日韩供应商</td>
+      <td><span class="b b-g">B·直接受益</span></td>
+    </tr>
+    <!-- 2/3 晶圆制程材料 -->
+    <tr class="sep"><td class="cl" rowspan="4"><strong>晶圆制程材料</strong><br><span style="color:var(--text3);font-size:10px">TSMC Fab<br>制程消耗品</span></td>
       <td>EUV/ArF光刻胶<br><span style="color:var(--text3);font-size:11px">图案转移核心化学品</span></td>
       <td>EUV: CAR负胶，LER≤1nm；3nm节点每片晶圆50+道光刻步骤<br>ArF浸没：DUV工艺仍大量使用，占光刻胶消耗60%+</td>
       <td><strong style="color:var(--red)">JSR 20% · TOK 15% · 信越 15% · Fujifilm 12%（日本合计75%）</strong><br>美国：Dupont/Dow；EUV专用光刻胶全球仅JSR/TOK量产</td>
       <td style="font-size:11px;white-space:nowrap">$45亿<br><small style="color:var(--text3)">全球光刻胶，AI芯片~20%</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+12%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">~40%<br><span style="font-size:10px;color:var(--text3);font-weight:400">TOK整体，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>中国光刻胶仍限于ArF低端，EUV完全空白</td>
-      <td><span class="b b-g">B·直接受益</span></td>
-    </tr>
-    <tr>
-      <td>ABF封装薄膜<br><span style="color:var(--text3);font-size:11px">FC-BGA基板绝缘层</span></td>
-      <td>极低CTE（6ppm/°C），H100基板12层/B200基板16层，每层15-20μm<br>热膨胀匹配要求极苛刻，无替代品（玻璃基板≥2028）</td>
-      <td><strong style="color:var(--red)">味之素（Ajinomoto，日）95%全球垄断</strong><br>扩产需3-4年，B200备货已外延至2026年底</td>
-      <td style="font-size:11px;white-space:nowrap">$6亿<br><small style="color:var(--text3)">ABF薄膜专项，供给瓶颈</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+22%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--green)">60–70%<br><span style="font-size:10px;color:var(--text3);font-weight:400">垄断定价，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>A股完全无入口，玻璃基板替代最早2028</td>
-      <td><span class="b b-r">A·独家垄断</span></td>
-    </tr>
-    <tr>
-      <td>封装基板（ABF Substrate）<br><span style="color:var(--text3);font-size:11px">GPU与主板间中间载板</span></td>
-      <td>FC-BGA，B200基板76×76mm，16层，线宽2-5μm（比PCB精细100倍）<br>AI芯片最稀缺硬件之一；单颗B200基板价值约$300+</td>
-      <td><strong style="color:var(--red)">揖斐电（Ibiden，日）40% · 新光电气（Shinko，日）20%</strong><br>南亚电路（台湾）15%；深南电路（A股）仅限中低端</td>
-      <td style="font-size:11px;white-space:nowrap">$100亿<br><small style="color:var(--text3)">FC-BGA基板，AI占40%+</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+25%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">30–40%<br><span style="font-size:10px;color:var(--text3);font-weight:400">Ibiden估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>深南电路A股入口但高端制程仍受限</td>
       <td><span class="b b-g">B·直接受益</span></td>
     </tr>
     <tr>
@@ -195,25 +190,33 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       <td><span class="b b-y">C·间接受益</span></td>
     </tr>
     <tr>
-      <td>HBM封装互联材料<br><span style="color:var(--text3);font-size:11px">高带宽内存堆叠</span></td>
-      <td>TSV硅通孔（Pitch 55μm，深宽比10:1）；底部填充胶；micro-bump<br>B200: 8×HBM3e 16GB，Rubin预计12×HBM4；每代GPU用HBM层数翻倍</td>
-      <td>HBM制造：SK Hynix（B200独家）、Micron、Samsung<br>底部填充胶：Namics（日）/Henkel（德）；TSV设备：AMAT/Lam</td>
-      <td style="font-size:11px;white-space:nowrap">$200亿<br><small style="color:var(--text3)">HBM芯片市场，AI>80%</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+40%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--green)">55–65%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SK Hynix HBM，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>HBM制造中国无入口；封装材料日德垄断</td>
-      <td><span class="b b-y">C·间接受益</span></td>
-    </tr>
-    <tr>
-      <td>硅片（300mm prime wafer）<br><span style="color:var(--text3);font-size:11px">所有AI芯片的物理起点</span></td>
-      <td>CZ直拉单晶→切片→双面抛光（DSOP）→外延生长→prime wafer；3nm节点晶圆$200-300/片<br>每颗B200 GPU消耗约2-3片300mm晶圆（含良率损耗）；AI算力Capex扩张直接驱动wafer需求线性增长</td>
-      <td><strong style="color:var(--red)">信越化学（日）27%·SUMCO（日）23%·Siltronic（德）10%·SK Siltron（韩）8%</strong><br>中环股份（A601360）：中国300mm龙头，国产AI芯片（昇腾/寒武纪）wafer主要供应商</td>
-      <td style="font-size:11px;white-space:nowrap">$140亿<br><small style="color:var(--text3)">全球硅片市场，AI推动300mm占比持续提升</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+14%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">28–33%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SUMCO近年实际，周期性波动较大</span></td><td><span style="color:var(--yellow);font-weight:700">中</span><br>中环股份A股300mm扩产中；台积电主力仍采购日韩供应商</td>
-      <td><span class="b b-g">B·直接受益</span></td>
-    </tr>
-    <tr>
       <td>湿法制程化学品（超纯HF/清洗液）<br><span style="color:var(--text3);font-size:11px">蚀刻与晶圆表面清洗</span></td>
       <td>每片3nm晶圆经历100+道湿法处理：HF蚀刻（SiO₂选择性去除）·SC-1/SC-2 RCA清洗·显影/去胶<br>超纯HF纯度≥7N，颗粒数&lt;5个/mL；制程步骤数随节点复杂度增加，AI芯片用量随产量线性增长</td>
       <td><strong style="color:var(--red)">Stella Chemifa（日）超纯HF全球垄断·Daikin（日）含氟蚀刻液</strong><br>A股追赶：江化微（A603078）·格林达（A603931）·晶瑞电材（A300655）；均限于28nm+制程</td>
       <td style="font-size:11px;white-space:nowrap">$30亿<br><small style="color:var(--text3)">半导体湿法化学品，AI芯片占比增长</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+11%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">35–42%<br><span style="font-size:10px;color:var(--text3);font-weight:400">Stella Chemifa超纯HF特化学品，估算</span></td><td><span style="color:var(--red);font-weight:700">低</span><br>超纯HF日本垄断；A股仅覆盖28nm+，先进节点空白</td>
       <td><span class="b b-g">B·直接受益</span></td>
+    </tr>
+    <!-- 3/3 先进封装材料 -->
+    <tr class="sep"><td class="cl" rowspan="3"><strong>先进封装材料</strong><br><span style="color:var(--text3);font-size:10px">CoWoS+HBM<br>芯片级封装</span></td>
+      <td>ABF封装薄膜<br><span style="color:var(--text3);font-size:11px">FC-BGA基板绝缘层</span></td>
+      <td>极低CTE（6ppm/°C），H100基板12层/B200基板16层，每层15-20μm<br>热膨胀匹配要求极苛刻，无替代品（玻璃基板≥2028）</td>
+      <td><strong style="color:var(--red)">味之素（Ajinomoto，日）95%全球垄断</strong><br>扩产需3-4年，B200备货已外延至2026年底</td>
+      <td style="font-size:11px;white-space:nowrap">$6亿<br><small style="color:var(--text3)">ABF薄膜专项，供给瓶颈</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+22%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--green)">60–70%<br><span style="font-size:10px;color:var(--text3);font-weight:400">垄断定价，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>A股完全无入口，玻璃基板替代最早2028</td>
+      <td><span class="b b-r">A·独家垄断</span></td>
+    </tr>
+    <tr>
+      <td>封装基板（ABF Substrate）<br><span style="color:var(--text3);font-size:11px">GPU与主板间中间载板</span></td>
+      <td>FC-BGA，B200基板76×76mm，16层，线宽2-5μm（比PCB精细100倍）<br>AI芯片最稀缺硬件之一；单颗B200基板价值约$300+</td>
+      <td><strong style="color:var(--red)">揖斐电（Ibiden，日）40% · 新光电气（Shinko，日）20%</strong><br>南亚电路（台湾）15%；深南电路（A股）仅限中低端</td>
+      <td style="font-size:11px;white-space:nowrap">$100亿<br><small style="color:var(--text3)">FC-BGA基板，AI占40%+</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+25%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">30–40%<br><span style="font-size:10px;color:var(--text3);font-weight:400">Ibiden估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>深南电路A股入口但高端制程仍受限</td>
+      <td><span class="b b-g">B·直接受益</span></td>
+    </tr>
+    <tr>
+      <td>HBM封装互联材料<br><span style="color:var(--text3);font-size:11px">高带宽内存堆叠</span></td>
+      <td>TSV硅通孔（Pitch 55μm，深宽比10:1）；底部填充胶；micro-bump<br>B200: 8×HBM3e 16GB，Rubin预计12×HBM4；每代GPU用HBM层数翻倍</td>
+      <td>HBM制造：SK Hynix（B200独家）、Micron、Samsung<br>底部填充胶：Namics（日）/Henkel（德）；TSV设备：AMAT/Lam</td>
+      <td style="font-size:11px;white-space:nowrap">$200亿<br><small style="color:var(--text3)">HBM芯片市场，AI>80%</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+40%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--green)">55–65%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SK Hynix HBM，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>HBM制造中国无入口；封装材料日德垄断</td>
+      <td><span class="b b-y">C·间接受益</span></td>
     </tr>
     <!-- ── AI服务器PCB板 ── -->
     <tr class="sep"><td class="cl" rowspan="6"><strong>AI服务器PCB板</strong><br><span style="color:var(--text3);font-size:10px">主板/78层背板/<br>交换机线卡</span></td>

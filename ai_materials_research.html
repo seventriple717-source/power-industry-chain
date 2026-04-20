@@ -159,7 +159,7 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
   </thead>
   <tbody>
     <!-- ── GPU芯片制造端 ── -->
-    <tr class="sep"><td class="cl" rowspan="6"><strong>GPU芯片<br>（制造端）</strong><br><span style="color:var(--text3);font-size:10px">晶圆代工+<br>先进封装</span></td>
+    <tr class="sep"><td class="cl" rowspan="8"><strong>GPU芯片<br>（制造端）</strong><br><span style="color:var(--text3);font-size:10px">晶圆代工+<br>先进封装</span></td>
       <td>EUV/ArF光刻胶<br><span style="color:var(--text3);font-size:11px">图案转移核心化学品</span></td>
       <td>EUV: CAR负胶，LER≤1nm；3nm节点每片晶圆50+道光刻步骤<br>ArF浸没：DUV工艺仍大量使用，占光刻胶消耗60%+</td>
       <td><strong style="color:var(--red)">JSR 20% · TOK 15% · 信越 15% · Fujifilm 12%（日本合计75%）</strong><br>美国：Dupont/Dow；EUV专用光刻胶全球仅JSR/TOK量产</td>
@@ -200,6 +200,20 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
       <td>HBM制造：SK Hynix（B200独家）、Micron、Samsung<br>底部填充胶：Namics（日）/Henkel（德）；TSV设备：AMAT/Lam</td>
       <td style="font-size:11px;white-space:nowrap">$200亿<br><small style="color:var(--text3)">HBM芯片市场，AI>80%</small></td><td style="font-size:13px;font-weight:700;color:var(--green);text-align:center">+40%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--green)">55–65%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SK Hynix HBM，估算</span></td><td><span style="color:var(--red);font-weight:700">极低</span><br>HBM制造中国无入口；封装材料日德垄断</td>
       <td><span class="b b-y">C·间接受益</span></td>
+    </tr>
+    <tr>
+      <td>硅片（300mm prime wafer）<br><span style="color:var(--text3);font-size:11px">所有AI芯片的物理起点</span></td>
+      <td>CZ直拉单晶→切片→双面抛光（DSOP）→外延生长→prime wafer；3nm节点晶圆$200-300/片<br>每颗B200 GPU消耗约2-3片300mm晶圆（含良率损耗）；AI算力Capex扩张直接驱动wafer需求线性增长</td>
+      <td><strong style="color:var(--red)">信越化学（日）27%·SUMCO（日）23%·Siltronic（德）10%·SK Siltron（韩）8%</strong><br>中环股份（A601360）：中国300mm龙头，国产AI芯片（昇腾/寒武纪）wafer主要供应商</td>
+      <td style="font-size:11px;white-space:nowrap">$140亿<br><small style="color:var(--text3)">全球硅片市场，AI推动300mm占比持续提升</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+14%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">28–33%<br><span style="font-size:10px;color:var(--text3);font-weight:400">SUMCO近年实际，周期性波动较大</span></td><td><span style="color:var(--yellow);font-weight:700">中</span><br>中环股份A股300mm扩产中；台积电主力仍采购日韩供应商</td>
+      <td><span class="b b-g">B·直接受益</span></td>
+    </tr>
+    <tr>
+      <td>湿法制程化学品（超纯HF/清洗液）<br><span style="color:var(--text3);font-size:11px">蚀刻与晶圆表面清洗</span></td>
+      <td>每片3nm晶圆经历100+道湿法处理：HF蚀刻（SiO₂选择性去除）·SC-1/SC-2 RCA清洗·显影/去胶<br>超纯HF纯度≥7N，颗粒数&lt;5个/mL；制程步骤数随节点复杂度增加，AI芯片用量随产量线性增长</td>
+      <td><strong style="color:var(--red)">Stella Chemifa（日）超纯HF全球垄断·Daikin（日）含氟蚀刻液</strong><br>A股追赶：江化微（A603078）·格林达（A603931）·晶瑞电材（A300655）；均限于28nm+制程</td>
+      <td style="font-size:11px;white-space:nowrap">$30亿<br><small style="color:var(--text3)">半导体湿法化学品，AI芯片占比增长</small></td><td style="font-size:13px;font-weight:700;color:var(--yellow);text-align:center">+11%</td><td style="text-align:center;font-size:12px;font-weight:700;color:var(--yellow)">35–42%<br><span style="font-size:10px;color:var(--text3);font-weight:400">Stella Chemifa超纯HF特化学品，估算</span></td><td><span style="color:var(--red);font-weight:700">低</span><br>超纯HF日本垄断；A股仅覆盖28nm+，先进节点空白</td>
+      <td><span class="b b-g">B·直接受益</span></td>
     </tr>
     <!-- ── AI服务器PCB板 ── -->
     <tr class="sep"><td class="cl" rowspan="6"><strong>AI服务器PCB板</strong><br><span style="color:var(--text3);font-size:10px">主板/78层背板/<br>交换机线卡</span></td>
@@ -370,7 +384,9 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
         {x:12, y:40, label:'EUV光刻胶'},
         {x:12, y:42, label:'石英器件'},
         {x:20, y:41, label:'金属软磁粉'},
-        {x: 9, y:37, label:'光纤'}
+        {x: 9, y:37, label:'光纤'},
+        {x:11, y:38, label:'湿法化学品'},
+        {x: 9, y:43, label:'光掩模版'}
       ]
     },
     {
@@ -392,7 +408,8 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
         {x:15, y:25, label:'PPO/PPE'},
         {x:16, y:24, label:'铜箔RTF'},
         {x:12, y:10, label:'铜母线'},
-        {x:20, y:22, label:'高速CCL'}
+        {x:20, y:22, label:'高速CCL'},
+        {x:14, y:30, label:'硅片'}
       ]
     }
   ];
@@ -450,7 +467,10 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     'InP晶圆':    [9, -12], '电子特气':  [9,   10],
     'T/NE玻纤':   [-58, 10],'PPO/PPE':   [9,  -12],
     '铜箔RTF':    [9,  10], '铜母线':    [9,  -12],
-    '高速CCL':    [-46, 10]
+    '高速CCL':    [-46, 10],
+    '湿法化学品': [9,  -12],
+    '光掩模版':   [9,   10],
+    '硅片':       [9,  -12]
   };
 
   var ptLabelsPlugin = {
@@ -569,6 +589,12 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <div class="cn">最终产品</div>
     <div class="co">H100/B200/GB200<br>→ 组装入HGX板卡<br>→ 超大规模云厂商</div>
   </div>
+</div>
+
+<div style="margin-top:10px;margin-bottom:20px;padding:12px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.15);border-radius:8px;font-size:11px">
+  <strong style="color:var(--cyan)">配套参考：光掩模版材料链（全链日本控制，无A股/美股直接入口）</strong><br><br>
+  <span style="color:var(--text2)">EUV光刻胶必须配合光掩模版（Photomask）使用。掩模供应链：<strong>高纯石英玻璃基板</strong>（信越化学/AGC）→ <strong>坯板制造 Hoya（日）60%·AGC（日）20%</strong> → 电子束写版（JEOL NuFlare设备）→ <strong>EUV Pellicle超薄防污染膜（信越化学独家，允许EUV光透过但阻挡颗粒物）</strong> → TSMC内部掩模间（自制为主）→ 每张掩模可复用500-1000批次晶圆。EUV单层掩模成本$1-3M，一颗AI芯片设计需50+层掩模，总掩模工程成本超$5000万。</span><br><br>
+  <strong style="color:var(--yellow)">为何无直接投资入口：</strong>Hoya/AGC的掩模坯板业务是日本中型化工企业的子业务，非独立上市；EUV Pellicle=信越化学，但信越化学是$600亿市值日本综合化工巨头，掩模业务占比极小；掩模制造（Toppan Photomasks/大日本印刷）为日本集团子业务。A股路维光电（688150）做掩模制造但市值小、估值高，不在本报告推荐范围。
 </div>
 
 <!-- Chain B: PCB链 -->
@@ -805,6 +831,78 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 <div style="margin-top:10px;padding:12px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.25);border-radius:8px;font-size:12px;color:var(--text2)">
   <strong style="color:var(--red)">投资注意：</strong>封装基板链投资窗口期约2-3年（2025-2027）。深南电路是A股唯一入口但高端制程仍落后；真正的垄断利润在揖斐电/新光电气（日本上市）。玻璃基板若2028年量产爬坡，ABF基板需求将从高峰回落。
 </div>
+
+<!-- Chain G: 硅片衬底 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:28px 0 8px">链路G：硅片与衬底材料链 <span class="stab stab-l">结构性长期</span></h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:4px">商业模式：多晶硅厂商卖高纯多晶硅给硅片厂 → 硅片厂直拉/外延生长制成prime wafer → 卖给台积电等Fab → 一次性消耗品，每批次芯片消耗一片晶圆</p>
+<p style="font-size:12px;color:var(--green);margin-bottom:12px">▶ 是否稳固：高度稳固且不可绕过。每颗AI GPU芯片必须从一片300mm silicon prime wafer开始，无替代方案。先进节点复杂度上升（更多制程步骤→更多晶圆消耗），AI算力Capex扩张直接驱动wafer需求线性增长。全球300mm产能扩产周期2-3年，供需紧张时日本供应商议价权极强。</p>
+<div class="chain">
+  <div class="chain-node">
+    <h4>高纯多晶硅</h4>
+    <div class="cn">11N半导体级提纯</div>
+    <div class="co">Wacker（德）·OCI（韩）<br>协鑫科技（港股）<br>11N→7N半导体级<br>太阳能级多晶硅不可混用</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node key">
+    <h4>300mm硅单晶棒</h4>
+    <div class="cn">日本准垄断</div>
+    <div class="co">信越化学（日）27%<br>SUMCO（日）23%<br>Siltronic（德）10%<br>SK Siltron（韩）8%</div>
+    <div class="badge-sm b-r">高端日本垄断</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node ok">
+    <h4>外延片/抛光片</h4>
+    <div class="cn">中环股份 A601360</div>
+    <div class="co">CZ拉晶→线切割→DSOP双面抛光<br>外延生长（AI GPU必用外延片）<br>中环股份：中国300mm主力<br>GlobalWafers（台湾）</div>
+    <div class="badge-sm b-y">A股入口·追赶日本</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>台积电Fab制程</h4>
+    <div class="cn">N3/N4消耗wafer</div>
+    <div class="co">N3节点：$200-300/片wafer<br>B200 GPU约消耗2-3片<br>（含良率损耗）<br>CoWoS封装额外消耗</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>GPU芯片</h4>
+    <div class="cn">最终产品</div>
+    <div class="co">H100/B200/GB200<br>本链路是所有<br>AI芯片的物理起点<br>→ 数据中心</div>
+  </div>
+</div>
+
+<!-- Chain H: 湿法制程化学品 -->
+<h3 style="font-size:15px;font-weight:700;color:var(--cyan);margin:28px 0 8px">链路H：湿法制程化学品链 <span class="stab stab-l">结构性长期</span></h3>
+<p style="font-size:12px;color:var(--text3);margin-bottom:4px">商业模式：化工原料商提供高纯前驱体 → 日本专精化学品厂精制分装超纯湿法化学品 → 台积电等Fab按制程步骤消耗 → 一次性消耗品，每批次晶圆消耗</p>
+<p style="font-size:12px;color:var(--yellow);margin-bottom:6px">▶ 是否稳固：稳固，但<strong>可投标的受限</strong>。每颗3nm AI芯片经历100+道湿法处理步骤，消耗量与制程步骤数线性相关，随AI芯片产量增长而增长。然而最优质供应商（Stella Chemifa/Daikin/TOK）均为日本中型企业；A股追赶企业（江化微/格林达）仅覆盖28nm以上制程，先进节点国产化仍需3-5年。投资逻辑是长线国产化替代，非短期AI直链高确定性受益。</p>
+<div class="chain">
+  <div class="chain-node key">
+    <h4>超纯HF蚀刻液</h4>
+    <div class="cn">日本垄断</div>
+    <div class="co">Stella Chemifa（日）<br>超纯HF全球垄断<br>Daikin（日）含氟蚀刻液<br>纯度≥7N，颗粒&lt;5个/mL</div>
+    <div class="badge-sm b-r">无美股/A股直链入口</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>RCA清洗液</h4>
+    <div class="cn">SC-1/SC-2体系</div>
+    <div class="co">Avantor（美）<br>江化微 A603078（追赶）<br>格林达 A603931（追赶）<br>适用：28nm+制程</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>显影液/去胶液</h4>
+    <div class="cn">配套光刻步骤</div>
+    <div class="co">TOK（日）·住友化学（日）<br>EUV：TMAH系列显影液<br>晶瑞电材 A300655（追赶）<br>每道光刻后必须消耗</div>
+  </div>
+  <div class="chain-arrow">→</div>
+  <div class="chain-node">
+    <h4>台积电Fab湿法站</h4>
+    <div class="cn">100+道步骤/芯片</div>
+    <div class="co">N3节点湿法步骤<br>为N7的1.8倍<br>随AI芯片产量线性增长<br>→ GPU封装→数据中心</div>
+  </div>
+</div>
+<div style="margin-top:10px;padding:10px 14px;background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.2);border-radius:8px;font-size:11px;color:var(--text2)">
+  <strong style="color:var(--yellow)">投资注意：</strong>湿法制程化学品是真实的AI芯片上游材料，但最优质供应商（Stella Chemifa/Daikin/TOK/住友化学）均为日本中小市值上市公司，AI半导体占营收比有限。A股国产化标的（江化微/格林达/晶瑞电材）为<strong>长线国产化替代逻辑</strong>，短期AI直链受益确定性弱于本报告其他主线标的。
+</div>
 </section>
 
 
@@ -933,6 +1031,25 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     </div>
   </div>
 
+  <!-- 中环股份 -->
+  <div class="scard direct">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">中环股份</div><div class="sname">A股601360 · 中国300mm硅片龙头</div></div>
+      <span class="b b-g">B · 直接受益</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">300mm</div><div class="mk">主力产品（AI GPU制程必用规格）</div></div>
+      <div class="smet"><div class="mv" style="color:var(--green)">全国第一</div><div class="mk">国内300mm硅片出货量</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">天津+内蒙</div><div class="mk">双基地扩产，150万片/月目标</div></div>
+      <div class="smet"><div class="mv" style="color:var(--red)">日本竞争</div><div class="mk">信越/SUMCO仍主导先进节点</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--green)">核心逻辑：</strong>AI芯片（GPU/HBM）制造必须从一片300mm prime wafer开始，是整个AI材料链的物理起点。中环股份是中国300mm硅片唯一规模化供应商，随国内Fab（华虹/中芯/长鑫）持续扩产，国产芯片（昇腾/寒武纪）硅片需求加速向中环集中；中美博弈下国内Fab采购国产硅片的压力持续上升。<br><br>
+      <strong style="color:var(--yellow)">风险：</strong>先进节点（N5以下）外延片技术与信越/SUMCO仍有差距；AI GPU主要在台积电生产，中环供应台积电份额极有限，当前受益主要来自国内成熟节点Fab的国产化替代逻辑。硅片属于周期性行业，供需平衡对盈利影响大。
+      <div class="schain">供应链位置：多晶硅原料 → 中环股份（拉晶/抛光/外延） → 台积电/华虹/中芯/长鑫 → AI芯片</div>
+    </div>
+  </div>
+
   <!-- CC -->
   <div class="scard indirect">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
@@ -971,6 +1088,25 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <div class="sthesis">
       <strong style="color:var(--yellow)">定位说明：</strong>APD是综合工业/电子气体公司，AI只是其中一个受益方向（~17%营收）。电子特气部分双位数增长，但整体估值反映工业气体稳定溢价，不是纯AI主题股。<br>
       新CEO推进3600人裁员+资产剥离，重心回归工业气体核心业务，NEOM氢能亏损项目已基本出清。
+    </div>
+  </div>
+
+  <!-- 江化微 -->
+  <div class="scard indirect">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div><div class="stk">江化微</div><div class="sname">A股603078 · 超纯湿法化学品国产替代</div></div>
+      <span class="b b-y">C · 间接受益</span>
+    </div>
+    <div class="smeta">
+      <div class="smet"><div class="mv" style="color:var(--cyan)">超纯HF/BOE</div><div class="mk">核心产品，28nm+制程供货</div></div>
+      <div class="smet"><div class="mv" style="color:var(--yellow)">国产替代</div><div class="mk">半导体湿法化学品本土逻辑</div></div>
+      <div class="smet"><div class="mv" style="color:var(--red)">节点限制</div><div class="mk">先进节点（N5以下）仍依赖进口</div></div>
+      <div class="smet"><div class="mv" style="color:var(--text2)">小市值</div><div class="mk">体量偏小，建议关注而非重仓</div></div>
+    </div>
+    <div class="sthesis">
+      <strong style="color:var(--yellow)">定位说明：</strong>江化微是A股半导体湿法化学品国产替代代表企业，产品覆盖超纯HF、缓冲氧化物蚀刻液（BOE）、电子清洗液等，已进入华虹/中芯等国内主流Fab供应链。<br>
+      <strong style="color:var(--red)">核心限制：</strong>现有产品主要覆盖28nm以上制程，AI GPU芯片（N3/N4，台积电生产）所用高规格湿法化学品仍由日本Stella Chemifa垄断供应。投资逻辑是<strong>长线国产化替代</strong>而非短期AI芯片直链。体量偏小，流动性一般。
+      <div class="schain">供应链位置：化工原料 → 江化微（精制/分装） → 华虹/中芯等国内Fab → 国产芯片</div>
     </div>
   </div>
 
@@ -1063,6 +1199,10 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
   <div class="alert alert-y">
     <h4>风险6：ABF薄膜瓶颈持续（不可投但影响全链节奏）</h4>
     <p style="font-size:12px;color:var(--text2)">味之素ABF薄膜95%垄断，玻璃基板替代最早2028年。若ABF产能扩张慢于AI芯片需求（当前已有供需紧张信号），将制约GPU出货量，进而间接影响PCB材料需求节奏。这是上游瓶颈通过台积电/NVIDIA传导至本报告所有标的的系统性风险。</p>
+  </div>
+  <div class="alert alert-r">
+    <h4>风险7：日本半导体材料集中——多链路系统性出口管制风险</h4>
+    <p style="font-size:12px;color:var(--text2)">本报告所涉关键材料中，以下均由日本企业主导或垄断：硅片（信越化学27%·SUMCO 23%）、EUV光刻胶（JSR·TOK·信越合计50%+）、光掩模版坯板（Hoya 60%·AGC 20%）、EUV Pellicle（信越化学独家）、超纯HF（Stella Chemifa垄断）、T/NE玻纤布（Nittobo垄断）、ABF薄膜（味之素95%）。2023年日本已对23类半导体制造设备实施出口管制；Nittobo已于2025年对T玻纤提价20%，验证议价权已被激活。若管制延伸至材料领域（政策讨论中，概率中等），台积电N3/N4 GPU制造链将面临多环节同步供应中断风险。A股国产化材料当前仅覆盖成熟节点，先进节点替代需3-5年。</p>
   </div>
 </div>
 </section>

@@ -581,33 +581,38 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
 <div style="margin-bottom:12px;padding:10px 14px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.15);border-radius:8px;font-size:11px">
 <strong style="color:var(--cyan)">GPU芯片系统代际迭代：</strong>H100（5nm，CoWoS-S，HBM2e×6，ABF 12层）→ B200（4nm，CoWoS-L，HBM3e×8，ABF 16层）→ GB300（3nm N3P，CoWoS-L面积+60%，HBM3e×8 128GB，ABF 18层+）→ Rubin R100（3nm N3X，CoWoS-R/Y，HBM4×12预计）。<strong>每代三线并进</strong>：前道CMP+10-15道、特气消耗+30-50%；HBM叠层增加→NCF用量翻倍；ABF基板层数+25-40%。三个子系统材料需求同步乘数增长。
 </div>
+<!-- 主链：5节点概览，点击①-④可展开子链路 -->
 <div class="chain">
-  <div class="chain-node key">
+  <div class="chain-node key" id="cna1" onclick="toggleSubA('a1')" style="cursor:pointer">
     <h4>① 共用基础材料</h4>
     <div class="cn">硅片 · 特气 · 湿法化学品</div>
-    <div class="co">硅片（300mm）：信越27%·SUMCO23%（日）垄断，N3 wafer $200-300/片；中环股份A601360追赶<br>电子特气NF₃/WF₆/He：APD/Linde/Air Liquide；He俄罗斯Amur断供风险（~16%全球）<br>超纯湿法HF：Stella Chemifa（日）垄断；江化微A603078·格林达A603931追赶</div>
+    <div class="co">信越/SUMCO硅片（日）垄断<br>APD/Linde电子特气<br>Stella Chemifa超纯HF<br>中环股份·江化微（A股追赶）</div>
     <div class="badge-sm b-y">GPU+HBM共用起点</div>
+    <div id="sh-a1" style="font-size:9px;color:var(--cyan);margin-top:5px;text-align:center;opacity:0.75">▼ 展开详细链路</div>
   </div>
   <div class="chain-arrow">→</div>
-  <div class="chain-node key">
+  <div class="chain-node key" id="cna2" onclick="toggleSubA('a2')" style="cursor:pointer">
     <h4>② GPU逻辑die制造</h4>
     <div class="cn">台积电 N3/N4 前道制程</div>
-    <div class="co">EUV光刻胶：JSR/TOK/信越/Fujifilm（日）75%垄断；每片50+道光刻步骤<br>CMP浆料+垫：ENTG~40%（美股）；鼎龙股份A688582（CMP垫追赶）；20-30道CMP/片<br>光掩模版：Hoya60%·AGC20%（日）垄断；EUV Pellicle信越独家；无可买标的<br>每颗B200 GPU消耗2-3片N3晶圆（含良率损耗）</div>
-    <div class="badge-sm b-r">日本材料全面垄断</div>
+    <div class="co">EUV光刻胶（JSR/TOK/信越）<br>CMP浆料+垫（ENTG/鼎龙）<br>光掩模版（Hoya/AGC）<br>日本材料全面垄断</div>
+    <div class="badge-sm b-r">日本材料垄断</div>
+    <div id="sh-a2" style="font-size:9px;color:var(--cyan);margin-top:5px;text-align:center;opacity:0.75">▼ 展开详细链路</div>
   </div>
   <div class="chain-arrow">→</div>
-  <div class="chain-node key">
+  <div class="chain-node key" id="cna3" onclick="toggleSubA('a3')" style="cursor:pointer">
     <h4>③ HBM内存制造</h4>
     <div class="cn">SK Hynix / Micron / Samsung</div>
-    <div class="co">ALD前驱体（ZrO₂/HfO₂）：Merck KGaA（德）~40%，DRAM电容专属材料，逻辑芯片不使用<br>氦气密集消耗：每片DRAM晶圆30-50道离子注入，远超逻辑芯片<br>NCF/TC-NCF堆叠键合：Resonac+Nitto（日）双寡头，HBM3e 8层·HBM4 12层+<br>EMC模塑料：住友电木~40%；B200独家供应：SK Hynix HBM3e</div>
-    <div class="badge-sm b-r">NCF双寡头·氦气断供风险</div>
+    <div class="co">ALD前驱体（Merck KGaA）<br>NCF/TC-NCF（Resonac+Nitto）<br>氦气密集消耗<br>EMC封装（住友电木）</div>
+    <div class="badge-sm b-r">NCF双寡头垄断</div>
+    <div id="sh-a3" style="font-size:9px;color:var(--cyan);margin-top:5px;text-align:center;opacity:0.75">▼ 展开详细链路</div>
   </div>
   <div class="chain-arrow">→</div>
-  <div class="chain-node key">
-    <h4>④ CoWoS先进封装整合</h4>
-    <div class="cn">台积电 · GPU die + HBM 合封</div>
-    <div class="co">ABF封装薄膜：味之素（日）95%垄断；B200基板16层；玻璃基板替代≥2028<br>ABF封装基板：揖斐电40%+新光电气20%（日台75%+）；B200基板$300+/颗<br>深南电路A002916（A股中低端入口，窗口期2025-2027）<br>CoWoS-L/R/Y面积每代+60%，ABF薄膜需求随之线性增长</div>
-    <div class="badge-sm b-r">日台封装材料双垄断</div>
+  <div class="chain-node key" id="cna4" onclick="toggleSubA('a4')" style="cursor:pointer">
+    <h4>④ CoWoS先进封装</h4>
+    <div class="cn">台积电 · GPU+HBM 合封</div>
+    <div class="co">ABF薄膜（味之素95%）<br>ABF基板（揖斐电40%）<br>B200基板$300+/颗<br>玻璃基板替代≥2028</div>
+    <div class="badge-sm b-r">日台双垄断</div>
+    <div id="sh-a4" style="font-size:9px;color:var(--cyan);margin-top:5px;text-align:center;opacity:0.75">▼ 展开详细链路</div>
   </div>
   <div class="chain-arrow">→</div>
   <div class="chain-node ok">
@@ -616,6 +621,186 @@ section{padding:44px 0;border-bottom:1px solid var(--border)}
     <div class="co">H100·B200·GB200·GB300<br>Rubin R100（2027，HBM4×12）<br>→ HGX板卡 → NVL72整柜<br>→ 超大规模云数据中心</div>
   </div>
 </div>
+
+<!-- ① 子链路：共用基础材料 -->
+<div id="sc-a1" style="display:none;margin:4px 0 14px;padding:14px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.25);border-radius:8px">
+  <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:10px">① 共用基础材料 — 详细供应链（GPU die 与 HBM 制造共用）</div>
+  <div class="chain">
+    <div class="chain-node">
+      <h4>高纯多晶硅</h4>
+      <div class="cn">11N半导体级</div>
+      <div class="co">Wacker（德）·OCI（韩）<br>协鑫科技（港股）<br>11N纯度，太阳能级不可混用</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>300mm硅单晶棒/硅片</h4>
+      <div class="cn">日本准垄断</div>
+      <div class="co">信越化学（日）27%<br>SUMCO（日）23%<br>Siltronic（德）10%<br>N3 wafer $200-300/片</div>
+      <div class="badge-sm b-r">日本垄断·高议价权</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node ok">
+      <h4>外延片/抛光片</h4>
+      <div class="cn">中环股份 A601360</div>
+      <div class="co">CZ拉晶→双面抛光→外延生长<br>中环：中国300mm主力<br>GlobalWafers（台湾）<br>AI GPU必用外延片规格</div>
+      <div class="badge-sm b-y">A股入口·追赶日本</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>电子特气 NF₃/WF₆/He</h4>
+      <div class="cn">APD / Linde / Air Liquide</div>
+      <div class="co">NF₃：CVD腔室清洗<br>WF₆：钨填充<br><strong style="color:var(--red)">He（氦气）</strong>：离子注入ESC冷却<br>DRAM用量1.5-2×逻辑芯片<br>俄罗斯Amur断供风险~16%</div>
+      <div class="badge-sm b-y">APD美股·间接受益</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>超纯湿法化学品</h4>
+      <div class="cn">日本垄断·A股追赶</div>
+      <div class="co">超纯HF：Stella Chemifa（日）垄断<br>RCA清洗液：Avantor·江化微A603078<br>显影/去胶：TOK·住友化学（日）<br>每片3nm晶圆100+道湿法处理</div>
+      <div class="badge-sm b-r">先进节点日本垄断</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <h4>→ ② GPU Fab<br>→ ③ HBM Fab</h4>
+      <div class="cn">共同注入两条制造线</div>
+      <div class="co">硅片：台积电N3+SK Hynix 1b节点<br>特气：两个Fab均大量消耗<br>湿法：随制程节点复杂度增加</div>
+    </div>
+  </div>
+</div>
+
+<!-- ② 子链路：GPU逻辑die制造 -->
+<div id="sc-a2" style="display:none;margin:4px 0 14px;padding:14px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.25);border-radius:8px">
+  <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:10px">② GPU逻辑die制造 — 详细链路（台积电 N3/N4 前道制程）</div>
+  <div class="chain">
+    <div class="chain-node key">
+      <h4>EUV光刻胶</h4>
+      <div class="cn">日本垄断</div>
+      <div class="co">JSR 20%·TOK 15%<br>信越 15%·Fujifilm 12%<br>前4家>70%高端市占<br>每片晶圆50+道光刻步骤</div>
+      <div class="badge-sm b-r">无A股/美股直链入口</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>光掩模版</h4>
+      <div class="cn">Hoya / AGC 日本垄断</div>
+      <div class="co">Hoya（日）60%·AGC（日）20%<br>EUV Pellicle：信越化学独家<br>EUV单层掩模$1-3M<br>一颗AI芯片需50+层掩模</div>
+      <div class="badge-sm b-r">全链日本·无投资入口</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node ok">
+      <h4>CMP抛光液+抛光垫</h4>
+      <div class="cn">ENTG 美股可买</div>
+      <div class="co">ENTG~40%浆料市占（美股）<br>DuPont~15%·Fujifilm~20%<br>鼎龙股份A688582（CMP垫·5%市占追赶）<br>20-30道CMP/片，10-20L浆料</div>
+      <div class="badge-sm b-g">ENTG直链·A股追赶</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <h4>台积电 N3/N4 制程</h4>
+      <div class="cn">CoWoS-L 封装</div>
+      <div class="co">N3节点：50+道光刻·20-30道CMP<br>每颗B200 GPU消耗2-3片wafer<br>H100: 1.2万颗/月产能<br>B200: CoWoS-L面积持续扩大</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node ok">
+      <h4>GPU 逻辑 die</h4>
+      <div class="cn">→ 进入④ CoWoS封装</div>
+      <div class="co">NVIDIA H100/B200/GB200设计<br>台积电N3工艺制造<br>→ 与HBM一起进入CoWoS封装</div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 子链路：HBM内存制造 -->
+<div id="sc-a3" style="display:none;margin:4px 0 14px;padding:14px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.25);border-radius:8px">
+  <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:10px">③ HBM内存制造 — 详细链路（SK Hynix / Micron / Samsung）</div>
+  <div class="chain">
+    <div class="chain-node key">
+      <h4>High-k ALD前驱体</h4>
+      <div class="cn">Merck KGaA 德国垄断</div>
+      <div class="co">TDMAZ/TEMAZ→ZrO₂电容<br>TDMAH/TEMAH→HfO₂电容<br>DRAM电容专属·逻辑芯片不用<br>Merck KGaA ~40%全球市占</div>
+      <div class="badge-sm b-r">DRAM专属·德国垄断</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>DRAM晶圆制造</h4>
+      <div class="cn">SK Hynix / Micron / Samsung</div>
+      <div class="co">1a/1b节点DRAM工艺<br>每片晶圆30-50道离子注入（远超逻辑）<br>氦气密集消耗（ESC冷却）<br>B200独家：SK Hynix HBM3e</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>NCF/TC-NCF 堆叠键合</h4>
+      <div class="cn">Resonac + Nitto 双寡头</div>
+      <div class="co">热压键合（TCB）核心黏合膜<br>HBM3e：8层die叠·200-300°C<br>HBM4：12层+，用量翻倍<br>双寡头垄断·中国无入口</div>
+      <div class="badge-sm b-r">最高壁垒·HBM瓶颈</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <h4>EMC封装保护</h4>
+      <div class="cn">住友电木 ~40%</div>
+      <div class="co">低翘曲·低CTE专用配方<br>HBM成品整体封装<br>华海诚科A688535（追赶）<br>信越化学·Samsung SDI（韩）</div>
+      <div class="badge-sm b-y">日韩主导·A股追赶</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node ok">
+      <h4>HBM3e / HBM4 成品</h4>
+      <div class="cn">→ 进入④ CoWoS封装</div>
+      <div class="co">B200: 8×HBM3e 16GB/颗<br>GB300: 8×HBM3e 128GB<br>Rubin: 12×HBM4（预计）<br>→ 与GPU die一起进入CoWoS</div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 子链路：CoWoS先进封装 -->
+<div id="sc-a4" style="display:none;margin:4px 0 14px;padding:14px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.25);border-radius:8px">
+  <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:10px">④ CoWoS先进封装整合 — 详细链路（台积电 GPU die + HBM 合封）</div>
+  <div class="chain">
+    <div class="chain-node key">
+      <h4>ABF封装薄膜</h4>
+      <div class="cn">味之素（日）95%垄断</div>
+      <div class="co">极低CTE（6ppm/°C）<br>H100：12层FC-BGA<br>B200：16层FC-BGA<br>无替代来源；玻璃基板≥2028</div>
+      <div class="badge-sm b-r">A·独家垄断·无替代</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node key">
+      <h4>ABF封装基板制造</h4>
+      <div class="cn">揖斐电 40% · 新光电气 20%</div>
+      <div class="co">日台合计75%+市占<br>B200基板76×76mm·16层·线宽2-5μm<br>单颗基板价值$300+<br>深南电路A002916（中低端·窗口期2025-2027）</div>
+      <div class="badge-sm b-r">日台垄断·A股有限入口</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <h4>CoWoS封装整合</h4>
+      <div class="cn">台积电封装部门</div>
+      <div class="co">CoWoS-L/S/R/Y多种形态<br>GPU die + HBM同封装<br>面积每代+60%（CoWoS-L→R）<br>通过interposer连接GPU+HBM</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node ok">
+      <h4>GPU芯片系统成品</h4>
+      <div class="cn">→ ⑤ 出货</div>
+      <div class="co">B200封装体：GPU die<br>+8×HBM3e+ABF基板+CoWoS<br>单颗B200封装价值>$3000<br>→ 组装入HGX板卡</div>
+    </div>
+  </div>
+  <div style="margin-top:8px;padding:8px 12px;background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.2);border-radius:6px;font-size:11px;color:var(--text2)">
+    <strong style="color:var(--red)">投资窗口：</strong>ABF封装基板窗口期2025-2027，深南电路是A股唯一入口但高端仍受限；ABF薄膜（味之素）和揖斐电/新光电气均为日本上市公司，无法通过A股/港股直接买入。玻璃基板若2028年量产，ABF需求将从高峰回落。
+  </div>
+</div>
+
+<script>
+(function(){
+  function toggleSubA(id){
+    ['a1','a2','a3','a4'].forEach(function(i){
+      var p=document.getElementById('sc-'+i);
+      var h=document.getElementById('sh-'+i);
+      if(!p) return;
+      if(i===id){
+        var show=p.style.display!=='block';
+        p.style.display=show?'block':'none';
+        if(h) h.textContent=show?'▲ 收起':'▼ 展开详细链路';
+      } else {
+        p.style.display='none';
+        if(h) h.textContent='▼ 展开详细链路';
+      }
+    });
+  }
+  window.toggleSubA=toggleSubA;
+})();
+</script>
 <div style="margin-top:10px;margin-bottom:20px;padding:12px 16px;background:rgba(56,189,248,0.04);border:1px solid rgba(56,189,248,0.15);border-radius:8px;font-size:11px">
   <strong style="color:var(--cyan)">本链路投资入口汇总：</strong><br>
   <strong style="color:var(--green)">美股可买：</strong>ENTG（CMP浆料~40%市占，AI芯片制程必用）· APD（电子特气+氦气最大供应商）<br>
